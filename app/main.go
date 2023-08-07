@@ -17,7 +17,7 @@ func route(server *ghttp.Server) {
 		//这里的是不需要登录验证的
 		group.Group("/func/", func(group *ghttp.RouterGroup) {
 			// group.Middleware(service.Middleware.Error)
-			group.ALL("/voice_lover", api.VoiceLover)
+			group.ALL("voice_lover", api.VoiceLover)
 		})
 	})
 }
