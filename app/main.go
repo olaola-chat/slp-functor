@@ -15,10 +15,9 @@ func route(server *ghttp.Server) {
 		// 			service.Middleware.Ctx,  //用户信息校验，多语言注入
 		// 		)
 		//这里的是不需要登录验证的
-		group.Group("/act/", func(group *ghttp.RouterGroup) {
+		group.Group("/func/", func(group *ghttp.RouterGroup) {
 			// group.Middleware(service.Middleware.Error)
-			group.ALL("/c1", &api.Controler01{})
-			group.ALL("/c2", &api.Controler01{})
+			group.ALL("/voice_lover", api.VoiceLover{})
 		})
 	})
 }

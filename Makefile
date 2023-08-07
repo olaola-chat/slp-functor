@@ -30,3 +30,6 @@ clean:
 
 test:
 	$(GOTEST) -v -count=1 ./...
+
+proto:
+	protoc --proto_path=proto --go_out=${GOPATH}/src proto/*.proto

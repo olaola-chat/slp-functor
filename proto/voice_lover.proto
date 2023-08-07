@@ -1,0 +1,14 @@
+syntax = "proto3";
+package pb;
+
+//表示目标文件生成的路径, go的包名就是最后的目录名
+//目前统一生成到 app/pb 目录下
+option go_package = "github.com/olaola-chat/rbp-functor/app/pb";
+
+message CommonData {
+  string test = 1;
+}
+
+message RespVoiceLoverMain {
+  CommonData test = 1;
+}
