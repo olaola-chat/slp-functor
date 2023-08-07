@@ -1,6 +1,6 @@
 # HTTP Server.
 [server]
-	Address        = ":9090"
+	Address        = ":8081"
 	ServerRoot     = "public"
 	ServerAgent    = "we are family"
 	LogPath        = "/tmp/log/server"
