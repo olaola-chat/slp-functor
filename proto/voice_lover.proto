@@ -5,10 +5,33 @@ package pb;
 //目前统一生成到 app/pb 目录下
 option go_package = "github.com/olaola-chat/rbp-functor/app/pb";
 
-message CommonData {
-  string test = 1;
+message AlbumRecData {
+  string title = 1;         // 专辑标题
+  string cover = 2;         // 专辑显示封面
+  uint32 audio_total = 3;   // 专辑内音频数量
+  string play_stats = 4;    // 播放量统计，服务端控制显示规则
+}
+
+message BannerRecData {
+  string img_url = 1;       // banner图片资源地址
+  string redirect_url = 2;  // 点击后跳转地址
+}
+
+message UserRecData {
+  uint32 uid = 1;       // 用户uid
+  string avatar = 2;    // 用户头像
+  string name = 3;      // 用户昵称
+}
+
+message SubjectRecData {
+  string title = 1;     // 专题名称
+  repeated AlbumRecData albums = 2;  // 专题下专辑列表
 }
 
 message RespVoiceLoverMain {
-  CommonData test = 1;
+  repeated AlbumRecData rec_albums = 1;
+  repeated BannerRecData rec_banners = 2;
+  repeated UserRecData rec_users = 3;
+  repeated SubjectRecData rec_subjects = 4;
+  repeated AlbumRecData common_albums = 5;
 }
