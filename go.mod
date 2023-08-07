@@ -1,6 +1,11 @@
-module github.com/olaola-chat/rbp-activity
+module github.com/olaola-chat/rbp-functor
 
 go 1.20
+
+replace (
+	github.com/gogf/gf => github.com/olaola-chat/gf v1.0.1
+	github.com/smallnest/rpcx => github.com/olaola-chat/rbp-rpcx v0.1.0-alpha
+)
 
 require (
 	github.com/gogf/gf v1.16.9
@@ -12,7 +17,7 @@ require (
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.18 // indirect
 	github.com/apache/thrift v0.14.0 // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
-	github.com/buger/jsonparser v1.0.0 // indirect
+	github.com/buger/jsonparser v0.0.0-20181115193947-bf1c66bbce23 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/cheekybits/genny v1.0.0 // indirect
@@ -101,9 +106,4 @@ require (
 	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/ini.v1 v1.42.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-)
-
-replace (
-	github.com/gogf/gf => github.com/olaola-chat/gf v1.0.1
-	github.com/smallnest/rpcx => github.com/olaola-chat/rbp-rpcx v0.1.0-alpha
 )

@@ -8,7 +8,7 @@ import (
 
 func main() {
 	servers := map[string]*rpc.ServerCfg{
-		"act1": &rpc.ServerCfg{
+		"act1": {
 			RegisterName: "Activity.Act1",
 			Server:       act1.NewAct1,
 		},
