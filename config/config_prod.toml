@@ -1,0 +1,275 @@
+# HTTP Server.
+[server]
+	Address        = ":9090"
+	ServerRoot     = "public"
+	ServerAgent    = "we are family"
+	LogPath        = "/tmp/log/server"
+	AccessLogEnabled = false
+	ErrorLogEnabled = true
+	PProfEnabled   = false
+	Graceful	       = true
+	RunMode	       = "prod"
+	AlphaHosts		= ["iZbp1ddfx87fw4rdskyov2Z"]
+	Language		   = ["zh-cn"]
+	TraceName	   = "rbp-go-prod"
+
+# Logger configurations.
+[logger]
+    Path   = "/tmp/log/server"
+    Level  = "all"
+    Stdout = true
+    CtxKeys = ["TraceId"]
+
+# Template view configurations.
+[viewer]
+    Path        = "template"
+    DefaultFile = "index.html"
+
+[comon-const-param]
+	IpServ="serv-ip.banban.private.rbp-app:7799"
+	#一分钟内的点歌频率限制
+	TemFrequencyNum = 20
+	#tem用户池子的最大数量
+	TemUserPoolMaxNum = 1000
+[algo-limit]
+	RateLimit = 50
+
+
+# Database configurations.
+[database]
+	#读写分离主库
+    [[database.default]]
+        type = "bbsql"
+        link = "rbp:OLfs1E1)vafw-s^X@tcp(polardb-rbp-master.mysql.polardb.rds.aliyuncs.com:3306)/xianshi"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "master"
+    #读写分离从库
+    [[database.default]]
+        type = "bbsql"
+        link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/xianshi"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "slave"
+    # 数据库日志对象配置
+    [database.logger]
+        Path   = "/tmp/log/sql"
+        Level  = "all"
+        Stdout = true
+	#读写分离主库
+    [[database.xianshi]]
+        type = "bbsql"
+        link = "rbp:OLfs1E1)vafw-s^X@tcp(polardb-rbp-master.mysql.polardb.rds.aliyuncs.com:3306)/xianshi"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "master"
+    #读写分离从库
+    [[database.xianshi]]
+        type = "bbsql"
+        link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/xianshi"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "slave"
+	#rush库
+	[[database.rush]]
+		type = "bbsql"
+		link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/rush"
+		charset = "utf8mb4"
+		debug = false
+		maxIdle = 1
+		maxOpen = 100
+		maxLifetime  = 30
+	#union库
+	[[database.bbu]]
+		type = "bbsql"
+		link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/union"
+		charset = "utf8mb4"
+		debug = false
+		maxIdle = 1
+		maxOpen = 100
+		maxLifetime  = 30
+	#统计数据库
+	[[database.banban]]
+		type = "bbsql"
+		link = "rbp:OLfs1E1)vafw-s^X@tcp(polardb-rbp-master.mysql.polardb.rds.aliyuncs.com:3306)/banban"
+		charset = "utf8mb4"
+		debug = false
+		maxIdle = 1
+		maxOpen = 100
+		maxLifetime  = 30
+	#banban config库
+	[[database.config]]
+		type = "bbsql"
+		link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/config"
+		charset = "utf8mb4"
+		debug = false
+		maxIdle = 1
+		maxOpen = 100
+		maxLifetime  = 30
+	#xssst库
+	[[database.xsst]]
+		type = "bbsql"
+		link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/xsst"
+		charset = "utf8mb4"
+		debug = false
+		maxIdle = 1
+		maxOpen = 100
+		maxLifetime  = 30
+	#朋友圈主库
+	[[database.circle]]
+		type = "bbsql"
+		link = "rbp:OLfs1E1)vafw-s^X@tcp(polardb-rbp-master.mysql.polardb.rds.aliyuncs.com:3306)/circle"
+		charset = "utf8mb4"
+		debug = false
+		maxIdle = 1
+		maxOpen = 100
+		maxLifetime = 30
+		role = "master"
+	#朋友圈从库
+	[[database.circle]]
+		type = "bbsql"
+		link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/circle"
+		charset = "utf8mb4"
+		debug = false
+		maxIdle = 1
+		maxOpen = 100
+		maxLifetime = 30
+		role = "slave"
+        
+# go-redis 配置
+[go-redis]
+	[go-redis.default]
+		Host = "rbp-cache.redis.rds.aliyuncs.com"
+		Port = 6379
+		Password = "3P8%yk5M1fW$KYX^"
+	[go-redis.cache]
+		Host = "rbp-cache.redis.rds.aliyuncs.com"
+		Port = 6379
+		Password = "3P8%yk5M1fW$KYX^"
+	[go-redis.cache_old]
+		Host = "rbp-cache.redis.rds.aliyuncs.com"
+		Port = 6379
+		Password = "3P8%yk5M1fW$KYX^"
+	[go-redis.room]
+		Host = "rbp-room.redis.rds.aliyuncs.com"
+		Port = 6379
+		Password = "MdSmuqBxgfbq&+%bM"
+	[go-redis.user]
+		Host = "rbp-user.redis.rds.aliyuncs.com"
+		Port = 6379
+		Password = "bi7jkCF74m3b(GERBcP"
+	[go-redis.mate]
+		Host = "rbp-mate.redis.rds.aliyuncs.com"
+		Port = 6379
+		Password = "73kIuclNm+Vuru$B"
+	#存储用户基本信息，令牌基本信息，房间基本信息
+	[go-redis.rpc_cache]
+		Host = "rbp-cache.redis.rds.aliyuncs.com"
+		Port = 6379
+		Password = "3P8%yk5M1fW$KYX^"
+	#匹配redis，先放在cache，如果后期数据量大方便迁移
+	[go-redis.match]
+		Host = "rbp-cache.redis.rds.aliyuncs.com"
+		Port = 6379
+		Password = "3P8%yk5M1fW$KYX^"
+	#自建的redis-search, 房间检索，搜索入口, 以及附近搜索
+	#使用RedisSearch插件，需要自建
+	[go-redis.search]
+		Host = "172.16.0.32"
+		Port = 6379
+		Password = ""
+	[go-redis.record]
+		Host = "rbp-feed.redis.rds.aliyuncs.com"
+		Port = 6379
+		Password = "g4(*JviWg&9fKLkYU"
+	[go-redis.es]
+		Host = "rbp-mate.redis.rds.aliyuncs.com"
+		Port = 6379
+		Password = "73kIuclNm+Vuru$B"
+
+# go-nsq 配置
+[go-nsq]
+	lookup = ["10.0.72.137:4161"]
+	nsq = ["10.0.72.134:4150", "10.0.72.135:4150", "10.0.72.136:4150", "10.0.72.137:4150", "10.0.72.138:4150"]
+	circle = ["10.0.72.134:4150", "10.0.72.135:4150", "10.0.72.136:4150", "10.0.72.137:4150", "10.0.72.138:4150"]
+	room = ["10.0.72.134:4150", "10.0.72.135:4150", "10.0.72.136:4150", "10.0.72.137:4150", "10.0.72.138:4150"]
+	pingan = ["10.0.72.134:4150", "10.0.72.135:4150", "10.0.72.136:4150", "10.0.72.137:4150", "10.0.72.138:4150"]
+	default = ["10.0.72.134:4150", "10.0.72.135:4150", "10.0.72.136:4150", "10.0.72.137:4150", "10.0.72.138:4150"]
+	
+[go-es]
+	[go-es.user]
+		Host = "127.0.0.1"
+		Port = 9200
+		User = ""
+		Password = "jLbRzk3+ywFV1M%V"
+	[go-es.rush]
+		Host = "es-cn-nwy3b886x000mnxi5.elasticsearch.aliyuncs.com"
+		Port = 9200
+		User = "elastic"
+		Password = "jLbRzk3+ywFV1M%V"
+	[go-es.es_new]
+		Host = "es-cn-nwy3b886x000mnxi5.elasticsearch.aliyuncs.com"
+		Port = 9200
+		User = "elastic"
+		Password = "jLbRzk3+ywFV1M%V"
+	[go-es.es_vpc]
+		Host = "es-cn-nwy3b886x000mnxi5.elasticsearch.aliyuncs.com"
+		Port = 9200
+		User = "elastic"
+		Password = "jLbRzk3+ywFV1M%V"
+
+[go-kafka]
+	[go-kafka.default]
+		Host = [
+			"alikafka-pre-cn-zpr3attvw001-1-vpc.alikafka.aliyuncs.com:9092",
+			"alikafka-pre-cn-zpr3attvw001-2-vpc.alikafka.aliyuncs.com:9092",
+			"alikafka-pre-cn-zpr3attvw001-3-vpc.alikafka.aliyuncs.com:9092",
+		]
+		#务必查看 github.com/Shopify/sarama utils.go 版本号，
+		Version = "0.10.2.1"
+
+[http-service]
+	[http-service.im.publish]
+		URI = "http://serv-im-proxy.banban.private.rbp-app:6080/imapi/message/private/publish"
+		TimeoutMs = 500 #单位ms
+		Retry = 2
+		PrintResponse = false
+	[http-service.push.report]
+		URI = "http://serv-im-proxy.banban.private.rbp-app:6080/push/v1/save_device_token"
+		TimeoutMs = 500 #单位ms
+		Retry = 2
+		PrintResponse = false
+	[http-service.im.checkdirty]
+		URI = "http://serv-im-proxy.banban.private.rbp-app:6080/filter/checkdirty"
+		TimeoutMs = 500 #单位ms
+		Retry = 2
+		PrintResponse = true
+	[http-service.im.dirty]
+		URI = "http://serv-im-proxy.banban.private.rbp-app:6080/filter/dirty"
+		TimeoutMs = 500 #单位ms
+		Retry = 2
+		PrintResponse = true
+	[http-service.slack.notice]
+		URI = "https://hooks.slack.com/services/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"
+		TimeoutMs = 500 #单位ms
+		Retry = 1
+		PrintResponse = false
+
+[rpc]
+	[rpc.discover]
+		Type = "consul"
+		Addr = ["10.0.72.131:8500"]
+		Path = "/rbp"
+		
