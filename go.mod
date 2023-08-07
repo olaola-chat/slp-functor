@@ -9,7 +9,8 @@ replace (
 
 require (
 	github.com/gogf/gf v1.16.9
-	github.com/olaola-chat/rbp-library v0.0.0-20230805071859-7a197778fd87
+	github.com/olaola-chat/rbp-library v0.0.0-20230807071341-d41330bb783e
+	google.golang.org/protobuf v1.31.0
 )
 
 require (
@@ -103,7 +104,6 @@ require (
 	golang.org/x/net v0.13.0 // indirect
 	golang.org/x/sys v0.10.0 // indirect
 	golang.org/x/text v0.11.0 // indirect
-	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/ini.v1 v1.42.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
