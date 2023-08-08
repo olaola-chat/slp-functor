@@ -2,9 +2,10 @@ package api
 
 import (
 	"github.com/gogf/gf/net/ghttp"
+	"github.com/olaola-chat/rbp-library/response"
+
 	"github.com/olaola-chat/rbp-functor/app/pb"
 	"github.com/olaola-chat/rbp-functor/app/query"
-	"github.com/olaola-chat/rbp-library/response"
 )
 
 var VoiceLover = &voiceLoverAPI{}
@@ -28,4 +29,22 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 		response.Output(r, &pb.RespVoiceLoverMain{})
 	}
 	response.Output(r, &pb.RespVoiceLoverMain{})
+}
+
+// AlbumList
+// @Tags VoiceLover
+// @Summary 获取更多专辑列表
+// @Description 获取更多专辑列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAlbumList query
+// @Success 200 {object} pb.RespAlbumList
+// @Router /go/func/voice_lover/album_list [get]
+func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
+	var req *query.ReqAlbumList
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespAlbumList{})
+	}
+	response.Output(r, &pb.RespAlbumList{})
 }

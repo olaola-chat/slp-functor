@@ -1,7 +1,10 @@
 package query
 
 type ReqVoiceLoverMain struct {
-	Uid uint64
+}
+
+type ReqAlbumList struct {
+	Paginator
 }
 
 type ReqVoiceLoverPost struct {

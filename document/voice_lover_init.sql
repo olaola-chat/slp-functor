@@ -7,6 +7,7 @@ CREATE TABLE `voice_lover_audio`
     `cover`        text COMMENT '封面链接',
     `from`         tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '作品来源：0-无 1-原创 2-搬运',
     `audit_status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '审核状态：0-待审核 1-审核通过 2-审核不通过',
+    `audit_reason` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '审核不通过原因：0-默认',
     `op_uid`       bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '审核人',
     `pub_uid`      bigint(20) unsigned NOT NULL COMMENT '发布人',
     `apply_time`   bigint(20) unsigned NOT NULL COMMENT '审核时间',

@@ -35,3 +35,7 @@ message RespVoiceLoverMain {
   repeated SubjectRecData rec_subjects = 4;
   repeated AlbumRecData common_albums = 5;
 }
+
+message RespAlbumList {
+  repeated AlbumRecData rec_albums = 1;
+}
