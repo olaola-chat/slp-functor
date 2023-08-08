@@ -31,5 +31,6 @@ clean:
 test:
 	$(GOTEST) -v -count=1 ./...
 
+.PHONY:proto
 proto:
 	protoc --proto_path=proto --go_out=${GOPATH}/src proto/*.proto
