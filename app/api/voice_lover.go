@@ -46,14 +46,14 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 // @Router /go/func/voice_lover/post [post]
 func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 	var req *query.ReqVoiceLoverPost
-	if err := r.ParseQuery(&req); err != nil {
+	if err := r.Parse(&req); err != nil {
 		response.Output(r, &pb.RespVoiceLoverPost{
 			Msg: err.Error(),
 		})
 		return
 	}
 	ctx := r.Context()
-	g.Log().Infof("VoiceLoverPost param = %v", &req)
+	g.Log().Infof("VoiceLoverPost param = %v", *req)
 	_, err := voice_lover.VoiceLoverMain.Post(ctx, &voice_lover2.ReqVoiceLoverPost{
 		Uid:         uint64(1),
 		Resource:    req.Resource,
