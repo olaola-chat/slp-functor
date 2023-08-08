@@ -2,8 +2,9 @@ package main
 
 import (
 	"github.com/gogf/gf/net/ghttp"
-	"github.com/olaola-chat/rbp-functor/app/api"
 	"github.com/olaola-chat/rbp-library/server/http"
+
+	"github.com/olaola-chat/rbp-functor/app/api"
 )
 
 func route(server *ghttp.Server) {
@@ -18,6 +19,9 @@ func route(server *ghttp.Server) {
 		group.Group("/func/", func(group *ghttp.RouterGroup) {
 			// group.Middleware(service.Middleware.Error)
 			group.ALL("voice_lover", api.VoiceLover)
+		})
+		group.Group("/func/admin/", func(group *ghttp.RouterGroup) {
+
 		})
 	})
 }

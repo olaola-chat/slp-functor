@@ -146,6 +146,25 @@
         maxOpen = 100
         maxLifetime = 30
         role = "slave"
+     [[database.functor]]
+            type = "bbsql"
+            link = "root:123456@tcp(127.0.0.1:3306)/functor"
+            charset = "utf8mb4"
+            debug = true
+            maxIdle = 1
+            maxOpen = 100
+            maxLifetime = 30
+            role = "master"
+        #朋友圈从库
+     [[database.functor]]
+            type = "bbsql"
+            link = "root:123456@tcp(127.0.0.1:3306)/functor"
+            charset = "utf8mb4"
+            debug = true
+            maxIdle = 1
+            maxOpen = 100
+            maxLifetime = 30
+            role = "slave"
 
 # go-redis 配置
 [go-redis]

@@ -39,3 +39,8 @@ message RespVoiceLoverMain {
 message RespAlbumList {
   repeated AlbumRecData rec_albums = 1;
 }
+
+message RespVoiceLoverPost {
+  bool success = 1;
+  string msg = 2;
+}
