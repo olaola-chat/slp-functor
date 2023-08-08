@@ -35,3 +35,8 @@ message RespVoiceLoverMain {
   repeated SubjectRecData rec_subjects = 4;
   repeated AlbumRecData common_albums = 5;
 }
+
+message RespVoiceLoverPost {
+  bool success = 1;
+  string msg = 2;
+}
