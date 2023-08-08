@@ -82,7 +82,7 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 		EditDub:     req.EditDub,
 		EditContent: req.EditContent,
 		EditPost:    req.EditPost,
-		EditCover:   req.Cover,
+		EditCover:   req.EditCover,
 		Labels:      req.Labels,
 	})
 	if err != nil {
