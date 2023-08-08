@@ -2,14 +2,15 @@ package dao
 
 import (
 	"context"
+	"strings"
+	"time"
+
 	"github.com/gogf/gf/database/gdb"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/olaola-chat/rbp-proto/dao/functor"
 	functor2 "github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
-	"strings"
-	"time"
 )
 
 type voiceLoverDao struct {
@@ -47,6 +48,9 @@ func (v *voiceLoverDao) Post(ctx context.Context, req *voice_lover.ReqVoiceLover
 		editDubs := strings.Split(req.EditDub, ",")
 		for _, editDub := range editDubs {
 			uid := gconv.Uint64(editDub)
+			if uid == 0 {
+				continue
+			}
 			editDatas = append(editDatas, &functor2.EntityVoiceLoverAudioPartner{
 				AudioId:    audioId,
 				Type:       Dub,
@@ -58,6 +62,9 @@ func (v *voiceLoverDao) Post(ctx context.Context, req *voice_lover.ReqVoiceLover
 		editContents := strings.Split(req.EditContent, ",")
 		for _, editContent := range editContents {
 			uid := gconv.Uint64(editContent)
+			if uid == 0 {
+				continue
+			}
 			editDatas = append(editDatas, &functor2.EntityVoiceLoverAudioPartner{
 				AudioId:    audioId,
 				Type:       Content,
@@ -69,6 +76,9 @@ func (v *voiceLoverDao) Post(ctx context.Context, req *voice_lover.ReqVoiceLover
 		editPosts := strings.Split(req.EditPost, ",")
 		for _, editPost := range editPosts {
 			uid := gconv.Uint64(editPost)
+			if uid == 0 {
+				continue
+			}
 			editDatas = append(editDatas, &functor2.EntityVoiceLoverAudioPartner{
 				AudioId:    audioId,
 				Type:       Post,
@@ -80,6 +90,9 @@ func (v *voiceLoverDao) Post(ctx context.Context, req *voice_lover.ReqVoiceLover
 		editCovers := strings.Split(req.EditCover, ",")
 		for _, editCover := range editCovers {
 			uid := gconv.Uint64(editCover)
+			if uid == 0 {
+				continue
+			}
 			editDatas = append(editDatas, &functor2.EntityVoiceLoverAudioPartner{
 				AudioId:    audioId,
 				Type:       Cover,
@@ -98,6 +111,9 @@ func (v *voiceLoverDao) Post(ctx context.Context, req *voice_lover.ReqVoiceLover
 		labelDatas := make([]*functor2.EntityVoiceLoverAudioLabel, 0)
 		if len(audioLabels) > 0 {
 			for _, label := range audioLabels {
+				if label == "" || len(label) == 0 {
+					continue
+				}
 				labelDatas = append(labelDatas, &functor2.EntityVoiceLoverAudioLabel{
 					AudioId:    audioId,
 					Label:      label,

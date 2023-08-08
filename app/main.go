@@ -21,7 +21,7 @@ func route(server *ghttp.Server) {
 			group.ALL("voice_lover", api.VoiceLover)
 		})
 		group.Group("/func/admin/", func(group *ghttp.RouterGroup) {
-			
+
 		})
 	})
 }
