@@ -3,11 +3,12 @@ package api
 import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
-	"github.com/olaola-chat/rbp-functor/app/pb"
-	"github.com/olaola-chat/rbp-functor/app/query"
 	"github.com/olaola-chat/rbp-library/response"
 	voice_lover2 "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	"github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
+
+	"github.com/olaola-chat/rbp-functor/app/pb"
+	"github.com/olaola-chat/rbp-functor/app/query"
 )
 
 var VoiceLover = &voiceLoverAPI{}
@@ -51,7 +52,8 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 		})
 		return
 	}
-	_, err := voice_lover.VoiceLoverMain.Post(nil, &voice_lover2.ReqVoiceLoverPost{
+	ctx := r.Context()
+	_, err := voice_lover.VoiceLoverMain.Post(ctx, &voice_lover2.ReqVoiceLoverPost{
 		Uid:         uint64(1),
 		Resource:    req.Resource,
 		Source:      req.Source,
