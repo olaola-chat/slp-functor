@@ -10,7 +10,7 @@ import (
 	"github.com/gogf/gf/util/gconv"
 	"github.com/olaola-chat/rbp-proto/dao/functor"
 	functor2 "github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
-	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
+	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 )
 
 type voiceLoverDao struct {
@@ -26,7 +26,7 @@ const (
 
 var VoiceLoverDao = &voiceLoverDao{}
 
-func (v *voiceLoverDao) Post(ctx context.Context, req *voice_lover.ReqVoiceLoverPost) error {
+func (v *voiceLoverDao) Post(ctx context.Context, req *vl_pb.ReqVoiceLoverPost) error {
 	now := uint64(time.Now().Unix())
 	err := functor.VoiceLoverAudio.DB.Transaction(func(tx *gdb.TX) error {
 		last, err := functor.VoiceLoverAudio.TX(tx).Insert(&functor2.EntityVoiceLoverAudio{
