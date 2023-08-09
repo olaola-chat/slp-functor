@@ -9,6 +9,7 @@ import (
 	"github.com/olaola-chat/rbp-functor/app/consts"
 	"github.com/olaola-chat/rbp-functor/app/pb"
 	"github.com/olaola-chat/rbp-functor/app/query"
+	vl_serv "github.com/olaola-chat/rbp-functor/app/service/voice_lover"
 )
 
 var VoiceLover = &voiceLoverAPI{}
@@ -32,7 +33,13 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 		OutputCustomError(r, consts.ERROR_PARAM)
 		return
 	}
-	OutputCustomData(r, &pb.RespVoiceLoverMain{})
+	data, err := vl_serv.VoiceLoverService.GetMainData(r.GetCtx(), 1)
+	if err != nil {
+		g.Log().Errorf("voiceLoverAPI Main GetMainData error=%v", err)
+		OutputCustomError(r, consts.ERROR_SYSTEM)
+		return
+	}
+	OutputCustomData(r, data)
 }
 
 // AlbumList
