@@ -36,7 +36,7 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 		return
 	}
 	ctxUser, _ := r.GetCtxVar(middleware.ContextUserKey).Interface().(*context2.ContextUser)
-	g.Log().Debugf("userCtx=%+v", ctxUser)
+	g.Log().Infof("userCtx=%+v", ctxUser)
 	data, err := vl_serv.VoiceLoverService.GetMainData(r.GetCtx(), ctxUser.UID)
 	if err != nil {
 		g.Log().Errorf("voiceLoverAPI Main GetMainData error=%v", err)

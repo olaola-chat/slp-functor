@@ -27,7 +27,7 @@ func Auth(ctx context.Context, token string) (middleware.AuthUser, error) {
 		Platform: respUserAuth.Platform,
 		Channel:  respUserAuth.Channel,
 	}
-	g.Log().Debugf("token=%s||userData=%+v", token, userData)
+	g.Log().Infof("token=%s||userData=%+v", token, userData)
 	return userData, nil
 }
 
