@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/gogf/gf/errors/gerror"
+	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/olaola-chat/rbp-library/server/http"
 	"github.com/olaola-chat/rbp-library/server/http/middleware"
@@ -26,6 +27,7 @@ func Auth(ctx context.Context, token string) (middleware.AuthUser, error) {
 		Platform: respUserAuth.Platform,
 		Channel:  respUserAuth.Channel,
 	}
+	g.Log().Debugf("token=%s||userData=%+v", token, userData)
 	return userData, nil
 }
 
