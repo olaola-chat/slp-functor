@@ -205,6 +205,7 @@ func (s *voiceLoverService) SearchAudio(ctx context.Context, query *VoiceLoverAu
 		},
 	}
 	bodyJson, _ := json.Marshal(body)
+	g.Log().Infof("VoiceLoverSearch req = %v", string(bodyJson))
 	resp, err := client.Search("voice_lover_audio", bodyJson)
 	if err != nil {
 		return nil, 0, err
