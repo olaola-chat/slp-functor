@@ -16,7 +16,7 @@ var MainLogic = &mainLogic{}
 
 func (m *mainLogic) Post(ctx context.Context, req *vl_pb.ReqVoiceLoverPost, reply *vl_pb.ResVoiceLoverBase) error {
 	g.Log().Infof("VoiceLoverPost req = %v", req)
-	return dao.VoiceLoverDao.Post(ctx, req)
+	return dao.VoiceLoverAudioDao.Post(ctx, req)
 }
 
 func (m *mainLogic) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums, reply *vl_pb.ResGetRecAlbums) error {

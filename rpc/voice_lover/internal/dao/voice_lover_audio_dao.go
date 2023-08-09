@@ -13,7 +13,7 @@ import (
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 )
 
-type voiceLoverDao struct {
+type voiceLoverAudioDao struct {
 }
 
 const (
@@ -24,9 +24,9 @@ const (
 	Cover
 )
 
-var VoiceLoverDao = &voiceLoverDao{}
+var VoiceLoverAudioDao = &voiceLoverAudioDao{}
 
-func (v *voiceLoverDao) Post(ctx context.Context, req *vl_pb.ReqVoiceLoverPost) error {
+func (v *voiceLoverAudioDao) Post(ctx context.Context, req *vl_pb.ReqVoiceLoverPost) error {
 	now := uint64(time.Now().Unix())
 	err := functor.VoiceLoverAudio.DB.Transaction(func(tx *gdb.TX) error {
 		last, err := functor.VoiceLoverAudio.TX(tx).Insert(&functor2.EntityVoiceLoverAudio{
