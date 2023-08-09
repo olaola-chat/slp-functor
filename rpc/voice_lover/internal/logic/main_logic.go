@@ -145,6 +145,7 @@ func buildAudioEsModel(data *functor2.EntityVoiceLoverAudio) *voice_lover2.Voice
 		Albums:      []uint64{},
 		HasAlbum:    0,
 		OpUid:       data.OpUid,
+		Resource:    data.Resource,
 	}
 	return esModel
 }
