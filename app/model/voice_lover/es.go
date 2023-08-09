@@ -1,6 +1,6 @@
 package voice_lover
 
-type VoiceLoverEsModel struct {
+type VoiceLoverAudioEsModel struct {
 	Id          uint64   `json:"id"`
 	PubUid      uint64   `json:"pub_uid"`
 	Title       string   `json:"title"`
@@ -13,4 +13,5 @@ type VoiceLoverEsModel struct {
 	Albums      []uint64 `json:"albums"`
 	HasAlbum    int32    `json:"has_album"`
 	OpUid       uint64   `json:"op_uid"`
+	Resource    string   `json:"resource"`
 }

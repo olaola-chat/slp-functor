@@ -30,7 +30,7 @@ const (
 	Cover
 )
 
-func (m *mainLogic) Post(ctx context.Context, req *vl_pb.ReqVoiceLoverPost, reply *vl_pb.ResVoiceLoverBase) error {
+func (m *mainLogic) Post(ctx context.Context, req *vl_pb.ReqPost, reply *vl_pb.ResBase) error {
 	g.Log().Infof("VoiceLoverPost req = %v", req)
 	now := uint64(time.Now().Unix())
 	err := functor.VoiceLoverAudio.DB.Transaction(func(tx *gdb.TX) error {
@@ -124,7 +124,7 @@ func (m *mainLogic) Post(ctx context.Context, req *vl_pb.ReqVoiceLoverPost, repl
 	return err
 }
 
-func buildAudioEsModel(data *functor2.EntityVoiceLoverAudio) *voice_lover2.VoiceLoverEsModel {
+func buildAudioEsModel(data *functor2.EntityVoiceLoverAudio) *voice_lover2.VoiceLoverAudioEsModel {
 	labelsSlice := make([]string, 0)
 	for _, l := range strings.Split(data.Labels, ",") {
 		if len(l) == 0 {
@@ -132,7 +132,7 @@ func buildAudioEsModel(data *functor2.EntityVoiceLoverAudio) *voice_lover2.Voice
 		}
 		labelsSlice = append(labelsSlice, l)
 	}
-	esModel := &voice_lover2.VoiceLoverEsModel{
+	esModel := &voice_lover2.VoiceLoverAudioEsModel{
 		Id:          data.Id,
 		PubUid:      data.PubUid,
 		Title:       data.Title,

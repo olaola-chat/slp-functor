@@ -3,7 +3,8 @@ package dao
 import (
 	"context"
 
-	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
+	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
+	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 )
 
 type voiceLoverAudioDao struct {
@@ -19,6 +20,10 @@ const (
 
 var VoiceLoverAudioDao = &voiceLoverAudioDao{}
 
-func (v *voiceLoverAudioDao) Post(ctx context.Context, req *vl_pb.ReqVoiceLoverPost) error {
-	return nil
+func (v *voiceLoverAudioDao) GetAudioDetailByAudioId(ctx context.Context, id uint64) (*functor.EntityVoiceLoverAudio, error) {
+	res, err := functor2.VoiceLoverAudio.Ctx(ctx).Where("id", id).One()
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
 }

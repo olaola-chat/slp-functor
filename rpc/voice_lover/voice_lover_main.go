@@ -15,7 +15,7 @@ func NewVoiceLoverMain() interface{} {
 type VoiceLoverMain struct {
 }
 
-func (v *VoiceLoverMain) Post(ctx context.Context, req *vl_pb.ReqVoiceLoverPost, reply *vl_pb.ResVoiceLoverBase) error {
+func (v *VoiceLoverMain) Post(ctx context.Context, req *vl_pb.ReqPost, reply *vl_pb.ResBase) error {
 	return logic.MainLogic.Post(ctx, req, reply)
 }
 
