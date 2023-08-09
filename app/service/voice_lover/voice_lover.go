@@ -24,6 +24,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 		CommonAlbums: make([]*pb.AlbumRecData, 0),
 	}
 	wg := sync.WaitGroup{}
+	wg.Add(1)
 	go func() {
 		defer wg.Done()
 		list, err := vl_rpc.VoiceLoverMain.GetRecAlbums(ctx, &vl_pb.ReqGetRecAlbums{Uid: 1})
@@ -39,5 +40,6 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 			})
 		}
 	}()
+	wg.Wait()
 	return res, nil
 }
