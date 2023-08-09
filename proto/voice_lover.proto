@@ -29,15 +29,19 @@ message SubjectRecData {
 }
 
 message RespVoiceLoverMain {
-  repeated AlbumRecData rec_albums = 1;
-  repeated BannerRecData rec_banners = 2;
-  repeated UserRecData rec_users = 3;
-  repeated SubjectRecData rec_subjects = 4;
-  repeated AlbumRecData common_albums = 5;
+  bool success = 1;
+  string msg = 2;
+  repeated AlbumRecData rec_albums = 3;
+  repeated BannerRecData rec_banners = 4;
+  repeated UserRecData rec_users = 5;
+  repeated SubjectRecData rec_subjects = 6;
+  repeated AlbumRecData common_albums = 7;
 }
 
 message RespAlbumList {
-  repeated AlbumRecData rec_albums = 1;
+  bool success = 1;
+  string msg = 2;
+  repeated AlbumRecData rec_albums = 3;
 }
 
 message RespVoiceLoverPost {

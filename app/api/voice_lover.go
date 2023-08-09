@@ -3,12 +3,13 @@ package api
 import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
-	"github.com/olaola-chat/rbp-library/response"
-	voice_lover2 "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
-	"github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
+	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
+	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
+	"github.com/olaola-chat/rbp-functor/app/consts"
 	"github.com/olaola-chat/rbp-functor/app/pb"
 	"github.com/olaola-chat/rbp-functor/app/query"
+	vl_serv "github.com/olaola-chat/rbp-functor/app/service/voice_lover"
 )
 
 var VoiceLover = &voiceLoverAPI{}
@@ -29,9 +30,16 @@ type voiceLoverAPI struct {
 func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 	var req *query.ReqVoiceLoverMain
 	if err := r.ParseQuery(&req); err != nil {
-		response.Output(r, &pb.RespVoiceLoverMain{})
+		OutputCustomError(r, consts.ERROR_PARAM)
+		return
 	}
-	response.Output(r, &pb.RespVoiceLoverMain{})
+	data, err := vl_serv.VoiceLoverService.GetMainData(r.GetCtx(), 1)
+	if err != nil {
+		g.Log().Errorf("voiceLoverAPI Main GetMainData error=%v", err)
+		OutputCustomError(r, consts.ERROR_SYSTEM)
+		return
+	}
+	OutputCustomData(r, data)
 }
 
 // AlbumList
@@ -47,9 +55,10 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
 	var req *query.ReqAlbumList
 	if err := r.ParseQuery(&req); err != nil {
-		response.Output(r, &pb.RespAlbumList{})
+		OutputCustomError(r, consts.ERROR_PARAM)
+		return
 	}
-	response.Output(r, &pb.RespAlbumList{})
+	OutputCustomData(r, &pb.RespAlbumList{})
 }
 
 // Post
@@ -65,14 +74,12 @@ func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
 func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 	var req *query.ReqVoiceLoverPost
 	if err := r.Parse(&req); err != nil {
-		response.Output(r, &pb.RespVoiceLoverPost{
-			Msg: err.Error(),
-		})
+		OutputCustomError(r, consts.ERROR_PARAM)
 		return
 	}
 	ctx := r.Context()
 	g.Log().Infof("VoiceLoverPost param = %v", *req)
-	_, err := voice_lover.VoiceLoverMain.Post(ctx, &voice_lover2.ReqVoiceLoverPost{
+	_, err := vl_rpc.VoiceLoverMain.Post(ctx, &vl_pb.ReqVoiceLoverPost{
 		Uid:         uint64(1),
 		Resource:    req.Resource,
 		Source:      req.Source,
@@ -87,8 +94,8 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 	})
 	if err != nil {
 		g.Log().Errorf("VoiceLover Post error, err = %v", err)
-		response.Output(r, &pb.RespVoiceLoverPost{Msg: err.Error()})
+		OutputCustomError(r, consts.ERROR_SYSTEM)
 		return
 	}
-	response.Output(r, &pb.RespVoiceLoverPost{Success: true})
+	OutputCustomData(r, &pb.RespVoiceLoverPost{Success: true})
 }
