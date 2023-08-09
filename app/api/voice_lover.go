@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
+	context2 "github.com/olaola-chat/rbp-library/server/http/context"
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
@@ -33,7 +34,10 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 		OutputCustomError(r, consts.ERROR_PARAM)
 		return
 	}
-	data, err := vl_serv.VoiceLoverService.GetMainData(r.GetCtx(), 1)
+
+	userCtx := context2.NewContextUserFromRequest(r)
+	g.Log().Debugf("userCtx=%+v", userCtx)
+	data, err := vl_serv.VoiceLoverService.GetMainData(r.GetCtx(), userCtx.UID)
 	if err != nil {
 		g.Log().Errorf("voiceLoverAPI Main GetMainData error=%v", err)
 		OutputCustomError(r, consts.ERROR_SYSTEM)

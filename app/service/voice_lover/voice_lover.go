@@ -24,13 +24,22 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 		CommonAlbums: make([]*pb.AlbumRecData, 0),
 	}
 	wg := sync.WaitGroup{}
+	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		_, err := vl_rpc.VoiceLoverMain.GetRecAlbums(ctx, &vl_pb.ReqGetRecAlbums{Uid: 1})
+		list, err := vl_rpc.VoiceLoverMain.GetRecAlbums(ctx, &vl_pb.ReqGetRecAlbums{Uid: 1})
 		if err != nil {
 			g.Log().Errorf("voiceLoverService GetMainData GetRecAlbums error=%v", err)
 			return
 		}
+		for _, v := range list.GetAlbums() {
+			res.RecAlbums = append(res.RecAlbums, &pb.AlbumRecData{
+				Id:    v.Id,
+				Title: v.Name,
+				Cover: v.Cover,
+			})
+		}
 	}()
+	wg.Wait()
 	return res, nil
 }

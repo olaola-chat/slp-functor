@@ -368,6 +368,8 @@ github.com/olaola-chat/rbp-library v0.0.0-20230809033636-e4b5a587c210 h1:+GgMTHf
 github.com/olaola-chat/rbp-library v0.0.0-20230809033636-e4b5a587c210/go.mod h1:uYdzFXsEAXgQ4LIvPgi9ASmcNlxFx65AvR6oDsMgD4M=
 github.com/olaola-chat/rbp-library v0.0.0-20230809044339-8a7353ad770e h1:g8HMI2lLP8SlQjxctbAK2Pe3Pt5V1o3d8qYs8165YEI=
 github.com/olaola-chat/rbp-library v0.0.0-20230809044339-8a7353ad770e/go.mod h1:uYdzFXsEAXgQ4LIvPgi9ASmcNlxFx65AvR6oDsMgD4M=
+github.com/olaola-chat/rbp-library v0.0.0-20230809080634-87ea22b72b17 h1:s1xpcXNCR/e77OGRmX3DmI50GBg5njfNFbNEqWl/erg=
+github.com/olaola-chat/rbp-library v0.0.0-20230809080634-87ea22b72b17/go.mod h1:uYdzFXsEAXgQ4LIvPgi9ASmcNlxFx65AvR6oDsMgD4M=
 github.com/olaola-chat/rbp-proto v0.0.0-20230809040102-2de3bb359396 h1:jEBYsViS5KS+KloZSZN0FffewLwP676bYGIhazmwpqs=
 github.com/olaola-chat/rbp-proto v0.0.0-20230809040102-2de3bb359396/go.mod h1:YgtqSb+jj7Uh4dM+TT125TKtsqqYlqitMhtqBTix140=
 github.com/olaola-chat/rbp-proto v0.0.0-20230809063842-137ac1f6f31a h1:fD+J7Df55WE0RDWJkbqe7IAWyW/3DY3kTUDQZHzmYtE=

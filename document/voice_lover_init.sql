@@ -59,6 +59,7 @@ CREATE TABLE `voice_lover_album`
     `id`          bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '专辑编号',
     `name`        varchar(256) NOT NULL COMMENT '专辑名称',
     `intro`       text COMMENT '专辑简介',
+    `cover`       text COMMENT '专辑封面',
     `op_uid`      bigint(20) unsigned NOT NULL COMMENT '操作人',
     `choice`      tinyint(3) NOT NULL DEFAULT '0' COMMENT '类型:0:默认 1:精选',
     `choice_time` bigint(20) unsigned DEFAULT '0' COMMENT '设置类型时间，choice非0时写入',
