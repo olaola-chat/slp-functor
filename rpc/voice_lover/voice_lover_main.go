@@ -2,8 +2,10 @@ package voice_lover
 
 import (
 	"context"
+
+	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
+
 	"github.com/olaola-chat/rbp-functor/rpc/voice_lover/internal/logic"
-	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 )
 
 func NewVoiceLoverMain() interface{} {
@@ -13,6 +15,10 @@ func NewVoiceLoverMain() interface{} {
 type VoiceLoverMain struct {
 }
 
-func (v *VoiceLoverMain) Post(ctx context.Context, req *voice_lover.ReqVoiceLoverPost, reply *voice_lover.ResVoiceLoverBase) error {
+func (v *VoiceLoverMain) Post(ctx context.Context, req *vl_pb.ReqVoiceLoverPost, reply *vl_pb.ResVoiceLoverBase) error {
 	return logic.MainLogic.Post(ctx, req, reply)
+}
+
+func (v *VoiceLoverMain) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums, reply *vl_pb.ResGetRecAlbums) error {
+	return logic.MainLogic.GetRecAlbums(ctx, req, reply)
 }
