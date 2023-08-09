@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/gogf/gf/errors/gerror"
-	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/olaola-chat/rbp-library/server/http"
 	"github.com/olaola-chat/rbp-library/server/http/middleware"
@@ -27,7 +26,6 @@ func Auth(ctx context.Context, token string) (middleware.AuthUser, error) {
 		Platform: respUserAuth.Platform,
 		Channel:  respUserAuth.Channel,
 	}
-	g.Log().Infof("token=%s||userData=%+v", token, userData)
 	return userData, nil
 }
 
@@ -40,7 +38,7 @@ func route(server *ghttp.Server) {
 			middleware.NewCtxMiddleware(Auth).Ctx, //用户信息校验，多语言注入
 		)
 		group.Group("/func/", func(group *ghttp.RouterGroup) {
-			//group.Middleware(middleware.Auth) //登录校验
+			group.Middleware(middleware.Auth) //登录校验
 			group.Middleware(middleware.Error)
 			group.ALL("voice_lover", api.VoiceLover)
 		})
