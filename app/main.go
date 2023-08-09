@@ -40,7 +40,7 @@ func route(server *ghttp.Server) {
 			middleware.NewCtxMiddleware(Auth).Ctx, //用户信息校验，多语言注入
 		)
 		group.Group("/func/", func(group *ghttp.RouterGroup) {
-			//group.Middleware(middleware.Auth) //登录校验
+			group.Middleware(middleware.Auth) //登录校验
 			group.Middleware(middleware.Error)
 			group.ALL("voice_lover", api.VoiceLover)
 		})
