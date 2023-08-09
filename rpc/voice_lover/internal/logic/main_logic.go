@@ -157,6 +157,7 @@ func (m *mainLogic) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums
 			Id:         v.Id,
 			Name:       v.Name,
 			Intro:      v.Intro,
+			Cover:      v.Cover,
 			CreateTime: v.CreateTime,
 		})
 	}

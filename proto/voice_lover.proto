@@ -6,10 +6,11 @@ package pb;
 option go_package = "github.com/olaola-chat/rbp-functor/app/pb";
 
 message AlbumRecData {
-  string title = 1;         // 专辑标题
-  string cover = 2;         // 专辑显示封面
-  uint32 audio_total = 3;   // 专辑内音频数量
-  string play_stats = 4;    // 播放量统计，服务端控制显示规则
+  uint64 id = 1;            // 专辑id
+  string title = 2;         // 专辑标题
+  string cover = 3;         // 专辑显示封面
+  uint32 audio_total = 4;   // 专辑内音频数量
+  string play_stats = 5;    // 播放量统计，服务端控制显示规则
 }
 
 message BannerRecData {
@@ -24,8 +25,9 @@ message UserRecData {
 }
 
 message SubjectRecData {
-  string title = 1;     // 专题名称
-  repeated AlbumRecData albums = 2;  // 专题下专辑列表
+  uint64 id = 1;                      // 专题id
+  string title = 2;                   // 专题名称
+  repeated AlbumRecData albums = 3;   // 专题下专辑列表
 }
 
 message RespVoiceLoverMain {
