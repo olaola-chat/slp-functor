@@ -9,8 +9,8 @@ replace (
 
 require (
 	github.com/gogf/gf v1.16.9
-	github.com/olaola-chat/rbp-library v0.0.0-20230807071341-d41330bb783e
-	github.com/olaola-chat/rbp-proto v0.0.0-20230809032138-adf8376af2c5
+	github.com/olaola-chat/rbp-library v0.0.0-20230809033636-e4b5a587c210
+	github.com/olaola-chat/rbp-proto v0.0.0-20230809063842-137ac1f6f31a
 	google.golang.org/protobuf v1.31.0
 )
 
