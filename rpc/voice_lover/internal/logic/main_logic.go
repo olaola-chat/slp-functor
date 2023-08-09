@@ -20,5 +20,15 @@ func (m *mainLogic) Post(ctx context.Context, req *vl_pb.ReqVoiceLoverPost, repl
 }
 
 func (m *mainLogic) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums, reply *vl_pb.ResGetRecAlbums) error {
+	reply.Albums = make([]*vl_pb.AlbumData, 0)
+	list, _ := dao.VoiceLoverAlbumDao.GetAlbumListByChoice(ctx, dao.ChoiceRec, 0, 3)
+	for _, v := range list {
+		reply.Albums = append(reply.Albums, &vl_pb.AlbumData{
+			Id:         v.Id,
+			Name:       v.Name,
+			Intro:      v.Intro,
+			CreateTime: v.CreateTime,
+		})
+	}
 	return nil
 }

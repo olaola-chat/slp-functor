@@ -97,5 +97,5 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 		OutputCustomError(r, consts.ERROR_SYSTEM)
 		return
 	}
-	OutputCustomData(r, &pb.RespVoiceLoverPost{Success: true})
+	OutputCustomData(r, &pb.RespVoiceLoverPost{})
 }
