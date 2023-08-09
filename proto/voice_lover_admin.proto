@@ -1,0 +1,40 @@
+syntax = "proto3";
+package pb;
+
+//表示目标文件生成的路径, go的包名就是最后的目录名
+//目前统一生成到 app/pb 目录下
+option go_package = "github.com/olaola-chat/rbp-functor/app/pb";
+
+message AdminVoiceLoverAudio {
+  uint64 id = 1;
+  uint64 create_time = 2;
+  uint64 pub_uid = 3;
+  string pub_user_name = 4;
+  string broker = 5;
+  string resource = 6;
+  repeated string covers = 7;
+  uint32 source = 8;
+  string desc = 9;
+  repeated string labels = 10;
+  uint32 audit_status = 11;
+  uint64 op_uid = 12;
+  repeated AdminVoiceLoverEdit edit_pubs = 13;
+  repeated AdminVoiceLoverEdit edit_contents = 14;
+  repeated AdminVoiceLoverEdit edit_posts = 15;
+  repeated AdminVoiceLoverEdit edit_covers = 16;
+}
+
+message AdminVoiceLoverEdit {
+  uint64 uid = 1;
+  string name = 2;
+  string avatar = 3;
+}
+
+message RespAdminVoiceLoverAudioList {
+  repeated AdminVoiceLoverAudio audios = 1;
+  int32 total = 2;
+}
+
+message RespAdminVoiceLoverAudioDetail {
+  AdminVoiceLoverAudio audio = 1;
+}
