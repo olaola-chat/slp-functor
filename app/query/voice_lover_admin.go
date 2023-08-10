@@ -10,3 +10,7 @@ type ReqAdminVoiceLoverAudioList struct {
 	AuditStatus int32 // -1:全部 0:未审 1:通过 2:未通过
 	Paginator
 }
+
+type ReqAdminVoiceLoverAudioDetail struct {
+	Id uint64
+}
