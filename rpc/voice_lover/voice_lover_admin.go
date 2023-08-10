@@ -25,3 +25,7 @@ func (v *VoiceLoverAdmin) GetAudioDetail(ctx context.Context, req *vl_pb.ReqGetA
 	g.Log().Infof("GetAudioDetail data = %v", data)
 	return nil
 }
+
+func (v *VoiceLoverAdmin) UpdateAudio(ctx context.Context, req *vl_pb.ReqUpdateAudio, reply *vl_pb.ResBase) error {
+	return logic.AdminLogic.UpdateAudio(ctx, req)
+}

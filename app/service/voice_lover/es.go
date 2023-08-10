@@ -66,6 +66,9 @@ func (s *voiceLoverService) BuildAudioSearchQuery(ctx context.Context, req *quer
 				for _, r := range res.Data {
 					pubUids = append(pubUids, uint64(r))
 				}
+				if len(pubUids) == 0 {
+					pubUids = append(pubUids, 0)
+				}
 			}
 		}
 	}
