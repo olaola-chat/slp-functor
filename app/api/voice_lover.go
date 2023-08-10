@@ -85,7 +85,7 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 	ctx := r.Context()
 	g.Log().Infof("VoiceLoverPost param = %v", *req)
 	_, err := vl_rpc.VoiceLoverMain.Post(ctx, &vl_pb.ReqPost{
-		Uid:         uint64(1),
+		Uid:         101000002,
 		Resource:    req.Resource,
 		Source:      req.Source,
 		Cover:       req.Cover,

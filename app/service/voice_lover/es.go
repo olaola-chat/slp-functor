@@ -46,23 +46,26 @@ func (s *voiceLoverService) GetAudioList(ctx context.Context, req *query.ReqAdmi
 
 func (s *voiceLoverService) BuildAudioSearchQuery(ctx context.Context, req *query.ReqAdminVoiceLoverAudioList) *VoiceLoverAudioSearchQuery {
 	g.Log().Infof("BuildAudioSearchQuery req = %v", *req)
-	uid, err := strconv.Atoi(req.UserStr)
 	pubUids := make([]uint64, 0)
-	if err == nil {
-		pubUids = append(pubUids, uint64(uid))
-	}
-	if err != nil {
-		res, err := user.UserProfile.SearchByName(ctx, &user2.ReqUserSearchName{
-			Keyword:       req.UserStr,
-			Limit:         10,
-			SearcherLevel: 1,
-		})
-		if err != nil {
-			g.Log().Warningf("BuildAudioSearchQuery search by name error, err = %v")
-		}
+	if len(req.UserStr) != 0 {
+		uid, err := strconv.Atoi(req.UserStr)
 		if err == nil {
-			for _, r := range res.Data {
-				pubUids = append(pubUids, uint64(r))
+			pubUids = append(pubUids, uint64(uid))
+		}
+		if err != nil {
+			res, err := user.UserProfile.SearchByName(ctx, &user2.ReqUserSearchName{
+				Keyword:       req.UserStr,
+				Limit:         10,
+				SearcherLevel: 1,
+			})
+			if err != nil {
+				g.Log().Warningf("BuildAudioSearchQuery search by name error, err = %v")
+			}
+			g.Log().Infof("BuildAudioSearchQuery searchbyname name = %s data = %v", req.UserStr, res.Data)
+			if err == nil {
+				for _, r := range res.Data {
+					pubUids = append(pubUids, uint64(r))
+				}
 			}
 		}
 	}
@@ -84,21 +87,21 @@ func (s *voiceLoverService) BuildAudioSearchQuery(ctx context.Context, req *quer
 
 func (s *voiceLoverService) BuildVoiceLoverAudioPb(models []*voice_lover.VoiceLoverAudioEsModel) []*pb.AdminVoiceLoverAudio {
 	data := make([]*pb.AdminVoiceLoverAudio, 0)
-	uidMap := make(map[uint64]struct{})
+	uidMap := make(map[uint32]struct{})
 	for _, model := range models {
 		uidMap[model.PubUid] = struct{}{}
 	}
 	uids := make([]uint32, 0)
 	for uid := range uidMap {
-		uids = append(uids, uint32(uid))
+		uids = append(uids, uid)
 	}
 	userReply, _ := user.UserProfile.Mget(context.Background(), &user2.ReqUserProfiles{
 		Uids:   uids,
 		Fields: []string{"uid", "icon", "name"},
 	})
-	userMap := make(map[uint64]*xianshi.EntityXsUserProfile)
+	userMap := make(map[uint32]*xianshi.EntityXsUserProfile)
 	for _, u := range userReply.Data {
-		userMap[uint64(u.Uid)] = u
+		userMap[u.Uid] = u
 	}
 	for _, model := range models {
 		covers := make([]string, 0)
