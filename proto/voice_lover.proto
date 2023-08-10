@@ -30,6 +30,15 @@ message SubjectRecData {
   repeated AlbumRecData albums = 3;   // 专题下专辑列表
 }
 
+message AudioInAlbumData {
+  uint64 id = 1;          // 音频唯一标识
+  string title = 2;       // 音频标题
+  string resource = 3;    // 音频资源
+  string cover = 4;       // 音频封面
+  uint32 seconds = 5;     // 音频时长
+  string play_stats = 6;  // 音频播放次数
+}
+
 message RespVoiceLoverMain {
   repeated AlbumRecData rec_albums = 1;
   repeated BannerRecData rec_banners = 2;
@@ -40,6 +49,14 @@ message RespVoiceLoverMain {
 
 message RespAlbumList {
   repeated AlbumRecData rec_albums = 1;
+  bool has_more = 2;
+}
+
+message RespAlbumDetail {
+  AlbumRecData album = 1;                 // 专辑信息
+  bool is_collected = 2;                  // 是否收藏
+  uint32 comment_count = 3;               // 评论数量
+  repeated AudioInAlbumData audios = 4;   // 音频列表
 }
 
 message RespVoiceLoverPost {
