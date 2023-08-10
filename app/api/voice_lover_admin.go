@@ -181,7 +181,7 @@ func (a *voiceLoverAdminApi) AudioAudit(r *ghttp.Request) {
 		OutputCustomError(r, consts.ERROR_SYSTEM)
 		return
 	}
-	OutputCustomData(r, nil):w
+	OutputCustomData(r, nil)
 }
 
 // AudioAuditReason
