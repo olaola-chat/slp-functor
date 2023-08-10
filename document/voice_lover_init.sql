@@ -60,6 +60,7 @@ CREATE TABLE `voice_lover_album`
     `name`        varchar(256) NOT NULL COMMENT '专辑名称',
     `intro`       text COMMENT '专辑简介',
     `cover`       text COMMENT '专辑封面',
+    `is_deleted`  tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否删除:0-未删除 1-已删除',
     `op_uid`      bigint(20) unsigned NOT NULL COMMENT '操作人',
     `choice`      tinyint(3) NOT NULL DEFAULT '0' COMMENT '类型:0:默认 1:精选',
     `choice_time` bigint(20) unsigned DEFAULT '0' COMMENT '设置类型时间，choice非0时写入',
@@ -85,6 +86,7 @@ CREATE TABLE `voice_lover_subject`
     `id`          bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '专题编号',
     `name`        varchar(256) NOT NULL COMMENT '专题名称',
     `op_id`       bigint(20) unsigned NOT NULL COMMENT '操作人',
+    `is_deleted`  tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否删除:0-未删除 1-已删除',
     `create_time` bigint(20) unsigned NOT NULL COMMENT '创建时间',
     `update_time` bigint(20) unsigned NOT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)

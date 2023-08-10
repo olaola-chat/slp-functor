@@ -23,6 +23,10 @@ func (v *VoiceLoverMain) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecA
 	return logic.MainLogic.GetRecAlbums(ctx, req, reply)
 }
 
+func (v *VoiceLoverMain) GetRecSubjects(ctx context.Context, req *vl_pb.ReqGetRecSubjects, reply *vl_pb.ResGetRecSubjects) error {
+	return logic.MainLogic.GetRecSubjects(ctx, req, reply)
+}
+
 func (v *VoiceLoverMain) BatchGetAlbumAudioCount(ctx context.Context, req *vl_pb.ReqBatchGetAlbumAudioCount, reply *vl_pb.ResBatchGetAlbumAudioCount) error {
 	return logic.MainLogic.BatchGetAlbumAudioCount(ctx, req, reply)
 }

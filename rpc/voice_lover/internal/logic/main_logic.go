@@ -162,7 +162,7 @@ func (m *mainLogic) BuildRecAlbumsExtendInfo(ctx context.Context, infos []*vl_pb
 		wg.Add(1)
 		go func(albumId uint64) {
 			defer wg.Done()
-			total, _ := dao.VoiceLoverAudioAlbumDao.GetAudioCountByAlbumId(ctx, albumId)
+			total, _ := dao.VoiceLoverAudioAlbumDao.GetCountByAlbumId(ctx, albumId)
 			countMap[albumId] = uint32(total)
 		}(v.Id)
 	}
@@ -176,7 +176,7 @@ func (m *mainLogic) BuildRecAlbumsExtendInfo(ctx context.Context, infos []*vl_pb
 
 func (m *mainLogic) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums, reply *vl_pb.ResGetRecAlbums) error {
 	reply.Albums = make([]*vl_pb.AlbumData, 0)
-	list, err := dao.VoiceLoverAlbumDao.GetAlbumListByChoice(ctx, dao.ChoiceRec, 0, 3)
+	list, err := dao.VoiceLoverAlbumDao.GetValidAlbumListByChoice(ctx, dao.ChoiceRec, 0, 3)
 	if err != nil {
 		return err
 	}
@@ -193,6 +193,67 @@ func (m *mainLogic) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums
 	return nil
 }
 
+func (m *mainLogic) GetRecSubjects(ctx context.Context, req *vl_pb.ReqGetRecSubjects, reply *vl_pb.ResGetRecSubjects) error {
+	reply.Subjects = make([]*vl_pb.SubjectData, 0)
+	list, err := dao.VoiceLoverSubjectDao.GetValidSubjectList(ctx, 0, 3)
+	if err != nil {
+		return err
+	}
+	subjectIds := make([]uint64, 0)
+	for _, v := range list {
+		subjectIds = append(subjectIds, v.Id)
+		reply.Subjects = append(reply.Subjects, &vl_pb.SubjectData{
+			Id:         v.Id,
+			Name:       v.Name,
+			CreateTime: v.CreateTime,
+			Albums:     make([]*vl_pb.AlbumData, 0),
+		})
+	}
+
+	albumSubjectRelList, err := dao.VoiceLoverAlbumSubjectDao.GetListBySubjectIds(ctx, subjectIds)
+	if err != nil {
+		return err
+	}
+	subjectAlbumsMap := make(map[uint64][]uint64)
+	albumIds := make([]uint64, 0)
+	for _, v := range albumSubjectRelList {
+		subjectAlbumsMap[v.SubjectId] = append(subjectAlbumsMap[v.SubjectId], v.AlbumId)
+		albumIds = append(albumIds, v.AlbumId)
+	}
+	albumList, err := dao.VoiceLoverAlbumDao.GetValidAlbumListByIds(ctx, albumIds)
+	if err != nil {
+		return err
+	}
+	albums := make([]*vl_pb.AlbumData, 0)
+	albumsMap := make(map[uint64]*vl_pb.AlbumData)
+	for _, v := range albumList {
+		albums = append(albums, &vl_pb.AlbumData{
+			Id:         v.Id,
+			Name:       v.Name,
+			Intro:      v.Intro,
+			Cover:      v.Cover,
+			CreateTime: v.CreateTime,
+		})
+	}
+	m.BuildRecAlbumsExtendInfo(ctx, albums)
+	for _, v := range albums {
+		albumsMap[v.Id] = v
+	}
+
+	for _, v := range reply.Subjects {
+		if _, ok := subjectAlbumsMap[v.Id]; !ok {
+			continue
+		}
+		for _, albumId := range subjectAlbumsMap[v.Id] {
+			if _, ok := albumsMap[albumId]; !ok {
+				continue
+			}
+			v.Albums = append(v.Albums, albumsMap[albumId])
+		}
+	}
+	return nil
+}
+
 func (m *mainLogic) BatchGetAlbumAudioCount(ctx context.Context, req *vl_pb.ReqBatchGetAlbumAudioCount, reply *vl_pb.ResBatchGetAlbumAudioCount) error {
 	reply.AlbumCounts = make(map[uint64]uint32)
 	wg := sync.WaitGroup{}
@@ -204,7 +265,7 @@ func (m *mainLogic) BatchGetAlbumAudioCount(ctx context.Context, req *vl_pb.ReqB
 		wg.Add(1)
 		go func(albumId uint64) {
 			defer wg.Done()
-			total, _ := dao.VoiceLoverAudioAlbumDao.GetAudioCountByAlbumId(ctx, albumId)
+			total, _ := dao.VoiceLoverAudioAlbumDao.GetCountByAlbumId(ctx, albumId)
 			reply.AlbumCounts[albumId] = uint32(total)
 		}(v)
 	}
