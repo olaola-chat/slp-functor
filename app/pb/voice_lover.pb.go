@@ -367,6 +367,9 @@ func (x *AudioInAlbumData) GetPlayStats() string {
 	return ""
 }
 
+// [url] /go/func/voice_lover/main
+// [desc] 首页
+// [params] 无
 type RespVoiceLoverMain struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -446,6 +449,13 @@ func (x *RespVoiceLoverMain) GetCommonAlbums() []*AlbumRecData {
 	return nil
 }
 
+// [url] /go/func/voice_lover/albumList
+// [desc] 获取更多专辑列表 精选&非精选&专题都走该接口
+// [params]
+//  Choice    uint32 `v:"choice@required"` // 0-默认 1-精选 2-专题
+//	SubjectId uint64 `v:"subject_id"`      // Choice=2的时候，需要传专题id
+//  Page  uint32 `v:"page@integer"`
+//  Limit uint32 `v:"limit@integer|min:10|max:50"`
 type RespAlbumList struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -501,6 +511,11 @@ func (x *RespAlbumList) GetHasMore() bool {
 	return false
 }
 
+// [url] /go/func/voice_lover/recUserList
+// [desc] 更多推荐用户列表
+// [params]
+//  Page  uint32 `v:"page@integer"`
+//  Limit uint32 `v:"limit@integer|min:10|max:50"`
 type RespRecUserList struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -556,6 +571,10 @@ func (x *RespRecUserList) GetHasMore() bool {
 	return false
 }
 
+// [url] /go/func/voice_lover/albumDetail
+// [desc] 查看专辑详情
+// [params]
+//  AlbumId uint32 `v:"album_id@required"` // 专辑id
 type RespAlbumDetail struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -627,6 +646,20 @@ func (x *RespAlbumDetail) GetAudios() []*AudioInAlbumData {
 	return nil
 }
 
+// [url] /go/func/voice_lover/post
+// [desc] 上传音频资源
+// [params]
+//    Resource    string //音频资源
+//    Seconds     uint32 //音频时长 单位秒
+//    Title       string //标题
+//    Source      int32  //来源 1:原创 2:搬运
+//    Cover       string //封面
+//    Desc        string //简介
+//    EditDub     string // 编辑配音
+//    EditContent string //编辑文案
+//    EditPost    string //编辑后期
+//    EditCover   string //编辑封面
+//    Labels      string //标签
 type RespVoiceLoverPost struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
