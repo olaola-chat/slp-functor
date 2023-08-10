@@ -1,6 +1,8 @@
 package api
 
 import (
+	"sort"
+
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/xianshi"
@@ -155,4 +157,53 @@ func (a *voiceLoverAdminApi) AudioUpdate(r *ghttp.Request) {
 		return
 	}
 	OutputCustomData(r, nil)
+}
+
+// AudioAudit
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAdminVoiceLoverAudioAudit query
+// @Success 200 {object}
+// @Router /go/func/admin/voice_lover/audio-audit [post]
+func (a *voiceLoverAdminApi) AudioAudit(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverAudioAudit
+	if err := r.Parse(&req); err != nil {
+		OutputCustomError(r, consts.ERROR_PARAM)
+		return
+	}
+	ctx := r.Context()
+	_, err := voice_lover2.VoiceLoverAdmin.AuditAudio(ctx, &voice_lover3.ReqAuditAudio{Id: req.Id, AuditStatus: req.AuditStatus, AuditReason: req.AuditReason, OpUid: req.OpUid})
+	if err != nil {
+		OutputCustomError(r, consts.ERROR_SYSTEM)
+		return
+	}
+	OutputCustomData(r, nil):w
+}
+
+// AudioAuditReason
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query
+// @Success 200 {object} pb.RespAdminVoiceLoverAudioAuditReason
+// @Router /go/func/admin/voice_lover/audio-audit-reason [get]
+func (a *voiceLoverAdminApi) AudioAuditReason(r *ghttp.Request) {
+	data := &pb.RespAdminVoiceLoverAudioAuditReason{}
+	for id, reason := range consts.AuditAudioReasonMap {
+		data.Reasons = append(data.Reasons, &pb.AdminVoiceLoverAudioAuditReason{
+			Id:     id,
+			Reason: reason,
+		})
+	}
+	sort.Slice(data.Reasons, func(i, j int) bool {
+		return data.Reasons[i].Id < data.Reasons[j].Id
+	})
+	OutputCustomData(r, data)
 }

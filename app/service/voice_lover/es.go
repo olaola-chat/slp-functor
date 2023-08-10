@@ -164,7 +164,7 @@ func (s *voiceLoverService) SearchAudio(ctx context.Context, query *VoiceLoverAu
 	}
 	if len(query.Label) > 0 {
 		must = append(must, map[string]interface{}{
-			"term": map[string]interface{}{
+			"match": map[string]interface{}{
 				"labels": query.Label,
 			},
 		})

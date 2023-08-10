@@ -19,6 +19,12 @@ const (
 	Cover
 )
 
+const (
+	AuditDefault = iota
+	AuditPass
+	AuditNoPass
+)
+
 var VoiceLoverAudioDao = &voiceLoverAudioDao{}
 
 func (v *voiceLoverAudioDao) GetAudioDetailByAudioId(ctx context.Context, id uint64) (*functor.EntityVoiceLoverAudio, error) {

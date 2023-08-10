@@ -9,6 +9,7 @@ import (
 	"github.com/olaola-chat/rbp-library/es"
 	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 
+	"github.com/olaola-chat/rbp-functor/app/consts"
 	"github.com/olaola-chat/rbp-functor/rpc/voice_lover/internal/dao"
 )
 
@@ -110,6 +111,28 @@ func (a *adminLogic) UpdateAudio(ctx context.Context, req *voice_lover.ReqUpdate
 			labelsSlice = append(labelsSlice, l)
 		}
 		data["labels"] = labelsSlice
+		_ = es.EsClient(es.EsVpc).Update("voice_lover_audio", req.Id, data)
+	}
+	return nil
+}
+
+func (a *adminLogic) AuditAudio(ctx context.Context, req *voice_lover.ReqAuditAudio) error {
+	if req.AuditStatus != dao.AuditNoPass && req.AuditStatus != dao.AuditPass {
+		return consts.ERROR_PARAM
+	}
+	data := g.Map{
+		"update_time": time.Now().Unix(),
+	}
+	data["audit_status"] = req.AuditStatus
+	data["audit_reason"] = req.AuditReason
+	data["op_uid"] = req.OpUid
+	affect, err := dao.VoiceLoverAudioDao.UpdateAudioById(ctx, req.Id, data)
+	if err != nil {
+		return err
+	}
+	if affect > 0 {
+		delete(data, "audit_reason")
+		delete(data, "update_time")
 		_ = es.EsClient(es.EsVpc).Update("voice_lover_audio", req.Id, data)
 	}
 	return nil
