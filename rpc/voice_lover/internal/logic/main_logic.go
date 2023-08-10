@@ -151,9 +151,35 @@ func buildAudioEsModel(data *functor2.EntityVoiceLoverAudio) *voice_lover2.Voice
 	return esModel
 }
 
+func (m *mainLogic) BuildRecAlbumsExtendInfo(ctx context.Context, infos []*vl_pb.AlbumData) {
+	countMap := make(map[uint64]uint32)
+	wg := sync.WaitGroup{}
+	for _, v := range infos {
+		if _, ok := countMap[v.Id]; ok {
+			continue
+		}
+		countMap[v.Id] = 0
+		wg.Add(1)
+		go func(albumId uint64) {
+			defer wg.Done()
+			total, _ := dao.VoiceLoverAudioAlbumDao.GetAudioCountByAlbumId(ctx, albumId)
+			countMap[albumId] = uint32(total)
+		}(v.Id)
+	}
+	wg.Wait()
+	for _, v := range infos {
+		if count, ok := countMap[v.Id]; ok {
+			v.AudioCount = count
+		}
+	}
+}
+
 func (m *mainLogic) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums, reply *vl_pb.ResGetRecAlbums) error {
 	reply.Albums = make([]*vl_pb.AlbumData, 0)
-	list, _ := dao.VoiceLoverAlbumDao.GetAlbumListByChoice(ctx, dao.ChoiceRec, 0, 3)
+	list, err := dao.VoiceLoverAlbumDao.GetAlbumListByChoice(ctx, dao.ChoiceRec, 0, 3)
+	if err != nil {
+		return err
+	}
 	for _, v := range list {
 		reply.Albums = append(reply.Albums, &vl_pb.AlbumData{
 			Id:         v.Id,
@@ -163,6 +189,7 @@ func (m *mainLogic) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums
 			CreateTime: v.CreateTime,
 		})
 	}
+	m.BuildRecAlbumsExtendInfo(ctx, reply.Albums)
 	return nil
 }
 
