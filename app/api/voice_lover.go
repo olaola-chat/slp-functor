@@ -134,6 +134,7 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 		EditPost:    req.EditPost,
 		EditCover:   req.EditCover,
 		Labels:      req.Labels,
+		Seconds:     req.Seconds,
 	})
 	if err != nil {
 		g.Log().Errorf("VoiceLover Post error, err = %v", err)

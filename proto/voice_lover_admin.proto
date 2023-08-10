@@ -47,3 +47,26 @@ message AdminVoiceLoverAudioAuditReason {
   uint64 id = 1;
   string reason = 2;
 }
+
+message RespAdminVoiceLoverAlbumCreate {
+  uint64 id = 1;
+}
+
+message AdminVoiceLoverAlbum {
+  uint64 id = 1;
+  string name = 2;
+  string intro = 3;
+  string cover = 4;
+  uint64 op_uid = 5;
+  int32 audio_count = 6;
+  uint64 create_time = 7;
+}
+
+message ResAdminVoiceLoverAlbumDetail {
+  AdminVoiceLoverAlbum album = 1;
+}
+
+message ResAdminVoiceLoverAlbumList {
+  repeated AdminVoiceLoverAlbum albums = 1;
+  int32 total = 2;
+}
