@@ -14,3 +14,11 @@ type ReqAdminVoiceLoverAudioList struct {
 type ReqAdminVoiceLoverAudioDetail struct {
 	Id uint64
 }
+
+type ReqAdminVoiceLoverAudioUpdate struct {
+	Id     uint64
+	Title  string
+	Desc   string
+	Labels string
+	OpUid  uint64
+}

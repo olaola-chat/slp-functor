@@ -74,7 +74,7 @@ func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqVoiceLoverPost query
-// @Success 200 {object} pb.RespVoiceLoverMain
+// @Success 200 {object} pb.RespVoiceLoverPost
 // @Router /go/func/voice_lover/post [post]
 func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 	var req *query.ReqVoiceLoverPost
