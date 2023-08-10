@@ -29,3 +29,34 @@ type ReqAdminVoiceLoverAudioAudit struct {
 	AuditReason int32 //
 	OpUid       uint64
 }
+
+type ReqAdminVoiceLoverAlbumCreate struct {
+	Name  string
+	Intro string
+	Cover string
+	OpUid uint64
+}
+
+type ReqAdminVoiceLoverAlbumDel struct {
+	Id    uint64
+	OpUid uint64
+}
+
+type ReqAdminVoiceLoverAlbumUpdate struct {
+	Id    uint64
+	Name  string
+	Intro string
+	Cover string
+	OpUid uint64
+}
+
+type ReqAdminVoiceLoverAlbumList struct {
+	Paginator
+	Name      string
+	StartTime uint64
+	EndTime   uint64
+}
+
+type ReqAdminVoiceLoverAlbumDetail struct {
+	Id uint64
+}

@@ -3,7 +3,9 @@ package dao
 import (
 	"context"
 	"fmt"
+	"time"
 
+	"github.com/gogf/gf/frame/g"
 	"github.com/olaola-chat/rbp-proto/dao/functor"
 	functor2 "github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 )
@@ -47,4 +49,91 @@ func (v *voiceLoverAlbumDao) GetValidAlbumListByIds(ctx context.Context, ids []u
 		return nil, err
 	}
 	return list, nil
+}
+
+func (v *voiceLoverAlbumDao) CreateAlbum(ctx context.Context, name string, intro string, cover string, opUid uint64) (int64, error) {
+	data := &functor2.EntityVoiceLoverAlbum{
+		Name:       name,
+		Intro:      intro,
+		Cover:      cover,
+		OpUid:      opUid,
+		Choice:     0,
+		ChoiceTime: 0,
+		CreateTime: uint64(time.Now().Unix()),
+		UpdateTime: uint64(time.Now().Unix()),
+	}
+	sqlRes, err := functor.VoiceLoverAlbum.Ctx(ctx).Insert(data)
+	if err != nil {
+		return 0, err
+	}
+	lastId, _ := sqlRes.LastInsertId()
+	return lastId, nil
+}
+
+func (v *voiceLoverAlbumDao) GetValidAlbumById(ctx context.Context, id uint64) (*functor2.EntityVoiceLoverAlbum, error) {
+	data, err := functor.VoiceLoverAlbum.Ctx(ctx).Where("id", id).Where("is_deleted", 0).One()
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+func (v *voiceLoverAlbumDao) DelAlbum(ctx context.Context, id uint64, opUid uint64) error {
+	_, err := functor.VoiceLoverAlbum.Ctx(ctx).Where("id", id).Update(
+		g.Map{
+			"update_time": time.Now().Unix(),
+			"op_uid":      opUid,
+			"is_deleted":  1,
+		})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (v *voiceLoverAlbumDao) UpdateAlbum(ctx context.Context, id uint64, name string, intro string, cover string, opUid uint64) error {
+	data := g.Map{
+		"update_time": time.Now().Unix(),
+		"op_uid":      opUid,
+	}
+	if len(name) > 0 {
+		data["name"] = name
+	}
+	if len(intro) > 0 {
+		data["intro"] = intro
+	}
+	if len(cover) > 0 {
+		data["cover"] = cover
+	}
+	_, err := functor.VoiceLoverAlbum.Ctx(ctx).Where("id", id).Update(data)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (v *voiceLoverAlbumDao) GetValidAlbumByName(ctx context.Context, name string) (*functor2.EntityVoiceLoverAlbum, error) {
+	data, err := functor.VoiceLoverAlbum.Ctx(ctx).Where("name", name).Where("is_deleted", 0).One()
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+func (v *voiceLoverAlbumDao) GetValidAlbumList(ctx context.Context, startTime uint64, endTime uint64, name string, page int, limit int) ([]*functor2.EntityVoiceLoverAlbum, uint32, error) {
+	if endTime == 0 {
+		endTime = uint64(time.Now().Unix())
+	}
+	d := functor.VoiceLoverAlbum.Ctx(ctx).Where("create_time > ?", startTime).
+		Where("create_time < ?", endTime).
+		Where("is_deleted", 0)
+	if len(name) > 0 {
+		d = d.Where("name", name)
+	}
+	total, _ := d.Count()
+	list, err := d.Page(page, limit).Order("id desc").FindAll()
+	if err != nil {
+		return nil, 0, err
+	}
+	return list, uint32(total), nil
 }

@@ -454,6 +454,250 @@ func (x *AdminVoiceLoverAudioAuditReason) GetReason() string {
 	return ""
 }
 
+type RespAdminVoiceLoverAlbumCreate struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *RespAdminVoiceLoverAlbumCreate) Reset() {
+	*x = RespAdminVoiceLoverAlbumCreate{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_admin_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespAdminVoiceLoverAlbumCreate) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespAdminVoiceLoverAlbumCreate) ProtoMessage() {}
+
+func (x *RespAdminVoiceLoverAlbumCreate) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_admin_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespAdminVoiceLoverAlbumCreate.ProtoReflect.Descriptor instead.
+func (*RespAdminVoiceLoverAlbumCreate) Descriptor() ([]byte, []int) {
+	return file_voice_lover_admin_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *RespAdminVoiceLoverAlbumCreate) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type AdminVoiceLoverAlbum struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id         uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name       string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Intro      string `protobuf:"bytes,3,opt,name=intro,proto3" json:"intro,omitempty"`
+	Cover      string `protobuf:"bytes,4,opt,name=cover,proto3" json:"cover,omitempty"`
+	OpUid      uint64 `protobuf:"varint,5,opt,name=op_uid,json=opUid,proto3" json:"op_uid,omitempty"`
+	AudioCount int32  `protobuf:"varint,6,opt,name=audio_count,json=audioCount,proto3" json:"audio_count,omitempty"`
+	CreateTime uint64 `protobuf:"varint,7,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+}
+
+func (x *AdminVoiceLoverAlbum) Reset() {
+	*x = AdminVoiceLoverAlbum{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_admin_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AdminVoiceLoverAlbum) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdminVoiceLoverAlbum) ProtoMessage() {}
+
+func (x *AdminVoiceLoverAlbum) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_admin_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdminVoiceLoverAlbum.ProtoReflect.Descriptor instead.
+func (*AdminVoiceLoverAlbum) Descriptor() ([]byte, []int) {
+	return file_voice_lover_admin_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *AdminVoiceLoverAlbum) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *AdminVoiceLoverAlbum) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *AdminVoiceLoverAlbum) GetIntro() string {
+	if x != nil {
+		return x.Intro
+	}
+	return ""
+}
+
+func (x *AdminVoiceLoverAlbum) GetCover() string {
+	if x != nil {
+		return x.Cover
+	}
+	return ""
+}
+
+func (x *AdminVoiceLoverAlbum) GetOpUid() uint64 {
+	if x != nil {
+		return x.OpUid
+	}
+	return 0
+}
+
+func (x *AdminVoiceLoverAlbum) GetAudioCount() int32 {
+	if x != nil {
+		return x.AudioCount
+	}
+	return 0
+}
+
+func (x *AdminVoiceLoverAlbum) GetCreateTime() uint64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+type ResAdminVoiceLoverAlbumDetail struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Album *AdminVoiceLoverAlbum `protobuf:"bytes,1,opt,name=album,proto3" json:"album,omitempty"`
+}
+
+func (x *ResAdminVoiceLoverAlbumDetail) Reset() {
+	*x = ResAdminVoiceLoverAlbumDetail{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_admin_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ResAdminVoiceLoverAlbumDetail) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResAdminVoiceLoverAlbumDetail) ProtoMessage() {}
+
+func (x *ResAdminVoiceLoverAlbumDetail) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_admin_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResAdminVoiceLoverAlbumDetail.ProtoReflect.Descriptor instead.
+func (*ResAdminVoiceLoverAlbumDetail) Descriptor() ([]byte, []int) {
+	return file_voice_lover_admin_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ResAdminVoiceLoverAlbumDetail) GetAlbum() *AdminVoiceLoverAlbum {
+	if x != nil {
+		return x.Album
+	}
+	return nil
+}
+
+type ResAdminVoiceLoverAlbumList struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Albums []*AdminVoiceLoverAlbum `protobuf:"bytes,1,rep,name=albums,proto3" json:"albums,omitempty"`
+	Total  int32                   `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+}
+
+func (x *ResAdminVoiceLoverAlbumList) Reset() {
+	*x = ResAdminVoiceLoverAlbumList{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_admin_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ResAdminVoiceLoverAlbumList) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResAdminVoiceLoverAlbumList) ProtoMessage() {}
+
+func (x *ResAdminVoiceLoverAlbumList) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_admin_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResAdminVoiceLoverAlbumList.ProtoReflect.Descriptor instead.
+func (*ResAdminVoiceLoverAlbumList) Descriptor() ([]byte, []int) {
+	return file_voice_lover_admin_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ResAdminVoiceLoverAlbumList) GetAlbums() []*AdminVoiceLoverAlbum {
+	if x != nil {
+		return x.Albums
+	}
+	return nil
+}
+
+func (x *ResAdminVoiceLoverAlbumList) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
 var File_voice_lover_admin_proto protoreflect.FileDescriptor
 
 var file_voice_lover_admin_proto_rawDesc = []byte{
@@ -523,11 +767,37 @@ var file_voice_lover_admin_proto_rawDesc = []byte{
 	0x4c, 0x6f, 0x76, 0x65, 0x72, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x41, 0x75, 0x64, 0x69, 0x74, 0x52,
 	0x65, 0x61, 0x73, 0x6f, 0x6e, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x42, 0x2b, 0x5a,
-	0x29, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x6c, 0x61, 0x6f,
-	0x6c, 0x61, 0x2d, 0x63, 0x68, 0x61, 0x74, 0x2f, 0x72, 0x62, 0x70, 0x2d, 0x66, 0x75, 0x6e, 0x63,
-	0x74, 0x6f, 0x72, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x22, 0x30, 0x0a,
+	0x1e, 0x52, 0x65, 0x73, 0x70, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56, 0x6f, 0x69, 0x63, 0x65, 0x4c,
+	0x6f, 0x76, 0x65, 0x72, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x12,
+	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x22,
+	0xbf, 0x01, 0x0a, 0x14, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56, 0x6f, 0x69, 0x63, 0x65, 0x4c, 0x6f,
+	0x76, 0x65, 0x72, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05,
+	0x69, 0x6e, 0x74, 0x72, 0x6f, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x69, 0x6e, 0x74,
+	0x72, 0x6f, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x6f, 0x76, 0x65, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x05, 0x63, 0x6f, 0x76, 0x65, 0x72, 0x12, 0x15, 0x0a, 0x06, 0x6f, 0x70, 0x5f, 0x75,
+	0x69, 0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x6f, 0x70, 0x55, 0x69, 0x64, 0x12,
+	0x1f, 0x0a, 0x0b, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x06,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x0a, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x43, 0x6f, 0x75, 0x6e, 0x74,
+	0x12, 0x1f, 0x0a, 0x0b, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18,
+	0x07, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0a, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x54, 0x69, 0x6d,
+	0x65, 0x22, 0x4f, 0x0a, 0x1d, 0x52, 0x65, 0x73, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56, 0x6f, 0x69,
+	0x63, 0x65, 0x4c, 0x6f, 0x76, 0x65, 0x72, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x44, 0x65, 0x74, 0x61,
+	0x69, 0x6c, 0x12, 0x2e, 0x0a, 0x05, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x18, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56, 0x6f, 0x69, 0x63,
+	0x65, 0x4c, 0x6f, 0x76, 0x65, 0x72, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x52, 0x05, 0x61, 0x6c, 0x62,
+	0x75, 0x6d, 0x22, 0x65, 0x0a, 0x1b, 0x52, 0x65, 0x73, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56, 0x6f,
+	0x69, 0x63, 0x65, 0x4c, 0x6f, 0x76, 0x65, 0x72, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x4c, 0x69, 0x73,
+	0x74, 0x12, 0x30, 0x0a, 0x06, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x18, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56, 0x6f, 0x69, 0x63,
+	0x65, 0x4c, 0x6f, 0x76, 0x65, 0x72, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x52, 0x06, 0x61, 0x6c, 0x62,
+	0x75, 0x6d, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x42, 0x2b, 0x5a, 0x29, 0x67, 0x69, 0x74,
+	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x6c, 0x61, 0x6f, 0x6c, 0x61, 0x2d, 0x63,
+	0x68, 0x61, 0x74, 0x2f, 0x72, 0x62, 0x70, 0x2d, 0x66, 0x75, 0x6e, 0x63, 0x74, 0x6f, 0x72, 0x2f,
+	0x61, 0x70, 0x70, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -542,7 +812,7 @@ func file_voice_lover_admin_proto_rawDescGZIP() []byte {
 	return file_voice_lover_admin_proto_rawDescData
 }
 
-var file_voice_lover_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_voice_lover_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_voice_lover_admin_proto_goTypes = []interface{}{
 	(*AdminVoiceLoverAudio)(nil),                // 0: pb.AdminVoiceLoverAudio
 	(*AdminVoiceLoverAudioEdit)(nil),            // 1: pb.AdminVoiceLoverAudioEdit
@@ -550,6 +820,10 @@ var file_voice_lover_admin_proto_goTypes = []interface{}{
 	(*RespAdminVoiceLoverAudioDetail)(nil),      // 3: pb.RespAdminVoiceLoverAudioDetail
 	(*RespAdminVoiceLoverAudioAuditReason)(nil), // 4: pb.RespAdminVoiceLoverAudioAuditReason
 	(*AdminVoiceLoverAudioAuditReason)(nil),     // 5: pb.AdminVoiceLoverAudioAuditReason
+	(*RespAdminVoiceLoverAlbumCreate)(nil),      // 6: pb.RespAdminVoiceLoverAlbumCreate
+	(*AdminVoiceLoverAlbum)(nil),                // 7: pb.AdminVoiceLoverAlbum
+	(*ResAdminVoiceLoverAlbumDetail)(nil),       // 8: pb.ResAdminVoiceLoverAlbumDetail
+	(*ResAdminVoiceLoverAlbumList)(nil),         // 9: pb.ResAdminVoiceLoverAlbumList
 }
 var file_voice_lover_admin_proto_depIdxs = []int32{
 	1, // 0: pb.AdminVoiceLoverAudio.edit_dubs:type_name -> pb.AdminVoiceLoverAudioEdit
@@ -559,11 +833,13 @@ var file_voice_lover_admin_proto_depIdxs = []int32{
 	0, // 4: pb.RespAdminVoiceLoverAudioList.audios:type_name -> pb.AdminVoiceLoverAudio
 	0, // 5: pb.RespAdminVoiceLoverAudioDetail.audio:type_name -> pb.AdminVoiceLoverAudio
 	5, // 6: pb.RespAdminVoiceLoverAudioAuditReason.reasons:type_name -> pb.AdminVoiceLoverAudioAuditReason
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	7, // 7: pb.ResAdminVoiceLoverAlbumDetail.album:type_name -> pb.AdminVoiceLoverAlbum
+	7, // 8: pb.ResAdminVoiceLoverAlbumList.albums:type_name -> pb.AdminVoiceLoverAlbum
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_voice_lover_admin_proto_init() }
@@ -644,6 +920,54 @@ func file_voice_lover_admin_proto_init() {
 				return nil
 			}
 		}
+		file_voice_lover_admin_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespAdminVoiceLoverAlbumCreate); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_voice_lover_admin_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AdminVoiceLoverAlbum); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_voice_lover_admin_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ResAdminVoiceLoverAlbumDetail); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_voice_lover_admin_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ResAdminVoiceLoverAlbumList); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -651,7 +975,7 @@ func file_voice_lover_admin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_voice_lover_admin_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
