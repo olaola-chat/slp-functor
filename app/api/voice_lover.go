@@ -66,6 +66,25 @@ func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
 	OutputCustomData(r, &pb.RespAlbumList{})
 }
 
+// RecUserList
+// @Tags VoiceLover
+// @Summary 获取更多推荐用户接口
+// @Description 获取更多推荐用户接口
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqRecUserList query
+// @Success 200 {object} pb.RespRecUserList
+// @Router /go/func/voice_lover/rec_user_list [get]
+func (a *voiceLoverAPI) RecUserList(r *ghttp.Request) {
+	var req *query.ReqRecUserList
+	if err := r.ParseQuery(&req); err != nil {
+		OutputCustomError(r, consts.ERROR_PARAM)
+		return
+	}
+	OutputCustomData(r, &pb.RespRecUserList{})
+}
+
 // AlbumDetail
 // @Tags VoiceLover
 // @Summary 查看专辑详情

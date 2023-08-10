@@ -52,6 +52,11 @@ message RespAlbumList {
   bool has_more = 2;
 }
 
+message RespRecUserList {
+  repeated UserRecData rec_users = 1;
+  bool has_more = 2;
+}
+
 message RespAlbumDetail {
   AlbumRecData album = 1;                 // 专辑信息
   bool is_collected = 2;                  // 是否收藏

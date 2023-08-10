@@ -9,6 +9,10 @@ type ReqAlbumList struct {
 	Paginator
 }
 
+type ReqRecUserList struct {
+	Paginator
+}
+
 type ReqAlbumDetail struct {
 	AlbumId uint32 `v:"album_id@required"` // 专辑id
 }
