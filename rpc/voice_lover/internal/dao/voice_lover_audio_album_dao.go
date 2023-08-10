@@ -12,7 +12,7 @@ type voiceLoverAudioAlbumDao struct {
 
 var VoiceLoverAudioAlbumDao = &voiceLoverAudioAlbumDao{}
 
-func (v *voiceLoverAudioAlbumDao) GetAudioCountByAlbumId(ctx context.Context, albumId uint64) (int, error) {
+func (v *voiceLoverAudioAlbumDao) GetCountByAlbumId(ctx context.Context, albumId uint64) (int, error) {
 	total, err := functor2.VoiceLoverAudioAlbum.Ctx(ctx).Where("album_id", albumId).Count()
 	if err != nil {
 		g.Log().Errorf("voiceLoverAudioAlbumDao GetAudioCountByAlbumId error=%v", err)
