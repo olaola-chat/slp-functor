@@ -38,3 +38,12 @@ message RespAdminVoiceLoverAudioList {
 message RespAdminVoiceLoverAudioDetail {
   AdminVoiceLoverAudio audio = 1;
 }
+
+message RespAdminVoiceLoverAudioAuditReason {
+  repeated AdminVoiceLoverAudioAuditReason reasons = 1;
+}
+
+message AdminVoiceLoverAudioAuditReason {
+  uint64 id = 1;
+  string reason = 2;
+}

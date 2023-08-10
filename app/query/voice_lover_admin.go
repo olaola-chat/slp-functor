@@ -22,3 +22,10 @@ type ReqAdminVoiceLoverAudioUpdate struct {
 	Labels string
 	OpUid  uint64
 }
+
+type ReqAdminVoiceLoverAudioAudit struct {
+	Id          uint64
+	AuditStatus int32 // 1:通过 2:不通过
+	AuditReason int32 //
+	OpUid       uint64
+}

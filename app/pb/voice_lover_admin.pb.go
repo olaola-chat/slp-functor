@@ -352,6 +352,108 @@ func (x *RespAdminVoiceLoverAudioDetail) GetAudio() *AdminVoiceLoverAudio {
 	return nil
 }
 
+type RespAdminVoiceLoverAudioAuditReason struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Reasons []*AdminVoiceLoverAudioAuditReason `protobuf:"bytes,1,rep,name=reasons,proto3" json:"reasons,omitempty"`
+}
+
+func (x *RespAdminVoiceLoverAudioAuditReason) Reset() {
+	*x = RespAdminVoiceLoverAudioAuditReason{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_admin_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespAdminVoiceLoverAudioAuditReason) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespAdminVoiceLoverAudioAuditReason) ProtoMessage() {}
+
+func (x *RespAdminVoiceLoverAudioAuditReason) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_admin_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespAdminVoiceLoverAudioAuditReason.ProtoReflect.Descriptor instead.
+func (*RespAdminVoiceLoverAudioAuditReason) Descriptor() ([]byte, []int) {
+	return file_voice_lover_admin_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *RespAdminVoiceLoverAudioAuditReason) GetReasons() []*AdminVoiceLoverAudioAuditReason {
+	if x != nil {
+		return x.Reasons
+	}
+	return nil
+}
+
+type AdminVoiceLoverAudioAuditReason struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id     uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Reason string `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+}
+
+func (x *AdminVoiceLoverAudioAuditReason) Reset() {
+	*x = AdminVoiceLoverAudioAuditReason{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_admin_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AdminVoiceLoverAudioAuditReason) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdminVoiceLoverAudioAuditReason) ProtoMessage() {}
+
+func (x *AdminVoiceLoverAudioAuditReason) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_admin_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdminVoiceLoverAudioAuditReason.ProtoReflect.Descriptor instead.
+func (*AdminVoiceLoverAudioAuditReason) Descriptor() ([]byte, []int) {
+	return file_voice_lover_admin_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *AdminVoiceLoverAudioAuditReason) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *AdminVoiceLoverAudioAuditReason) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
 var File_voice_lover_admin_proto protoreflect.FileDescriptor
 
 var file_voice_lover_admin_proto_rawDesc = []byte{
@@ -410,11 +512,22 @@ var file_voice_lover_admin_proto_rawDesc = []byte{
 	0x72, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x2e, 0x0a, 0x05,
 	0x61, 0x75, 0x64, 0x69, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x18, 0x2e, 0x70, 0x62,
 	0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56, 0x6f, 0x69, 0x63, 0x65, 0x4c, 0x6f, 0x76, 0x65, 0x72,
-	0x41, 0x75, 0x64, 0x69, 0x6f, 0x52, 0x05, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x42, 0x2b, 0x5a, 0x29,
-	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x6c, 0x61, 0x6f, 0x6c,
-	0x61, 0x2d, 0x63, 0x68, 0x61, 0x74, 0x2f, 0x72, 0x62, 0x70, 0x2d, 0x66, 0x75, 0x6e, 0x63, 0x74,
-	0x6f, 0x72, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x41, 0x75, 0x64, 0x69, 0x6f, 0x52, 0x05, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x22, 0x64, 0x0a, 0x23,
+	0x52, 0x65, 0x73, 0x70, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56, 0x6f, 0x69, 0x63, 0x65, 0x4c, 0x6f,
+	0x76, 0x65, 0x72, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x41, 0x75, 0x64, 0x69, 0x74, 0x52, 0x65, 0x61,
+	0x73, 0x6f, 0x6e, 0x12, 0x3d, 0x0a, 0x07, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x73, 0x18, 0x01,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56,
+	0x6f, 0x69, 0x63, 0x65, 0x4c, 0x6f, 0x76, 0x65, 0x72, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x41, 0x75,
+	0x64, 0x69, 0x74, 0x52, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x52, 0x07, 0x72, 0x65, 0x61, 0x73, 0x6f,
+	0x6e, 0x73, 0x22, 0x49, 0x0a, 0x1f, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56, 0x6f, 0x69, 0x63, 0x65,
+	0x4c, 0x6f, 0x76, 0x65, 0x72, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x41, 0x75, 0x64, 0x69, 0x74, 0x52,
+	0x65, 0x61, 0x73, 0x6f, 0x6e, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x42, 0x2b, 0x5a,
+	0x29, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x6c, 0x61, 0x6f,
+	0x6c, 0x61, 0x2d, 0x63, 0x68, 0x61, 0x74, 0x2f, 0x72, 0x62, 0x70, 0x2d, 0x66, 0x75, 0x6e, 0x63,
+	0x74, 0x6f, 0x72, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -429,12 +542,14 @@ func file_voice_lover_admin_proto_rawDescGZIP() []byte {
 	return file_voice_lover_admin_proto_rawDescData
 }
 
-var file_voice_lover_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_voice_lover_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_voice_lover_admin_proto_goTypes = []interface{}{
-	(*AdminVoiceLoverAudio)(nil),           // 0: pb.AdminVoiceLoverAudio
-	(*AdminVoiceLoverAudioEdit)(nil),       // 1: pb.AdminVoiceLoverAudioEdit
-	(*RespAdminVoiceLoverAudioList)(nil),   // 2: pb.RespAdminVoiceLoverAudioList
-	(*RespAdminVoiceLoverAudioDetail)(nil), // 3: pb.RespAdminVoiceLoverAudioDetail
+	(*AdminVoiceLoverAudio)(nil),                // 0: pb.AdminVoiceLoverAudio
+	(*AdminVoiceLoverAudioEdit)(nil),            // 1: pb.AdminVoiceLoverAudioEdit
+	(*RespAdminVoiceLoverAudioList)(nil),        // 2: pb.RespAdminVoiceLoverAudioList
+	(*RespAdminVoiceLoverAudioDetail)(nil),      // 3: pb.RespAdminVoiceLoverAudioDetail
+	(*RespAdminVoiceLoverAudioAuditReason)(nil), // 4: pb.RespAdminVoiceLoverAudioAuditReason
+	(*AdminVoiceLoverAudioAuditReason)(nil),     // 5: pb.AdminVoiceLoverAudioAuditReason
 }
 var file_voice_lover_admin_proto_depIdxs = []int32{
 	1, // 0: pb.AdminVoiceLoverAudio.edit_dubs:type_name -> pb.AdminVoiceLoverAudioEdit
@@ -443,11 +558,12 @@ var file_voice_lover_admin_proto_depIdxs = []int32{
 	1, // 3: pb.AdminVoiceLoverAudio.edit_covers:type_name -> pb.AdminVoiceLoverAudioEdit
 	0, // 4: pb.RespAdminVoiceLoverAudioList.audios:type_name -> pb.AdminVoiceLoverAudio
 	0, // 5: pb.RespAdminVoiceLoverAudioDetail.audio:type_name -> pb.AdminVoiceLoverAudio
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	5, // 6: pb.RespAdminVoiceLoverAudioAuditReason.reasons:type_name -> pb.AdminVoiceLoverAudioAuditReason
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_voice_lover_admin_proto_init() }
@@ -504,6 +620,30 @@ func file_voice_lover_admin_proto_init() {
 				return nil
 			}
 		}
+		file_voice_lover_admin_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespAdminVoiceLoverAudioAuditReason); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_voice_lover_admin_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AdminVoiceLoverAudioAuditReason); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -511,7 +651,7 @@ func file_voice_lover_admin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_voice_lover_admin_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
