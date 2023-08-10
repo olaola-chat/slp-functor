@@ -48,8 +48,8 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 
 // AlbumList
 // @Tags VoiceLover
-// @Summary 获取更多专辑列表
-// @Description 获取更多专辑列表
+// @Summary 获取更多专辑列表 精选&非精选&专题都走该接口
+// @Description 获取更多专辑列表 精选&非精选&专题都走该接口
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
@@ -63,6 +63,44 @@ func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
 		return
 	}
 	OutputCustomData(r, &pb.RespAlbumList{})
+}
+
+// RecUserList
+// @Tags VoiceLover
+// @Summary 获取更多推荐用户接口
+// @Description 获取更多推荐用户接口
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqRecUserList query
+// @Success 200 {object} pb.RespRecUserList
+// @Router /go/func/voice_lover/rec_user_list [get]
+func (a *voiceLoverAPI) RecUserList(r *ghttp.Request) {
+	var req *query.ReqRecUserList
+	if err := r.ParseQuery(&req); err != nil {
+		OutputCustomError(r, consts.ERROR_PARAM)
+		return
+	}
+	OutputCustomData(r, &pb.RespRecUserList{})
+}
+
+// AlbumDetail
+// @Tags VoiceLover
+// @Summary 查看专辑详情
+// @Description 查看专辑详情
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAlbumDetail query
+// @Success 200 {object} pb.RespAlbumDetail
+// @Router /go/func/voice_lover/album_detail [get]
+func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
+	var req *query.ReqAlbumDetail
+	if err := r.ParseQuery(&req); err != nil {
+		OutputCustomError(r, consts.ERROR_PARAM)
+		return
+	}
+	OutputCustomData(r, &pb.RespAlbumDetail{})
 }
 
 // Post
