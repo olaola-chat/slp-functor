@@ -3,7 +3,10 @@ package logic
 import (
 	"context"
 	"strings"
+	"time"
 
+	"github.com/gogf/gf/frame/g"
+	"github.com/olaola-chat/rbp-library/es"
 	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 
 	"github.com/olaola-chat/rbp-functor/rpc/voice_lover/internal/dao"
@@ -79,4 +82,37 @@ func (a *adminLogic) GetAudioDetail(ctx context.Context, id uint64) (*voice_love
 		}
 	}
 	return audio, nil
+}
+
+func (a *adminLogic) UpdateAudio(ctx context.Context, req *voice_lover.ReqUpdateAudio) error {
+	data := g.Map{}
+	if len(req.Title) > 0 {
+		data["title"] = req.Title
+	}
+	if len(req.Desc) > 0 {
+		data["desc"] = req.Desc
+	}
+	if len(req.Labels) > 0 {
+		data["labels"] = req.Labels
+	}
+	data["update_time"] = time.Now().Unix()
+	data["op_uid"] = req.OpUid
+	affect, err := dao.VoiceLoverAudioDao.UpdateAudioById(ctx, req.Id, data)
+	if err != nil {
+		return err
+	}
+	if affect > 0 {
+		delete(data, "update_time")
+		delete(data, "labels")
+		labelsSlice := make([]string, 0)
+		for _, l := range strings.Split(req.Labels, ",") {
+			if len(l) == 0 {
+				continue
+			}
+			labelsSlice = append(labelsSlice, l)
+		}
+		data["labels"] = labelsSlice
+		_ = es.EsClient(es.EsVpc).Update("voice_lover_audio", req.Id, data)
+	}
+	return nil
 }

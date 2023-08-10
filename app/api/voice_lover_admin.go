@@ -131,3 +131,28 @@ func buildAudioEdit(edits []*voice_lover3.AudioEditData, userMap map[uint32]*xia
 	}
 	return editDubs
 }
+
+// AudioUpdate
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAdminVoiceLoverAudioUpdate query
+// @Success 200 {object}
+// @Router /go/func/admin/voice_lover/audio-update [post]
+func (a *voiceLoverAdminApi) AudioUpdate(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverAudioUpdate
+	if err := r.Parse(&req); err != nil {
+		OutputCustomError(r, consts.ERROR_PARAM)
+		return
+	}
+	ctx := r.Context()
+	_, err := voice_lover2.VoiceLoverAdmin.UpdateAudio(ctx, &voice_lover3.ReqUpdateAudio{Id: req.Id, Title: req.Title, Desc: req.Desc, Labels: req.Labels})
+	if err != nil {
+		OutputCustomError(r, consts.ERROR_SYSTEM)
+		return
+	}
+	OutputCustomData(r, nil)
+}
