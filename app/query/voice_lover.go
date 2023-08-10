@@ -19,7 +19,7 @@ type ReqAlbumDetail struct {
 
 type ReqVoiceLoverPost struct {
 	Resource    string //音频资源
-	Seconds     uint32 //音频时长 单位秒
+	Seconds     int32  //音频时长 单位秒
 	Title       string //标题
 	Source      int32  //来源 1:原创 2:搬运
 	Cover       string //封面
@@ -29,5 +29,4 @@ type ReqVoiceLoverPost struct {
 	EditPost    string //编辑后期
 	EditCover   string //编辑封面
 	Labels      string //标签
-	Seconds     int32  //时长
 }
