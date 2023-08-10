@@ -3,7 +3,6 @@ package dao
 import (
 	"context"
 
-	"github.com/gogf/gf/frame/g"
 	"github.com/olaola-chat/rbp-proto/dao/functor"
 	functor2 "github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 )
@@ -29,7 +28,6 @@ func (v *voiceLoverAlbumDao) GetAlbumListByChoice(ctx context.Context, choice ui
 		Offset(offset).
 		Limit(limit).FindAll()
 	if err != nil {
-		g.Log().Errorf("voiceLoverAlbumDao GetAlbumListByChoice FindAll error=%v", err)
 		return nil, err
 	}
 	return list, nil
