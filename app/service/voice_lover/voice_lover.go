@@ -27,17 +27,32 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		list, err := vl_rpc.VoiceLoverMain.GetRecAlbums(ctx, &vl_pb.ReqGetRecAlbums{Uid: 1})
+		// 查询精选撞击
+		list, err := vl_rpc.VoiceLoverMain.GetRecAlbums(ctx, &vl_pb.ReqGetRecAlbums{Uid: uid})
 		if err != nil {
 			g.Log().Errorf("voiceLoverService GetMainData GetRecAlbums error=%v", err)
 			return
 		}
+		albumIds := make([]uint64, 0)
 		for _, v := range list.GetAlbums() {
+			albumIds = append(albumIds, v.Id)
 			res.RecAlbums = append(res.RecAlbums, &pb.AlbumRecData{
 				Id:    v.Id,
 				Title: v.Name,
 				Cover: v.Cover,
 			})
+		}
+		albumAudioCountRes, err := vl_rpc.VoiceLoverMain.BatchGetAlbumAudioCount(ctx, &vl_pb.ReqBatchGetAlbumAudioCount{AlbumIds: albumIds})
+		if err != nil {
+			g.Log().Errorf("voiceLoverService GetMainData BatchGetAlbumAudioCount error=%v", err)
+			return
+		}
+		albumAudioCount := albumAudioCountRes.GetAlbumCounts()
+		for _, v := range res.RecAlbums {
+			if _, ok := albumAudioCount[v.Id]; !ok {
+				continue
+			}
+			v.AudioTotal = albumAudioCount[v.Id]
 		}
 	}()
 	wg.Wait()

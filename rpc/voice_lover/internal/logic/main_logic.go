@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/gogf/gf/database/gdb"
@@ -162,5 +163,24 @@ func (m *mainLogic) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums
 			CreateTime: v.CreateTime,
 		})
 	}
+	return nil
+}
+
+func (m *mainLogic) BatchGetAlbumAudioCount(ctx context.Context, req *vl_pb.ReqBatchGetAlbumAudioCount, reply *vl_pb.ResBatchGetAlbumAudioCount) error {
+	reply.AlbumCounts = make(map[uint64]uint32)
+	wg := sync.WaitGroup{}
+	for _, v := range req.AlbumIds {
+		if _, ok := reply.AlbumCounts[v]; ok {
+			continue
+		}
+		reply.AlbumCounts[v] = 0
+		wg.Add(1)
+		go func(albumId uint64) {
+			defer wg.Done()
+			total, _ := dao.VoiceLoverAudioAlbumDao.GetAudioCountByAlbumId(ctx, albumId)
+			reply.AlbumCounts[albumId] = uint32(total)
+		}(v)
+	}
+	wg.Wait()
 	return nil
 }
