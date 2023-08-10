@@ -92,9 +92,7 @@ func (a *adminLogic) UpdateAudio(ctx context.Context, req *voice_lover.ReqUpdate
 	if len(req.Desc) > 0 {
 		data["desc"] = req.Desc
 	}
-	if len(req.Labels) > 0 {
-		data["labels"] = req.Labels
-	}
+	data["labels"] = req.Labels
 	data["update_time"] = time.Now().Unix()
 	data["op_uid"] = req.OpUid
 	affect, err := dao.VoiceLoverAudioDao.UpdateAudioById(ctx, req.Id, data)
