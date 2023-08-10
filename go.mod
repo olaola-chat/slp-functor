@@ -10,7 +10,7 @@ replace (
 require (
 	github.com/gogf/gf v1.16.9
 	github.com/olaola-chat/rbp-library v0.0.0-20230809093932-5ba4cc1811c7
-	github.com/olaola-chat/rbp-proto v0.0.0-20230809091239-869d15c63281
+	github.com/olaola-chat/rbp-proto v0.0.0-20230810064454-95c0179faf21
 	google.golang.org/protobuf v1.31.0
 )
 
@@ -35,7 +35,6 @@ require (
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-errors/errors v1.0.1 // indirect
 	github.com/go-ping/ping v1.1.0 // indirect
-	github.com/go-redis/redis/extra/rediscmd v0.2.0 // indirect
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/go-task/slim-sprig v0.0.0-20210107165309-348f09dbbbc0 // indirect

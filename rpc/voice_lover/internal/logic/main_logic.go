@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/gogf/gf/database/gdb"
@@ -39,7 +40,7 @@ func (m *mainLogic) Post(ctx context.Context, req *vl_pb.ReqPost, reply *vl_pb.R
 			Resource:   req.Resource,
 			Cover:      req.Cover,
 			From:       uint32(req.Source),
-			PubUid:     req.Uid,
+			PubUid:     uint64(req.Uid),
 			CreateTime: now,
 			UpdateTime: now,
 			Title:      req.Title,
@@ -134,14 +135,14 @@ func buildAudioEsModel(data *functor2.EntityVoiceLoverAudio) *voice_lover2.Voice
 	}
 	esModel := &voice_lover2.VoiceLoverAudioEsModel{
 		Id:          data.Id,
-		PubUid:      data.PubUid,
+		PubUid:      uint32(data.PubUid),
 		Title:       data.Title,
 		Cover:       data.Cover,
 		Desc:        data.Desc,
 		CreateTime:  data.CreateTime,
 		Labels:      labelsSlice,
-		Source:      data.From,
-		AuditStatus: data.AuditStatus,
+		Source:      int32(data.From),
+		AuditStatus: int32(data.AuditStatus),
 		Albums:      []uint64{},
 		HasAlbum:    0,
 		OpUid:       data.OpUid,
@@ -162,5 +163,24 @@ func (m *mainLogic) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums
 			CreateTime: v.CreateTime,
 		})
 	}
+	return nil
+}
+
+func (m *mainLogic) BatchGetAlbumAudioCount(ctx context.Context, req *vl_pb.ReqBatchGetAlbumAudioCount, reply *vl_pb.ResBatchGetAlbumAudioCount) error {
+	reply.AlbumCounts = make(map[uint64]uint32)
+	wg := sync.WaitGroup{}
+	for _, v := range req.AlbumIds {
+		if _, ok := reply.AlbumCounts[v]; ok {
+			continue
+		}
+		reply.AlbumCounts[v] = 0
+		wg.Add(1)
+		go func(albumId uint64) {
+			defer wg.Done()
+			total, _ := dao.VoiceLoverAudioAlbumDao.GetAudioCountByAlbumId(ctx, albumId)
+			reply.AlbumCounts[albumId] = uint32(total)
+		}(v)
+	}
+	wg.Wait()
 	return nil
 }
