@@ -5,7 +5,7 @@ type ReqVoiceLoverMain struct {
 
 type ReqAlbumList struct {
 	Choice    uint32 `v:"choice@required"` // 0-默认 1-精选 99-专题
-	SubjectId uint64 `v:"subject_id"`      // Choice=99的时候，需要传专题id
+	SubjectId uint64 `json:"subject_id"`      // Choice=99的时候，需要传专题id
 	Paginator
 }
 
@@ -55,9 +55,9 @@ type ReqVoiceLoverPost struct {
 	Source      int32  `v:"source@required"`   // 来源 1:原创 2:搬运
 	Cover       string `v:"cover@required"`    // 封面
 	Desc        string `v:"desc@required"`     // 简介
-	EditDub     string `v:"edit_dub"`          // 编辑配音
-	EditContent string `v:"edit_content"`      // 编辑文案
-	EditPost    string `v:"edit_post"`         // 编辑后期
-	EditCover   string `v:"edit_cover"`        // 编辑封面
-	Labels      string `v:"labels"`            // 标签
+	EditDub     string `json:"edit_dub"`          // 编辑配音
+	EditContent string `json:"edit_content"`      // 编辑文案
+	EditPost    string `json:"edit_post"`         // 编辑后期
+	EditCover   string `json:"edit_cover"`        // 编辑封面
+	Labels      string `json:"labels"`            // 标签
 }
