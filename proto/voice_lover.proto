@@ -39,6 +39,12 @@ message AudioInAlbumData {
   string play_stats = 6;  // 音频播放次数
 }
 
+message CommentData {
+  uint64 id = 1;              // 评论唯一标识
+  UserRecData user_info = 2;  // 评论人信息
+  string comment = 3;         // 评论内容
+}
+
 // [url] /go/func/voice_lover/main
 // [desc] 首页
 // [params] 无
@@ -81,6 +87,23 @@ message RespAlbumDetail {
   bool is_collected = 2;                  // 是否收藏
   uint32 comment_count = 3;               // 评论数量
   repeated AudioInAlbumData audios = 4;   // 音频列表
+}
+
+// [url] /go/func/voice_lover/albumComments
+// [desc] 查看专辑评论列表
+// [params]
+//  AlbumId uint32 `v:"album_id@required"` // 专辑id
+message RespAlbumComments {
+  repeated CommentData comments = 1;
+  bool has_more = 2;
+}
+
+// [url] /go/func/voice_lover/commentAlbum
+// [desc] 发表专辑评论
+// [params]
+//  AlbumId uint64 `v:"album_id@required"` // 专辑id
+//	Comment string `v:"comment@required"` // 评论内容
+message RespCommentAlbum {
 }
 
 // [url] /go/func/voice_lover/post

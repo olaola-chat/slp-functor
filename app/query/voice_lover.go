@@ -14,7 +14,17 @@ type ReqRecUserList struct {
 }
 
 type ReqAlbumDetail struct {
-	AlbumId uint32 `v:"album_id@required"` // 专辑id
+	AlbumId uint64 `v:"album_id@required"` // 专辑id
+}
+
+type ReqAlbumComments struct {
+	AlbumId uint64 `v:"album_id@required"` // 专辑id
+	Paginator
+}
+
+type ReqCommentAlbum struct {
+	AlbumId uint64 `v:"album_id@required"` // 专辑id
+	Comment string `v:"comment@required"`  // 评论内容
 }
 
 type ReqVoiceLoverPost struct {
