@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
+	"github.com/olaola-chat/rbp-library/response"
 	context2 "github.com/olaola-chat/rbp-library/server/http/context"
 	"github.com/olaola-chat/rbp-library/server/http/middleware"
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
@@ -32,7 +33,10 @@ type voiceLoverAPI struct {
 func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 	var req *query.ReqVoiceLoverMain
 	if err := r.ParseQuery(&req); err != nil {
-		OutputCustomError(r, consts.ERROR_PARAM)
+		response.Output(r, &pb.RespVoiceLoverMain{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
 		return
 	}
 
@@ -41,10 +45,13 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 	data, err := vl_serv.VoiceLoverService.GetMainData(r.GetCtx(), ctxUser.UID)
 	if err != nil {
 		g.Log().Errorf("voiceLoverAPI Main GetMainData error=%v", err)
-		OutputCustomError(r, consts.ERROR_SYSTEM)
+		response.Output(r, &pb.RespVoiceLoverMain{
+			Success: false,
+			Msg:     consts.ERROR_SYSTEM.Msg(),
+		})
 		return
 	}
-	OutputCustomData(r, data)
+	response.Output(r, data)
 }
 
 // AlbumList
@@ -60,10 +67,13 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
 	var req *query.ReqAlbumList
 	if err := r.ParseQuery(&req); err != nil {
-		OutputCustomError(r, consts.ERROR_PARAM)
+		response.Output(r, &pb.RespAlbumList{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAlbumList{})
+	OutputCustomData(r, &pb.RespAlbumList{Success: true, Msg: ""})
 }
 
 // RecUserList
@@ -79,10 +89,13 @@ func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
 func (a *voiceLoverAPI) RecUserList(r *ghttp.Request) {
 	var req *query.ReqRecUserList
 	if err := r.ParseQuery(&req); err != nil {
-		OutputCustomError(r, consts.ERROR_PARAM)
+		response.Output(r, &pb.RespRecUserList{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
 		return
 	}
-	OutputCustomData(r, &pb.RespRecUserList{})
+	OutputCustomData(r, &pb.RespRecUserList{Success: true, Msg: ""})
 }
 
 // AlbumDetail
@@ -98,10 +111,13 @@ func (a *voiceLoverAPI) RecUserList(r *ghttp.Request) {
 func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
 	var req *query.ReqAlbumDetail
 	if err := r.ParseQuery(&req); err != nil {
-		OutputCustomError(r, consts.ERROR_PARAM)
+		response.Output(r, &pb.RespAlbumDetail{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAlbumDetail{})
+	OutputCustomData(r, &pb.RespAlbumDetail{Success: true, Msg: ""})
 }
 
 // AlbumComments
@@ -117,10 +133,13 @@ func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
 func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
 	var req *query.ReqAlbumComments
 	if err := r.ParseQuery(&req); err != nil {
-		OutputCustomError(r, consts.ERROR_PARAM)
+		response.Output(r, &pb.RespAlbumComments{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAlbumComments{})
+	OutputCustomData(r, &pb.RespAlbumComments{Success: true, Msg: ""})
 }
 
 // CommentAlbum
@@ -136,10 +155,13 @@ func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
 func (a *voiceLoverAPI) CommentAlbum(r *ghttp.Request) {
 	var req *query.ReqCommentAlbum
 	if err := r.ParseQuery(&req); err != nil {
-		OutputCustomError(r, consts.ERROR_PARAM)
+		response.Output(r, &pb.RespCommentAlbum{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
 		return
 	}
-	OutputCustomData(r, &pb.RespCommentAlbum{})
+	OutputCustomData(r, &pb.RespCommentAlbum{Success: true, Msg: ""})
 }
 
 // Post
@@ -155,7 +177,10 @@ func (a *voiceLoverAPI) CommentAlbum(r *ghttp.Request) {
 func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 	var req *query.ReqVoiceLoverPost
 	if err := r.Parse(&req); err != nil {
-		OutputCustomError(r, consts.ERROR_PARAM)
+		response.Output(r, &pb.RespVoiceLoverPost{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
 		return
 	}
 	ctx := r.Context()
@@ -176,8 +201,11 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 	})
 	if err != nil {
 		g.Log().Errorf("VoiceLover Post error, err = %v", err)
-		OutputCustomError(r, consts.ERROR_SYSTEM)
+		response.Output(r, &pb.RespVoiceLoverPost{
+			Success: false,
+			Msg:     consts.ERROR_SYSTEM.Msg(),
+		})
 		return
 	}
-	OutputCustomData(r, &pb.RespVoiceLoverPost{})
+	OutputCustomData(r, &pb.RespVoiceLoverPost{Success: true, Msg: ""})
 }

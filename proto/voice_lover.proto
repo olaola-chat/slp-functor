@@ -12,11 +12,13 @@ import "voice_lover_common.proto";
 // [desc] 首页
 // [params] 无
 message RespVoiceLoverMain {
-  repeated AlbumData rec_albums = 1;
-  repeated BannerData rec_banners = 2;
-  repeated UserData rec_users = 3;
-  repeated SubjectData rec_subjects = 4;
-  repeated AlbumData common_albums = 5;
+  bool success = 1;
+  string msg = 2;
+  repeated AlbumData rec_albums = 3;
+  repeated BannerData rec_banners = 4;
+  repeated UserData rec_users = 5;
+  repeated SubjectData rec_subjects = 6;
+  repeated AlbumData common_albums = 7;
 }
 
 // [url] /go/func/voice_lover/albumList
@@ -27,8 +29,10 @@ message RespVoiceLoverMain {
 //  Page  uint32 `v:"page@integer"`
 //  Limit uint32 `v:"limit@integer|min:10|max:50"`
 message RespAlbumList {
-  repeated AlbumData rec_albums = 1;
-  bool has_more = 2;
+  bool success = 1;
+  string msg = 2;
+  repeated AlbumData rec_albums = 3;
+  bool has_more = 4;
 }
 
 // [url] /go/func/voice_lover/recUserList
@@ -37,8 +41,10 @@ message RespAlbumList {
 //  Page  uint32 `v:"page@integer"`
 //  Limit uint32 `v:"limit@integer|min:10|max:50"`
 message RespRecUserList {
-  repeated UserData rec_users = 1;
-  bool has_more = 2;
+  bool success = 1;
+  string msg = 2;
+  repeated UserData rec_users = 3;
+  bool has_more = 4;
 }
 
 // [url] /go/func/voice_lover/albumDetail
@@ -46,10 +52,12 @@ message RespRecUserList {
 // [params]
 //  AlbumId uint32 `v:"album_id@required"` // 专辑id
 message RespAlbumDetail {
-  AlbumData album = 1;              // 专辑信息
-  bool is_collected = 2;            // 是否收藏
-  uint32 comment_count = 3;         // 评论数量
-  repeated AudioData audios = 4;    // 音频列表
+  bool success = 1;
+  string msg = 2;
+  AlbumData album = 3;              // 专辑信息
+  bool is_collected = 4;            // 是否收藏
+  uint32 comment_count = 5;         // 评论数量
+  repeated AudioData audios = 6;    // 音频列表
 }
 
 // [url] /go/func/voice_lover/albumComments
@@ -57,8 +65,10 @@ message RespAlbumDetail {
 // [params]
 //  AlbumId uint32 `v:"album_id@required"` // 专辑id
 message RespAlbumComments {
-  repeated CommentData comments = 1;
-  bool has_more = 2;
+  bool success = 1;
+  string msg = 2;
+  repeated CommentData comments = 3;
+  bool has_more = 4;
 }
 
 // [url] /go/func/voice_lover/commentAlbum
@@ -67,6 +77,8 @@ message RespAlbumComments {
 //  AlbumId uint64 `v:"album_id@required"` // 专辑id
 //	Comment string `v:"comment@required"` // 评论内容
 message RespCommentAlbum {
+  bool success = 1;
+  string msg = 2;
 }
 
 // [url] /go/func/voice_lover/post
@@ -84,4 +96,6 @@ message RespCommentAlbum {
 //    EditCover   string //编辑封面
 //    Labels      string //标签
 message RespVoiceLoverPost {
+  bool success = 1;
+  string msg = 2;
 }

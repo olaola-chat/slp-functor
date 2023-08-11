@@ -17,6 +17,8 @@ type voiceLoverService struct{}
 
 func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb.RespVoiceLoverMain, error) {
 	res := &pb.RespVoiceLoverMain{
+		Success:      true,
+		Msg:          "",
 		RecAlbums:    make([]*pb.AlbumData, 0),
 		RecBanners:   make([]*pb.BannerData, 0),
 		RecUsers:     make([]*pb.UserData, 0),
