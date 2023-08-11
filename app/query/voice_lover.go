@@ -4,8 +4,8 @@ type ReqVoiceLoverMain struct {
 }
 
 type ReqAlbumList struct {
-	Choice    uint32 `v:"choice@required"` // 0-默认 1-精选 2-专题
-	SubjectId uint64 `v:"subject_id"`      // Choice=2的时候，需要传专题id
+	Choice    uint32 `v:"choice@required"` // 0-默认 1-精选 99-专题
+	SubjectId uint64 `v:"subject_id"`      // Choice=99的时候，需要传专题id
 	Paginator
 }
 
@@ -50,7 +50,7 @@ type ReqCollectVoiceLover struct {
 
 type ReqVoiceLoverPost struct {
 	Resource    string `v:"resource@required"` // 音频资源
-	Seconds     int32  `v:"seconds@required"`  // 音频时长 单位秒
+	Seconds     uint32 `v:"seconds@required"`  // 音频时长 单位秒
 	Title       string `v:"title@required"`    // 标题
 	Source      int32  `v:"source@required"`   // 来源 1:原创 2:搬运
 	Cover       string `v:"cover@required"`    // 封面

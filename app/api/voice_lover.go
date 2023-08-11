@@ -44,7 +44,6 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 	g.Log().Debugf("ctxUser=%+v", ctxUser)
 	data, err := vl_serv.VoiceLoverService.GetMainData(r.GetCtx(), ctxUser.UID)
 	if err != nil {
-		g.Log().Errorf("voiceLoverAPI Main GetMainData error=%v", err)
 		response.Output(r, &pb.RespVoiceLoverMain{
 			Success: false,
 			Msg:     consts.ERROR_SYSTEM.Msg(),
@@ -73,7 +72,15 @@ func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAlbumList{Success: true, Msg: ""})
+	data, err := vl_serv.VoiceLoverService.GetAlbumList(r.GetCtx(), req)
+	if err != nil {
+		response.Output(r, &pb.RespAlbumList{
+			Success: false,
+			Msg:     consts.ERROR_SYSTEM.Msg(),
+		})
+		return
+	}
+	response.Output(r, data)
 }
 
 // RecUserList
