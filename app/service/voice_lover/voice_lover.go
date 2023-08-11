@@ -17,11 +17,11 @@ type voiceLoverService struct{}
 
 func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb.RespVoiceLoverMain, error) {
 	res := &pb.RespVoiceLoverMain{
-		RecAlbums:    make([]*pb.AlbumRecData, 0),
-		RecBanners:   make([]*pb.BannerRecData, 0),
-		RecUsers:     make([]*pb.UserRecData, 0),
-		RecSubjects:  make([]*pb.SubjectRecData, 0),
-		CommonAlbums: make([]*pb.AlbumRecData, 0),
+		RecAlbums:    make([]*pb.AlbumData, 0),
+		RecBanners:   make([]*pb.BannerData, 0),
+		RecUsers:     make([]*pb.UserData, 0),
+		RecSubjects:  make([]*pb.SubjectData, 0),
+		CommonAlbums: make([]*pb.AlbumData, 0),
 	}
 	wg := sync.WaitGroup{}
 	// 获取精选专辑推荐
@@ -34,7 +34,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 			return
 		}
 		for _, v := range recAlbumList.GetAlbums() {
-			res.RecAlbums = append(res.RecAlbums, &pb.AlbumRecData{
+			res.RecAlbums = append(res.RecAlbums, &pb.AlbumData{
 				Id:         v.Id,
 				Title:      v.Name,
 				Cover:      v.Cover,
@@ -52,13 +52,13 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 			return
 		}
 		for _, v := range subjectList.GetSubjects() {
-			subjectData := &pb.SubjectRecData{
+			subjectData := &pb.SubjectData{
 				Id:     v.Id,
 				Title:  v.Name,
-				Albums: make([]*pb.AlbumRecData, 0),
+				Albums: make([]*pb.AlbumData, 0),
 			}
 			for _, albumData := range v.Albums {
-				subjectData.Albums = append(subjectData.Albums, &pb.AlbumRecData{
+				subjectData.Albums = append(subjectData.Albums, &pb.AlbumData{
 					Id:         albumData.Id,
 					Title:      albumData.Name,
 					Cover:      albumData.Cover,
