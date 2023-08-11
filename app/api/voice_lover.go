@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
+	"github.com/olaola-chat/rbp-library/response"
 	context2 "github.com/olaola-chat/rbp-library/server/http/context"
 	"github.com/olaola-chat/rbp-library/server/http/middleware"
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
@@ -32,7 +33,10 @@ type voiceLoverAPI struct {
 func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 	var req *query.ReqVoiceLoverMain
 	if err := r.ParseQuery(&req); err != nil {
-		OutputCustomError(r, consts.ERROR_PARAM)
+		response.Output(r, &pb.RespVoiceLoverMain{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
 		return
 	}
 
@@ -41,10 +45,13 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 	data, err := vl_serv.VoiceLoverService.GetMainData(r.GetCtx(), ctxUser.UID)
 	if err != nil {
 		g.Log().Errorf("voiceLoverAPI Main GetMainData error=%v", err)
-		OutputCustomError(r, consts.ERROR_SYSTEM)
+		response.Output(r, &pb.RespVoiceLoverMain{
+			Success: false,
+			Msg:     consts.ERROR_SYSTEM.Msg(),
+		})
 		return
 	}
-	OutputCustomData(r, data)
+	response.Output(r, data)
 }
 
 // AlbumList
@@ -56,14 +63,17 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAlbumList query
 // @Success 200 {object} pb.RespAlbumList
-// @Router /go/func/voice_lover/album_list [get]
+// @Router /go/func/voice_lover/albumList [get]
 func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
 	var req *query.ReqAlbumList
 	if err := r.ParseQuery(&req); err != nil {
-		OutputCustomError(r, consts.ERROR_PARAM)
+		response.Output(r, &pb.RespAlbumList{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAlbumList{})
+	OutputCustomData(r, &pb.RespAlbumList{Success: true, Msg: ""})
 }
 
 // RecUserList
@@ -75,14 +85,17 @@ func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqRecUserList query
 // @Success 200 {object} pb.RespRecUserList
-// @Router /go/func/voice_lover/rec_user_list [get]
+// @Router /go/func/voice_lover/recUserList [get]
 func (a *voiceLoverAPI) RecUserList(r *ghttp.Request) {
 	var req *query.ReqRecUserList
 	if err := r.ParseQuery(&req); err != nil {
-		OutputCustomError(r, consts.ERROR_PARAM)
+		response.Output(r, &pb.RespRecUserList{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
 		return
 	}
-	OutputCustomData(r, &pb.RespRecUserList{})
+	OutputCustomData(r, &pb.RespRecUserList{Success: true, Msg: ""})
 }
 
 // AlbumDetail
@@ -94,14 +107,149 @@ func (a *voiceLoverAPI) RecUserList(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAlbumDetail query
 // @Success 200 {object} pb.RespAlbumDetail
-// @Router /go/func/voice_lover/album_detail [get]
+// @Router /go/func/voice_lover/albumDetail [get]
 func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
 	var req *query.ReqAlbumDetail
 	if err := r.ParseQuery(&req); err != nil {
-		OutputCustomError(r, consts.ERROR_PARAM)
+		response.Output(r, &pb.RespAlbumDetail{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAlbumDetail{})
+	OutputCustomData(r, &pb.RespAlbumDetail{Success: true, Msg: ""})
+}
+
+// AlbumComments
+// @Tags VoiceLover
+// @Summary 查看专辑评论列表
+// @Description 查看专辑评论列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAlbumComments query
+// @Success 200 {object} pb.RespAlbumComments
+// @Router /go/func/voice_lover/albumComments [get]
+func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
+	var req *query.ReqAlbumComments
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespAlbumComments{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespAlbumComments{Success: true, Msg: ""})
+}
+
+// CommentAlbum
+// @Tags VoiceLover
+// @Summary 发表专辑评论
+// @Description 发表专辑评论
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqCommentAlbum query
+// @Success 200 {object} pb.RespCommentAlbum
+// @Router /go/func/voice_lover/commentAlbum [post]
+func (a *voiceLoverAPI) CommentAlbum(r *ghttp.Request) {
+	var req *query.ReqCommentAlbum
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespCommentAlbum{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespCommentAlbum{Success: true, Msg: ""})
+}
+
+// AudioDetail
+// @Tags VoiceLover
+// @Summary 查看音频详情
+// @Description 查看音频详情
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAudioDetail query
+// @Success 200 {object} pb.RespAudioDetail
+// @Router /go/func/voice_lover/audioDetail [get]
+func (a *voiceLoverAPI) AudioDetail(r *ghttp.Request) {
+	var req *query.ReqAudioDetail
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespAudioDetail{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespAudioDetail{Success: true, Msg: ""})
+}
+
+// AudioComments
+// @Tags VoiceLover
+// @Summary 查看音频评论&弹幕列表
+// @Description 查看音频评论&弹幕列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAudioComments query
+// @Success 200 {object} pb.RespAudioComments
+// @Router /go/func/voice_lover/audioComments [get]
+func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
+	var req *query.ReqAudioComments
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespAudioComments{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespAudioComments{Success: true, Msg: ""})
+}
+
+// CommentAudio
+// @Tags VoiceLover
+// @Summary 发表音频评论
+// @Description 发表音频评论
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqCommentAudio query
+// @Success 200 {object} pb.RespCommentAudio
+// @Router /go/func/voice_lover/commentAudio [post]
+func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
+	var req *query.ReqCommentAudio
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespCommentAudio{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespCommentAudio{Success: true, Msg: ""})
+}
+
+// Collect
+// @Tags VoiceLover
+// @Summary 收藏接口
+// @Description 收藏接口
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqCollectVoiceLover query
+// @Success 200 {object} pb.RespCollectVoiceLover
+// @Router /go/func/voice_lover/collect [post]
+func (a *voiceLoverAPI) Collect(r *ghttp.Request) {
+	var req *query.ReqCollectVoiceLover
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespCollectVoiceLover{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespCollectVoiceLover{Success: true, Msg: ""})
 }
 
 // Post
@@ -117,7 +265,10 @@ func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
 func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 	var req *query.ReqVoiceLoverPost
 	if err := r.Parse(&req); err != nil {
-		OutputCustomError(r, consts.ERROR_PARAM)
+		response.Output(r, &pb.RespVoiceLoverPost{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
 		return
 	}
 	ctx := r.Context()
@@ -138,8 +289,11 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 	})
 	if err != nil {
 		g.Log().Errorf("VoiceLover Post error, err = %v", err)
-		OutputCustomError(r, consts.ERROR_SYSTEM)
+		response.Output(r, &pb.RespVoiceLoverPost{
+			Success: false,
+			Msg:     consts.ERROR_SYSTEM.Msg(),
+		})
 		return
 	}
-	OutputCustomData(r, &pb.RespVoiceLoverPost{})
+	OutputCustomData(r, &pb.RespVoiceLoverPost{Success: true, Msg: ""})
 }

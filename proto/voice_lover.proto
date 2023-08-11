@@ -5,64 +5,149 @@ package pb;
 //目前统一生成到 app/pb 目录下
 option go_package = "github.com/olaola-chat/rbp-functor/app/pb";
 
-message AlbumRecData {
-  uint64 id = 1;            // 专辑id
-  string title = 2;         // 专辑标题
-  string cover = 3;         // 专辑显示封面
-  uint32 audio_total = 4;   // 专辑内音频数量
-  string play_stats = 5;    // 播放量统计，服务端控制显示规则
-}
+import "common.proto";
+import "voice_lover_common.proto";
 
-message BannerRecData {
-  string img_url = 1;       // banner图片资源地址
-  string redirect_url = 2;  // 点击后跳转地址
-}
-
-message UserRecData {
-  uint32 uid = 1;       // 用户uid
-  string avatar = 2;    // 用户头像
-  string name = 3;      // 用户昵称
-}
-
-message SubjectRecData {
-  uint64 id = 1;                      // 专题id
-  string title = 2;                   // 专题名称
-  repeated AlbumRecData albums = 3;   // 专题下专辑列表
-}
-
-message AudioInAlbumData {
-  uint64 id = 1;          // 音频唯一标识
-  string title = 2;       // 音频标题
-  string resource = 3;    // 音频资源
-  string cover = 4;       // 音频封面
-  uint32 seconds = 5;     // 音频时长
-  string play_stats = 6;  // 音频播放次数
-}
-
+// [url] /go/func/voice_lover/main
+// [desc] 首页
+// [params] 无
 message RespVoiceLoverMain {
-  repeated AlbumRecData rec_albums = 1;
-  repeated BannerRecData rec_banners = 2;
-  repeated UserRecData rec_users = 3;
-  repeated SubjectRecData rec_subjects = 4;
-  repeated AlbumRecData common_albums = 5;
+  bool success = 1;
+  string msg = 2;
+  repeated AlbumData rec_albums = 3;
+  repeated BannerData rec_banners = 4;
+  repeated UserData rec_users = 5;
+  repeated SubjectData rec_subjects = 6;
+  repeated AlbumData common_albums = 7;
 }
 
+// [url] /go/func/voice_lover/albumList
+// [desc] 获取更多专辑列表 精选&非精选&专题都走该接口
+// [params]
+//  Choice    uint32 `v:"choice@required"` // 0-默认 1-精选 2-专题
+//	SubjectId uint64 `v:"subject_id"`      // Choice=2的时候，需要传专题id
+//  Page  uint32 `v:"page@integer"`
+//  Limit uint32 `v:"limit@integer|min:10|max:50"`
 message RespAlbumList {
-  repeated AlbumRecData rec_albums = 1;
-  bool has_more = 2;
+  bool success = 1;
+  string msg = 2;
+  repeated AlbumData rec_albums = 3;
+  bool has_more = 4;
 }
 
+// [url] /go/func/voice_lover/recUserList
+// [desc] 更多推荐用户列表
+// [params]
+//  Page  uint32 `v:"page@integer"`
+//  Limit uint32 `v:"limit@integer|min:10|max:50"`
 message RespRecUserList {
-  repeated UserRecData rec_users = 1;
-  bool has_more = 2;
+  bool success = 1;
+  string msg = 2;
+  repeated UserData rec_users = 3;
+  bool has_more = 4;
 }
 
+// [url] /go/func/voice_lover/albumDetail
+// [desc] 查看专辑详情
+// [params]
+//  AlbumId uint32 `v:"album_id@required"` // 专辑id
 message RespAlbumDetail {
-  AlbumRecData album = 1;                 // 专辑信息
-  bool is_collected = 2;                  // 是否收藏
-  uint32 comment_count = 3;               // 评论数量
-  repeated AudioInAlbumData audios = 4;   // 音频列表
+  bool success = 1;
+  string msg = 2;
+  AlbumData album = 3;              // 专辑信息
+  bool is_collected = 4;            // 是否收藏
+  uint32 comment_count = 5;         // 评论数量
+  repeated AudioData audios = 6;    // 音频列表
 }
 
+// [url] /go/func/voice_lover/albumComments
+// [desc] 查看专辑评论列表
+// [params]
+//  AlbumId uint32 `v:"album_id@required"` // 专辑id
+//  Page  uint32 `v:"page@integer"`
+//  Limit uint32 `v:"limit@integer|min:10|max:50"`
+message RespAlbumComments {
+  bool success = 1;
+  string msg = 2;
+  repeated CommentData comments = 3;
+  bool has_more = 4;
+}
+
+// [url] /go/func/voice_lover/commentAlbum
+// [desc] 发表专辑评论
+// [params]
+//  AlbumId uint64 `v:"album_id@required"` // 专辑id
+//	Comment string `v:"comment@required"` // 评论内容
+message RespCommentAlbum {
+  bool success = 1;
+  string msg = 2;
+}
+
+// [url] /go/func/voice_lover/audioDetail
+// [desc] 查看音频详情
+// [params]
+//  AudioId uint32 `v:"audio_id@required"` // 音频id
+message RespAudioDetail {
+  bool success = 1;
+  string msg = 2;
+  AudioData audio = 3;              // 音频信息
+  bool isFollow = 4;                // 是否已关注
+  uint32 room_id = 5;               // 房间id 为0则表示不在房间内
+  bool is_collected = 6;            // 是否收藏
+  uint32 comment_count = 7;         // 评论数量
+  repeated AlbumData audios = 8;    // 音频列表
+}
+
+// [url] /go/func/voice_lover/audioComments
+// [desc] 查看音频评论列表
+// [params]
+//  AlbumId uint64 `v:"album_id@required"` // 音频id
+//	Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
+//  Page  uint32 `v:"page@integer"`
+//  Limit uint32 `v:"limit@integer|min:10|max:50"`
+message RespAudioComments {
+  bool success = 1;
+  string msg = 2;
+  repeated CommentData comments = 3;
+  bool has_more = 4;
+}
+
+// [url] /go/func/voice_lover/commentAlbum
+// [desc] 发表音频评论
+// [params]
+//    AudioId uint64 `v:"audio_id@required"` // 音频id
+//    Comment string `v:"comment@required"`  // 评论内容
+//    Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
+message RespCommentAudio {
+  bool success = 1;
+  string msg = 2;
+}
+
+// [url] /go/func/voice_lover/collect
+// [desc] 收藏 post
+// [params]
+//    Id   uint64 `v:"id@required"`   // 资源id
+//    Type uint32 `v:"type@required"` // 0-专辑 1-音频
+message RespCollectVoiceLover {
+  bool success = 1;
+  string msg = 2;
+}
+
+// [url] /go/func/voice_lover/post
+// [desc] 上传音频资源
+// [params]
+//    Resource    string `v:"resource@required"` // 音频资源
+//    Seconds     int32  `v:"seconds@required"`  // 音频时长 单位秒
+//    Title       string `v:"title@required"`    // 标题
+//    Source      int32  `v:"source@required"`   // 来源 1:原创 2:搬运
+//    Cover       string `v:"cover@required"`    // 封面
+//    Desc        string `v:"desc@required"`     // 简介
+//    EditDub     string `v:"edit_dub"`          // 编辑配音
+//    EditContent string `v:"edit_content"`      // 编辑文案
+//    EditPost    string `v:"edit_post"`         // 编辑后期
+//    EditCover   string `v:"edit_cover"`        // 编辑封面
+//    Labels      string `v:"labels"`            // 标签
 message RespVoiceLoverPost {
+  bool success = 1;
+  string msg = 2;
 }

@@ -20,369 +20,27 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type AlbumRecData struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Id         uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                   // 专辑id
-	Title      string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`                              // 专辑标题
-	Cover      string `protobuf:"bytes,3,opt,name=cover,proto3" json:"cover,omitempty"`                              // 专辑显示封面
-	AudioTotal uint32 `protobuf:"varint,4,opt,name=audio_total,json=audioTotal,proto3" json:"audio_total,omitempty"` // 专辑内音频数量
-	PlayStats  string `protobuf:"bytes,5,opt,name=play_stats,json=playStats,proto3" json:"play_stats,omitempty"`     // 播放量统计，服务端控制显示规则
-}
-
-func (x *AlbumRecData) Reset() {
-	*x = AlbumRecData{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_voice_lover_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *AlbumRecData) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AlbumRecData) ProtoMessage() {}
-
-func (x *AlbumRecData) ProtoReflect() protoreflect.Message {
-	mi := &file_voice_lover_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AlbumRecData.ProtoReflect.Descriptor instead.
-func (*AlbumRecData) Descriptor() ([]byte, []int) {
-	return file_voice_lover_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *AlbumRecData) GetId() uint64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *AlbumRecData) GetTitle() string {
-	if x != nil {
-		return x.Title
-	}
-	return ""
-}
-
-func (x *AlbumRecData) GetCover() string {
-	if x != nil {
-		return x.Cover
-	}
-	return ""
-}
-
-func (x *AlbumRecData) GetAudioTotal() uint32 {
-	if x != nil {
-		return x.AudioTotal
-	}
-	return 0
-}
-
-func (x *AlbumRecData) GetPlayStats() string {
-	if x != nil {
-		return x.PlayStats
-	}
-	return ""
-}
-
-type BannerRecData struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	ImgUrl      string `protobuf:"bytes,1,opt,name=img_url,json=imgUrl,proto3" json:"img_url,omitempty"`                // banner图片资源地址
-	RedirectUrl string `protobuf:"bytes,2,opt,name=redirect_url,json=redirectUrl,proto3" json:"redirect_url,omitempty"` // 点击后跳转地址
-}
-
-func (x *BannerRecData) Reset() {
-	*x = BannerRecData{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_voice_lover_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *BannerRecData) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*BannerRecData) ProtoMessage() {}
-
-func (x *BannerRecData) ProtoReflect() protoreflect.Message {
-	mi := &file_voice_lover_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use BannerRecData.ProtoReflect.Descriptor instead.
-func (*BannerRecData) Descriptor() ([]byte, []int) {
-	return file_voice_lover_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *BannerRecData) GetImgUrl() string {
-	if x != nil {
-		return x.ImgUrl
-	}
-	return ""
-}
-
-func (x *BannerRecData) GetRedirectUrl() string {
-	if x != nil {
-		return x.RedirectUrl
-	}
-	return ""
-}
-
-type UserRecData struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Uid    uint32 `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`      // 用户uid
-	Avatar string `protobuf:"bytes,2,opt,name=avatar,proto3" json:"avatar,omitempty"` // 用户头像
-	Name   string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`     // 用户昵称
-}
-
-func (x *UserRecData) Reset() {
-	*x = UserRecData{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_voice_lover_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *UserRecData) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UserRecData) ProtoMessage() {}
-
-func (x *UserRecData) ProtoReflect() protoreflect.Message {
-	mi := &file_voice_lover_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UserRecData.ProtoReflect.Descriptor instead.
-func (*UserRecData) Descriptor() ([]byte, []int) {
-	return file_voice_lover_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *UserRecData) GetUid() uint32 {
-	if x != nil {
-		return x.Uid
-	}
-	return 0
-}
-
-func (x *UserRecData) GetAvatar() string {
-	if x != nil {
-		return x.Avatar
-	}
-	return ""
-}
-
-func (x *UserRecData) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-type SubjectRecData struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Id     uint64          `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`        // 专题id
-	Title  string          `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`   // 专题名称
-	Albums []*AlbumRecData `protobuf:"bytes,3,rep,name=albums,proto3" json:"albums,omitempty"` // 专题下专辑列表
-}
-
-func (x *SubjectRecData) Reset() {
-	*x = SubjectRecData{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_voice_lover_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *SubjectRecData) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SubjectRecData) ProtoMessage() {}
-
-func (x *SubjectRecData) ProtoReflect() protoreflect.Message {
-	mi := &file_voice_lover_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SubjectRecData.ProtoReflect.Descriptor instead.
-func (*SubjectRecData) Descriptor() ([]byte, []int) {
-	return file_voice_lover_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *SubjectRecData) GetId() uint64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *SubjectRecData) GetTitle() string {
-	if x != nil {
-		return x.Title
-	}
-	return ""
-}
-
-func (x *SubjectRecData) GetAlbums() []*AlbumRecData {
-	if x != nil {
-		return x.Albums
-	}
-	return nil
-}
-
-type AudioInAlbumData struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Id        uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                               // 音频唯一标识
-	Title     string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`                          // 音频标题
-	Resource  string `protobuf:"bytes,3,opt,name=resource,proto3" json:"resource,omitempty"`                    // 音频资源
-	Cover     string `protobuf:"bytes,4,opt,name=cover,proto3" json:"cover,omitempty"`                          // 音频封面
-	Seconds   uint32 `protobuf:"varint,5,opt,name=seconds,proto3" json:"seconds,omitempty"`                     // 音频时长
-	PlayStats string `protobuf:"bytes,6,opt,name=play_stats,json=playStats,proto3" json:"play_stats,omitempty"` // 音频播放次数
-}
-
-func (x *AudioInAlbumData) Reset() {
-	*x = AudioInAlbumData{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_voice_lover_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *AudioInAlbumData) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AudioInAlbumData) ProtoMessage() {}
-
-func (x *AudioInAlbumData) ProtoReflect() protoreflect.Message {
-	mi := &file_voice_lover_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AudioInAlbumData.ProtoReflect.Descriptor instead.
-func (*AudioInAlbumData) Descriptor() ([]byte, []int) {
-	return file_voice_lover_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *AudioInAlbumData) GetId() uint64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *AudioInAlbumData) GetTitle() string {
-	if x != nil {
-		return x.Title
-	}
-	return ""
-}
-
-func (x *AudioInAlbumData) GetResource() string {
-	if x != nil {
-		return x.Resource
-	}
-	return ""
-}
-
-func (x *AudioInAlbumData) GetCover() string {
-	if x != nil {
-		return x.Cover
-	}
-	return ""
-}
-
-func (x *AudioInAlbumData) GetSeconds() uint32 {
-	if x != nil {
-		return x.Seconds
-	}
-	return 0
-}
-
-func (x *AudioInAlbumData) GetPlayStats() string {
-	if x != nil {
-		return x.PlayStats
-	}
-	return ""
-}
-
+// [url] /go/func/voice_lover/main
+// [desc] 首页
+// [params] 无
 type RespVoiceLoverMain struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	RecAlbums    []*AlbumRecData   `protobuf:"bytes,1,rep,name=rec_albums,json=recAlbums,proto3" json:"rec_albums,omitempty"`
-	RecBanners   []*BannerRecData  `protobuf:"bytes,2,rep,name=rec_banners,json=recBanners,proto3" json:"rec_banners,omitempty"`
-	RecUsers     []*UserRecData    `protobuf:"bytes,3,rep,name=rec_users,json=recUsers,proto3" json:"rec_users,omitempty"`
-	RecSubjects  []*SubjectRecData `protobuf:"bytes,4,rep,name=rec_subjects,json=recSubjects,proto3" json:"rec_subjects,omitempty"`
-	CommonAlbums []*AlbumRecData   `protobuf:"bytes,5,rep,name=common_albums,json=commonAlbums,proto3" json:"common_albums,omitempty"`
+	Success      bool           `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg          string         `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	RecAlbums    []*AlbumData   `protobuf:"bytes,3,rep,name=rec_albums,json=recAlbums,proto3" json:"rec_albums,omitempty"`
+	RecBanners   []*BannerData  `protobuf:"bytes,4,rep,name=rec_banners,json=recBanners,proto3" json:"rec_banners,omitempty"`
+	RecUsers     []*UserData    `protobuf:"bytes,5,rep,name=rec_users,json=recUsers,proto3" json:"rec_users,omitempty"`
+	RecSubjects  []*SubjectData `protobuf:"bytes,6,rep,name=rec_subjects,json=recSubjects,proto3" json:"rec_subjects,omitempty"`
+	CommonAlbums []*AlbumData   `protobuf:"bytes,7,rep,name=common_albums,json=commonAlbums,proto3" json:"common_albums,omitempty"`
 }
 
 func (x *RespVoiceLoverMain) Reset() {
 	*x = RespVoiceLoverMain{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_voice_lover_proto_msgTypes[5]
+		mi := &file_voice_lover_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -395,7 +53,7 @@ func (x *RespVoiceLoverMain) String() string {
 func (*RespVoiceLoverMain) ProtoMessage() {}
 
 func (x *RespVoiceLoverMain) ProtoReflect() protoreflect.Message {
-	mi := &file_voice_lover_proto_msgTypes[5]
+	mi := &file_voice_lover_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -408,57 +66,81 @@ func (x *RespVoiceLoverMain) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RespVoiceLoverMain.ProtoReflect.Descriptor instead.
 func (*RespVoiceLoverMain) Descriptor() ([]byte, []int) {
-	return file_voice_lover_proto_rawDescGZIP(), []int{5}
+	return file_voice_lover_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *RespVoiceLoverMain) GetRecAlbums() []*AlbumRecData {
+func (x *RespVoiceLoverMain) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespVoiceLoverMain) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *RespVoiceLoverMain) GetRecAlbums() []*AlbumData {
 	if x != nil {
 		return x.RecAlbums
 	}
 	return nil
 }
 
-func (x *RespVoiceLoverMain) GetRecBanners() []*BannerRecData {
+func (x *RespVoiceLoverMain) GetRecBanners() []*BannerData {
 	if x != nil {
 		return x.RecBanners
 	}
 	return nil
 }
 
-func (x *RespVoiceLoverMain) GetRecUsers() []*UserRecData {
+func (x *RespVoiceLoverMain) GetRecUsers() []*UserData {
 	if x != nil {
 		return x.RecUsers
 	}
 	return nil
 }
 
-func (x *RespVoiceLoverMain) GetRecSubjects() []*SubjectRecData {
+func (x *RespVoiceLoverMain) GetRecSubjects() []*SubjectData {
 	if x != nil {
 		return x.RecSubjects
 	}
 	return nil
 }
 
-func (x *RespVoiceLoverMain) GetCommonAlbums() []*AlbumRecData {
+func (x *RespVoiceLoverMain) GetCommonAlbums() []*AlbumData {
 	if x != nil {
 		return x.CommonAlbums
 	}
 	return nil
 }
 
+// [url] /go/func/voice_lover/albumList
+// [desc] 获取更多专辑列表 精选&非精选&专题都走该接口
+// [params]
+//
+//	 Choice    uint32 `v:"choice@required"` // 0-默认 1-精选 2-专题
+//		SubjectId uint64 `v:"subject_id"`      // Choice=2的时候，需要传专题id
+//	 Page  uint32 `v:"page@integer"`
+//	 Limit uint32 `v:"limit@integer|min:10|max:50"`
 type RespAlbumList struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	RecAlbums []*AlbumRecData `protobuf:"bytes,1,rep,name=rec_albums,json=recAlbums,proto3" json:"rec_albums,omitempty"`
-	HasMore   bool            `protobuf:"varint,2,opt,name=has_more,json=hasMore,proto3" json:"has_more,omitempty"`
+	Success   bool         `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg       string       `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	RecAlbums []*AlbumData `protobuf:"bytes,3,rep,name=rec_albums,json=recAlbums,proto3" json:"rec_albums,omitempty"`
+	HasMore   bool         `protobuf:"varint,4,opt,name=has_more,json=hasMore,proto3" json:"has_more,omitempty"`
 }
 
 func (x *RespAlbumList) Reset() {
 	*x = RespAlbumList{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_voice_lover_proto_msgTypes[6]
+		mi := &file_voice_lover_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -471,7 +153,7 @@ func (x *RespAlbumList) String() string {
 func (*RespAlbumList) ProtoMessage() {}
 
 func (x *RespAlbumList) ProtoReflect() protoreflect.Message {
-	mi := &file_voice_lover_proto_msgTypes[6]
+	mi := &file_voice_lover_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -484,10 +166,24 @@ func (x *RespAlbumList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RespAlbumList.ProtoReflect.Descriptor instead.
 func (*RespAlbumList) Descriptor() ([]byte, []int) {
-	return file_voice_lover_proto_rawDescGZIP(), []int{6}
+	return file_voice_lover_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *RespAlbumList) GetRecAlbums() []*AlbumRecData {
+func (x *RespAlbumList) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespAlbumList) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *RespAlbumList) GetRecAlbums() []*AlbumData {
 	if x != nil {
 		return x.RecAlbums
 	}
@@ -501,19 +197,27 @@ func (x *RespAlbumList) GetHasMore() bool {
 	return false
 }
 
+// [url] /go/func/voice_lover/recUserList
+// [desc] 更多推荐用户列表
+// [params]
+//
+//	Page  uint32 `v:"page@integer"`
+//	Limit uint32 `v:"limit@integer|min:10|max:50"`
 type RespRecUserList struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	RecUsers []*UserRecData `protobuf:"bytes,1,rep,name=rec_users,json=recUsers,proto3" json:"rec_users,omitempty"`
-	HasMore  bool           `protobuf:"varint,2,opt,name=has_more,json=hasMore,proto3" json:"has_more,omitempty"`
+	Success  bool        `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg      string      `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	RecUsers []*UserData `protobuf:"bytes,3,rep,name=rec_users,json=recUsers,proto3" json:"rec_users,omitempty"`
+	HasMore  bool        `protobuf:"varint,4,opt,name=has_more,json=hasMore,proto3" json:"has_more,omitempty"`
 }
 
 func (x *RespRecUserList) Reset() {
 	*x = RespRecUserList{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_voice_lover_proto_msgTypes[7]
+		mi := &file_voice_lover_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -526,7 +230,7 @@ func (x *RespRecUserList) String() string {
 func (*RespRecUserList) ProtoMessage() {}
 
 func (x *RespRecUserList) ProtoReflect() protoreflect.Message {
-	mi := &file_voice_lover_proto_msgTypes[7]
+	mi := &file_voice_lover_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -539,10 +243,24 @@ func (x *RespRecUserList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RespRecUserList.ProtoReflect.Descriptor instead.
 func (*RespRecUserList) Descriptor() ([]byte, []int) {
-	return file_voice_lover_proto_rawDescGZIP(), []int{7}
+	return file_voice_lover_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *RespRecUserList) GetRecUsers() []*UserRecData {
+func (x *RespRecUserList) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespRecUserList) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *RespRecUserList) GetRecUsers() []*UserData {
 	if x != nil {
 		return x.RecUsers
 	}
@@ -556,21 +274,28 @@ func (x *RespRecUserList) GetHasMore() bool {
 	return false
 }
 
+// [url] /go/func/voice_lover/albumDetail
+// [desc] 查看专辑详情
+// [params]
+//
+//	AlbumId uint32 `v:"album_id@required"` // 专辑id
 type RespAlbumDetail struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Album        *AlbumRecData       `protobuf:"bytes,1,opt,name=album,proto3" json:"album,omitempty"`                                    // 专辑信息
-	IsCollected  bool                `protobuf:"varint,2,opt,name=is_collected,json=isCollected,proto3" json:"is_collected,omitempty"`    // 是否收藏
-	CommentCount uint32              `protobuf:"varint,3,opt,name=comment_count,json=commentCount,proto3" json:"comment_count,omitempty"` // 评论数量
-	Audios       []*AudioInAlbumData `protobuf:"bytes,4,rep,name=audios,proto3" json:"audios,omitempty"`                                  // 音频列表
+	Success      bool         `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg          string       `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	Album        *AlbumData   `protobuf:"bytes,3,opt,name=album,proto3" json:"album,omitempty"`                                    // 专辑信息
+	IsCollected  bool         `protobuf:"varint,4,opt,name=is_collected,json=isCollected,proto3" json:"is_collected,omitempty"`    // 是否收藏
+	CommentCount uint32       `protobuf:"varint,5,opt,name=comment_count,json=commentCount,proto3" json:"comment_count,omitempty"` // 评论数量
+	Audios       []*AudioData `protobuf:"bytes,6,rep,name=audios,proto3" json:"audios,omitempty"`                                  // 音频列表
 }
 
 func (x *RespAlbumDetail) Reset() {
 	*x = RespAlbumDetail{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_voice_lover_proto_msgTypes[8]
+		mi := &file_voice_lover_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -583,7 +308,7 @@ func (x *RespAlbumDetail) String() string {
 func (*RespAlbumDetail) ProtoMessage() {}
 
 func (x *RespAlbumDetail) ProtoReflect() protoreflect.Message {
-	mi := &file_voice_lover_proto_msgTypes[8]
+	mi := &file_voice_lover_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -596,10 +321,24 @@ func (x *RespAlbumDetail) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RespAlbumDetail.ProtoReflect.Descriptor instead.
 func (*RespAlbumDetail) Descriptor() ([]byte, []int) {
-	return file_voice_lover_proto_rawDescGZIP(), []int{8}
+	return file_voice_lover_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *RespAlbumDetail) GetAlbum() *AlbumRecData {
+func (x *RespAlbumDetail) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespAlbumDetail) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *RespAlbumDetail) GetAlbum() *AlbumData {
 	if x != nil {
 		return x.Album
 	}
@@ -620,23 +359,490 @@ func (x *RespAlbumDetail) GetCommentCount() uint32 {
 	return 0
 }
 
-func (x *RespAlbumDetail) GetAudios() []*AudioInAlbumData {
+func (x *RespAlbumDetail) GetAudios() []*AudioData {
 	if x != nil {
 		return x.Audios
 	}
 	return nil
 }
 
+// [url] /go/func/voice_lover/albumComments
+// [desc] 查看专辑评论列表
+// [params]
+//
+//	AlbumId uint32 `v:"album_id@required"` // 专辑id
+//	Page  uint32 `v:"page@integer"`
+//	Limit uint32 `v:"limit@integer|min:10|max:50"`
+type RespAlbumComments struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success  bool           `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg      string         `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	Comments []*CommentData `protobuf:"bytes,3,rep,name=comments,proto3" json:"comments,omitempty"`
+	HasMore  bool           `protobuf:"varint,4,opt,name=has_more,json=hasMore,proto3" json:"has_more,omitempty"`
+}
+
+func (x *RespAlbumComments) Reset() {
+	*x = RespAlbumComments{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespAlbumComments) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespAlbumComments) ProtoMessage() {}
+
+func (x *RespAlbumComments) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespAlbumComments.ProtoReflect.Descriptor instead.
+func (*RespAlbumComments) Descriptor() ([]byte, []int) {
+	return file_voice_lover_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *RespAlbumComments) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespAlbumComments) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *RespAlbumComments) GetComments() []*CommentData {
+	if x != nil {
+		return x.Comments
+	}
+	return nil
+}
+
+func (x *RespAlbumComments) GetHasMore() bool {
+	if x != nil {
+		return x.HasMore
+	}
+	return false
+}
+
+// [url] /go/func/voice_lover/commentAlbum
+// [desc] 发表专辑评论
+// [params]
+//
+//	 AlbumId uint64 `v:"album_id@required"` // 专辑id
+//		Comment string `v:"comment@required"` // 评论内容
+type RespCommentAlbum struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success bool   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg     string `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+}
+
+func (x *RespCommentAlbum) Reset() {
+	*x = RespCommentAlbum{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespCommentAlbum) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespCommentAlbum) ProtoMessage() {}
+
+func (x *RespCommentAlbum) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespCommentAlbum.ProtoReflect.Descriptor instead.
+func (*RespCommentAlbum) Descriptor() ([]byte, []int) {
+	return file_voice_lover_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *RespCommentAlbum) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespCommentAlbum) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+// [url] /go/func/voice_lover/audioDetail
+// [desc] 查看音频详情
+// [params]
+//
+//	AudioId uint32 `v:"audio_id@required"` // 音频id
+type RespAudioDetail struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success      bool         `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg          string       `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	Audio        *AudioData   `protobuf:"bytes,3,opt,name=audio,proto3" json:"audio,omitempty"`                                    // 音频信息
+	IsFollow     bool         `protobuf:"varint,4,opt,name=isFollow,proto3" json:"isFollow,omitempty"`                             // 是否已关注
+	RoomId       uint32       `protobuf:"varint,5,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`                   // 房间id 为0则表示不在房间内
+	IsCollected  bool         `protobuf:"varint,6,opt,name=is_collected,json=isCollected,proto3" json:"is_collected,omitempty"`    // 是否收藏
+	CommentCount uint32       `protobuf:"varint,7,opt,name=comment_count,json=commentCount,proto3" json:"comment_count,omitempty"` // 评论数量
+	Audios       []*AlbumData `protobuf:"bytes,8,rep,name=audios,proto3" json:"audios,omitempty"`                                  // 音频列表
+}
+
+func (x *RespAudioDetail) Reset() {
+	*x = RespAudioDetail{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespAudioDetail) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespAudioDetail) ProtoMessage() {}
+
+func (x *RespAudioDetail) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespAudioDetail.ProtoReflect.Descriptor instead.
+func (*RespAudioDetail) Descriptor() ([]byte, []int) {
+	return file_voice_lover_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *RespAudioDetail) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespAudioDetail) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *RespAudioDetail) GetAudio() *AudioData {
+	if x != nil {
+		return x.Audio
+	}
+	return nil
+}
+
+func (x *RespAudioDetail) GetIsFollow() bool {
+	if x != nil {
+		return x.IsFollow
+	}
+	return false
+}
+
+func (x *RespAudioDetail) GetRoomId() uint32 {
+	if x != nil {
+		return x.RoomId
+	}
+	return 0
+}
+
+func (x *RespAudioDetail) GetIsCollected() bool {
+	if x != nil {
+		return x.IsCollected
+	}
+	return false
+}
+
+func (x *RespAudioDetail) GetCommentCount() uint32 {
+	if x != nil {
+		return x.CommentCount
+	}
+	return 0
+}
+
+func (x *RespAudioDetail) GetAudios() []*AlbumData {
+	if x != nil {
+		return x.Audios
+	}
+	return nil
+}
+
+// [url] /go/func/voice_lover/audioComments
+// [desc] 查看音频评论列表
+// [params]
+//
+//	 AlbumId uint64 `v:"album_id@required"` // 音频id
+//		Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
+//	 Page  uint32 `v:"page@integer"`
+//	 Limit uint32 `v:"limit@integer|min:10|max:50"`
+type RespAudioComments struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success  bool           `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg      string         `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	Comments []*CommentData `protobuf:"bytes,3,rep,name=comments,proto3" json:"comments,omitempty"`
+	HasMore  bool           `protobuf:"varint,4,opt,name=has_more,json=hasMore,proto3" json:"has_more,omitempty"`
+}
+
+func (x *RespAudioComments) Reset() {
+	*x = RespAudioComments{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespAudioComments) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespAudioComments) ProtoMessage() {}
+
+func (x *RespAudioComments) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespAudioComments.ProtoReflect.Descriptor instead.
+func (*RespAudioComments) Descriptor() ([]byte, []int) {
+	return file_voice_lover_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *RespAudioComments) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespAudioComments) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *RespAudioComments) GetComments() []*CommentData {
+	if x != nil {
+		return x.Comments
+	}
+	return nil
+}
+
+func (x *RespAudioComments) GetHasMore() bool {
+	if x != nil {
+		return x.HasMore
+	}
+	return false
+}
+
+// [url] /go/func/voice_lover/commentAlbum
+// [desc] 发表音频评论
+// [params]
+//
+//	AudioId uint64 `v:"audio_id@required"` // 音频id
+//	Comment string `v:"comment@required"`  // 评论内容
+//	Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
+type RespCommentAudio struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success bool   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg     string `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+}
+
+func (x *RespCommentAudio) Reset() {
+	*x = RespCommentAudio{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespCommentAudio) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespCommentAudio) ProtoMessage() {}
+
+func (x *RespCommentAudio) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespCommentAudio.ProtoReflect.Descriptor instead.
+func (*RespCommentAudio) Descriptor() ([]byte, []int) {
+	return file_voice_lover_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *RespCommentAudio) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespCommentAudio) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+// [url] /go/func/voice_lover/collect
+// [desc] 收藏 post
+// [params]
+//
+//	Id   uint64 `v:"id@required"`   // 资源id
+//	Type uint32 `v:"type@required"` // 0-专辑 1-音频
+type RespCollectVoiceLover struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success bool   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg     string `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+}
+
+func (x *RespCollectVoiceLover) Reset() {
+	*x = RespCollectVoiceLover{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespCollectVoiceLover) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespCollectVoiceLover) ProtoMessage() {}
+
+func (x *RespCollectVoiceLover) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespCollectVoiceLover.ProtoReflect.Descriptor instead.
+func (*RespCollectVoiceLover) Descriptor() ([]byte, []int) {
+	return file_voice_lover_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *RespCollectVoiceLover) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespCollectVoiceLover) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+// [url] /go/func/voice_lover/post
+// [desc] 上传音频资源
+// [params]
+//
+//	Resource    string `v:"resource@required"` // 音频资源
+//	Seconds     int32  `v:"seconds@required"`  // 音频时长 单位秒
+//	Title       string `v:"title@required"`    // 标题
+//	Source      int32  `v:"source@required"`   // 来源 1:原创 2:搬运
+//	Cover       string `v:"cover@required"`    // 封面
+//	Desc        string `v:"desc@required"`     // 简介
+//	EditDub     string `v:"edit_dub"`          // 编辑配音
+//	EditContent string `v:"edit_content"`      // 编辑文案
+//	EditPost    string `v:"edit_post"`         // 编辑后期
+//	EditCover   string `v:"edit_cover"`        // 编辑封面
+//	Labels      string `v:"labels"`            // 标签
 type RespVoiceLoverPost struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	Success bool   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg     string `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
 }
 
 func (x *RespVoiceLoverPost) Reset() {
 	*x = RespVoiceLoverPost{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_voice_lover_proto_msgTypes[9]
+		mi := &file_voice_lover_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -649,7 +855,7 @@ func (x *RespVoiceLoverPost) String() string {
 func (*RespVoiceLoverPost) ProtoMessage() {}
 
 func (x *RespVoiceLoverPost) ProtoReflect() protoreflect.Message {
-	mi := &file_voice_lover_proto_msgTypes[9]
+	mi := &file_voice_lover_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -662,94 +868,133 @@ func (x *RespVoiceLoverPost) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RespVoiceLoverPost.ProtoReflect.Descriptor instead.
 func (*RespVoiceLoverPost) Descriptor() ([]byte, []int) {
-	return file_voice_lover_proto_rawDescGZIP(), []int{9}
+	return file_voice_lover_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *RespVoiceLoverPost) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespVoiceLoverPost) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
 }
 
 var File_voice_lover_proto protoreflect.FileDescriptor
 
 var file_voice_lover_proto_rawDesc = []byte{
 	0x0a, 0x11, 0x76, 0x6f, 0x69, 0x63, 0x65, 0x5f, 0x6c, 0x6f, 0x76, 0x65, 0x72, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x12, 0x02, 0x70, 0x62, 0x22, 0x8a, 0x01, 0x0a, 0x0c, 0x41, 0x6c, 0x62, 0x75,
-	0x6d, 0x52, 0x65, 0x63, 0x44, 0x61, 0x74, 0x61, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x69, 0x74, 0x6c,
-	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x12, 0x14,
-	0x0a, 0x05, 0x63, 0x6f, 0x76, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x63,
-	0x6f, 0x76, 0x65, 0x72, 0x12, 0x1f, 0x0a, 0x0b, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x5f, 0x74, 0x6f,
-	0x74, 0x61, 0x6c, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x0a, 0x61, 0x75, 0x64, 0x69, 0x6f,
-	0x54, 0x6f, 0x74, 0x61, 0x6c, 0x12, 0x1d, 0x0a, 0x0a, 0x70, 0x6c, 0x61, 0x79, 0x5f, 0x73, 0x74,
-	0x61, 0x74, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x6c, 0x61, 0x79, 0x53,
-	0x74, 0x61, 0x74, 0x73, 0x22, 0x4b, 0x0a, 0x0d, 0x42, 0x61, 0x6e, 0x6e, 0x65, 0x72, 0x52, 0x65,
-	0x63, 0x44, 0x61, 0x74, 0x61, 0x12, 0x17, 0x0a, 0x07, 0x69, 0x6d, 0x67, 0x5f, 0x75, 0x72, 0x6c,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x69, 0x6d, 0x67, 0x55, 0x72, 0x6c, 0x12, 0x21,
-	0x0a, 0x0c, 0x72, 0x65, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x5f, 0x75, 0x72, 0x6c, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x72, 0x65, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x55, 0x72,
-	0x6c, 0x22, 0x4b, 0x0a, 0x0b, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x63, 0x44, 0x61, 0x74, 0x61,
-	0x12, 0x10, 0x0a, 0x03, 0x75, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x03, 0x75,
-	0x69, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x76, 0x61, 0x74, 0x61, 0x72, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x06, 0x61, 0x76, 0x61, 0x74, 0x61, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61,
-	0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x60,
-	0x0a, 0x0e, 0x53, 0x75, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x52, 0x65, 0x63, 0x44, 0x61, 0x74, 0x61,
-	0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64,
-	0x12, 0x14, 0x0a, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x12, 0x28, 0x0a, 0x06, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x73,
-	0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x6c, 0x62, 0x75,
-	0x6d, 0x52, 0x65, 0x63, 0x44, 0x61, 0x74, 0x61, 0x52, 0x06, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x73,
-	0x22, 0xa3, 0x01, 0x0a, 0x10, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x49, 0x6e, 0x41, 0x6c, 0x62, 0x75,
-	0x6d, 0x44, 0x61, 0x74, 0x61, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x72,
-	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x72,
-	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x6f, 0x76, 0x65, 0x72,
-	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x63, 0x6f, 0x76, 0x65, 0x72, 0x12, 0x18, 0x0a,
-	0x07, 0x73, 0x65, 0x63, 0x6f, 0x6e, 0x64, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x07,
-	0x73, 0x65, 0x63, 0x6f, 0x6e, 0x64, 0x73, 0x12, 0x1d, 0x0a, 0x0a, 0x70, 0x6c, 0x61, 0x79, 0x5f,
-	0x73, 0x74, 0x61, 0x74, 0x73, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x6c, 0x61,
-	0x79, 0x53, 0x74, 0x61, 0x74, 0x73, 0x22, 0x95, 0x02, 0x0a, 0x12, 0x52, 0x65, 0x73, 0x70, 0x56,
-	0x6f, 0x69, 0x63, 0x65, 0x4c, 0x6f, 0x76, 0x65, 0x72, 0x4d, 0x61, 0x69, 0x6e, 0x12, 0x2f, 0x0a,
-	0x0a, 0x72, 0x65, 0x63, 0x5f, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
-	0x0b, 0x32, 0x10, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x52, 0x65, 0x63, 0x44,
-	0x61, 0x74, 0x61, 0x52, 0x09, 0x72, 0x65, 0x63, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x73, 0x12, 0x32,
-	0x0a, 0x0b, 0x72, 0x65, 0x63, 0x5f, 0x62, 0x61, 0x6e, 0x6e, 0x65, 0x72, 0x73, 0x18, 0x02, 0x20,
-	0x03, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x70, 0x62, 0x2e, 0x42, 0x61, 0x6e, 0x6e, 0x65, 0x72, 0x52,
-	0x65, 0x63, 0x44, 0x61, 0x74, 0x61, 0x52, 0x0a, 0x72, 0x65, 0x63, 0x42, 0x61, 0x6e, 0x6e, 0x65,
-	0x72, 0x73, 0x12, 0x2c, 0x0a, 0x09, 0x72, 0x65, 0x63, 0x5f, 0x75, 0x73, 0x65, 0x72, 0x73, 0x18,
-	0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52,
-	0x65, 0x63, 0x44, 0x61, 0x74, 0x61, 0x52, 0x08, 0x72, 0x65, 0x63, 0x55, 0x73, 0x65, 0x72, 0x73,
-	0x12, 0x35, 0x0a, 0x0c, 0x72, 0x65, 0x63, 0x5f, 0x73, 0x75, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x73,
-	0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x70, 0x62, 0x2e, 0x53, 0x75, 0x62, 0x6a,
-	0x65, 0x63, 0x74, 0x52, 0x65, 0x63, 0x44, 0x61, 0x74, 0x61, 0x52, 0x0b, 0x72, 0x65, 0x63, 0x53,
-	0x75, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x73, 0x12, 0x35, 0x0a, 0x0d, 0x63, 0x6f, 0x6d, 0x6d, 0x6f,
-	0x6e, 0x5f, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10,
-	0x2e, 0x70, 0x62, 0x2e, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x52, 0x65, 0x63, 0x44, 0x61, 0x74, 0x61,
-	0x52, 0x0c, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x73, 0x22, 0x5b,
-	0x0a, 0x0d, 0x52, 0x65, 0x73, 0x70, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x4c, 0x69, 0x73, 0x74, 0x12,
-	0x2f, 0x0a, 0x0a, 0x72, 0x65, 0x63, 0x5f, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x73, 0x18, 0x01, 0x20,
-	0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x52, 0x65,
-	0x63, 0x44, 0x61, 0x74, 0x61, 0x52, 0x09, 0x72, 0x65, 0x63, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x73,
-	0x12, 0x19, 0x0a, 0x08, 0x68, 0x61, 0x73, 0x5f, 0x6d, 0x6f, 0x72, 0x65, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x08, 0x52, 0x07, 0x68, 0x61, 0x73, 0x4d, 0x6f, 0x72, 0x65, 0x22, 0x5a, 0x0a, 0x0f, 0x52,
-	0x65, 0x73, 0x70, 0x52, 0x65, 0x63, 0x55, 0x73, 0x65, 0x72, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x2c,
-	0x0a, 0x09, 0x72, 0x65, 0x63, 0x5f, 0x75, 0x73, 0x65, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
-	0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x63, 0x44, 0x61,
-	0x74, 0x61, 0x52, 0x08, 0x72, 0x65, 0x63, 0x55, 0x73, 0x65, 0x72, 0x73, 0x12, 0x19, 0x0a, 0x08,
-	0x68, 0x61, 0x73, 0x5f, 0x6d, 0x6f, 0x72, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07,
-	0x68, 0x61, 0x73, 0x4d, 0x6f, 0x72, 0x65, 0x22, 0xaf, 0x01, 0x0a, 0x0f, 0x52, 0x65, 0x73, 0x70,
-	0x41, 0x6c, 0x62, 0x75, 0x6d, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x26, 0x0a, 0x05, 0x61,
-	0x6c, 0x62, 0x75, 0x6d, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x62, 0x2e,
-	0x41, 0x6c, 0x62, 0x75, 0x6d, 0x52, 0x65, 0x63, 0x44, 0x61, 0x74, 0x61, 0x52, 0x05, 0x61, 0x6c,
-	0x62, 0x75, 0x6d, 0x12, 0x21, 0x0a, 0x0c, 0x69, 0x73, 0x5f, 0x63, 0x6f, 0x6c, 0x6c, 0x65, 0x63,
-	0x74, 0x65, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0b, 0x69, 0x73, 0x43, 0x6f, 0x6c,
-	0x6c, 0x65, 0x63, 0x74, 0x65, 0x64, 0x12, 0x23, 0x0a, 0x0d, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e,
-	0x74, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x0c, 0x63,
-	0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x2c, 0x0a, 0x06, 0x61,
-	0x75, 0x64, 0x69, 0x6f, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x70, 0x62,
-	0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x49, 0x6e, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x44, 0x61, 0x74,
-	0x61, 0x52, 0x06, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x73, 0x22, 0x14, 0x0a, 0x12, 0x52, 0x65, 0x73,
-	0x70, 0x56, 0x6f, 0x69, 0x63, 0x65, 0x4c, 0x6f, 0x76, 0x65, 0x72, 0x50, 0x6f, 0x73, 0x74, 0x42,
-	0x2b, 0x5a, 0x29, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x6c,
-	0x61, 0x6f, 0x6c, 0x61, 0x2d, 0x63, 0x68, 0x61, 0x74, 0x2f, 0x72, 0x62, 0x70, 0x2d, 0x66, 0x75,
-	0x6e, 0x63, 0x74, 0x6f, 0x72, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x6f, 0x74, 0x6f, 0x12, 0x02, 0x70, 0x62, 0x1a, 0x0c, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x18, 0x76, 0x6f, 0x69, 0x63, 0x65, 0x5f, 0x6c, 0x6f, 0x76,
+	0x65, 0x72, 0x5f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22,
+	0xb2, 0x02, 0x0a, 0x12, 0x52, 0x65, 0x73, 0x70, 0x56, 0x6f, 0x69, 0x63, 0x65, 0x4c, 0x6f, 0x76,
+	0x65, 0x72, 0x4d, 0x61, 0x69, 0x6e, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73,
+	0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73,
+	0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d,
+	0x73, 0x67, 0x12, 0x2c, 0x0a, 0x0a, 0x72, 0x65, 0x63, 0x5f, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x73,
+	0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x6c, 0x62, 0x75,
+	0x6d, 0x44, 0x61, 0x74, 0x61, 0x52, 0x09, 0x72, 0x65, 0x63, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x73,
+	0x12, 0x2f, 0x0a, 0x0b, 0x72, 0x65, 0x63, 0x5f, 0x62, 0x61, 0x6e, 0x6e, 0x65, 0x72, 0x73, 0x18,
+	0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x70, 0x62, 0x2e, 0x42, 0x61, 0x6e, 0x6e, 0x65,
+	0x72, 0x44, 0x61, 0x74, 0x61, 0x52, 0x0a, 0x72, 0x65, 0x63, 0x42, 0x61, 0x6e, 0x6e, 0x65, 0x72,
+	0x73, 0x12, 0x29, 0x0a, 0x09, 0x72, 0x65, 0x63, 0x5f, 0x75, 0x73, 0x65, 0x72, 0x73, 0x18, 0x05,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x44, 0x61,
+	0x74, 0x61, 0x52, 0x08, 0x72, 0x65, 0x63, 0x55, 0x73, 0x65, 0x72, 0x73, 0x12, 0x32, 0x0a, 0x0c,
+	0x72, 0x65, 0x63, 0x5f, 0x73, 0x75, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x73, 0x18, 0x06, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x62, 0x2e, 0x53, 0x75, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x44,
+	0x61, 0x74, 0x61, 0x52, 0x0b, 0x72, 0x65, 0x63, 0x53, 0x75, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x73,
+	0x12, 0x32, 0x0a, 0x0d, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x5f, 0x61, 0x6c, 0x62, 0x75, 0x6d,
+	0x73, 0x18, 0x07, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x6c, 0x62,
+	0x75, 0x6d, 0x44, 0x61, 0x74, 0x61, 0x52, 0x0c, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x41, 0x6c,
+	0x62, 0x75, 0x6d, 0x73, 0x22, 0x84, 0x01, 0x0a, 0x0d, 0x52, 0x65, 0x73, 0x70, 0x41, 0x6c, 0x62,
+	0x75, 0x6d, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73,
+	0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73,
+	0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d,
+	0x73, 0x67, 0x12, 0x2c, 0x0a, 0x0a, 0x72, 0x65, 0x63, 0x5f, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x73,
+	0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x6c, 0x62, 0x75,
+	0x6d, 0x44, 0x61, 0x74, 0x61, 0x52, 0x09, 0x72, 0x65, 0x63, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x73,
+	0x12, 0x19, 0x0a, 0x08, 0x68, 0x61, 0x73, 0x5f, 0x6d, 0x6f, 0x72, 0x65, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x08, 0x52, 0x07, 0x68, 0x61, 0x73, 0x4d, 0x6f, 0x72, 0x65, 0x22, 0x83, 0x01, 0x0a, 0x0f,
+	0x52, 0x65, 0x73, 0x70, 0x52, 0x65, 0x63, 0x55, 0x73, 0x65, 0x72, 0x4c, 0x69, 0x73, 0x74, 0x12,
+	0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08,
+	0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x12, 0x29, 0x0a, 0x09, 0x72,
+	0x65, 0x63, 0x5f, 0x75, 0x73, 0x65, 0x72, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0c,
+	0x2e, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x44, 0x61, 0x74, 0x61, 0x52, 0x08, 0x72, 0x65,
+	0x63, 0x55, 0x73, 0x65, 0x72, 0x73, 0x12, 0x19, 0x0a, 0x08, 0x68, 0x61, 0x73, 0x5f, 0x6d, 0x6f,
+	0x72, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x68, 0x61, 0x73, 0x4d, 0x6f, 0x72,
+	0x65, 0x22, 0xd1, 0x01, 0x0a, 0x0f, 0x52, 0x65, 0x73, 0x70, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x44,
+	0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12,
+	0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73,
+	0x67, 0x12, 0x23, 0x0a, 0x05, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x0d, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x44, 0x61, 0x74, 0x61, 0x52,
+	0x05, 0x61, 0x6c, 0x62, 0x75, 0x6d, 0x12, 0x21, 0x0a, 0x0c, 0x69, 0x73, 0x5f, 0x63, 0x6f, 0x6c,
+	0x6c, 0x65, 0x63, 0x74, 0x65, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0b, 0x69, 0x73,
+	0x43, 0x6f, 0x6c, 0x6c, 0x65, 0x63, 0x74, 0x65, 0x64, 0x12, 0x23, 0x0a, 0x0d, 0x63, 0x6f, 0x6d,
+	0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0d,
+	0x52, 0x0c, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x25,
+	0x0a, 0x06, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x73, 0x18, 0x06, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d,
+	0x2e, 0x70, 0x62, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x44, 0x61, 0x74, 0x61, 0x52, 0x06, 0x61,
+	0x75, 0x64, 0x69, 0x6f, 0x73, 0x22, 0x87, 0x01, 0x0a, 0x11, 0x52, 0x65, 0x73, 0x70, 0x41, 0x6c,
+	0x62, 0x75, 0x6d, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x18, 0x0a, 0x07, 0x73,
+	0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75,
+	0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x12, 0x2b, 0x0a, 0x08, 0x63, 0x6f, 0x6d, 0x6d, 0x65,
+	0x6e, 0x74, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x62, 0x2e, 0x43,
+	0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x44, 0x61, 0x74, 0x61, 0x52, 0x08, 0x63, 0x6f, 0x6d, 0x6d,
+	0x65, 0x6e, 0x74, 0x73, 0x12, 0x19, 0x0a, 0x08, 0x68, 0x61, 0x73, 0x5f, 0x6d, 0x6f, 0x72, 0x65,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x68, 0x61, 0x73, 0x4d, 0x6f, 0x72, 0x65, 0x22,
+	0x3e, 0x0a, 0x10, 0x52, 0x65, 0x73, 0x70, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x41, 0x6c,
+	0x62, 0x75, 0x6d, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x10, 0x0a,
+	0x03, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x22,
+	0x86, 0x02, 0x0a, 0x0f, 0x52, 0x65, 0x73, 0x70, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x44, 0x65, 0x74,
+	0x61, 0x69, 0x6c, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x10, 0x0a,
+	0x03, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x12,
+	0x23, 0x0a, 0x05, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0d,
+	0x2e, 0x70, 0x62, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x44, 0x61, 0x74, 0x61, 0x52, 0x05, 0x61,
+	0x75, 0x64, 0x69, 0x6f, 0x12, 0x1a, 0x0a, 0x08, 0x69, 0x73, 0x46, 0x6f, 0x6c, 0x6c, 0x6f, 0x77,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x08, 0x52, 0x08, 0x69, 0x73, 0x46, 0x6f, 0x6c, 0x6c, 0x6f, 0x77,
+	0x12, 0x17, 0x0a, 0x07, 0x72, 0x6f, 0x6f, 0x6d, 0x5f, 0x69, 0x64, 0x18, 0x05, 0x20, 0x01, 0x28,
+	0x0d, 0x52, 0x06, 0x72, 0x6f, 0x6f, 0x6d, 0x49, 0x64, 0x12, 0x21, 0x0a, 0x0c, 0x69, 0x73, 0x5f,
+	0x63, 0x6f, 0x6c, 0x6c, 0x65, 0x63, 0x74, 0x65, 0x64, 0x18, 0x06, 0x20, 0x01, 0x28, 0x08, 0x52,
+	0x0b, 0x69, 0x73, 0x43, 0x6f, 0x6c, 0x6c, 0x65, 0x63, 0x74, 0x65, 0x64, 0x12, 0x23, 0x0a, 0x0d,
+	0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x07, 0x20,
+	0x01, 0x28, 0x0d, 0x52, 0x0c, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x43, 0x6f, 0x75, 0x6e,
+	0x74, 0x12, 0x25, 0x0a, 0x06, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x73, 0x18, 0x08, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x0d, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x6c, 0x62, 0x75, 0x6d, 0x44, 0x61, 0x74, 0x61,
+	0x52, 0x06, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x73, 0x22, 0x87, 0x01, 0x0a, 0x11, 0x52, 0x65, 0x73,
+	0x70, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x18,
+	0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52,
+	0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x12, 0x2b, 0x0a, 0x08, 0x63, 0x6f,
+	0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70,
+	0x62, 0x2e, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x44, 0x61, 0x74, 0x61, 0x52, 0x08, 0x63,
+	0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x19, 0x0a, 0x08, 0x68, 0x61, 0x73, 0x5f, 0x6d,
+	0x6f, 0x72, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x68, 0x61, 0x73, 0x4d, 0x6f,
+	0x72, 0x65, 0x22, 0x3e, 0x0a, 0x10, 0x52, 0x65, 0x73, 0x70, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e,
+	0x74, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73,
+	0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73,
+	0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d,
+	0x73, 0x67, 0x22, 0x43, 0x0a, 0x15, 0x52, 0x65, 0x73, 0x70, 0x43, 0x6f, 0x6c, 0x6c, 0x65, 0x63,
+	0x74, 0x56, 0x6f, 0x69, 0x63, 0x65, 0x4c, 0x6f, 0x76, 0x65, 0x72, 0x12, 0x18, 0x0a, 0x07, 0x73,
+	0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75,
+	0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x22, 0x40, 0x0a, 0x12, 0x52, 0x65, 0x73, 0x70, 0x56,
+	0x6f, 0x69, 0x63, 0x65, 0x4c, 0x6f, 0x76, 0x65, 0x72, 0x50, 0x6f, 0x73, 0x74, 0x12, 0x18, 0x0a,
+	0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07,
+	0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x42, 0x2b, 0x5a, 0x29, 0x67, 0x69, 0x74,
+	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x6c, 0x61, 0x6f, 0x6c, 0x61, 0x2d, 0x63,
+	0x68, 0x61, 0x74, 0x2f, 0x72, 0x62, 0x70, 0x2d, 0x66, 0x75, 0x6e, 0x63, 0x74, 0x6f, 0x72, 0x2f,
+	0x61, 0x70, 0x70, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -764,35 +1009,45 @@ func file_voice_lover_proto_rawDescGZIP() []byte {
 	return file_voice_lover_proto_rawDescData
 }
 
-var file_voice_lover_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_voice_lover_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_voice_lover_proto_goTypes = []interface{}{
-	(*AlbumRecData)(nil),       // 0: pb.AlbumRecData
-	(*BannerRecData)(nil),      // 1: pb.BannerRecData
-	(*UserRecData)(nil),        // 2: pb.UserRecData
-	(*SubjectRecData)(nil),     // 3: pb.SubjectRecData
-	(*AudioInAlbumData)(nil),   // 4: pb.AudioInAlbumData
-	(*RespVoiceLoverMain)(nil), // 5: pb.RespVoiceLoverMain
-	(*RespAlbumList)(nil),      // 6: pb.RespAlbumList
-	(*RespRecUserList)(nil),    // 7: pb.RespRecUserList
-	(*RespAlbumDetail)(nil),    // 8: pb.RespAlbumDetail
-	(*RespVoiceLoverPost)(nil), // 9: pb.RespVoiceLoverPost
+	(*RespVoiceLoverMain)(nil),    // 0: pb.RespVoiceLoverMain
+	(*RespAlbumList)(nil),         // 1: pb.RespAlbumList
+	(*RespRecUserList)(nil),       // 2: pb.RespRecUserList
+	(*RespAlbumDetail)(nil),       // 3: pb.RespAlbumDetail
+	(*RespAlbumComments)(nil),     // 4: pb.RespAlbumComments
+	(*RespCommentAlbum)(nil),      // 5: pb.RespCommentAlbum
+	(*RespAudioDetail)(nil),       // 6: pb.RespAudioDetail
+	(*RespAudioComments)(nil),     // 7: pb.RespAudioComments
+	(*RespCommentAudio)(nil),      // 8: pb.RespCommentAudio
+	(*RespCollectVoiceLover)(nil), // 9: pb.RespCollectVoiceLover
+	(*RespVoiceLoverPost)(nil),    // 10: pb.RespVoiceLoverPost
+	(*AlbumData)(nil),             // 11: pb.AlbumData
+	(*BannerData)(nil),            // 12: pb.BannerData
+	(*UserData)(nil),              // 13: pb.UserData
+	(*SubjectData)(nil),           // 14: pb.SubjectData
+	(*AudioData)(nil),             // 15: pb.AudioData
+	(*CommentData)(nil),           // 16: pb.CommentData
 }
 var file_voice_lover_proto_depIdxs = []int32{
-	0,  // 0: pb.SubjectRecData.albums:type_name -> pb.AlbumRecData
-	0,  // 1: pb.RespVoiceLoverMain.rec_albums:type_name -> pb.AlbumRecData
-	1,  // 2: pb.RespVoiceLoverMain.rec_banners:type_name -> pb.BannerRecData
-	2,  // 3: pb.RespVoiceLoverMain.rec_users:type_name -> pb.UserRecData
-	3,  // 4: pb.RespVoiceLoverMain.rec_subjects:type_name -> pb.SubjectRecData
-	0,  // 5: pb.RespVoiceLoverMain.common_albums:type_name -> pb.AlbumRecData
-	0,  // 6: pb.RespAlbumList.rec_albums:type_name -> pb.AlbumRecData
-	2,  // 7: pb.RespRecUserList.rec_users:type_name -> pb.UserRecData
-	0,  // 8: pb.RespAlbumDetail.album:type_name -> pb.AlbumRecData
-	4,  // 9: pb.RespAlbumDetail.audios:type_name -> pb.AudioInAlbumData
-	10, // [10:10] is the sub-list for method output_type
-	10, // [10:10] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	11, // 0: pb.RespVoiceLoverMain.rec_albums:type_name -> pb.AlbumData
+	12, // 1: pb.RespVoiceLoverMain.rec_banners:type_name -> pb.BannerData
+	13, // 2: pb.RespVoiceLoverMain.rec_users:type_name -> pb.UserData
+	14, // 3: pb.RespVoiceLoverMain.rec_subjects:type_name -> pb.SubjectData
+	11, // 4: pb.RespVoiceLoverMain.common_albums:type_name -> pb.AlbumData
+	11, // 5: pb.RespAlbumList.rec_albums:type_name -> pb.AlbumData
+	13, // 6: pb.RespRecUserList.rec_users:type_name -> pb.UserData
+	11, // 7: pb.RespAlbumDetail.album:type_name -> pb.AlbumData
+	15, // 8: pb.RespAlbumDetail.audios:type_name -> pb.AudioData
+	16, // 9: pb.RespAlbumComments.comments:type_name -> pb.CommentData
+	15, // 10: pb.RespAudioDetail.audio:type_name -> pb.AudioData
+	11, // 11: pb.RespAudioDetail.audios:type_name -> pb.AlbumData
+	16, // 12: pb.RespAudioComments.comments:type_name -> pb.CommentData
+	13, // [13:13] is the sub-list for method output_type
+	13, // [13:13] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_voice_lover_proto_init() }
@@ -800,68 +1055,10 @@ func file_voice_lover_proto_init() {
 	if File_voice_lover_proto != nil {
 		return
 	}
+	file_common_proto_init()
+	file_voice_lover_common_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_voice_lover_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AlbumRecData); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_voice_lover_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*BannerRecData); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_voice_lover_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserRecData); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_voice_lover_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SubjectRecData); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_voice_lover_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AudioInAlbumData); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_voice_lover_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RespVoiceLoverMain); i {
 			case 0:
 				return &v.state
@@ -873,7 +1070,7 @@ func file_voice_lover_proto_init() {
 				return nil
 			}
 		}
-		file_voice_lover_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_voice_lover_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RespAlbumList); i {
 			case 0:
 				return &v.state
@@ -885,7 +1082,7 @@ func file_voice_lover_proto_init() {
 				return nil
 			}
 		}
-		file_voice_lover_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_voice_lover_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RespRecUserList); i {
 			case 0:
 				return &v.state
@@ -897,7 +1094,7 @@ func file_voice_lover_proto_init() {
 				return nil
 			}
 		}
-		file_voice_lover_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_voice_lover_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RespAlbumDetail); i {
 			case 0:
 				return &v.state
@@ -909,7 +1106,79 @@ func file_voice_lover_proto_init() {
 				return nil
 			}
 		}
+		file_voice_lover_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespAlbumComments); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_voice_lover_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespCommentAlbum); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_voice_lover_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespAudioDetail); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_voice_lover_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespAudioComments); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_voice_lover_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespCommentAudio); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 		file_voice_lover_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespCollectVoiceLover); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_voice_lover_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RespVoiceLoverPost); i {
 			case 0:
 				return &v.state
@@ -928,7 +1197,7 @@ func file_voice_lover_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_voice_lover_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -14,19 +14,50 @@ type ReqRecUserList struct {
 }
 
 type ReqAlbumDetail struct {
-	AlbumId uint32 `v:"album_id@required"` // 专辑id
+	AlbumId uint64 `v:"album_id@required"` // 专辑id
+}
+
+type ReqAlbumComments struct {
+	AlbumId uint64 `v:"album_id@required"` // 专辑id
+	Paginator
+}
+
+type ReqCommentAlbum struct {
+	AlbumId uint64 `v:"album_id@required"` // 专辑id
+	Comment string `v:"comment@required"`  // 评论内容
+}
+
+type ReqAudioDetail struct {
+	AudioId uint64 `v:"audio_id@required"` // 音频id
+}
+
+type ReqAudioComments struct {
+	AlbumId uint64 `v:"album_id@required"` // 音频id
+	Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
+	Paginator
+}
+
+type ReqCommentAudio struct {
+	AudioId uint64 `v:"audio_id@required"` // 音频id
+	Comment string `v:"comment@required"`  // 评论内容
+	Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
+}
+
+type ReqCollectVoiceLover struct {
+	Id   uint64 `v:"id@required"`   // 资源id
+	Type uint32 `v:"type@required"` // 0-专辑 1-音频
 }
 
 type ReqVoiceLoverPost struct {
-	Resource    string //音频资源
-	Seconds     uint32 //音频时长 单位秒
-	Title       string //标题
-	Source      int32  //来源 1:原创 2:搬运
-	Cover       string //封面
-	Desc        string //简介
-	EditDub     string // 编辑配音
-	EditContent string //编辑文案
-	EditPost    string //编辑后期
-	EditCover   string //编辑封面
-	Labels      string //标签
+	Resource    string `v:"resource@required"` // 音频资源
+	Seconds     uint32 `v:"seconds@required"`  // 音频时长 单位秒
+	Title       string `v:"title@required"`    // 标题
+	Source      int32  `v:"source@required"`   // 来源 1:原创 2:搬运
+	Cover       string `v:"cover@required"`    // 封面
+	Desc        string `v:"desc@required"`     // 简介
+	EditDub     string `v:"edit_dub"`          // 编辑配音
+	EditContent string `v:"edit_content"`      // 编辑文案
+	EditPost    string `v:"edit_post"`         // 编辑后期
+	EditCover   string `v:"edit_cover"`        // 编辑封面
+	Labels      string `v:"labels"`            // 标签
 }
