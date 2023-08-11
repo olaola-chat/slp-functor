@@ -96,6 +96,9 @@ func (s *voiceLoverService) BuildAudioCollectSearchQuery(ctx context.Context, re
 					albumIds = append(albumIds, albumId)
 				}
 			}
+			if len(albumIds) == 0 {
+				albumIds = append(albumIds, 0)
+			}
 		}
 	}
 	q := &VoiceLoverAudioSearchQuery{
