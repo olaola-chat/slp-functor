@@ -2,11 +2,13 @@ package logic
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"sync"
 	"time"
 
 	"github.com/gogf/gf/database/gdb"
+	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/olaola-chat/rbp-library/es"
@@ -177,10 +179,30 @@ func (m *mainLogic) BuildRecAlbumsExtendInfo(ctx context.Context, infos []*vl_pb
 }
 
 func (m *mainLogic) GetAlbumInfoById(ctx context.Context, req *vl_pb.ReqGetAlbumInfoById, reply *vl_pb.ResGetAlbumInfoById) error {
+	albumInfo, err := dao.VoiceLoverAlbumDao.GetValidAlbumById(ctx, req.Id)
+	if err != nil {
+		return err
+	}
+	if albumInfo.GetId() == 0 {
+		return gerror.New(fmt.Sprintf("album id=%d empty", req.Id))
+	}
+	reply.Album = &vl_pb.AlbumData{
+		Id:         albumInfo.Id,
+		Name:       albumInfo.Name,
+		Intro:      albumInfo.Intro,
+		Cover:      albumInfo.Cover,
+		CreateTime: albumInfo.CreateTime,
+	}
+	m.BuildRecAlbumsExtendInfo(ctx, []*vl_pb.AlbumData{reply.Album})
 	return nil
 }
 
 func (m *mainLogic) GetAlbumCommentCount(ctx context.Context, req *vl_pb.ReqGetAlbumCommentCount, reply *vl_pb.ResGetAlbumCommentCount) error {
+	total, err := dao.VoiceLoverAlbumCommentDao.GetValidCommentCountByAlbumId(ctx, req.AlbumId)
+	if err != nil {
+		return err
+	}
+	reply.Total = uint32(total)
 	return nil
 }
 
