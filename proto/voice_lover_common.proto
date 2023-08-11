@@ -14,6 +14,7 @@ message AudioData {
   string cover = 4;       // 音频封面
   uint32 seconds = 5;     // 音频时长
   string play_stats = 6;  // 音频播放次数
+  UserData user_info = 7; // 发布人
 }
 
 message AlbumData {

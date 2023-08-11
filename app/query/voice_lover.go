@@ -27,6 +27,22 @@ type ReqCommentAlbum struct {
 	Comment string `v:"comment@required"`  // 评论内容
 }
 
+type ReqAudioDetail struct {
+	AudioId uint64 `v:"audio_id@required"` // 音频id
+}
+
+type ReqAudioComments struct {
+	AlbumId uint64 `v:"album_id@required"` // 音频id
+	Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
+	Paginator
+}
+
+type ReqCommentAudio struct {
+	AudioId uint64 `v:"audio_id@required"` // 音频id
+	Comment string `v:"comment@required"`  // 评论内容
+	Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
+}
+
 type ReqVoiceLoverPost struct {
 	Resource    string //音频资源
 	Seconds     int32  //音频时长 单位秒

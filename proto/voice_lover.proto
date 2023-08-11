@@ -64,6 +64,8 @@ message RespAlbumDetail {
 // [desc] 查看专辑评论列表
 // [params]
 //  AlbumId uint32 `v:"album_id@required"` // 专辑id
+//  Page  uint32 `v:"page@integer"`
+//  Limit uint32 `v:"limit@integer|min:10|max:50"`
 message RespAlbumComments {
   bool success = 1;
   string msg = 2;
@@ -77,6 +79,46 @@ message RespAlbumComments {
 //  AlbumId uint64 `v:"album_id@required"` // 专辑id
 //	Comment string `v:"comment@required"` // 评论内容
 message RespCommentAlbum {
+  bool success = 1;
+  string msg = 2;
+}
+
+// [url] /go/func/voice_lover/audioDetail
+// [desc] 查看音频详情
+// [params]
+//  AudioId uint32 `v:"audio_id@required"` // 音频id
+message RespAudioDetail {
+  bool success = 1;
+  string msg = 2;
+  AudioData audio = 3;              // 音频信息
+  bool isFollow = 4;                // 是否已关注
+  uint32 room_id = 5;               // 房间id 为0则表示不在房间内
+  bool is_collected = 6;            // 是否收藏
+  uint32 comment_count = 7;         // 评论数量
+  repeated AlbumData audios = 8;    // 音频列表
+}
+
+// [url] /go/func/voice_lover/audioComments
+// [desc] 查看音频评论列表
+// [params]
+//  AlbumId uint64 `v:"album_id@required"` // 音频id
+//	Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
+//  Page  uint32 `v:"page@integer"`
+//  Limit uint32 `v:"limit@integer|min:10|max:50"`
+message RespAudioComments {
+  bool success = 1;
+  string msg = 2;
+  repeated CommentData comments = 3;
+  bool has_more = 4;
+}
+
+// [url] /go/func/voice_lover/commentAlbum
+// [desc] 发表音频评论
+// [params]
+//    AudioId uint64 `v:"audio_id@required"` // 音频id
+//    Comment string `v:"comment@required"`  // 评论内容
+//    Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
+message RespCommentAudio {
   bool success = 1;
   string msg = 2;
 }
