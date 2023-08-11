@@ -195,6 +195,29 @@ func (m *mainLogic) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums
 	return nil
 }
 
+func (m *mainLogic) GetAlbumsByPage(ctx context.Context, req *vl_pb.ReqGetAlbumsByPage, reply *vl_pb.ResGetAlbumsByPage) error {
+	reply.Albums = make([]*vl_pb.AlbumData, 0)
+	list, err := dao.VoiceLoverAlbumDao.GetValidAlbumListByChoice(ctx, req.Choice, int(req.Page), int(req.Limit)+1)
+	if err != nil {
+		return err
+	}
+	if len(list) > int(req.Limit) {
+		list = list[:req.Limit]
+		reply.HasMore = true
+	}
+	for _, v := range list {
+		reply.Albums = append(reply.Albums, &vl_pb.AlbumData{
+			Id:         v.Id,
+			Name:       v.Name,
+			Intro:      v.Intro,
+			Cover:      v.Cover,
+			CreateTime: v.CreateTime,
+		})
+	}
+	m.BuildRecAlbumsExtendInfo(ctx, reply.Albums)
+	return nil
+}
+
 func (m *mainLogic) GetRecSubjects(ctx context.Context, req *vl_pb.ReqGetRecSubjects, reply *vl_pb.ResGetRecSubjects) error {
 	reply.Subjects = make([]*vl_pb.SubjectData, 0)
 	list, err := dao.VoiceLoverSubjectDao.GetValidSubjectList(ctx, 0, 3)
