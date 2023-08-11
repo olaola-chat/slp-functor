@@ -19,6 +19,14 @@ func (v *VoiceLoverMain) Post(ctx context.Context, req *vl_pb.ReqPost, reply *vl
 	return logic.MainLogic.Post(ctx, req, reply)
 }
 
+func (v *VoiceLoverMain) GetAlbumInfoById(ctx context.Context, req *vl_pb.ReqGetAlbumInfoById, reply *vl_pb.ResGetAlbumInfoById) error {
+	return logic.MainLogic.GetAlbumInfoById(ctx, req, reply)
+}
+
+func (v *VoiceLoverMain) GetAlbumCommentCount(ctx context.Context, req *vl_pb.ReqGetAlbumCommentCount, reply *vl_pb.ResGetAlbumCommentCount) error {
+	return logic.MainLogic.GetAlbumCommentCount(ctx, req, reply)
+}
+
 func (v *VoiceLoverMain) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums, reply *vl_pb.ResGetRecAlbums) error {
 	return logic.MainLogic.GetRecAlbums(ctx, req, reply)
 }
@@ -37,4 +45,12 @@ func (v *VoiceLoverMain) GetRecSubjects(ctx context.Context, req *vl_pb.ReqGetRe
 
 func (v *VoiceLoverMain) BatchGetAlbumAudioCount(ctx context.Context, req *vl_pb.ReqBatchGetAlbumAudioCount, reply *vl_pb.ResBatchGetAlbumAudioCount) error {
 	return logic.MainLogic.BatchGetAlbumAudioCount(ctx, req, reply)
+}
+
+func (v *VoiceLoverMain) IsUserCollectAlbum(ctx context.Context, req *vl_pb.ReqIsUserCollectAlbum, reply *vl_pb.ResIsUserCollectAlbum) error {
+	return logic.MainLogic.IsUserCollectAlbum(ctx, req, reply)
+}
+
+func (v *VoiceLoverMain) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGetAudioListByAlbumId, reply *vl_pb.ResGetAudioListByAlbumId) error {
+	return logic.MainLogic.GetAudioListByAlbumId(ctx, req, reply)
 }
