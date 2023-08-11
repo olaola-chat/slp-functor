@@ -8,13 +8,13 @@ option go_package = "github.com/olaola-chat/rbp-functor/app/pb";
 import "common.proto";
 
 message AudioData {
-  uint64 id = 1;          // 音频唯一标识
-  string title = 2;       // 音频标题
-  string resource = 3;    // 音频资源
-  string cover = 4;       // 音频封面
-  uint32 seconds = 5;     // 音频时长
-  string play_stats = 6;  // 音频播放次数
-  UserData user_info = 7; // 发布人
+  uint64 id = 1;                  // 音频唯一标识
+  string title = 2;               // 音频标题
+  string resource = 3;            // 音频资源
+  repeated string covers = 4;     // 音频封面
+  uint32 seconds = 5;             // 音频时长
+  string play_stats = 6;          // 音频播放次数
+  UserData user_info = 7;         // 发布人
 }
 
 message AlbumData {

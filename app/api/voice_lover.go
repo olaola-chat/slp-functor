@@ -124,7 +124,16 @@ func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAlbumDetail{Success: true, Msg: ""})
+	ctxUser, _ := r.GetCtxVar(middleware.ContextUserKey).Interface().(*context2.ContextUser)
+	data, err := vl_serv.VoiceLoverService.GetAlbumDetail(r.GetCtx(), ctxUser.UID, req.AlbumId)
+	if err != nil {
+		response.Output(r, &pb.RespAlbumDetail{
+			Success: false,
+			Msg:     consts.ERROR_SYSTEM.Msg(),
+		})
+		return
+	}
+	OutputCustomData(r, data)
 }
 
 // AlbumComments

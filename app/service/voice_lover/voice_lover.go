@@ -121,3 +121,82 @@ func (serv *voiceLoverService) GetAlbumList(ctx context.Context, req *query.ReqA
 	}
 	return res, nil
 }
+
+func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, albumId uint64) (*pb.RespAlbumDetail, error) {
+	res := &pb.RespAlbumDetail{
+		Success: true,
+		Msg:     "",
+		Audios:  make([]*pb.AudioData, 0),
+	}
+
+	// 查询专辑主体信息
+	albumInfoRes, err := vl_rpc.VoiceLoverMain.GetAlbumInfoById(ctx, &vl_pb.ReqGetAlbumInfoById{Id: albumId})
+	if err != nil {
+		g.Log().Errorf("voiceLoverService GetAlbumDetail GetAlbumInfoById error=%v", err)
+		return res, gerror.New("system error")
+	}
+	if albumInfoRes.GetAlbum() == nil {
+		g.Log().Errorf("voiceLoverService GetAlbumDetail GetAlbumInfoById empty||albumId=%d", albumId)
+		return res, gerror.New("system error")
+	}
+	res.Album = &pb.AlbumData{
+		Id:         albumInfoRes.Album.Id,
+		Title:      albumInfoRes.Album.Name,
+		Cover:      albumInfoRes.Album.Cover,
+		AudioTotal: albumInfoRes.Album.AudioCount,
+	}
+
+	// 专辑主体信息获取正常的话，并发获取其他数据
+	wg := sync.WaitGroup{}
+	// 用户是否已收藏
+	go func() {
+		wg.Add(1)
+		defer wg.Done()
+		isAlbumCollectRes, rErr := vl_rpc.VoiceLoverMain.IsUserCollectAlbum(ctx, &vl_pb.ReqIsUserCollectAlbum{
+			AlbumId: albumId,
+			Uid:     uid,
+		})
+		if rErr != nil {
+			g.Log().Errorf("voiceLoverService GetAlbumDetail IsUserCollectAlbum error=%v", rErr)
+			return
+		}
+		res.IsCollected = isAlbumCollectRes.GetIsCollect()
+	}()
+	// 专辑评论数量
+	go func() {
+		wg.Add(1)
+		defer wg.Done()
+		albumCommentCountRes, rErr := vl_rpc.VoiceLoverMain.GetAlbumCommentCount(ctx, &vl_pb.ReqGetAlbumCommentCount{
+			AlbumId: albumId,
+		})
+		if rErr != nil {
+			g.Log().Errorf("voiceLoverService GetAlbumDetail GetAlbumCommentCount error=%v", rErr)
+			return
+		}
+		res.CommentCount = albumCommentCountRes.GetTotal()
+	}()
+	// 获取音频列表
+	go func() {
+		wg.Add(1)
+		defer wg.Done()
+		audioListRes, rErr := vl_rpc.VoiceLoverMain.GetAudioListByAlbumId(ctx, &vl_pb.ReqGetAudioListByAlbumId{
+			AlbumId: albumId,
+		})
+		if rErr != nil {
+			g.Log().Errorf("voiceLoverService GetAlbumDetail GetAudioListByAlbumId error=%v", rErr)
+			return
+		}
+		for _, v := range audioListRes.GetAudios() {
+			res.Audios = append(res.Audios, &pb.AudioData{
+				Id:        v.Id,
+				Title:     v.Title,
+				Resource:  v.Resource,
+				Covers:    v.Covers,
+				Seconds:   v.Seconds,
+				PlayStats: "",
+			})
+		}
+	}()
+	wg.Wait()
+	return res, nil
+}
