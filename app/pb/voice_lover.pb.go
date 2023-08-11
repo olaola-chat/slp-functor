@@ -121,11 +121,10 @@ func (x *RespVoiceLoverMain) GetCommonAlbums() []*AlbumData {
 // [url] /go/func/voice_lover/albumList
 // [desc] 获取更多专辑列表 精选&非精选&专题都走该接口
 // [params]
-//
-//	 Choice    uint32 `v:"choice@required"` // 0-默认 1-精选 2-专题
-//		SubjectId uint64 `v:"subject_id"`      // Choice=2的时候，需要传专题id
-//	 Page  uint32 `v:"page@integer"`
-//	 Limit uint32 `v:"limit@integer|min:10|max:50"`
+//  Choice    uint32 `v:"choice@required"` // 0-默认 1-精选 2-专题
+//	SubjectId uint64 `v:"subject_id"`      // Choice=2的时候，需要传专题id
+//  Page  uint32 `v:"page@integer"`
+//  Limit uint32 `v:"limit@integer|min:10|max:50"`
 type RespAlbumList struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -200,9 +199,8 @@ func (x *RespAlbumList) GetHasMore() bool {
 // [url] /go/func/voice_lover/recUserList
 // [desc] 更多推荐用户列表
 // [params]
-//
-//	Page  uint32 `v:"page@integer"`
-//	Limit uint32 `v:"limit@integer|min:10|max:50"`
+//  Page  uint32 `v:"page@integer"`
+//  Limit uint32 `v:"limit@integer|min:10|max:50"`
 type RespRecUserList struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -277,8 +275,7 @@ func (x *RespRecUserList) GetHasMore() bool {
 // [url] /go/func/voice_lover/albumDetail
 // [desc] 查看专辑详情
 // [params]
-//
-//	AlbumId uint32 `v:"album_id@required"` // 专辑id
+//  AlbumId uint32 `v:"album_id@required"` // 专辑id
 type RespAlbumDetail struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -369,10 +366,9 @@ func (x *RespAlbumDetail) GetAudios() []*AudioData {
 // [url] /go/func/voice_lover/albumComments
 // [desc] 查看专辑评论列表
 // [params]
-//
-//	AlbumId uint32 `v:"album_id@required"` // 专辑id
-//	Page  uint32 `v:"page@integer"`
-//	Limit uint32 `v:"limit@integer|min:10|max:50"`
+//  AlbumId uint32 `v:"album_id@required"` // 专辑id
+//  Page  uint32 `v:"page@integer"`
+//  Limit uint32 `v:"limit@integer|min:10|max:50"`
 type RespAlbumComments struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -447,9 +443,8 @@ func (x *RespAlbumComments) GetHasMore() bool {
 // [url] /go/func/voice_lover/commentAlbum
 // [desc] 发表专辑评论
 // [params]
-//
-//	 AlbumId uint64 `v:"album_id@required"` // 专辑id
-//		Comment string `v:"comment@required"` // 评论内容
+//  AlbumId uint64 `v:"album_id@required"` // 专辑id
+//	Comment string `v:"comment@required"` // 评论内容
 type RespCommentAlbum struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -508,8 +503,7 @@ func (x *RespCommentAlbum) GetMsg() string {
 // [url] /go/func/voice_lover/audioDetail
 // [desc] 查看音频详情
 // [params]
-//
-//	AudioId uint32 `v:"audio_id@required"` // 音频id
+//  AudioId uint32 `v:"audio_id@required"` // 音频id
 type RespAudioDetail struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -616,11 +610,10 @@ func (x *RespAudioDetail) GetAudios() []*AlbumData {
 // [url] /go/func/voice_lover/audioComments
 // [desc] 查看音频评论列表
 // [params]
-//
-//	 AlbumId uint64 `v:"album_id@required"` // 音频id
-//		Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
-//	 Page  uint32 `v:"page@integer"`
-//	 Limit uint32 `v:"limit@integer|min:10|max:50"`
+//  AlbumId uint64 `v:"album_id@required"` // 音频id
+//	Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
+//  Page  uint32 `v:"page@integer"`
+//  Limit uint32 `v:"limit@integer|min:10|max:50"`
 type RespAudioComments struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -695,10 +688,9 @@ func (x *RespAudioComments) GetHasMore() bool {
 // [url] /go/func/voice_lover/commentAlbum
 // [desc] 发表音频评论
 // [params]
-//
-//	AudioId uint64 `v:"audio_id@required"` // 音频id
-//	Comment string `v:"comment@required"`  // 评论内容
-//	Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
+//    AudioId uint64 `v:"audio_id@required"` // 音频id
+//    Comment string `v:"comment@required"`  // 评论内容
+//    Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
 type RespCommentAudio struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -757,18 +749,17 @@ func (x *RespCommentAudio) GetMsg() string {
 // [url] /go/func/voice_lover/post
 // [desc] 上传音频资源
 // [params]
-//
-//	Resource    string //音频资源
-//	Seconds     uint32 //音频时长 单位秒
-//	Title       string //标题
-//	Source      int32  //来源 1:原创 2:搬运
-//	Cover       string //封面
-//	Desc        string //简介
-//	EditDub     string // 编辑配音
-//	EditContent string //编辑文案
-//	EditPost    string //编辑后期
-//	EditCover   string //编辑封面
-//	Labels      string //标签
+//    Resource    string `v:"resource@required"` // 音频资源
+//    Seconds     int32  `v:"seconds@required"`  // 音频时长 单位秒
+//    Title       string `v:"title@required"`    // 标题
+//    Source      int32  `v:"source@required"`   // 来源 1:原创 2:搬运
+//    Cover       string `v:"cover@required"`    // 封面
+//    Desc        string `v:"desc@required"`     // 简介
+//    EditDub     string `v:"edit_dub"`          // 编辑配音
+//    EditContent string `v:"edit_content"`      // 编辑文案
+//    EditPost    string `v:"edit_post"`         // 编辑后期
+//    EditCover   string `v:"edit_cover"`        // 编辑封面
+//    Labels      string `v:"labels"`            // 标签
 type RespVoiceLoverPost struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
