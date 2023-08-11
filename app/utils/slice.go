@@ -26,6 +26,18 @@ func DistinctUint32Slice(slice []uint32) []uint32 {
 	return res
 }
 
+func DistinctInt32Slice(slice []int32) []int32 {
+	m := make(map[int32]struct{})
+	for _, s := range slice {
+		m[s] = struct{}{}
+	}
+	res := make([]int32, 0)
+	for k := range m {
+		res = append(res, k)
+	}
+	return res
+}
+
 func StrSliceToUint64Slice(strs []string) []uint64 {
 	res := make([]uint64, 0)
 	for _, s := range strs {
