@@ -186,6 +186,13 @@ func (a *adminLogic) DelAlbum(ctx context.Context, req *voice_lover.ReqDelAlbum)
 	if count > 0 {
 		return consts.ERROR_ALBUM_HAS_AUDIO
 	}
+	count, err = dao.VoiceLoverAlbumSubjectDao.GetCountByAlbumId(ctx, req.GetId())
+	if err != nil {
+		return err
+	}
+	if count > 0 {
+		return consts.ERROR_ALBUM_COLLECT
+	}
 	err = dao.VoiceLoverAlbumDao.DelAlbum(ctx, req.GetId(), req.GetOpUid())
 	if err != nil {
 		return err
@@ -331,4 +338,43 @@ func (a *adminLogic) AudioCollect(ctx context.Context, req *voice_lover.ReqAudio
 	data["albums"] = albumIds
 	_ = es.EsClient(es.EsVpc).Update("voice_lover_audio", req.AudioId, data)
 	return nil
+}
+
+func (a *adminLogic) CreateSubject(ctx context.Context, req *voice_lover.ReqCreateSubject) (uint64, error) {
+	id, err := dao.VoiceLoverSubjectDao.CreateSubject(ctx, req.Name, req.OpUid)
+	if err != nil {
+		return 0, err
+	}
+	return uint64(id), err
+}
+
+func (a *adminLogic) UpdateSubject(ctx context.Context, req *voice_lover.ReqUpdateSubject) error {
+	return dao.VoiceLoverSubjectDao.UpdateSubject(ctx, req.Id, req.Name, req.OpUid)
+}
+
+func (a *adminLogic) DelSubject(ctx context.Context, req *voice_lover.ReqDelSubject) error {
+	count, err := dao.VoiceLoverAlbumSubjectDao.GetCountBySubjectId(ctx, req.Id)
+	if err != nil {
+		return err
+	}
+	if count > 0 {
+		return consts.ERROR_SUBJECT_HAS_ALBUM
+	}
+	return dao.VoiceLoverSubjectDao.DelSubject(ctx, req.Id, req.OpUid)
+}
+
+func (a *adminLogic) GetSubjectDetail(ctx context.Context, req *voice_lover.ReqGetSubjectDetail) (map[uint64]*voice_lover.SubjectData, error) {
+	data, err := dao.VoiceLoverSubjectDao.GetValidSubjectByIds(ctx, req.Ids)
+	if err != nil {
+		return nil, err
+	}
+	res := make(map[uint64]*voice_lover.SubjectData)
+	for k, v := range data {
+		res[k] = &voice_lover.SubjectData{
+			Id:         v.Id,
+			Name:       v.Name,
+			CreateTime: v.CreateTime,
+		}
+	}
+	return res, nil
 }

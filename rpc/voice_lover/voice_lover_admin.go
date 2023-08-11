@@ -81,3 +81,29 @@ func (v *VoiceLoverAdmin) GetAlbumList(ctx context.Context, req *vl_pb.ReqGetAlb
 func (v *VoiceLoverAdmin) AudioCollect(ctx context.Context, req *vl_pb.ReqAudioCollect, reply *vl_pb.ResAudioCollect) error {
 	return logic.AdminLogic.AudioCollect(ctx, req)
 }
+
+func (v *VoiceLoverAdmin) CreateSubject(ctx context.Context, req *vl_pb.ReqCreateSubject, reply *vl_pb.ResCreateSubject) error {
+	id, err := logic.AdminLogic.CreateSubject(ctx, req)
+	if err != nil {
+		return err
+	}
+	reply.Id = id
+	return nil
+}
+
+func (v *VoiceLoverAdmin) UpdateSubject(ctx context.Context, req *vl_pb.ReqUpdateSubject, reply *vl_pb.ResUpdateSubject) error {
+	return logic.AdminLogic.UpdateSubject(ctx, req)
+}
+
+func (v *VoiceLoverAdmin) DelSubject(ctx context.Context, req *vl_pb.ReqDelSubject, reply *vl_pb.ResDelSubject) error {
+	return logic.AdminLogic.DelSubject(ctx, req)
+}
+
+func (v *VoiceLoverAdmin) GetSubjectDetail(ctx context.Context, req *vl_pb.ReqGetSubjectDetail, reply *vl_pb.ResGetSubjectDetail) error {
+	data, err := logic.AdminLogic.GetSubjectDetail(ctx, req)
+	if err != nil {
+		return err
+	}
+	reply.Subjects = data
+	return nil
+}

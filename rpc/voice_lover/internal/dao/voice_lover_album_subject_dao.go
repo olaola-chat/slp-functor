@@ -2,10 +2,8 @@ package dao
 
 import (
 	"context"
-	"fmt"
 
-	"github.com/olaola-chat/rbp-proto/dao/functor"
-	functor2 "github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
+	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
 )
 
 type voiceLoverAlbumSubjectDao struct {
@@ -13,28 +11,18 @@ type voiceLoverAlbumSubjectDao struct {
 
 var VoiceLoverAlbumSubjectDao = &voiceLoverAlbumSubjectDao{}
 
-func (v *voiceLoverAlbumSubjectDao) GetListBySubjectIds(ctx context.Context, subjectIds []uint64) ([]*functor2.EntityVoiceLoverAlbumSubject, error) {
-	list, err := functor.VoiceLoverAlbumSubject.Ctx(ctx).
-		Where(fmt.Sprintf("%s IN (?)", functor.VoiceLoverAlbumSubject.Columns.SubjectID), subjectIds).
-		Order(functor.VoiceLoverAlbumSubject.Columns.CreateTime, "desc").FindAll()
+func (v *voiceLoverAlbumSubjectDao) GetCountBySubjectId(ctx context.Context, id uint64) (int, error) {
+	count, err := functor2.VoiceLoverAlbumSubject.Ctx(ctx).Where("subject_id", id).Count()
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
-	return list, nil
+	return count, nil
 }
 
-func (v *voiceLoverAlbumSubjectDao) GetListBySubjectId(ctx context.Context, subjectId uint64, page int, limit int) ([]*functor2.EntityVoiceLoverAlbumSubject, error) {
-	if page < 1 {
-		page = 1
-	}
-	offset := (page - 1) * limit
-	list, err := functor.VoiceLoverAlbumSubject.Ctx(ctx).
-		Where(functor.VoiceLoverAlbumSubject.Columns.SubjectID, subjectId).
-		Order(functor.VoiceLoverAlbum.Columns.CreateTime, "desc").
-		Offset(offset).
-		Limit(limit).FindAll()
+func (v *voiceLoverAlbumSubjectDao) GetCountByAlbumId(ctx context.Context, id uint64) (int, error) {
+	count, err := functor2.VoiceLoverAlbumSubject.Ctx(ctx).Where("album_id", id).Count()
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
-	return list, nil
+	return count, nil
 }

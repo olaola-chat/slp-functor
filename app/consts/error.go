@@ -46,4 +46,6 @@ var (
 	ERROR_AUDIO_STATUS_INVALID       = newError(10008, "该音频审核状态未通过")
 	ERROR_AUDIO_ALBUM_COLLECT        = newError(10009, "该音频已收录在该专辑下")
 	ERROR_AUDIO_ALBUM_COLLECT_REMOVE = newError(10009, "该音频还未收录在该专辑下")
+	ERROR_ALBUM_COLLECT              = newError(10010, "该专辑处于收录状态")
+	ERROR_SUBJECT_HAS_ALBUM          = newError(10011, "该主题已收录专辑")
 )
