@@ -11,3 +11,15 @@ message CommonResp {
 	  string msg = 3;
     google.protobuf.Any data= 4;
 }
+
+message UserData {
+  uint32 uid = 1;       // 用户uid
+  string avatar = 2;    // 用户头像
+  string name = 3;      // 用户昵称
+}
+
+message BannerData {
+  uint32 id = 1;            // banner id
+  string img_url = 2;       // banner图片资源地址
+  string redirect_url = 3;  // 点击后跳转地址
+}

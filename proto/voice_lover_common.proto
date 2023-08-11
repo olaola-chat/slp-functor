@@ -1,0 +1,37 @@
+syntax = "proto3";
+package pb;
+
+//表示目标文件生成的路径, go的包名就是最后的目录名
+//目前统一生成到 app/pb 目录下
+option go_package = "github.com/olaola-chat/rbp-functor/app/pb";
+
+import "common.proto";
+
+message AudioData {
+  uint64 id = 1;          // 音频唯一标识
+  string title = 2;       // 音频标题
+  string resource = 3;    // 音频资源
+  string cover = 4;       // 音频封面
+  uint32 seconds = 5;     // 音频时长
+  string play_stats = 6;  // 音频播放次数
+}
+
+message AlbumData {
+  uint64 id = 1;            // 专辑id
+  string title = 2;         // 专辑标题
+  string cover = 3;         // 专辑显示封面
+  uint32 audio_total = 4;   // 专辑内音频数量
+  string play_stats = 5;    // 播放量统计，服务端控制显示规则
+}
+
+message SubjectData {
+  uint64 id = 1;                  // 专题id
+  string title = 2;               // 专题名称
+  repeated AlbumData albums = 3;  // 专题下专辑列表
+}
+
+message CommentData {
+  uint64 id = 1;              // 评论唯一标识
+  UserData user_info = 2;     // 评论人信息
+  string comment = 3;         // 评论内容
+}
