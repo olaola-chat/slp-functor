@@ -164,6 +164,72 @@ func (a *voiceLoverAPI) CommentAlbum(r *ghttp.Request) {
 	OutputCustomData(r, &pb.RespCommentAlbum{Success: true, Msg: ""})
 }
 
+// AudioDetail
+// @Tags VoiceLover
+// @Summary 查看音频详情
+// @Description 查看音频详情
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAudioDetail query
+// @Success 200 {object} pb.RespAudioDetail
+// @Router /go/func/voice_lover/audioDetail [get]
+func (a *voiceLoverAPI) AudioDetail(r *ghttp.Request) {
+	var req *query.ReqAudioDetail
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespAudioDetail{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespAudioDetail{Success: true, Msg: ""})
+}
+
+// AudioComments
+// @Tags VoiceLover
+// @Summary 查看音频评论&弹幕列表
+// @Description 查看音频评论&弹幕列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAudioComments query
+// @Success 200 {object} pb.RespAudioComments
+// @Router /go/func/voice_lover/audioComments [get]
+func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
+	var req *query.ReqAudioComments
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespAudioComments{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespAudioComments{Success: true, Msg: ""})
+}
+
+// CommentAudio
+// @Tags VoiceLover
+// @Summary 发表音频评论
+// @Description 发表音频评论
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqCommentAudio query
+// @Success 200 {object} pb.RespCommentAudio
+// @Router /go/func/voice_lover/commentAudio [post]
+func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
+	var req *query.ReqCommentAudio
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespCommentAudio{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespCommentAudio{Success: true, Msg: ""})
+}
+
 // Post
 // @Tags VoiceLover
 // @Summary 声恋投稿
