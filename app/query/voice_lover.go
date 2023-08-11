@@ -43,6 +43,11 @@ type ReqCommentAudio struct {
 	Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
 }
 
+type ReqCollectVoiceLover struct {
+	Id   uint64 `v:"id@required"`   // 资源id
+	Type uint32 `v:"type@required"` // 0-专辑 1-音频
+}
+
 type ReqVoiceLoverPost struct {
 	Resource    string `v:"resource@required"` // 音频资源
 	Seconds     int32  `v:"seconds@required"`  // 音频时长 单位秒

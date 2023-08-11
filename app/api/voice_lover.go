@@ -230,6 +230,28 @@ func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 	OutputCustomData(r, &pb.RespCommentAudio{Success: true, Msg: ""})
 }
 
+// Collect
+// @Tags VoiceLover
+// @Summary 收藏接口
+// @Description 收藏接口
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqCollectVoiceLover query
+// @Success 200 {object} pb.RespCollectVoiceLover
+// @Router /go/func/voice_lover/collect [post]
+func (a *voiceLoverAPI) Collect(r *ghttp.Request) {
+	var req *query.ReqCollectVoiceLover
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespCollectVoiceLover{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespCollectVoiceLover{Success: true, Msg: ""})
+}
+
 // Post
 // @Tags VoiceLover
 // @Summary 声恋投稿

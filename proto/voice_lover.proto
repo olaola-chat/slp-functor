@@ -123,6 +123,16 @@ message RespCommentAudio {
   string msg = 2;
 }
 
+// [url] /go/func/voice_lover/collect
+// [desc] 收藏 post
+// [params]
+//    Id   uint64 `v:"id@required"`   // 资源id
+//    Type uint32 `v:"type@required"` // 0-专辑 1-音频
+message RespCollectVoiceLover {
+  bool success = 1;
+  string msg = 2;
+}
+
 // [url] /go/func/voice_lover/post
 // [desc] 上传音频资源
 // [params]
