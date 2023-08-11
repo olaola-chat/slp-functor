@@ -10,6 +10,7 @@ import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/olaola-chat/rbp-library/es"
+	xianshi2 "github.com/olaola-chat/rbp-proto/dao/xianshi"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/xianshi"
 	user2 "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
 	voice_lover3 "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
@@ -175,6 +176,7 @@ func (s *voiceLoverService) BuildVoiceLoverAudioPb(models []*voice_lover.VoiceLo
 	for _, u := range userReply.Data {
 		userMap[u.Uid] = u
 	}
+	userBrokers, _ := s.GetUserBroker(uids)
 	for _, model := range models {
 		covers := make([]string, 0)
 		for _, c := range strings.Split(model.Cover, ",") {
@@ -188,7 +190,7 @@ func (s *voiceLoverService) BuildVoiceLoverAudioPb(models []*voice_lover.VoiceLo
 			CreateTime:  model.CreateTime,
 			PubUid:      model.PubUid,
 			PubUserName: userMap[model.PubUid].GetName(),
-			Broker:      "",
+			Broker:      userBrokers[model.PubUid].GetBname(),
 			Resource:    model.Resource,
 			Covers:      covers,
 			Source:      model.Source,
@@ -200,6 +202,33 @@ func (s *voiceLoverService) BuildVoiceLoverAudioPb(models []*voice_lover.VoiceLo
 		})
 	}
 	return data
+}
+
+func (s *voiceLoverService) GetUserBroker(uids []uint32) (map[uint32]*xianshi.EntityXsBroker, error) {
+	userBrokers, err := xianshi2.XsBrokerUser.Where("uid IN (?)", uids).Where("deleted = 0 and state = 1").FindAll()
+	if err != nil {
+		return map[uint32]*xianshi.EntityXsBroker{}, err
+	}
+	uidBidMap := make(map[int32]int32)
+	bids := make([]int32, 0)
+	for _, userBroker := range userBrokers {
+		uidBidMap[userBroker.Uid] = userBroker.Bid
+		bids = append(bids, userBroker.Bid)
+	}
+	bids = utils.DistinctInt32Slice(bids)
+	brokerMap := make(map[int32]*xianshi.EntityXsBroker)
+	brokers, err := xianshi2.XsBroker.Where("bid IN (?)", bids).Where("deleted = 0").FindAll()
+	if err != nil {
+		return map[uint32]*xianshi.EntityXsBroker{}, err
+	}
+	for _, broker := range brokers {
+		brokerMap[broker.Bid] = broker
+	}
+	res := make(map[uint32]*xianshi.EntityXsBroker)
+	for _, uid := range uids {
+		res[uid] = brokerMap[uidBidMap[int32(uid)]]
+	}
+	return res, nil
 }
 
 func (s *voiceLoverService) BuildVoiceLoverAudioCollectPb(models []*voice_lover.VoiceLoverAudioEsModel) []*pb.AdminVoiceLoverAudioCollect {
