@@ -302,23 +302,23 @@ func (a *voiceLoverAdminApi) AlbumDetail(r *ghttp.Request) {
 		return
 	}
 	ctx := r.Context()
-	reply, err := voice_lover2.VoiceLoverAdmin.GetAlbumDetail(ctx, &voice_lover3.ReqGetAlbumDetail{AlbumStr: gconv.String(req.Id)})
+	reply, err := voice_lover2.VoiceLoverAdmin.GetAlbumDetail(ctx, &voice_lover3.ReqGetAlbumDetail{AlbumStr: []string{gconv.String(req.Id)}})
 	if err != nil {
 		OutputCustomError(r, consts.ERROR_SYSTEM)
 		return
 	}
-	if reply.Album == nil {
+	if reply.Albums == nil || reply.Albums[req.Id] == nil {
 		OutputCustomData(r, nil)
 		return
 	}
-	data := &pb.ResAdminVoiceLoverAlbumDetail{Album: &pb.AdminVoiceLoverAlbum{
-		Id:         reply.Album.Id,
-		Name:       reply.Album.Name,
-		Intro:      reply.Album.Intro,
-		Cover:      reply.Album.Cover,
-		AudioCount: int32(reply.Album.AudioCount),
-		CreateTime: reply.Album.CreateTime,
-		OpUid:      reply.Album.OpUid,
+	data := &pb.RespAdminVoiceLoverAlbumDetail{Album: &pb.AdminVoiceLoverAlbum{
+		Id:         reply.Albums[req.Id].Id,
+		Name:       reply.Albums[req.Id].Name,
+		Intro:      reply.Albums[req.Id].Intro,
+		Cover:      reply.Albums[req.Id].Cover,
+		AudioCount: int32(reply.Albums[req.Id].AudioCount),
+		CreateTime: reply.Albums[req.Id].CreateTime,
+		OpUid:      reply.Albums[req.Id].OpUid,
 	}}
 	OutputCustomData(r, data)
 }
@@ -347,7 +347,7 @@ func (a *voiceLoverAdminApi) AlbumList(r *ghttp.Request) {
 		return
 	}
 
-	data := &pb.ResAdminVoiceLoverAlbumList{Total: reply.Total}
+	data := &pb.RespAdminVoiceLoverAlbumList{Total: reply.Total}
 	for _, l := range reply.Albums {
 		data.Albums = append(data.Albums, &pb.AdminVoiceLoverAlbum{
 			Id:         l.Id,
@@ -358,6 +358,36 @@ func (a *voiceLoverAdminApi) AlbumList(r *ghttp.Request) {
 			AudioCount: int32(l.AudioCount),
 			CreateTime: l.CreateTime,
 		})
+	}
+	OutputCustomData(r, data)
+}
+
+// AudioCollectList
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAdminVoiceLoverAudioCollectList query
+// @Success 200 {object} pb.ResAdminVoiceLoverAlbumList
+// @Router /go/func/admin/voice_lover/audio-collect-list [get]
+func (a *voiceLoverAdminApi) AudioCollectList(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverAudioCollectList
+	if err := r.Parse(&req); err != nil {
+		OutputCustomError(r, consts.ERROR_PARAM)
+		return
+	}
+	ctx := r.Context()
+	g.Log().Infof("VoiceLoverAdmin audio_collect_list param = %v", *req)
+	res, total, err := voice_lover.VoiceLoverService.GetAudioCollectList(ctx, req)
+	if err != nil {
+		OutputCustomError(r, consts.ERROR_SYSTEM)
+		return
+	}
+	data := &pb.RespAdminVoiceLoverAudioCollectList{
+		Audios: res,
+		Total:  total,
 	}
 	OutputCustomData(r, data)
 }

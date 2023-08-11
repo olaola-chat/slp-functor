@@ -15,13 +15,14 @@ message AdminVoiceLoverAudio {
   repeated string covers = 7;
   int32 source = 8;
   string desc = 9;
-  repeated string labels = 10;
-  int32 audit_status = 11;
-  uint64 op_uid = 12;
-  repeated AdminVoiceLoverAudioEdit edit_dubs = 13;
-  repeated AdminVoiceLoverAudioEdit edit_contents = 14;
-  repeated AdminVoiceLoverAudioEdit edit_posts = 15;
-  repeated AdminVoiceLoverAudioEdit edit_covers = 16;
+  string title = 10;
+  repeated string labels = 11;
+  int32 audit_status = 12;
+  uint64 op_uid = 13;
+  repeated AdminVoiceLoverAudioEdit edit_dubs = 14;
+  repeated AdminVoiceLoverAudioEdit edit_contents = 15;
+  repeated AdminVoiceLoverAudioEdit edit_posts = 16;
+  repeated AdminVoiceLoverAudioEdit edit_covers = 17;
 }
 
 message AdminVoiceLoverAudioEdit {
@@ -62,11 +63,31 @@ message AdminVoiceLoverAlbum {
   uint64 create_time = 7;
 }
 
-message ResAdminVoiceLoverAlbumDetail {
+message RespAdminVoiceLoverAlbumDetail {
   AdminVoiceLoverAlbum album = 1;
 }
 
-message ResAdminVoiceLoverAlbumList {
+message RespAdminVoiceLoverAlbumList {
   repeated AdminVoiceLoverAlbum albums = 1;
+  int32 total = 2;
+}
+
+message AdminVoiceLoverAudioCollect {
+  uint64 id = 1;
+  string title = 2;
+  repeated string labels = 3;
+  uint32 pub_uid = 4;
+  string pub_user_name = 5;
+  repeated AdminVoiceLoverAudioCollectAlbum collects = 6;
+  uint64 create_time = 7;
+}
+
+message AdminVoiceLoverAudioCollectAlbum {
+  uint64 id = 1;
+  string name = 2;
+}
+
+message RespAdminVoiceLoverAudioCollectList {
+  repeated AdminVoiceLoverAudioCollect audios = 1;
   int32 total = 2;
 }
