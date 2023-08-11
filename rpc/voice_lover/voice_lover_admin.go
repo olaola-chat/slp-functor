@@ -77,3 +77,7 @@ func (v *VoiceLoverAdmin) GetAlbumList(ctx context.Context, req *vl_pb.ReqGetAlb
 	reply.Total = total
 	return nil
 }
+
+func (v *VoiceLoverAdmin) AudioCollect(ctx context.Context, req *vl_pb.ReqAudioCollect, reply *vl_pb.ResAudioCollect) error {
+	return logic.AdminLogic.AudioCollect(ctx, req)
+}

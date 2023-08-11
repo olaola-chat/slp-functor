@@ -10,7 +10,7 @@ replace (
 require (
 	github.com/gogf/gf v1.16.9
 	github.com/olaola-chat/rbp-library v0.0.0-20230810082003-b7a2a856435e
-	github.com/olaola-chat/rbp-proto v0.0.0-20230811072928-b82564b3394b
+	github.com/olaola-chat/rbp-proto v0.0.0-20230811085826-933af6583832
 	google.golang.org/protobuf v1.31.0
 )
 

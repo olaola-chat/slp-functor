@@ -19,6 +19,11 @@ type adminLogic struct {
 
 var AdminLogic = &adminLogic{}
 
+const (
+	AudioCollect = iota
+	AudioCollectRemove
+)
+
 func (a *adminLogic) GetAudioDetail(ctx context.Context, id uint64) (*voice_lover.AudioData, error) {
 	res, err := dao.VoiceLoverAudioDao.GetAudioDetailByAudioId(ctx, id)
 	if err != nil {
@@ -120,11 +125,29 @@ func (a *adminLogic) UpdateAudio(ctx context.Context, req *voice_lover.ReqUpdate
 
 func (a *adminLogic) AuditAudio(ctx context.Context, req *voice_lover.ReqAuditAudio) error {
 	if req.AuditStatus != dao.AuditNoPass && req.AuditStatus != dao.AuditPass {
-		return consts.ERROR_PARAM
+		return consts.ERROR_AUDIT_AUDIO_PARAM
 	}
-	data := g.Map{
-		"update_time": time.Now().Unix(),
+	res, err := dao.VoiceLoverAudioDao.GetAudioDetailByAudioId(ctx, req.GetId())
+	if err != nil {
+		return err
 	}
+	if res == nil {
+		return consts.ERROR_AUDIO_NOT_EXIST
+	}
+	if req.AuditStatus == int32(res.AuditStatus) {
+		return nil
+	}
+	if res.AuditStatus == dao.AuditPass {
+		count, err := dao.VoiceLoverAudioAlbumDao.GetCountByAudioId(ctx, req.GetId())
+		if err != nil {
+			return err
+		}
+		if count > 0 {
+			return consts.ERROR_AUDIO_COLLECT
+		}
+	}
+	data := g.Map{}
+	data["update_time"] = time.Now().Unix()
 	data["audit_status"] = req.AuditStatus
 	data["audit_reason"] = req.AuditReason
 	data["op_uid"] = req.OpUid
@@ -154,14 +177,14 @@ func (a *adminLogic) DelAlbum(ctx context.Context, req *voice_lover.ReqDelAlbum)
 		return err
 	}
 	if info == nil {
-		return nil
+		return consts.ERROR_ALBUM_NOT_EXIST
 	}
 	count, err := dao.VoiceLoverAudioAlbumDao.GetCountByAlbumId(ctx, req.GetId())
 	if err != nil {
 		return err
 	}
 	if count > 0 {
-		return consts.ERROR_PARAM
+		return consts.ERROR_ALBUM_HAS_AUDIO
 	}
 	err = dao.VoiceLoverAlbumDao.DelAlbum(ctx, req.GetId(), req.GetOpUid())
 	if err != nil {
@@ -176,14 +199,7 @@ func (a *adminLogic) UpdateAlbum(ctx context.Context, req *voice_lover.ReqUpdate
 		return err
 	}
 	if info == nil {
-		return nil
-	}
-	count, err := dao.VoiceLoverAudioAlbumDao.GetCountByAlbumId(ctx, req.GetId())
-	if err != nil {
-		return err
-	}
-	if count > 0 {
-		return consts.ERROR_PARAM
+		return consts.ERROR_ALBUM_NOT_EXIST
 	}
 	err = dao.VoiceLoverAlbumDao.UpdateAlbum(ctx, req.GetId(), req.GetName(), req.GetIntro(), req.GetCover(), req.GetOpUid())
 	if err != nil {
@@ -262,4 +278,57 @@ func (a *adminLogic) GetAlbumList(ctx context.Context, req *voice_lover.ReqGetAl
 		})
 	}
 	return res, int32(total), nil
+}
+
+func (a *adminLogic) AudioCollect(ctx context.Context, req *voice_lover.ReqAudioCollect) error {
+	audio, err := dao.VoiceLoverAudioDao.GetAudioDetailByAudioId(ctx, req.AudioId)
+	if err != nil {
+		return err
+	}
+	if audio == nil {
+		return consts.ERROR_AUDIO_NOT_EXIST
+	}
+	if audio.AuditStatus != dao.AuditPass {
+		return consts.ERROR_AUDIO_STATUS_INVALID
+	}
+	album, err := dao.VoiceLoverAlbumDao.GetValidAlbumById(ctx, req.GetAlbumId())
+	if err != nil {
+		return err
+	}
+	if album == nil {
+		return consts.ERROR_ALBUM_NOT_EXIST
+	}
+	audioAlbum, err := dao.VoiceLoverAudioAlbumDao.GetAudioAlbumByAudioIdAlbumId(ctx, req.AudioId, req.AlbumId)
+	if err != nil {
+		return err
+	}
+	if req.Type == AudioCollect {
+		if audioAlbum != nil {
+			return consts.ERROR_AUDIO_ALBUM_COLLECT
+		}
+		err := dao.VoiceLoverAudioAlbumDao.Create(ctx, req.AudioId, req.AlbumId)
+		if err != nil {
+			return err
+		}
+	}
+	if req.Type == AudioCollectRemove {
+		if audioAlbum == nil {
+			return consts.ERROR_AUDIO_ALBUM_COLLECT_REMOVE
+		}
+		err := dao.VoiceLoverAudioAlbumDao.Del(ctx, req.AudioId, req.AlbumId)
+		if err != nil {
+			return err
+		}
+	}
+	albumIds, err := dao.VoiceLoverAudioAlbumDao.GetAlbumIdsByAudioId(ctx, req.AudioId)
+	if err != nil {
+		return err
+	}
+	data := g.Map{}
+	if len(albumIds) > 0 {
+		data["has_album"] = 1
+	}
+	data["albums"] = albumIds
+	_ = es.EsClient(es.EsVpc).Update("voice_lover_audio", req.AudioId, data)
+	return nil
 }

@@ -32,16 +32,22 @@ message AdminVoiceLoverAudioEdit {
 }
 
 message RespAdminVoiceLoverAudioList {
-  repeated AdminVoiceLoverAudio audios = 1;
-  int32 total = 2;
+  bool success = 1;
+  string msg = 2;
+  repeated AdminVoiceLoverAudio audios = 3;
+  int32 total = 4;
 }
 
 message RespAdminVoiceLoverAudioDetail {
-  AdminVoiceLoverAudio audio = 1;
+  bool success = 1;
+  string msg = 2;
+  AdminVoiceLoverAudio audio = 3;
 }
 
 message RespAdminVoiceLoverAudioAuditReason {
-  repeated AdminVoiceLoverAudioAuditReason reasons = 1;
+  bool success = 1;
+  string msg = 2;
+  repeated AdminVoiceLoverAudioAuditReason reasons = 3;
 }
 
 message AdminVoiceLoverAudioAuditReason {
@@ -50,7 +56,9 @@ message AdminVoiceLoverAudioAuditReason {
 }
 
 message RespAdminVoiceLoverAlbumCreate {
-  uint64 id = 1;
+  bool success = 1;
+  string msg = 2;
+  uint64 id = 3;
 }
 
 message AdminVoiceLoverAlbum {
@@ -64,12 +72,16 @@ message AdminVoiceLoverAlbum {
 }
 
 message RespAdminVoiceLoverAlbumDetail {
-  AdminVoiceLoverAlbum album = 1;
+  bool success = 1;
+  string msg = 2;
+  AdminVoiceLoverAlbum album = 3;
 }
 
 message RespAdminVoiceLoverAlbumList {
-  repeated AdminVoiceLoverAlbum albums = 1;
-  int32 total = 2;
+  bool success = 1;
+  string msg = 2;
+  repeated AdminVoiceLoverAlbum albums = 3;
+  int32 total = 4;
 }
 
 message AdminVoiceLoverAudioCollect {
@@ -88,6 +100,33 @@ message AdminVoiceLoverAudioCollectAlbum {
 }
 
 message RespAdminVoiceLoverAudioCollectList {
-  repeated AdminVoiceLoverAudioCollect audios = 1;
-  int32 total = 2;
+  bool success = 1;
+  string msg = 2;
+  repeated AdminVoiceLoverAudioCollect audios = 3;
+  int32 total = 4;
+}
+
+message RespAdminVoiceLoverAudioUpdate {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverAudioAudit {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverAlbumUpdate {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverAlbumDel {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverAudioCollect {
+  bool success = 1;
+  string msg = 2;
 }
