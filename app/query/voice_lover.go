@@ -29,5 +29,4 @@ type ReqVoiceLoverPost struct {
 	EditPost    string //编辑后期
 	EditCover   string //编辑封面
 	Labels      string //标签
-	Seconds     int32  //时长
 }

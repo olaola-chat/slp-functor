@@ -137,3 +137,27 @@ func (v *voiceLoverAlbumDao) GetValidAlbumList(ctx context.Context, startTime ui
 	}
 	return list, uint32(total), nil
 }
+
+func (v *voiceLoverAlbumDao) GetValidAlbumByNames(ctx context.Context, names []string) (map[uint64]*functor2.EntityVoiceLoverAlbum, error) {
+	data, err := functor.VoiceLoverAlbum.Ctx(ctx).Where("name in (?)", names).Where("is_deleted", 0).FindAll()
+	if err != nil {
+		return nil, err
+	}
+	m := make(map[uint64]*functor2.EntityVoiceLoverAlbum)
+	for _, d := range data {
+		m[d.Id] = d
+	}
+	return m, nil
+}
+
+func (v *voiceLoverAlbumDao) GetValidAlbumByIds(ctx context.Context, ids []uint64) (map[uint64]*functor2.EntityVoiceLoverAlbum, error) {
+	data, err := functor.VoiceLoverAlbum.Ctx(ctx).Where("id in (?)", ids).Where("is_deleted", 0).FindAll()
+	if err != nil {
+		return nil, err
+	}
+	m := make(map[uint64]*functor2.EntityVoiceLoverAlbum)
+	for _, d := range data {
+		m[d.Id] = d
+	}
+	return m, nil
+}

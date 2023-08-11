@@ -60,3 +60,13 @@ type ReqAdminVoiceLoverAlbumList struct {
 type ReqAdminVoiceLoverAlbumDetail struct {
 	Id uint64
 }
+
+type ReqAdminVoiceLoverAudioCollectList struct {
+	UserStr       string
+	AlbumStr      string
+	AudioStr      string
+	Label         string
+	CollectStatus int32 //-1:全部 0:未收录 1:已收录
+	Order         string
+	Paginator
+}
