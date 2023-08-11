@@ -77,18 +77,47 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 
 func (serv *voiceLoverService) GetAlbumList(ctx context.Context, req *query.ReqAlbumList) (*pb.RespAlbumList, error) {
 	res := &pb.RespAlbumList{
-		Success:   true,
-		Msg:       "",
-		RecAlbums: make([]*pb.AlbumData, 0),
-		HasMore:   false,
+		Success: true,
+		Msg:     "",
+		Albums:  make([]*pb.AlbumData, 0),
+		HasMore: false,
 	}
+	var albumsRes *vl_pb.ResGetAlbumsByPage
+	var err error
 	if req.Choice == 0 || req.Choice == 1 {
 		// 查询默认或者精选专辑列表 直接查专辑表
+		albumsRes, err = vl_rpc.VoiceLoverMain.GetAlbumsByPage(ctx, &vl_pb.ReqGetAlbumsByPage{
+			Choice: req.Choice,
+			Page:   req.Page,
+			Limit:  req.Limit,
+		})
+		if err != nil {
+			g.Log().Errorf("voiceLoverService GetAlbumList GetAlbumsByPage error=%v", err)
+			return res, gerror.New("system error")
+		}
 	} else if req.Choice == 99 {
 		// 查询专题下专辑列表
+		albumsRes, err = vl_rpc.VoiceLoverMain.GetSubjectAlbumsByPage(ctx, &vl_pb.ReqGetSubjectAlbumsByPage{
+			SubjectId: req.SubjectId,
+			Page:      req.Page,
+			Limit:     req.Limit,
+		})
+		if err != nil {
+			g.Log().Errorf("voiceLoverService GetAlbumList GetSubjectAlbumsByPage error=%v", err)
+			return res, gerror.New("system error")
+		}
 	} else {
 		g.Log().Errorf("voiceLoverService GetAlbumList req.Choice=%d not supported", req.Choice)
 		return res, gerror.New("param error")
+	}
+	res.HasMore = albumsRes.GetHasMore()
+	for _, v := range albumsRes.GetAlbums() {
+		res.Albums = append(res.Albums, &pb.AlbumData{
+			Id:         v.Id,
+			Title:      v.Name,
+			Cover:      v.Cover,
+			AudioTotal: v.AudioCount,
+		})
 	}
 	return res, nil
 }

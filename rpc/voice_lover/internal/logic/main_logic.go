@@ -218,6 +218,35 @@ func (m *mainLogic) GetAlbumsByPage(ctx context.Context, req *vl_pb.ReqGetAlbums
 	return nil
 }
 
+func (m *mainLogic) GetSubjectAlbumsByPage(ctx context.Context, req *vl_pb.ReqGetSubjectAlbumsByPage, reply *vl_pb.ResGetAlbumsByPage) error {
+	reply.Albums = make([]*vl_pb.AlbumData, 0)
+	list, err := dao.VoiceLoverAlbumSubjectDao.GetListBySubjectId(ctx, req.SubjectId, int(req.Page), int(req.Limit)+1)
+	if err != nil {
+		return err
+	}
+	if len(list) > int(req.Limit) {
+		list = list[:req.Limit]
+		reply.HasMore = true
+	}
+	albumIds := make([]uint64, 0)
+
+	for _, v := range list {
+		albumIds = append(albumIds, v.AlbumId)
+	}
+	albumList, err := dao.VoiceLoverAlbumDao.GetValidAlbumListByIds(ctx, albumIds)
+	for _, v := range albumList {
+		reply.Albums = append(reply.Albums, &vl_pb.AlbumData{
+			Id:         v.Id,
+			Name:       v.Name,
+			Intro:      v.Intro,
+			Cover:      v.Cover,
+			CreateTime: v.CreateTime,
+		})
+	}
+	m.BuildRecAlbumsExtendInfo(ctx, reply.Albums)
+	return nil
+}
+
 func (m *mainLogic) GetRecSubjects(ctx context.Context, req *vl_pb.ReqGetRecSubjects, reply *vl_pb.ResGetRecSubjects) error {
 	reply.Subjects = make([]*vl_pb.SubjectData, 0)
 	list, err := dao.VoiceLoverSubjectDao.GetValidSubjectList(ctx, 0, 3)

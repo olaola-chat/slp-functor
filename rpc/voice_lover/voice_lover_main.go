@@ -27,6 +27,10 @@ func (v *VoiceLoverMain) GetAlbumsByPage(ctx context.Context, req *vl_pb.ReqGetA
 	return logic.MainLogic.GetAlbumsByPage(ctx, req, reply)
 }
 
+func (v *VoiceLoverMain) GetSubjectAlbumsByPage(ctx context.Context, req *vl_pb.ReqGetSubjectAlbumsByPage, reply *vl_pb.ResGetAlbumsByPage) error {
+	return logic.MainLogic.GetSubjectAlbumsByPage(ctx, req, reply)
+}
+
 func (v *VoiceLoverMain) GetRecSubjects(ctx context.Context, req *vl_pb.ReqGetRecSubjects, reply *vl_pb.ResGetRecSubjects) error {
 	return logic.MainLogic.GetRecSubjects(ctx, req, reply)
 }
