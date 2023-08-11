@@ -205,7 +205,7 @@ func (s *voiceLoverService) BuildVoiceLoverAudioPb(models []*voice_lover.VoiceLo
 }
 
 func (s *voiceLoverService) GetUserBroker(uids []uint32) (map[uint32]*xianshi.EntityXsBroker, error) {
-	userBrokers, err := xianshi2.XsBrokerUser.Where("uid in (?)").Where("is_deleted = 0 and state = 1").FindAll()
+	userBrokers, err := xianshi2.XsBrokerUser.Where("uid in (?)").Where("deleted = 0 and state = 1").FindAll()
 	if err != nil {
 		return map[uint32]*xianshi.EntityXsBroker{}, err
 	}
@@ -217,7 +217,7 @@ func (s *voiceLoverService) GetUserBroker(uids []uint32) (map[uint32]*xianshi.En
 	}
 	bids = utils.DistinctInt32Slice(bids)
 	brokerMap := make(map[int32]*xianshi.EntityXsBroker)
-	brokers, err := xianshi2.XsBroker.Where("bid in (?)").Where("is_deleted = 0").FindAll()
+	brokers, err := xianshi2.XsBroker.Where("bid in (?)").Where("deleted = 0").FindAll()
 	if err != nil {
 		return map[uint32]*xianshi.EntityXsBroker{}, err
 	}
