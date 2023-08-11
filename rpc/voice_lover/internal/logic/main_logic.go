@@ -45,6 +45,7 @@ func (m *mainLogic) Post(ctx context.Context, req *vl_pb.ReqPost, reply *vl_pb.R
 			UpdateTime: now,
 			Title:      req.Title,
 			Labels:     req.Labels,
+			Seconds:    req.Seconds,
 		}
 		last, err := functor.VoiceLoverAudio.TX(tx).Insert(data)
 		if err != nil {
@@ -147,6 +148,7 @@ func buildAudioEsModel(data *functor2.EntityVoiceLoverAudio) *voice_lover2.Voice
 		HasAlbum:    0,
 		OpUid:       data.OpUid,
 		Resource:    data.Resource,
+		Seconds:     data.Seconds,
 	}
 	return esModel
 }

@@ -55,7 +55,7 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAlbumList query
 // @Success 200 {object} pb.RespAlbumList
-// @Router /go/func/voice_lover/album_list [get]
+// @Router /go/func/voice_lover/albumList [get]
 func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
 	var req *query.ReqAlbumList
 	if err := r.ParseQuery(&req); err != nil {
@@ -74,7 +74,7 @@ func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqRecUserList query
 // @Success 200 {object} pb.RespRecUserList
-// @Router /go/func/voice_lover/rec_user_list [get]
+// @Router /go/func/voice_lover/recUserList [get]
 func (a *voiceLoverAPI) RecUserList(r *ghttp.Request) {
 	var req *query.ReqRecUserList
 	if err := r.ParseQuery(&req); err != nil {
@@ -93,7 +93,7 @@ func (a *voiceLoverAPI) RecUserList(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAlbumDetail query
 // @Success 200 {object} pb.RespAlbumDetail
-// @Router /go/func/voice_lover/album_detail [get]
+// @Router /go/func/voice_lover/albumDetail [get]
 func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
 	var req *query.ReqAlbumDetail
 	if err := r.ParseQuery(&req); err != nil {
@@ -101,6 +101,44 @@ func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
 		return
 	}
 	OutputCustomData(r, &pb.RespAlbumDetail{})
+}
+
+// AlbumComments
+// @Tags VoiceLover
+// @Summary 查看专辑评论列表
+// @Description 查看专辑评论列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAlbumComments query
+// @Success 200 {object} pb.RespAlbumComments
+// @Router /go/func/voice_lover/albumComments [get]
+func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
+	var req *query.ReqAlbumComments
+	if err := r.ParseQuery(&req); err != nil {
+		OutputCustomError(r, consts.ERROR_PARAM)
+		return
+	}
+	OutputCustomData(r, &pb.RespAlbumComments{})
+}
+
+// CommentAlbum
+// @Tags VoiceLover
+// @Summary 发表专辑评论
+// @Description 发表专辑评论
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqCommentAlbum query
+// @Success 200 {object} pb.RespCommentAlbum
+// @Router /go/func/voice_lover/commentAlbum [post]
+func (a *voiceLoverAPI) CommentAlbum(r *ghttp.Request) {
+	var req *query.ReqCommentAlbum
+	if err := r.ParseQuery(&req); err != nil {
+		OutputCustomError(r, consts.ERROR_PARAM)
+		return
+	}
+	OutputCustomData(r, &pb.RespCommentAlbum{})
 }
 
 // Post
@@ -133,6 +171,7 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 		EditPost:    req.EditPost,
 		EditCover:   req.EditCover,
 		Labels:      req.Labels,
+		Seconds:     req.Seconds,
 	})
 	if err != nil {
 		g.Log().Errorf("VoiceLover Post error, err = %v", err)
