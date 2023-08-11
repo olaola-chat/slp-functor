@@ -14,5 +14,5 @@ type VoiceLoverAudioEsModel struct {
 	HasAlbum    int32    `json:"has_album"`
 	OpUid       uint64   `json:"op_uid"`
 	Resource    string   `json:"resource"`
-	Seconds     int32    `json:"seconds"`
+	Seconds     uint32   `json:"seconds"`
 }

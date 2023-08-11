@@ -12,11 +12,14 @@ import (
 	"github.com/olaola-chat/rbp-library/es"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/xianshi"
 	user2 "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
+	voice_lover3 "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	"github.com/olaola-chat/rbp-proto/rpcclient/user"
+	voice_lover2 "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
 	"github.com/olaola-chat/rbp-functor/app/model/voice_lover"
 	"github.com/olaola-chat/rbp-functor/app/pb"
 	"github.com/olaola-chat/rbp-functor/app/query"
+	"github.com/olaola-chat/rbp-functor/app/utils"
 )
 
 type VoiceLoverAudioSearchQuery struct {
@@ -26,8 +29,8 @@ type VoiceLoverAudioSearchQuery struct {
 	PubUIds     []uint64
 	Label       string
 	AuditStatus int32
-	AudioId     uint64
-	AlbumId     uint64
+	AudioStr    string
+	AlbumIds    []uint64
 	HasAlbum    int32
 	PageNum     int32
 	PageSize    int32
@@ -40,8 +43,74 @@ func (s *voiceLoverService) GetAudioList(ctx context.Context, req *query.ReqAdmi
 	if err != nil {
 		return nil, 0, err
 	}
-	g.Log().Infof("GetAudioList total = %d audios = %v", total, res)
 	return s.BuildVoiceLoverAudioPb(res), total, nil
+}
+
+func (s *voiceLoverService) GetAudioCollectList(ctx context.Context, req *query.ReqAdminVoiceLoverAudioCollectList) ([]*pb.AdminVoiceLoverAudioCollect, int32, error) {
+	q := s.BuildAudioCollectSearchQuery(ctx, req)
+	res, total, err := s.SearchAudio(ctx, q)
+	if err != nil {
+		return nil, 0, err
+	}
+	return s.BuildVoiceLoverAudioCollectPb(res), total, nil
+}
+
+func (s *voiceLoverService) BuildAudioCollectSearchQuery(ctx context.Context, req *query.ReqAdminVoiceLoverAudioCollectList) *VoiceLoverAudioSearchQuery {
+	g.Log().Infof("BuildAudioCollectSearchQuery req = %v", *req)
+	pubUids := make([]uint64, 0)
+	if len(req.UserStr) != 0 {
+		uid, err := strconv.Atoi(req.UserStr)
+		if err == nil {
+			pubUids = append(pubUids, uint64(uid))
+		}
+		if err != nil {
+			res, err := user.UserProfile.SearchByName(ctx, &user2.ReqUserSearchName{
+				Keyword:       req.UserStr,
+				Limit:         10,
+				SearcherLevel: 1,
+			})
+			if err != nil {
+				g.Log().Warningf("BuildAudioCollectSearchQuery search by name error, err = %v")
+			}
+			g.Log().Infof("BuildAudioCollectSearchQuery searchbyname name = %s data = %v", req.UserStr, res.Data)
+			if err == nil {
+				for _, r := range res.Data {
+					pubUids = append(pubUids, uint64(r))
+				}
+				if len(pubUids) == 0 {
+					pubUids = append(pubUids, 0)
+				}
+			}
+		}
+	}
+	var albumIds []uint64
+	if len(req.AlbumStr) > 0 {
+		id, err := strconv.Atoi(req.AlbumStr)
+		if err == nil {
+			albumIds = append(albumIds, uint64(id))
+		} else {
+			albumReply, err := voice_lover2.VoiceLoverAdmin.GetAlbumDetail(ctx, &voice_lover3.ReqGetAlbumDetail{AlbumStr: []string{req.AlbumStr}})
+			if err == nil && len(albumReply.Albums) > 0 {
+				for albumId := range albumReply.Albums {
+					albumIds = append(albumIds, albumId)
+				}
+			}
+		}
+	}
+	q := &VoiceLoverAudioSearchQuery{
+		PubUIds:     pubUids,
+		Label:       req.Label,
+		AuditStatus: 1,
+		PageNum:     int32(req.Page),
+		PageSize:    int32(req.Limit),
+		Order:       map[string]string{},
+		AlbumIds:    albumIds,
+		AudioStr:    req.AudioStr,
+		HasAlbum:    req.CollectStatus,
+	}
+	_ = json.Unmarshal([]byte(req.Order), &q.Order)
+	g.Log().Infof("BuildAudioCollectSearchQuery query = %v", *q)
+	return q
 }
 
 func (s *voiceLoverService) BuildAudioSearchQuery(ctx context.Context, req *query.ReqAdminVoiceLoverAudioList) *VoiceLoverAudioSearchQuery {
@@ -127,9 +196,63 @@ func (s *voiceLoverService) BuildVoiceLoverAudioPb(models []*voice_lover.VoiceLo
 			Labels:      model.Labels,
 			AuditStatus: model.AuditStatus,
 			OpUid:       model.OpUid,
+			Title:       model.Title,
 		})
 	}
+	return data
+}
 
+func (s *voiceLoverService) BuildVoiceLoverAudioCollectPb(models []*voice_lover.VoiceLoverAudioEsModel) []*pb.AdminVoiceLoverAudioCollect {
+	data := make([]*pb.AdminVoiceLoverAudioCollect, 0)
+	uidMap := make(map[uint32]struct{})
+	for _, model := range models {
+		uidMap[model.PubUid] = struct{}{}
+	}
+	uids := make([]uint32, 0)
+	for uid := range uidMap {
+		uids = append(uids, uid)
+	}
+	userReply, _ := user.UserProfile.Mget(context.Background(), &user2.ReqUserProfiles{
+		Uids:   uids,
+		Fields: []string{"uid", "icon", "name"},
+	})
+	userMap := make(map[uint32]*xianshi.EntityXsUserProfile)
+	for _, u := range userReply.Data {
+		userMap[u.Uid] = u
+	}
+	albumIds := make([]uint64, 0)
+	for _, model := range models {
+		albumIds = append(albumIds, model.Albums...)
+		collects := make([]*pb.AdminVoiceLoverAudioCollectAlbum, 0)
+		for _, albumId := range model.Albums {
+			collects = append(collects, &pb.AdminVoiceLoverAudioCollectAlbum{
+				Id: albumId,
+			})
+		}
+		data = append(data, &pb.AdminVoiceLoverAudioCollect{
+			Id:          model.Id,
+			CreateTime:  model.CreateTime,
+			PubUid:      model.PubUid,
+			PubUserName: userMap[model.PubUid].GetName(),
+			Labels:      model.Labels,
+			Title:       model.Title,
+			Collects:    collects,
+		})
+	}
+	albumStrs := utils.Uint64SliceToStrSlice(utils.DistinctUint64Slice(albumIds))
+	if len(albumStrs) > 0 {
+		albumReply, err := voice_lover2.VoiceLoverAdmin.GetAlbumDetail(context.Background(), &voice_lover3.ReqGetAlbumDetail{AlbumStr: albumStrs})
+		if err != nil {
+			g.Log().Errorf("[BuildVoiceLoverAudioCollectPb] GetAlbumDetail error, err = %v")
+		}
+		if err == nil {
+			for _, d := range data {
+				for _, c := range d.Collects {
+					c.Name = albumReply.Albums[c.GetId()].GetName()
+				}
+			}
+		}
+	}
 	return data
 }
 
@@ -176,17 +299,33 @@ func (s *voiceLoverService) SearchAudio(ctx context.Context, query *VoiceLoverAu
 			},
 		})
 	}
-	if query.AudioId > 0 {
+	if len(query.AudioStr) > 0 {
+		audioId, err := strconv.Atoi(query.AudioStr)
+		if err == nil {
+			must = append(must, map[string]interface{}{
+				"term": map[string]interface{}{
+					"id": audioId,
+				},
+			})
+		} else {
+			must = append(must, map[string]interface{}{
+				"match": map[string]interface{}{
+					"title": query.AudioStr,
+				},
+			})
+		}
+	}
+	if len(query.AlbumIds) > 0 {
 		must = append(must, map[string]interface{}{
-			"term": map[string]interface{}{
-				"id": query.AudioId,
+			"terms": map[string]interface{}{
+				"albums": query.AlbumIds,
 			},
 		})
 	}
-	if query.AlbumId > 0 {
+	if query.HasAlbum >= 0 {
 		must = append(must, map[string]interface{}{
 			"term": map[string]interface{}{
-				"albums": query.AlbumId,
+				"has_album": query.HasAlbum,
 			},
 		})
 	}

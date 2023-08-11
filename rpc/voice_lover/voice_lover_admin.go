@@ -60,11 +60,11 @@ func (v *VoiceLoverAdmin) UpdateAlbum(ctx context.Context, req *vl_pb.ReqUpdateA
 }
 
 func (v *VoiceLoverAdmin) GetAlbumDetail(ctx context.Context, req *vl_pb.ReqGetAlbumDetail, reply *vl_pb.ResGetAlbumDetail) error {
-	album, err := logic.AdminLogic.GetAlbumDetail(ctx, req)
+	albums, err := logic.AdminLogic.GetAlbumDetail(ctx, req)
 	if err != nil {
 		return err
 	}
-	reply.Album = album
+	reply.Albums = albums
 	return nil
 }
 

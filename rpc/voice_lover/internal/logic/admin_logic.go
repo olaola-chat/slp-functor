@@ -8,7 +8,6 @@ import (
 
 	"github.com/gogf/gf/frame/g"
 	"github.com/olaola-chat/rbp-library/es"
-	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 
 	"github.com/olaola-chat/rbp-functor/app/consts"
@@ -193,35 +192,55 @@ func (a *adminLogic) UpdateAlbum(ctx context.Context, req *voice_lover.ReqUpdate
 	return nil
 }
 
-func (a *adminLogic) GetAlbumDetail(ctx context.Context, req *voice_lover.ReqGetAlbumDetail) (*voice_lover.AlbumData, error) {
-	albumStr := req.GetAlbumStr()
-	albumId, err := strconv.Atoi(albumStr)
-	var info *functor.EntityVoiceLoverAlbum
-	if err == nil {
-		info, err = dao.VoiceLoverAlbumDao.GetValidAlbumById(ctx, uint64(albumId))
-	} else {
-		info, err = dao.VoiceLoverAlbumDao.GetValidAlbumByName(ctx, albumStr)
+func (a *adminLogic) GetAlbumDetail(ctx context.Context, req *voice_lover.ReqGetAlbumDetail) (map[uint64]*voice_lover.AlbumData, error) {
+	albumIds := make([]uint64, 0)
+	albumNames := make([]string, 0)
+	for _, albumStr := range req.GetAlbumStr() {
+		id, err := strconv.Atoi(albumStr)
+		if err == nil {
+			albumIds = append(albumIds, uint64(id))
+		} else {
+			albumNames = append(albumNames, albumStr)
+		}
 	}
-	if err != nil {
-		return nil, err
+	res := make(map[uint64]*voice_lover.AlbumData)
+	if len(albumIds) > 0 {
+		m, err := dao.VoiceLoverAlbumDao.GetValidAlbumByIds(ctx, albumIds)
+		if err != nil {
+			return nil, err
+		}
+		for id, info := range m {
+			count, _ := dao.VoiceLoverAudioAlbumDao.GetCountByAlbumId(ctx, info.GetId())
+			res[id] = &voice_lover.AlbumData{
+				Id:         info.Id,
+				Name:       info.Name,
+				Intro:      info.Intro,
+				Cover:      info.Cover,
+				CreateTime: info.CreateTime,
+				AudioCount: uint32(count),
+				OpUid:      info.OpUid,
+			}
+		}
 	}
-	if info == nil {
-		return nil, nil
+	if len(albumNames) > 0 {
+		m, err := dao.VoiceLoverAlbumDao.GetValidAlbumByNames(ctx, albumNames)
+		if err != nil {
+			return nil, err
+		}
+		for id, info := range m {
+			count, _ := dao.VoiceLoverAudioAlbumDao.GetCountByAlbumId(ctx, info.GetId())
+			res[id] = &voice_lover.AlbumData{
+				Id:         info.Id,
+				Name:       info.Name,
+				Intro:      info.Intro,
+				Cover:      info.Cover,
+				CreateTime: info.CreateTime,
+				AudioCount: uint32(count),
+				OpUid:      info.OpUid,
+			}
+		}
 	}
-	count, err := dao.VoiceLoverAudioAlbumDao.GetCountByAlbumId(ctx, info.GetId())
-	if err != nil {
-		return nil, err
-	}
-	album := &voice_lover.AlbumData{
-		Id:         info.Id,
-		Name:       info.Name,
-		Intro:      info.Intro,
-		Cover:      info.Cover,
-		CreateTime: info.CreateTime,
-		AudioCount: uint32(count),
-		OpUid:      info.OpUid,
-	}
-	return album, nil
+	return res, nil
 }
 
 func (a *adminLogic) GetAlbumList(ctx context.Context, req *voice_lover.ReqGetAlbumList) ([]*voice_lover.AlbumData, int32, error) {

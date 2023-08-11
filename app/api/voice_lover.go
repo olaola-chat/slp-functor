@@ -43,7 +43,6 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 	g.Log().Debugf("ctxUser=%+v", ctxUser)
 	data, err := vl_serv.VoiceLoverService.GetMainData(r.GetCtx(), ctxUser.UID)
 	if err != nil {
-		g.Log().Errorf("voiceLoverAPI Main GetMainData error=%v", err)
 		response.Output(r, &pb.RespVoiceLoverMain{
 			Success: false,
 			Msg:     consts.ERROR_SYSTEM.Msg(),
@@ -72,7 +71,15 @@ func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAlbumList{Success: true, Msg: ""})
+	data, err := vl_serv.VoiceLoverService.GetAlbumList(r.GetCtx(), req)
+	if err != nil {
+		response.Output(r, &pb.RespAlbumList{
+			Success: false,
+			Msg:     consts.ERROR_SYSTEM.Msg(),
+		})
+		return
+	}
+	response.Output(r, data)
 }
 
 // RecUserList
@@ -227,6 +234,28 @@ func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 		return
 	}
 	OutputCustomData(r, &pb.RespCommentAudio{Success: true, Msg: ""})
+}
+
+// Collect
+// @Tags VoiceLover
+// @Summary 收藏接口
+// @Description 收藏接口
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqCollectVoiceLover query
+// @Success 200 {object} pb.RespCollectVoiceLover
+// @Router /go/func/voice_lover/collect [post]
+func (a *voiceLoverAPI) Collect(r *ghttp.Request) {
+	var req *query.ReqCollectVoiceLover
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespCollectVoiceLover{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespCollectVoiceLover{Success: true, Msg: ""})
 }
 
 // Post
