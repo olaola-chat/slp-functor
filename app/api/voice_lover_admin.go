@@ -370,7 +370,7 @@ func (a *voiceLoverAdminApi) AlbumList(r *ghttp.Request) {
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAudioCollectList query
-// @Success 200 {object} pb.ResAdminVoiceLoverAlbumList
+// @Success 200 {object} pb.RespAdminVoiceLoverAlbumList
 // @Router /go/func/admin/voice_lover/audio-collect-list [get]
 func (a *voiceLoverAdminApi) AudioCollectList(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAudioCollectList
