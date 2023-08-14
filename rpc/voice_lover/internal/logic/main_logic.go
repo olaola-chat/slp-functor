@@ -401,5 +401,59 @@ func (m *mainLogic) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGet
 	for _, v := range list {
 		audioIds = append(audioIds, v.AudioId)
 	}
+	// 并发获取播放数量和详情
+	wg := sync.WaitGroup{}
+	audioDetailMap := make(map[uint64]*vl_pb.AudioSimpleData)
+	audioPlayCountMap := make(map[uint64]uint64)
+	go func() {
+		wg.Add(1)
+		defer wg.Done()
+		audioList, tErr := dao.VoiceLoverAudioDao.GetAudioDetailsByAudioIds(ctx, audioIds)
+		if tErr != nil {
+			g.Log().Errorf("mainLogic GetAudioListByAlbumId GetAudioDetailsByAudioIds error=%v", tErr)
+			return
+		}
+		for _, audioInfo := range audioList {
+			audioDetailMap[audioInfo.Id] = &vl_pb.AudioSimpleData{
+				Id:       audioInfo.Id,
+				Title:    audioInfo.Title,
+				Resource: audioInfo.Resource,
+				Covers:   []string{},
+				Seconds:  audioInfo.Seconds,
+			}
+		}
+	}()
+	go func() {
+		wg.Add(1)
+		defer wg.Done()
+		keys := make([]string, 0)
+		for _, audioId := range audioIds {
+			keys = append(keys, consts.VoiceLoverAudioPlayCount.Key(audioId))
+		}
+		vals, tErr := m.rds.MGet(ctx, keys...).Result()
+		if tErr != nil {
+			g.Log().Errorf("mainLogic GetAudioListByAlbumId MGet error=%v", tErr)
+			return
+		}
+		if len(vals) != len(audioIds) {
+			g.Log().Errorf("mainLogic GetAudioListByAlbumId MGet result error")
+			return
+		}
+		for i, audioId := range audioIds {
+			audioPlayCountMap[audioId] = gconv.Uint64(vals[i])
+		}
+	}()
+	wg.Wait()
+
+	// 组装返回数据
+	for _, audioId := range audioIds {
+		if _, ok := audioDetailMap[audioId]; !ok {
+			continue
+		}
+		if playCount, ok := audioPlayCountMap[audioId]; ok {
+			audioDetailMap[audioId].PlayCount = playCount
+		}
+		reply.Audios = append(reply.Audios, audioDetailMap[audioId])
+	}
 	return nil
 }
