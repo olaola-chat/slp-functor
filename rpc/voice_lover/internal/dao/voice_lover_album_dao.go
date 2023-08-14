@@ -161,3 +161,21 @@ func (v *voiceLoverAlbumDao) GetValidAlbumByIds(ctx context.Context, ids []uint6
 	}
 	return m, nil
 }
+
+func (v *voiceLoverAlbumDao) AlbumChoice(ctx context.Context, id uint64, choice int32) error {
+	data := g.Map{}
+	data["update_time"] = time.Now().Unix()
+	data["choice"] = choice
+	if choice > 0 {
+		data["choice_time"] = time.Now().Unix()
+	} else {
+		data["choice_time"] = 0
+	}
+	_, err := functor.VoiceLoverAlbum.Ctx(ctx).Where("id", id).Update(data)
+	return err
+}
+
+func (v *voiceLoverAlbumDao) GetAlbumChoice(ctx context.Context) ([]*functor2.EntityVoiceLoverAlbum, error) {
+	list, err := functor.VoiceLoverAlbum.Ctx(ctx).Where("is_deleted", 0).Where("choice > 0").Order("choice_time desc").FindAll()
+	return list, err
+}

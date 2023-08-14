@@ -4,14 +4,15 @@ go 1.20
 
 replace (
 	github.com/gogf/gf => github.com/olaola-chat/gf v1.0.1
-	github.com/smallnest/rpcx => github.com/olaola-chat/rbp-rpcx v0.1.0-alpha
 	github.com/olaola-chat/rbp-proto => ../rbp-proto
+	github.com/smallnest/rpcx => github.com/olaola-chat/rbp-rpcx v0.1.0-alpha
 )
 
 require (
+	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gogf/gf v1.16.9
-	github.com/olaola-chat/rbp-library v0.0.0-20230810082003-b7a2a856435e
-	github.com/olaola-chat/rbp-proto v0.0.0-20230814090656-8ec8e63f685d
+	github.com/olaola-chat/rbp-library latest
+	github.com/olaola-chat/rbp-proto v0.0.0-20230814102042-4afbc3629df2
 	google.golang.org/protobuf v1.31.0
 )
 
@@ -36,7 +37,7 @@ require (
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-errors/errors v1.0.1 // indirect
 	github.com/go-ping/ping v1.1.0 // indirect
-	github.com/go-redis/redis/v8 v8.11.5 // indirect
+	github.com/go-redis/redis/extra/rediscmd v0.2.0 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/go-task/slim-sprig v0.0.0-20210107165309-348f09dbbbc0 // indirect
 	github.com/gogf/swagger v1.3.0 // indirect

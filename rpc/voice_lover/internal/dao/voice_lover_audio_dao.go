@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/gogf/gf/frame/g"
 	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
@@ -28,15 +29,25 @@ const (
 var VoiceLoverAudioDao = &voiceLoverAudioDao{}
 
 func (v *voiceLoverAudioDao) GetAudioDetailByAudioId(ctx context.Context, id uint64) (*functor.EntityVoiceLoverAudio, error) {
-	res, err := functor2.VoiceLoverAudio.Ctx(ctx).Where("id", id).One()
+	res, err := functor2.VoiceLoverAudio.Ctx(ctx).Where(functor2.VoiceLoverAudio.Columns.ID, id).One()
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
 }
 
+func (v *voiceLoverAudioDao) GetAudioDetailsByAudioIds(ctx context.Context, ids []uint64) ([]*functor.EntityVoiceLoverAudio, error) {
+	list, err := functor2.VoiceLoverAudio.Ctx(ctx).
+		Where(fmt.Sprintf("%s IN (?)", functor2.VoiceLoverAudio.Columns.ID), ids).
+		FindAll()
+	if err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
 func (v *voiceLoverAudioDao) UpdateAudioById(ctx context.Context, id uint64, data g.Map) (int64, error) {
-	sqlRes, err := functor2.VoiceLoverAudio.Ctx(ctx).Where("id", id).Update(data)
+	sqlRes, err := functor2.VoiceLoverAudio.Ctx(ctx).Where(functor2.VoiceLoverAudio.Columns.ID, id).Update(data)
 	if err != nil {
 		return 0, err
 	}

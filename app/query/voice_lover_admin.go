@@ -76,3 +76,46 @@ type ReqAdminVoiceLoverAudioCollect struct {
 	AlbumId uint64
 	Type    int32 //0:收录 1:移除
 }
+
+type ReqAdminVoiceLoverSubjectCreate struct {
+	Name  string
+	OpUid uint64
+}
+
+type ReqAdminVoiceLoverSubjectUpdate struct {
+	Id    uint64
+	Name  string
+	OpUid uint64
+}
+
+type ReqAdminVoiceLoverSubjectDel struct {
+	Id    uint64
+	OpUid uint64
+}
+
+type ReqAdminVoiceLoverSubjectList struct {
+	Paginator
+	Name      string
+	StartTime uint64
+	EndTime   uint64
+}
+
+type ReqAdminVoiceLoverSubjectDetail struct {
+	Id uint64
+}
+
+type ReqAdminVoiceLoverAlbumCollectList struct {
+	AlbumStr   string
+	SubjectStr string
+	Paginator
+}
+
+type ReqAdminVoiceLoverAlbumCollect struct {
+	AlbumId   uint64
+	SubjectId uint64
+}
+
+type ReqAdminVoiceLoverAlbumChoice struct {
+	Id     uint64
+	Choice int32
+}
