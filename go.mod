@@ -10,7 +10,7 @@ replace (
 require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gogf/gf v1.16.9
-	github.com/olaola-chat/rbp-library v0.0.0-20230814064844-621a2eaf66ca
+	github.com/olaola-chat/rbp-library v0.0.0-20230814073349-399c634ce9e5
 	github.com/olaola-chat/rbp-proto v0.0.0-20230811110032-bb8e96f76171
 	google.golang.org/protobuf v1.31.0
 )
