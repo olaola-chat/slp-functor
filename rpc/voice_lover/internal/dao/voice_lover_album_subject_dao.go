@@ -3,6 +3,7 @@ package dao
 import (
 	"context"
 	"fmt"
+	"time"
 
 	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
@@ -53,4 +54,39 @@ func (v *voiceLoverAlbumSubjectDao) GetCountByAlbumId(ctx context.Context, id ui
 		return 0, err
 	}
 	return count, nil
+}
+
+func (v *voiceLoverAlbumSubjectDao) GetAlbumSubjectByAIdAndSId(ctx context.Context, albumId uint64, subjectId uint64) (*functor.EntityVoiceLoverAlbumSubject, error) {
+	data, err := functor2.VoiceLoverAlbumSubject.Ctx(ctx).Where("album_id", albumId).Where("subject_id", subjectId).One()
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+func (v *voiceLoverAlbumSubjectDao) Create(ctx context.Context, albumId uint64, subjectId uint64) error {
+	data := &functor.EntityVoiceLoverAlbumSubject{
+		AlbumId:    albumId,
+		SubjectId:  subjectId,
+		CreateTime: uint64(time.Now().Unix()),
+		UpdateTime: uint64(time.Now().Unix()),
+	}
+	_, err := functor2.VoiceLoverAlbumSubject.Ctx(ctx).Insert(data)
+	return err
+}
+
+func (v *voiceLoverAlbumSubjectDao) GetAlbumCollect(ctx context.Context, albumId uint64, subjectId uint64, page int32, limit int32) ([]*functor.EntityVoiceLoverAlbumSubject, int, error) {
+	d := functor2.VoiceLoverAlbumSubject.Ctx(ctx)
+	if albumId > 0 {
+		d = d.Where("album_id", albumId)
+	}
+	if subjectId > 0 {
+		d = d.Where("subject_id", subjectId)
+	}
+	total, _ := d.Count()
+	list, err := d.Order("id desc").Page(int(page), int(limit)).FindAll()
+	if err != nil {
+		return nil, 0, err
+	}
+	return list, total, nil
 }
