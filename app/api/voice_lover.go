@@ -5,7 +5,6 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/olaola-chat/rbp-library/response"
 	context2 "github.com/olaola-chat/rbp-library/server/http/context"
-	"github.com/olaola-chat/rbp-library/server/http/middleware"
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
@@ -40,9 +39,10 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 		return
 	}
 
-	ctxUser, _ := r.GetCtxVar(middleware.ContextUserKey).Interface().(*context2.ContextUser)
+	ctx := r.GetCtx()
+	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
 	g.Log().Debugf("ctxUser=%+v", ctxUser)
-	data, err := vl_serv.VoiceLoverService.GetMainData(r.GetCtx(), ctxUser.UID)
+	data, err := vl_serv.VoiceLoverService.GetMainData(ctx, ctxUser.User.UID)
 	if err != nil {
 		response.Output(r, &pb.RespVoiceLoverMain{
 			Success: false,
@@ -124,8 +124,9 @@ func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
 		})
 		return
 	}
-	ctxUser, _ := r.GetCtxVar(middleware.ContextUserKey).Interface().(*context2.ContextUser)
-	data, err := vl_serv.VoiceLoverService.GetAlbumDetail(r.GetCtx(), ctxUser.UID, req.AlbumId)
+	ctx := r.GetCtx()
+	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	data, err := vl_serv.VoiceLoverService.GetAlbumDetail(ctx, ctxUser.User.UID, req.AlbumId)
 	if err != nil {
 		response.Output(r, &pb.RespAlbumDetail{
 			Success: false,

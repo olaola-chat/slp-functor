@@ -14,6 +14,16 @@ type voiceLoverAudioAlbumDao struct {
 
 var VoiceLoverAudioAlbumDao = &voiceLoverAudioAlbumDao{}
 
+func (v *voiceLoverAudioAlbumDao) GetListByAlbumId(ctx context.Context, albumId uint64) ([]*functor.EntityVoiceLoverAudioAlbum, error) {
+	list, err := functor2.VoiceLoverAudioAlbum.Ctx(ctx).
+		Where(functor2.VoiceLoverAudioAlbum.Columns.AlbumID, albumId).
+		Order(functor2.VoiceLoverAudioAlbum.Columns.CreateTime, "desc").FindAll()
+	if err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
 func (v *voiceLoverAudioAlbumDao) GetCountByAlbumId(ctx context.Context, albumId uint64) (int, error) {
 	total, err := functor2.VoiceLoverAudioAlbum.Ctx(ctx).Where("album_id", albumId).Count()
 	if err != nil {
