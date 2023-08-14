@@ -70,3 +70,9 @@ type ReqAdminVoiceLoverAudioCollectList struct {
 	Order         string
 	Paginator
 }
+
+type ReqAdminVoiceLoverAudioCollect struct {
+	AudioId uint64
+	AlbumId uint64
+	Type    int32 //0:收录 1:移除
+}

@@ -31,7 +31,7 @@ message RespVoiceLoverMain {
 message RespAlbumList {
   bool success = 1;
   string msg = 2;
-  repeated AlbumData rec_albums = 3;
+  repeated AlbumData albums = 3;
   bool has_more = 4;
 }
 

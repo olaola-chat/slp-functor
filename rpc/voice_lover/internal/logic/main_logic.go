@@ -2,26 +2,34 @@ package logic
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"sync"
 	"time"
 
+	v8 "github.com/go-redis/redis/v8"
 	"github.com/gogf/gf/database/gdb"
+	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/olaola-chat/rbp-library/es"
+	"github.com/olaola-chat/rbp-library/redis"
 	"github.com/olaola-chat/rbp-proto/dao/functor"
 	functor2 "github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 
 	voice_lover2 "github.com/olaola-chat/rbp-functor/app/model/voice_lover"
+	"github.com/olaola-chat/rbp-functor/rpc/consts"
 	"github.com/olaola-chat/rbp-functor/rpc/voice_lover/internal/dao"
 )
 
 type mainLogic struct {
+	rds *v8.Client
 }
 
-var MainLogic = &mainLogic{}
+var MainLogic = &mainLogic{
+	rds: redis.RedisClient(consts.RedisDefault),
+}
 
 const (
 	None = iota
@@ -176,6 +184,34 @@ func (m *mainLogic) BuildRecAlbumsExtendInfo(ctx context.Context, infos []*vl_pb
 	}
 }
 
+func (m *mainLogic) GetAlbumInfoById(ctx context.Context, req *vl_pb.ReqGetAlbumInfoById, reply *vl_pb.ResGetAlbumInfoById) error {
+	albumInfo, err := dao.VoiceLoverAlbumDao.GetValidAlbumById(ctx, req.Id)
+	if err != nil {
+		return err
+	}
+	if albumInfo.GetId() == 0 {
+		return gerror.New(fmt.Sprintf("album id=%d empty", req.Id))
+	}
+	reply.Album = &vl_pb.AlbumData{
+		Id:         albumInfo.Id,
+		Name:       albumInfo.Name,
+		Intro:      albumInfo.Intro,
+		Cover:      albumInfo.Cover,
+		CreateTime: albumInfo.CreateTime,
+	}
+	m.BuildRecAlbumsExtendInfo(ctx, []*vl_pb.AlbumData{reply.Album})
+	return nil
+}
+
+func (m *mainLogic) GetAlbumCommentCount(ctx context.Context, req *vl_pb.ReqGetAlbumCommentCount, reply *vl_pb.ResGetAlbumCommentCount) error {
+	total, err := dao.VoiceLoverAlbumCommentDao.GetValidCommentCountByAlbumId(ctx, req.AlbumId)
+	if err != nil {
+		return err
+	}
+	reply.Total = uint32(total)
+	return nil
+}
+
 func (m *mainLogic) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums, reply *vl_pb.ResGetRecAlbums) error {
 	reply.Albums = make([]*vl_pb.AlbumData, 0)
 	list, err := dao.VoiceLoverAlbumDao.GetValidAlbumListByChoice(ctx, dao.ChoiceRec, 0, 3)
@@ -206,6 +242,35 @@ func (m *mainLogic) GetAlbumsByPage(ctx context.Context, req *vl_pb.ReqGetAlbums
 		reply.HasMore = true
 	}
 	for _, v := range list {
+		reply.Albums = append(reply.Albums, &vl_pb.AlbumData{
+			Id:         v.Id,
+			Name:       v.Name,
+			Intro:      v.Intro,
+			Cover:      v.Cover,
+			CreateTime: v.CreateTime,
+		})
+	}
+	m.BuildRecAlbumsExtendInfo(ctx, reply.Albums)
+	return nil
+}
+
+func (m *mainLogic) GetSubjectAlbumsByPage(ctx context.Context, req *vl_pb.ReqGetSubjectAlbumsByPage, reply *vl_pb.ResGetAlbumsByPage) error {
+	reply.Albums = make([]*vl_pb.AlbumData, 0)
+	list, err := dao.VoiceLoverAlbumSubjectDao.GetListBySubjectId(ctx, req.SubjectId, int(req.Page), int(req.Limit)+1)
+	if err != nil {
+		return err
+	}
+	if len(list) > int(req.Limit) {
+		list = list[:req.Limit]
+		reply.HasMore = true
+	}
+	albumIds := make([]uint64, 0)
+
+	for _, v := range list {
+		albumIds = append(albumIds, v.AlbumId)
+	}
+	albumList, err := dao.VoiceLoverAlbumDao.GetValidAlbumListByIds(ctx, albumIds)
+	for _, v := range albumList {
 		reply.Albums = append(reply.Albums, &vl_pb.AlbumData{
 			Id:         v.Id,
 			Name:       v.Name,
@@ -295,5 +360,100 @@ func (m *mainLogic) BatchGetAlbumAudioCount(ctx context.Context, req *vl_pb.ReqB
 		}(v)
 	}
 	wg.Wait()
+	return nil
+}
+
+func (m *mainLogic) IsUserCollectAlbum(ctx context.Context, req *vl_pb.ReqIsUserCollectAlbum, reply *vl_pb.ResIsUserCollectAlbum) error {
+	reply.IsCollect = false
+	// 如果UserCollectAlbumKey存在 0=未收藏 1=已收藏
+	// 如果UserCollectAlbumKey存在 从mysql查一遍 写缓存
+	key := consts.UserCollectAlbumKey.Key(req.Uid, req.AlbumId)
+	if m.rds.Exists(ctx, key).Val() == 1 {
+		if m.rds.Get(ctx, key).Val() == "1" {
+			reply.IsCollect = true
+		}
+	} else {
+		data, err := dao.VoiceLoverUserCollectDao.GetInfoByUidAndTypeAndId(ctx, req.Uid, req.AlbumId, dao.CollectTypeAlbum)
+		if err != nil {
+			return err
+		}
+		if data.GetId() > 0 {
+			reply.IsCollect = true
+		}
+		defer func(isCollect bool) {
+			value := 0
+			if isCollect {
+				value = 1
+			}
+			_ = m.rds.Set(ctx, key, value, consts.UserCollectAlbumKey.Ttl()).Err()
+		}(reply.IsCollect)
+	}
+	return nil
+}
+
+func (m *mainLogic) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGetAudioListByAlbumId, reply *vl_pb.ResGetAudioListByAlbumId) error {
+	reply.Audios = make([]*vl_pb.AudioSimpleData, 0)
+	list, err := dao.VoiceLoverAudioAlbumDao.GetListByAlbumId(ctx, req.AlbumId)
+	if err != nil {
+		return err
+	}
+	audioIds := make([]uint64, 0)
+	for _, v := range list {
+		audioIds = append(audioIds, v.AudioId)
+	}
+	// 并发获取播放数量和详情
+	wg := sync.WaitGroup{}
+	audioDetailMap := make(map[uint64]*vl_pb.AudioSimpleData)
+	audioPlayCountMap := make(map[uint64]uint64)
+	go func() {
+		wg.Add(1)
+		defer wg.Done()
+		audioList, tErr := dao.VoiceLoverAudioDao.GetAudioDetailsByAudioIds(ctx, audioIds)
+		if tErr != nil {
+			g.Log().Errorf("mainLogic GetAudioListByAlbumId GetAudioDetailsByAudioIds error=%v", tErr)
+			return
+		}
+		for _, audioInfo := range audioList {
+			audioDetailMap[audioInfo.Id] = &vl_pb.AudioSimpleData{
+				Id:       audioInfo.Id,
+				Title:    audioInfo.Title,
+				Resource: audioInfo.Resource,
+				Covers:   []string{},
+				Seconds:  audioInfo.Seconds,
+			}
+		}
+	}()
+	go func() {
+		wg.Add(1)
+		defer wg.Done()
+		keys := make([]string, 0)
+		for _, audioId := range audioIds {
+			keys = append(keys, consts.VoiceLoverAudioPlayCount.Key(audioId))
+		}
+		vals, tErr := m.rds.MGet(ctx, keys...).Result()
+		if tErr != nil {
+			g.Log().Errorf("mainLogic GetAudioListByAlbumId MGet error=%v", tErr)
+			return
+		}
+		if len(vals) != len(audioIds) {
+			g.Log().Errorf("mainLogic GetAudioListByAlbumId MGet result error")
+			return
+		}
+		for i, audioId := range audioIds {
+			audioPlayCountMap[audioId] = gconv.Uint64(vals[i])
+		}
+	}()
+	wg.Wait()
+
+	// 组装返回数据
+	for _, audioId := range audioIds {
+		if _, ok := audioDetailMap[audioId]; !ok {
+			continue
+		}
+		if playCount, ok := audioPlayCountMap[audioId]; ok {
+			audioDetailMap[audioId].PlayCount = playCount
+		}
+		reply.Audios = append(reply.Audios, audioDetailMap[audioId])
+	}
 	return nil
 }
