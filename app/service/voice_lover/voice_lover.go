@@ -2,10 +2,12 @@ package voice_lover
 
 import (
 	"context"
+	"errors"
 	"sync"
 
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
+
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
@@ -199,4 +201,23 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 	}()
 	wg.Wait()
 	return res, nil
+}
+
+func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, uid uint32, audioId uint64) (*pb.RespAudioComments, error) {
+	ret := &pb.RespAudioComments{}
+	rows, err := vl_rpc.VoiceLoverMain.GetAudioCommentList(ctx, &vl_pb.ReqGetAudioEdit{
+		Id: audioId,
+	})
+	if err != nil || len(rows.List) == 0 {
+		return nil, errors.New("暂无数据")
+	}
+
+	ret.Success = true
+	for _, v := range rows.List {
+		ret.Comments = append(ret.Comments, &pb.CommentData{
+			Id: v.Id,
+		})
+	}
+
+	return ret, nil
 }

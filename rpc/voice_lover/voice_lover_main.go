@@ -54,3 +54,11 @@ func (v *VoiceLoverMain) IsUserCollectAlbum(ctx context.Context, req *vl_pb.ReqI
 func (v *VoiceLoverMain) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGetAudioListByAlbumId, reply *vl_pb.ResGetAudioListByAlbumId) error {
 	return logic.MainLogic.GetAudioListByAlbumId(ctx, req, reply)
 }
+
+func (v *VoiceLoverMain) SubmitAudioComment(ctx context.Context, req *vl_pb.ReqSubmitComment, reply *vl_pb.ResCommonPost) error {
+	return logic.MainLogic.SubmitAudioComment(ctx, req, reply)
+}
+
+func (v *VoiceLoverMain) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAudioEdit, reply *vl_pb.ResCommentList) error {
+	return logic.MainLogic.GetAudioCommentList(ctx, req, reply)
+}

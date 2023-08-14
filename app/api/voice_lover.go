@@ -6,6 +6,7 @@ import (
 	"github.com/olaola-chat/rbp-library/response"
 	context2 "github.com/olaola-chat/rbp-library/server/http/context"
 	"github.com/olaola-chat/rbp-library/server/http/middleware"
+
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
@@ -39,7 +40,6 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 		})
 		return
 	}
-
 	ctxUser, _ := r.GetCtxVar(middleware.ContextUserKey).Interface().(*context2.ContextUser)
 	g.Log().Debugf("ctxUser=%+v", ctxUser)
 	data, err := vl_serv.VoiceLoverService.GetMainData(r.GetCtx(), ctxUser.UID)
@@ -213,15 +213,24 @@ func (a *voiceLoverAPI) AudioDetail(r *ghttp.Request) {
 // @Success 200 {object} pb.RespAudioComments
 // @Router /go/func/voice_lover/audioComments [get]
 func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
-	var req *query.ReqAudioComments
+	var req *query.ReqAudioDetail
 	if err := r.ParseQuery(&req); err != nil {
-		response.Output(r, &pb.RespAudioComments{
+		response.Output(r, &pb.CommonResp{
 			Success: false,
 			Msg:     consts.ERROR_PARAM.Msg(),
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAudioComments{Success: true, Msg: ""})
+	ctxUser, _ := r.GetCtxVar(middleware.ContextUserKey).Interface().(*context2.ContextUser)
+	ret, err := vl_serv.VoiceLoverService.GetAudioCommentList(r.GetCtx(), ctxUser.UID, req.AudioId)
+	if err != nil {
+		response.Output(r, &pb.CommonResp{
+			Success: false,
+			Msg:     err.Error(),
+		})
+		return
+	}
+	OutputCustomData(r, ret)
 }
 
 // CommentAudio
@@ -236,14 +245,28 @@ func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 // @Router /go/func/voice_lover/commentAudio [post]
 func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 	var req *query.ReqCommentAudio
-	if err := r.ParseQuery(&req); err != nil {
-		response.Output(r, &pb.RespCommentAudio{
+	if err := r.ParseForm(&req); err != nil {
+		response.Output(r, &pb.CommonResp{
 			Success: false,
 			Msg:     consts.ERROR_PARAM.Msg(),
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespCommentAudio{Success: true, Msg: ""})
+	ctxUser, _ := r.GetCtxVar(middleware.ContextUserKey).Interface().(*context2.ContextUser)
+	_, err := vl_rpc.VoiceLoverMain.SubmitAudioComment(r.GetCtx(), &vl_pb.ReqSubmitComment{
+		AudioId: req.AudioId,
+		Content: req.Comment,
+		Uid:     ctxUser.UID,
+		Type:    req.Type,
+	})
+	if err != nil {
+		response.Output(r, &pb.CommonResp{
+			Success: false,
+			Msg:     err.Error(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespAudioComments{Success: true})
 }
 
 // Collect
