@@ -41,7 +41,7 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 	ctx := r.GetCtx()
 	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
 	g.Log().Debugf("ctxUser=%+v", ctxUser)
-	data, err := vl_serv.VoiceLoverService.GetMainData(ctx, ctxUser.User.UID)
+	data, err := vl_serv.VoiceLoverService.GetMainData(ctx, ctxUser.UID)
 	if err != nil {
 		response.Output(r, &pb.RespVoiceLoverMain{
 			Success: false,
@@ -125,7 +125,7 @@ func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
 	}
 	ctx := r.GetCtx()
 	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
-	data, err := vl_serv.VoiceLoverService.GetAlbumDetail(ctx, ctxUser.User.UID, req.AlbumId)
+	data, err := vl_serv.VoiceLoverService.GetAlbumDetail(ctx, ctxUser.UID, req.AlbumId)
 	if err != nil {
 		response.Output(r, &pb.RespAlbumDetail{
 			Success: false,
