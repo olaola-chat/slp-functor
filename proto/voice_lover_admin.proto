@@ -5,6 +5,8 @@ package pb;
 //目前统一生成到 app/pb 目录下
 option go_package = "github.com/olaola-chat/rbp-functor/app/pb";
 
+import "voice_lover_common.proto";
+
 message AdminVoiceLoverAudio {
   uint64 id = 1;
   uint64 create_time = 2;
@@ -129,4 +131,71 @@ message RespAdminVoiceLoverAlbumDel {
 message RespAdminVoiceLoverAudioCollect {
   bool success = 1;
   string msg = 2;
+}
+
+message RespAdminVoiceLoverSubjectCreate {
+  bool success = 1;
+  string msg = 2;
+  uint64 id = 3;
+}
+
+message RespAdminVoiceLoverSubjectUpdate {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverSubjectDel {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverSubjectList {
+  bool success = 1;
+  string msg = 2;
+  repeated SubjectData list = 3;
+  int32 total = 4;
+}
+
+message RespAdminVoiceLoverSubjectDetail {
+  bool success = 1;
+  string msg = 2;
+  SubjectData subject = 3;
+}
+
+message RespAdminVoiceLoverAlbumCollect {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverAlbumCollectList {
+  bool success = 1;
+  string msg = 2;
+  repeated AdminVoiceLoverAlbumSubject list = 3;
+  int32 total = 4;
+}
+
+message AdminVoiceLoverAlbumSubject {
+  uint64 id = 1;
+  string album_name = 2;
+  string subject_name = 3;
+  uint64 album_id = 4;
+  uint64 subject_id = 5;
+}
+
+message RespAdminVoiceLoverAlbumChoice {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverAlbumChoiceList {
+  bool success = 1;
+  string msg = 2;
+  repeated AdminAlbumData albums = 3;
+}
+
+message AdminAlbumData {
+  uint64 id = 1;
+  string name = 2;
+  uint64 create_time = 3;
+  int32 level = 4;
 }

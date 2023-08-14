@@ -494,3 +494,349 @@ func (a *voiceLoverAdminApi) AudioCollect(r *ghttp.Request) {
 		Success: true,
 	})
 }
+
+// SubjectCreate
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAdminVoiceLoverSubjectCreate query
+// @Success 200 {object} pb.RespAdminVoiceLoverSubjectCreate
+// @Router /go/func/admin/voice_lover/subject-create [post]
+func (a *voiceLoverAdminApi) SubjectCreate(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverSubjectCreate
+	if err := r.Parse(&req); err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectCreate{
+			Msg: err.Error(),
+		})
+		return
+	}
+	ctx := r.Context()
+	reply, err := voice_lover2.VoiceLoverAdmin.CreateSubject(ctx, &voice_lover3.ReqCreateSubject{
+		Name:  req.Name,
+		OpUid: req.OpUid,
+	})
+	if err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectCreate{
+			Msg: err.Error(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectCreate{
+		Success: true,
+		Id:      reply.Id,
+	})
+}
+
+// SubjectUpdate
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAdminVoiceLoverSubjectUpdate query
+// @Success 200 {object} pb.RespAdminVoiceLoverSubjectUpdate
+// @Router /go/func/admin/voice_lover/subject-update [post]
+func (a *voiceLoverAdminApi) SubjectUpdate(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverSubjectUpdate
+	if err := r.Parse(&req); err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectUpdate{
+			Msg: err.Error(),
+		})
+		return
+	}
+	ctx := r.Context()
+	_, err := voice_lover2.VoiceLoverAdmin.UpdateSubject(ctx, &voice_lover3.ReqUpdateSubject{
+		Id:    req.Id,
+		Name:  req.Name,
+		OpUid: req.OpUid,
+	})
+	if err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectUpdate{
+			Msg: err.Error(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectUpdate{
+		Success: true,
+	})
+}
+
+// SubjectDel
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAdminVoiceLoverSubjectDel query
+// @Success 200 {object} pb.RespAdminVoiceLoverSubjectDel
+// @Router /go/func/admin/voice_lover/subject-update [post]
+func (a *voiceLoverAdminApi) SubjectDel(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverSubjectDel
+	if err := r.Parse(&req); err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectDel{
+			Msg: err.Error(),
+		})
+		return
+	}
+	ctx := r.Context()
+	_, err := voice_lover2.VoiceLoverAdmin.DelSubject(ctx, &voice_lover3.ReqDelSubject{
+		Id:    req.Id,
+		OpUid: req.OpUid,
+	})
+	if err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectDel{
+			Msg: err.Error(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectDel{
+		Success: true,
+	})
+}
+
+// SubjectList
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAdminVoiceLoverSubjectList query
+// @Success 200 {object} pb.RespAdminVoiceLoverSubjectList
+// @Router /go/func/admin/voice_lover/subject-list [get]
+func (a *voiceLoverAdminApi) SubjectList(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverSubjectList
+	if err := r.Parse(&req); err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectList{
+			Msg: err.Error(),
+		})
+		return
+	}
+	ctx := r.Context()
+	reply, err := voice_lover2.VoiceLoverAdmin.GetSubjectList(ctx, &voice_lover3.ReqGetSubjectList{
+		Name:      req.Name,
+		Page:      int32(req.Page),
+		Limit:     int32(req.Limit),
+		StartTime: req.StartTime,
+		EndTime:   req.EndTime,
+	})
+	if err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectList{
+			Msg: err.Error(),
+		})
+		return
+	}
+	list := make([]*pb.SubjectData, 0)
+	for _, subject := range reply.Subjects {
+		list = append(list, &pb.SubjectData{
+			Id:         subject.Id,
+			Title:      subject.Name,
+			AlbumTotal: uint32(subject.AlbumCount),
+		})
+	}
+	OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectList{
+		Success: true,
+		List:    list,
+		Total:   reply.Total,
+	})
+}
+
+// AlbumCollect
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAdminVoiceLoverAlbumCollect query
+// @Success 200 {object} pb.RespAdminVoiceLoverAlbumCollect
+// @Router /go/func/admin/voice_lover/album-collect [get]
+func (a *voiceLoverAdminApi) AlbumCollect(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverAlbumCollect
+	if err := r.Parse(&req); err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCollect{
+			Msg: err.Error(),
+		})
+		return
+	}
+	ctx := r.Context()
+	_, err := voice_lover2.VoiceLoverAdmin.AlbumCollect(ctx, &voice_lover3.ReqAlbumCollect{
+		AlbumId:   req.AlbumId,
+		SubjectId: req.SubjectId,
+	})
+	if err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCollect{
+			Msg: err.Error(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCollect{
+		Success: true,
+	})
+}
+
+// AlbumCollectList
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAdminVoiceLoverAlbumCollectList query
+// @Success 200 {object} pb.RespAdminVoiceLoverAlbumCollectList
+// @Router /go/func/admin/voice_lover/album-collect-list [get]
+func (a *voiceLoverAdminApi) AlbumCollectList(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverAlbumCollectList
+	if err := r.Parse(&req); err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCollectList{
+			Msg: err.Error(),
+		})
+		return
+	}
+	ctx := r.Context()
+	reply, err := voice_lover2.VoiceLoverAdmin.GetAlbumCollect(ctx, &voice_lover3.ReqGetAlbumCollect{
+		AlbumStr:   req.AlbumStr,
+		SubjectStr: req.SubjectStr,
+	})
+	if err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCollectList{
+			Msg: err.Error(),
+		})
+		return
+	}
+	list := make([]*pb.AdminVoiceLoverAlbumSubject, 0)
+	for _, a := range reply.AlbumCollects {
+		list = append(list, &pb.AdminVoiceLoverAlbumSubject{
+			Id:          a.Id,
+			AlbumName:   a.AlbumName,
+			SubjectName: a.SubjectName,
+			AlbumId:     a.AlbumId,
+			SubjectId:   a.SubjectId,
+		})
+	}
+	OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCollectList{
+		Success: true,
+		List:    list,
+		Total:   reply.Total,
+	})
+}
+
+// SubjectDetail
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAdminVoiceLoverSubjectDetail query
+// @Success 200 {object} pb.RespAdminVoiceLoverSubjectDetail
+// @Router /go/func/admin/voice_lover/subject-detail [get]
+func (a *voiceLoverAdminApi) SubjectDetail(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverSubjectDetail
+	if err := r.Parse(&req); err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectDetail{
+			Msg: err.Error(),
+		})
+		return
+	}
+	ctx := r.Context()
+	reply, err := voice_lover2.VoiceLoverAdmin.GetSubjectDetail(ctx, &voice_lover3.ReqGetSubjectDetail{
+		Ids: []uint64{req.Id},
+	})
+	if err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectDetail{
+			Msg: err.Error(),
+		})
+		return
+	}
+	if reply.Subjects[req.Id] == nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectDetail{
+			Success: true,
+		})
+		return
+	}
+
+	OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectDetail{
+		Success: true,
+		Subject: &pb.SubjectData{
+			Id:         reply.Subjects[req.Id].GetId(),
+			Title:      reply.Subjects[req.Id].GetName(),
+			AlbumTotal: uint32(reply.Subjects[req.Id].GetAlbumCount()),
+		},
+	})
+}
+
+// AlbumChoice
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request query.ReqAdminVoiceLoverAlbumChoice query
+// @Success 200 {object} pb.RespAdminVoiceLoverAlbumChoice {
+// @Router /go/func/admin/voice_lover/album-choice [post]
+func (a *voiceLoverAdminApi) AlbumChoice(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverAlbumChoice
+	if err := r.Parse(&req); err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumChoice{
+			Msg: err.Error(),
+		})
+		return
+	}
+	ctx := r.Context()
+	_, err := voice_lover2.VoiceLoverAdmin.AlbumChoice(ctx, &voice_lover3.ReqAlbumChoice{
+		Id:   req.Id,
+		Type: req.Choice,
+	})
+	if err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumChoice{
+			Msg: err.Error(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumChoice{
+		Success: true,
+	})
+}
+
+// AlbumChoiceList
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Request  query
+// @Success 200 {object} pb.RespAdminVoiceLoverAlbumChoiceList {
+// @Router /go/func/admin/voice_lover/album-choice-list [post]
+func (a *voiceLoverAdminApi) AlbumChoiceList(r *ghttp.Request) {
+	ctx := r.Context()
+	reply, err := voice_lover2.VoiceLoverAdmin.GetAlbumChoice(ctx, &voice_lover3.ReqGetAlbumChoice{})
+	if err != nil {
+		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumChoiceList{
+			Msg: err.Error(),
+		})
+		return
+	}
+	res := make([]*pb.AdminAlbumData, 0)
+	level := 1
+	for _, r := range reply.Albums {
+		res = append(res, &pb.AdminAlbumData{
+			Id:         r.Id,
+			Name:       r.Name,
+			CreateTime: r.CreateTime,
+			Level:      int32(level),
+		})
+		level = level + 1
+	}
+	OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumChoiceList{
+		Success: true,
+		Albums:  res,
+	})
+}

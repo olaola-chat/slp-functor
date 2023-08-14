@@ -107,3 +107,46 @@ func (v *VoiceLoverAdmin) GetSubjectDetail(ctx context.Context, req *vl_pb.ReqGe
 	reply.Subjects = data
 	return nil
 }
+
+func (v *VoiceLoverAdmin) GetSubjectList(ctx context.Context, req *vl_pb.ReqGetSubjectList, reply *vl_pb.ResGetSubjectList) error {
+	data, total, err := logic.AdminLogic.GetSubjectList(ctx, req)
+	if err != nil {
+		return err
+	}
+	reply.Subjects = data
+	reply.Total = total
+	return nil
+}
+
+func (v *VoiceLoverAdmin) AlbumCollect(ctx context.Context, req *vl_pb.ReqAlbumCollect, reply *vl_pb.ResAlbumCollect) error {
+	err := logic.AdminLogic.AlbumCollect(ctx, req)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (v *VoiceLoverAdmin) GetAlbumCollect(ctx context.Context, req *vl_pb.ReqGetAlbumCollect, reply *vl_pb.ResGetAlbumCollect) error {
+	return logic.AdminLogic.GetAlbumCollect(ctx, req, reply)
+}
+
+func (v *VoiceLoverAdmin) AlbumChoice(ctx context.Context, req *vl_pb.ReqAlbumChoice, reply *vl_pb.ResAlbumChoice) error {
+	return logic.AdminLogic.AlbumChoice(ctx, req)
+}
+
+func (v *VoiceLoverAdmin) GetAlbumChoice(ctx context.Context, req *vl_pb.ReqGetAlbumChoice, reply *vl_pb.ResGetAlbumChoice) error {
+	list, err := logic.AdminLogic.GetAlbumChoice(ctx, req)
+	if err != nil {
+		return err
+	}
+	res := make([]*vl_pb.AlbumData, 0)
+	for _, l := range list {
+		res = append(res, &vl_pb.AlbumData{
+			Id:         l.Id,
+			Name:       l.Name,
+			CreateTime: l.CreateTime,
+		})
+	}
+	reply.Albums = res
+	return nil
+}

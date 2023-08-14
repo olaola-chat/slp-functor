@@ -29,6 +29,7 @@ message SubjectData {
   uint64 id = 1;                  // 专题id
   string title = 2;               // 专题名称
   repeated AlbumData albums = 3;  // 专题下专辑列表
+  uint32 album_total = 4;
 }
 
 message CommentData {
