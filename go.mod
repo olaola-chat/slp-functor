@@ -11,8 +11,8 @@ replace (
 require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gogf/gf v1.16.9
-	github.com/olaola-chat/rbp-library latest
-	github.com/olaola-chat/rbp-proto v0.0.0-20230814102042-4afbc3629df2
+	github.com/olaola-chat/rbp-library v0.0.0-20230810112214-54e8d8b38341
+	github.com/olaola-chat/rbp-proto v0.0.0-20230815094737-ae3fb98127c9
 	google.golang.org/protobuf v1.31.0
 )
 

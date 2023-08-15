@@ -52,8 +52,15 @@ CREATE TABLE `voice_lover_audio_comment`
     `status`      tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '审核状态：0-默认状态 1-举报封禁',
     `create_time` bigint(20) unsigned NOT NULL COMMENT '创建时间',
     `update_time` bigint(20) unsigned NOT NULL COMMENT '更新时间',
-    PRIMARY KEY (`id`, `audio_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='声音恋人音频评论表' PARTITION BY KEY (`audio_id`) PARTITIONS 10;
+    PRIMARY KEY (`id`, `create_time`),
+    KEY           `idx_adid` (`audio_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='声音恋人音频评论表' PARTITION BY RANGE (`create_time`) (
+    PARTITION `p202312` VALUES LESS THAN (1704038400),
+    PARTITION `p202406` VALUES LESS THAN (1719763200),
+    PARTITION `p202412` VALUES LESS THAN (1735660800),
+    PARTITION `p202506` VALUES LESS THAN (1751299200),
+    PARTITION `p202512` VALUES LESS THAN (1767196800)
+);
 
 CREATE TABLE `voice_lover_album`
 (
@@ -79,8 +86,15 @@ CREATE TABLE `voice_lover_album_comment`
     `status`      tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '审核状态：0-默认状态 1-举报封禁',
     `create_time` bigint(20) unsigned NOT NULL COMMENT '创建时间',
     `update_time` bigint(20) unsigned NOT NULL COMMENT '更新时间',
-    PRIMARY KEY (`id`, `album_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='声音恋人专辑评论表' PARTITION BY KEY (`album_id`) PARTITIONS 10;
+    PRIMARY KEY (`id`, `create_time`),
+    KEY           `idx_abid` (`album_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='声音恋人专辑评论表' PARTITION BY RANGE (`create_time`) (
+    PARTITION `p202312` VALUES LESS THAN (1704038400),
+    PARTITION `p202406` VALUES LESS THAN (1719763200),
+    PARTITION `p202412` VALUES LESS THAN (1735660800),
+    PARTITION `p202506` VALUES LESS THAN (1751299200),
+    PARTITION `p202512` VALUES LESS THAN (1767196800)
+);
 
 CREATE TABLE `voice_lover_subject`
 (
