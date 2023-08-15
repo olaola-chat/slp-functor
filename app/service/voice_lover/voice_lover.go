@@ -203,17 +203,23 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 	return res, nil
 }
 
-func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId uint64) (*pb.RespAudioComments, error) {
+func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId uint64, page,limit uint32) (*pb.RespAudioComments, error) {
 	ret := &pb.RespAudioComments{}
 	rows, err := vl_rpc.VoiceLoverMain.GetAudioCommentList(ctx, &vl_pb.ReqGetAudioCommentList{
 		AudioId: audioId,
+		Page: int32(page),
+		Size: uint32(limit)+1,
 	})
 	if err != nil || len(rows.List) == 0 {
 		return nil, errors.New("暂无数据")
 	}
 
 	ret.Success = true
-	for _, v := range rows.List {
+	for k, v := range rows.List {
+		if  k >= int(limit){
+			ret.HasMore = true
+			break
+		}
 		ret.Comments = append(ret.Comments, &pb.CommentData{
 			Id: v.Id,
 		})
@@ -222,20 +228,27 @@ func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId 
 	return ret, nil
 }
 
-func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId uint64) (*pb.RespAlbumComments, error) {
+func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId uint64, page,limit uint32) (*pb.RespAlbumComments, error) {
 	ret := &pb.RespAlbumComments{}
 	rows, err := vl_rpc.VoiceLoverMain.GetAlbumCommentList(ctx, &vl_pb.ReqGetAlbumCommentList{
 		AlbumId: albumId,
+		Page: int32(page),
+		Size: uint32(limit) + 1,
 	})
 	if err != nil || len(rows.List) == 0 {
 		return nil, errors.New("暂无数据")
 	}
 	ret.Success = true
-	for _, v := range rows.List {
+	for k, v := range rows.List {
+		if  k >= int(limit){
+			ret.HasMore = true
+			break
+		}
 		ret.Comments = append(ret.Comments, &pb.CommentData{
 			Id: v.Id,
 		})
 	}
+
 
 	return ret, nil
 }

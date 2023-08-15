@@ -157,7 +157,7 @@ func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
 		})
 		return
 	}
-	ret, err := vl_serv.VoiceLoverService.GetAlbumCommentList(r.GetCtx(), req.AlbumId)
+	ret, err := vl_serv.VoiceLoverService.GetAlbumCommentList(r.GetCtx(), req.AlbumId, req.Paginator.Page, req.Paginator.Limit)
 	if err != nil {
 		response.Output(r, &pb.CommonResp{
 			Success: false,
@@ -239,7 +239,7 @@ func (a *voiceLoverAPI) AudioDetail(r *ghttp.Request) {
 // @Success 200 {object} pb.RespAudioComments
 // @Router /go/func/voice_lover/audioComments [get]
 func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
-	var req *query.ReqAudioDetail
+	var req *query.ReqAudioCommentList
 	if err := r.ParseQuery(&req); err != nil {
 		response.Output(r, &pb.CommonResp{
 			Success: false,
@@ -247,7 +247,7 @@ func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 		})
 		return
 	}
-	ret, err := vl_serv.VoiceLoverService.GetAudioCommentList(r.GetCtx(), req.AudioId)
+	ret, err := vl_serv.VoiceLoverService.GetAudioCommentList(r.GetCtx(), req.AudioId, req.Paginator.Page, req.Paginator.Limit)
 	if err != nil {
 		response.Output(r, &pb.CommonResp{
 			Success: false,
