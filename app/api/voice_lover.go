@@ -159,6 +159,15 @@ func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
 		})
 		return
 	}
+	ctxUser, _ := r.GetCtxVar(middleware.ContextUserKey).Interface().(*context2.ContextUser)
+	ret, err := vl_serv.VoiceLoverService.GetAlbumCommentList(r.GetCtx(), ctxUser.UID, req.AlbumId)
+	if err != nil {
+		response.Output(r, &pb.CommonResp{
+			Success: false,
+			Msg:     err.Error(),
+		})
+		return
+	}
 	OutputCustomData(r, &pb.RespAlbumComments{Success: true, Msg: ""})
 }
 

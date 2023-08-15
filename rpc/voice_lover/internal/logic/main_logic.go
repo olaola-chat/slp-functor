@@ -462,7 +462,7 @@ func (m *mainLogic) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGet
 	return nil
 }
 
-func (m *mainLogic) SubmitAudioComment(ctx context.Context, req *vl_pb.ReqSubmitComment, reply *vl_pb.ResCommonPost) error {
+func (m *mainLogic) SubmitAudioComment(ctx context.Context, req *vl_pb.ReqAudioSubmitComment, reply *vl_pb.ResCommonPost) error {
 	data := g.Map{
 		"audio_id": req.AudioId,
 		"content":  req.Content,
@@ -476,6 +476,54 @@ func (m *mainLogic) SubmitAudioComment(ctx context.Context, req *vl_pb.ReqSubmit
 
 func (m *mainLogic) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAudioEdit, reply *vl_pb.ResCommentList) error {
 	commentList, err := dao.VoiceLoverAudioCommentDao.GetList(ctx, req.Id)
+	if err != nil || len(commentList) == 0 {
+		return errors.New("暂无数据")
+	}
+	reqUids := &userpb.ReqUserProfiles{
+		Fields: []string{"uid", "icon", "name"},
+	}
+	for _, v := range commentList {
+		reqUids.Uids = append(reqUids.Uids, v.Uid)
+	}
+
+	userList, err := user.UserProfile.Mget(ctx, reqUids)
+	userMap := make(map[uint32]*xianshi.EntityXsUserProfile, 0)
+	for _, v := range userList.Data {
+		userMap[v.Uid] = v
+	}
+
+	for _, v := range commentList {
+		tmp := &vl_pb.Comment{
+			Id:         v.Id,
+			Content:    v.Content,
+			CreateTime: v.CreateTime,
+		}
+		if profile, ok := userMap[v.Uid]; ok {
+			tmp.UserInfo = &vl_pb.CommentUser{
+				Name:  profile.Name,
+				Avtar: profile.Icon,
+			}
+		}
+		reply.List = append(reply.List, tmp)
+	}
+
+	return nil
+}
+
+func (m *mainLogic) SubmitAlbumComment(ctx context.Context, req *vl_pb.ReqAlbumSubmitComment, reply *vl_pb.ResCommonPost) error {
+	data := g.Map{
+		"album_id": req.AlbumId,
+		"content":  req.Content,
+	}
+	err := dao.VoiceLoverAlbumCommentDao.Insert(ctx, data)
+	if err == nil {
+		reply.Success = true
+	}
+	return nil
+}
+
+func (m *mainLogic) GetAlbumCommentList(ctx context.Context, req *vl_pb.ReqGetAlbumCommentList, reply *vl_pb.ResCommentList) error {
+	commentList, err := dao.VoiceLoverAudioCommentDao.GetList(ctx, req.AlbumId)
 	if err != nil || len(commentList) == 0 {
 		return errors.New("暂无数据")
 	}

@@ -221,3 +221,22 @@ func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, uid uint
 
 	return ret, nil
 }
+
+func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, uid uint32, audioId uint64) (*pb.RespAlbumComments, error) {
+	ret := &pb.RespAlbumComments{}
+	rows, err := vl_rpc.VoiceLoverMain.GetAudioCommentList(ctx, &vl_pb.ReqGetAudioEdit{
+		Id: audioId,
+	})
+	if err != nil || len(rows.List) == 0 {
+		return nil, errors.New("暂无数据")
+	}
+
+	ret.Success = true
+	for _, v := range rows.List {
+		ret.Comments = append(ret.Comments, &pb.CommentData{
+			Id: v.Id,
+		})
+	}
+
+	return ret, nil
+}
