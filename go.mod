@@ -10,6 +10,8 @@ replace (
 require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gogf/gf v1.16.9
+	github.com/olaola-chat/rbp-library v0.0.0-20230815102228-dfafe747d030
+	github.com/olaola-chat/rbp-proto v0.0.0-20230815102415-ee99fdca1ca1
 	google.golang.org/protobuf v1.31.0
 )
 
@@ -82,8 +84,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nacos-group/nacos-sdk-go v1.0.1 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect
-	github.com/olaola-chat/rbp-library v0.0.0-20230814073349-399c634ce9e5 // indirect
-	github.com/olaola-chat/rbp-proto v0.0.0-20230814102042-4afbc3629df2 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/ginkgo/v2 v2.9.0 // indirect

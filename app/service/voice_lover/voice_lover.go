@@ -2,10 +2,12 @@ package voice_lover
 
 import (
 	"context"
+	"errors"
 	"sync"
 
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
+
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
@@ -28,9 +30,9 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 		CommonAlbums: make([]*pb.AlbumData, 0),
 	}
 	wg := sync.WaitGroup{}
+	wg.Add(2)
 	// 获取精选专辑推荐
 	go func() {
-		wg.Add(1)
 		defer wg.Done()
 		recAlbumList, err := vl_rpc.VoiceLoverMain.GetRecAlbums(ctx, &vl_pb.ReqGetRecAlbums{Uid: uid})
 		if err != nil {
@@ -48,7 +50,6 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 	}()
 	// 获取话题推荐
 	go func() {
-		wg.Add(1)
 		defer wg.Done()
 		subjectList, err := vl_rpc.VoiceLoverMain.GetRecSubjects(ctx, &vl_pb.ReqGetRecSubjects{Uid: uid})
 		if err != nil {
@@ -148,9 +149,9 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 
 	// 专辑主体信息获取正常的话，并发获取其他数据
 	wg := sync.WaitGroup{}
+	wg.Add(3)
 	// 用户是否已收藏
 	go func() {
-		wg.Add(1)
 		defer wg.Done()
 		isAlbumCollectRes, rErr := vl_rpc.VoiceLoverMain.IsUserCollectAlbum(ctx, &vl_pb.ReqIsUserCollectAlbum{
 			AlbumId: albumId,
@@ -164,7 +165,6 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 	}()
 	// 专辑评论数量
 	go func() {
-		wg.Add(1)
 		defer wg.Done()
 		albumCommentCountRes, rErr := vl_rpc.VoiceLoverMain.GetAlbumCommentCount(ctx, &vl_pb.ReqGetAlbumCommentCount{
 			AlbumId: albumId,
@@ -177,7 +177,6 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 	}()
 	// 获取音频列表
 	go func() {
-		wg.Add(1)
 		defer wg.Done()
 		audioListRes, rErr := vl_rpc.VoiceLoverMain.GetAudioListByAlbumId(ctx, &vl_pb.ReqGetAudioListByAlbumId{
 			AlbumId: albumId,
@@ -199,4 +198,42 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 	}()
 	wg.Wait()
 	return res, nil
+}
+
+func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, uid uint32, audioId uint64) (*pb.RespAudioComments, error) {
+	ret := &pb.RespAudioComments{}
+	rows, err := vl_rpc.VoiceLoverMain.GetAudioCommentList(ctx, &vl_pb.ReqGetAudioCommentList{
+		AudioId: audioId,
+	})
+	if err != nil || len(rows.List) == 0 {
+		return nil, errors.New("暂无数据")
+	}
+
+	ret.Success = true
+	for _, v := range rows.List {
+		ret.Comments = append(ret.Comments, &pb.CommentData{
+			Id: v.Id,
+		})
+	}
+
+	return ret, nil
+}
+
+func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, uid uint32, audioId uint64) (*pb.RespAlbumComments, error) {
+	ret := &pb.RespAlbumComments{}
+	rows, err := vl_rpc.VoiceLoverMain.GetAudioCommentList(ctx, &vl_pb.ReqGetAudioCommentList{
+		AudioId: audioId,
+	})
+	if err != nil || len(rows.List) == 0 {
+		return nil, errors.New("暂无数据")
+	}
+
+	ret.Success = true
+	for _, v := range rows.List {
+		ret.Comments = append(ret.Comments, &pb.CommentData{
+			Id: v.Id,
+		})
+	}
+
+	return ret, nil
 }

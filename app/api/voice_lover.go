@@ -158,6 +158,16 @@ func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
 		})
 		return
 	}
+	ctx := r.GetCtx()
+	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	_, err := vl_serv.VoiceLoverService.GetAlbumCommentList(ctx, ctxUser.UID, req.AlbumId)
+	if err != nil {
+		response.Output(r, &pb.CommonResp{
+			Success: false,
+			Msg:     err.Error(),
+		})
+		return
+	}
 	OutputCustomData(r, &pb.RespAlbumComments{Success: true, Msg: ""})
 }
 
@@ -216,15 +226,25 @@ func (a *voiceLoverAPI) AudioDetail(r *ghttp.Request) {
 // @Success 200 {object} pb.RespAudioComments
 // @Router /go/func/voice_lover/audioComments [get]
 func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
-	var req *query.ReqAudioComments
+	var req *query.ReqAudioDetail
 	if err := r.ParseQuery(&req); err != nil {
-		response.Output(r, &pb.RespAudioComments{
+		response.Output(r, &pb.CommonResp{
 			Success: false,
 			Msg:     consts.ERROR_PARAM.Msg(),
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAudioComments{Success: true, Msg: ""})
+	ctx := r.GetCtx()
+	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	ret, err := vl_serv.VoiceLoverService.GetAudioCommentList(ctx, ctxUser.UID, req.AudioId)
+	if err != nil {
+		response.Output(r, &pb.CommonResp{
+			Success: false,
+			Msg:     err.Error(),
+		})
+		return
+	}
+	OutputCustomData(r, ret)
 }
 
 // CommentAudio
@@ -239,14 +259,29 @@ func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 // @Router /go/func/voice_lover/commentAudio [post]
 func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 	var req *query.ReqCommentAudio
-	if err := r.ParseQuery(&req); err != nil {
-		response.Output(r, &pb.RespCommentAudio{
+	if err := r.ParseForm(&req); err != nil {
+		response.Output(r, &pb.CommonResp{
 			Success: false,
 			Msg:     consts.ERROR_PARAM.Msg(),
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespCommentAudio{Success: true, Msg: ""})
+	ctx := r.GetCtx()
+	//ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	_, err := vl_rpc.VoiceLoverMain.SubmitAudioComment(ctx, &vl_pb.ReqAudioSubmitComment{
+		AudioId: req.AudioId,
+		Content: req.Comment,
+		//Uid:     ctxUser.UID,
+		Type: req.Type,
+	})
+	if err != nil {
+		response.Output(r, &pb.CommonResp{
+			Success: false,
+			Msg:     err.Error(),
+		})
+		return
+	}
+	OutputCustomData(r, &pb.RespAudioComments{Success: true})
 }
 
 // Collect
