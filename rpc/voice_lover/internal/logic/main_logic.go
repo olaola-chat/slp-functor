@@ -22,10 +22,11 @@ import (
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	"github.com/olaola-chat/rbp-proto/rpcclient/user"
 
+	userpb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
+
 	voice_lover2 "github.com/olaola-chat/rbp-functor/app/model/voice_lover"
 	"github.com/olaola-chat/rbp-functor/rpc/consts"
 	"github.com/olaola-chat/rbp-functor/rpc/voice_lover/internal/dao"
-	userpb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
 )
 
 type mainLogic struct {
@@ -410,8 +411,8 @@ func (m *mainLogic) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGet
 	wg := sync.WaitGroup{}
 	audioDetailMap := make(map[uint64]*vl_pb.AudioSimpleData)
 	audioPlayCountMap := make(map[uint64]uint64)
+	wg.Add(2)
 	go func() {
-		wg.Add(1)
 		defer wg.Done()
 		audioList, tErr := dao.VoiceLoverAudioDao.GetAudioDetailsByAudioIds(ctx, audioIds)
 		if tErr != nil {
@@ -429,7 +430,6 @@ func (m *mainLogic) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGet
 		}
 	}()
 	go func() {
-		wg.Add(1)
 		defer wg.Done()
 		keys := make([]string, 0)
 		for _, audioId := range audioIds {
