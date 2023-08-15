@@ -5,8 +5,6 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/olaola-chat/rbp-library/response"
 	context2 "github.com/olaola-chat/rbp-library/server/http/context"
-	"github.com/olaola-chat/rbp-library/server/http/middleware"
-
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
@@ -42,7 +40,6 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 	}
 
 	ctx := r.GetCtx()
-	context2.GetContext(ctx)
 	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
 	g.Log().Debugf("ctxUser=%+v", ctxUser)
 	data, err := vl_serv.VoiceLoverService.GetMainData(ctx, ctxUser.UID)
@@ -159,8 +156,9 @@ func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
 		})
 		return
 	}
-	ctxUser, _ := r.GetCtxVar(middleware.ContextUserKey).Interface().(*context2.ContextUser)
-	ret, err := vl_serv.VoiceLoverService.GetAlbumCommentList(r.GetCtx(), ctxUser.UID, req.AlbumId)
+	ctx := r.GetCtx()
+	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	_, err := vl_serv.VoiceLoverService.GetAlbumCommentList(ctx, ctxUser.UID, req.AlbumId)
 	if err != nil {
 		response.Output(r, &pb.CommonResp{
 			Success: false,
@@ -234,8 +232,9 @@ func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 		})
 		return
 	}
-	ctxUser, _ := r.GetCtxVar(middleware.ContextUserKey).Interface().(*context2.ContextUser)
-	ret, err := vl_serv.VoiceLoverService.GetAudioCommentList(r.GetCtx(), ctxUser.UID, req.AudioId)
+	ctx := r.GetCtx()
+	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	ret, err := vl_serv.VoiceLoverService.GetAudioCommentList(ctx, ctxUser.UID, req.AudioId)
 	if err != nil {
 		response.Output(r, &pb.CommonResp{
 			Success: false,
@@ -265,12 +264,13 @@ func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 		})
 		return
 	}
-	ctxUser, _ := r.GetCtxVar(middleware.ContextUserKey).Interface().(*context2.ContextUser)
-	_, err := vl_rpc.VoiceLoverMain.SubmitAudioComment(r.GetCtx(), &vl_pb.ReqSubmitComment{
+	ctx := r.GetCtx()
+	//ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	_, err := vl_rpc.VoiceLoverMain.SubmitAudioComment(ctx, &vl_pb.ReqAudioSubmitComment{
 		AudioId: req.AudioId,
 		Content: req.Comment,
-		Uid:     ctxUser.UID,
-		Type:    req.Type,
+		//Uid:     ctxUser.UID,
+		Type: req.Type,
 	})
 	if err != nil {
 		response.Output(r, &pb.CommonResp{
