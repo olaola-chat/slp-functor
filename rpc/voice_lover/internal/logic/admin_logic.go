@@ -333,6 +333,7 @@ func (a *adminLogic) AudioCollect(ctx context.Context, req *voice_lover.ReqAudio
 		return err
 	}
 	data := g.Map{}
+	data["has_album"] = 0
 	if len(albumIds) > 0 {
 		data["has_album"] = 1
 	}
