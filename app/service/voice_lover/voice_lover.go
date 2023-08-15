@@ -203,7 +203,7 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 	return res, nil
 }
 
-func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, uid uint32, audioId uint64) (*pb.RespAudioComments, error) {
+func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId uint64) (*pb.RespAudioComments, error) {
 	ret := &pb.RespAudioComments{}
 	rows, err := vl_rpc.VoiceLoverMain.GetAudioCommentList(ctx, &vl_pb.ReqGetAudioCommentList{
 		AudioId: audioId,
@@ -222,15 +222,14 @@ func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, uid uint
 	return ret, nil
 }
 
-func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, uid uint32, audioId uint64) (*pb.RespAlbumComments, error) {
+func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId uint64) (*pb.RespAlbumComments, error) {
 	ret := &pb.RespAlbumComments{}
-	rows, err := vl_rpc.VoiceLoverMain.GetAudioCommentList(ctx, &vl_pb.ReqGetAudioCommentList{
-		AudioId: audioId,
+	rows, err := vl_rpc.VoiceLoverMain.GetAlbumCommentList(ctx, &vl_pb.ReqGetAlbumCommentList{
+		AlbumId: albumId,
 	})
 	if err != nil || len(rows.List) == 0 {
 		return nil, errors.New("暂无数据")
 	}
-
 	ret.Success = true
 	for _, v := range rows.List {
 		ret.Comments = append(ret.Comments, &pb.CommentData{

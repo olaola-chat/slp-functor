@@ -14,8 +14,18 @@ type voiceLoverAudioCommentDao struct {
 
 var VoiceLoverAudioCommentDao = &voiceLoverAudioCommentDao{}
 
-func (v *voiceLoverAudioCommentDao) GetList(ctx context.Context, id uint64) ([]*functor.EntityVoiceLoverAudioComment, error) {
-	res, err := functor2.VoiceLoverAudioComment.Ctx(ctx).Where("id=?", id).Limit(20).FindAll()
+func (v *voiceLoverAudioCommentDao) GetList(ctx context.Context, audioId uint64, page int32,limit uint32) (
+	[]*functor.EntityVoiceLoverAudioComment, error) {
+
+	if page <= 1 {
+		page = 1
+	}
+	if limit <= 0 {
+		limit = 10
+	}
+	offset := int(page - 1) * int(limit)
+	res, err := functor2.VoiceLoverAudioComment.Ctx(ctx).Where(
+		functor2.VoiceLoverAudioComment.Columns.AudioID, audioId).Offset(offset).Limit(int(limit)).FindAll()
 	if err != nil {
 		return nil, err
 	}

@@ -15,6 +15,7 @@ import (
 	"github.com/gogf/gf/util/gconv"
 	"github.com/olaola-chat/rbp-library/es"
 	"github.com/olaola-chat/rbp-library/redis"
+
 	"github.com/olaola-chat/rbp-proto/dao/functor"
 	functor2 "github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/xianshi"
@@ -466,6 +467,9 @@ func (m *mainLogic) SubmitAudioComment(ctx context.Context, req *vl_pb.ReqAudioS
 	data := g.Map{
 		"audio_id": req.AudioId,
 		"content":  req.Content,
+		"create_time": time.Now().Unix(),
+		"update_time": time.Now().Unix(),
+		"uid": req.Uid,
 	}
 	success, err := dao.VoiceLoverAudioCommentDao.Insert(ctx, data)
 	if err == nil && success {
@@ -474,8 +478,8 @@ func (m *mainLogic) SubmitAudioComment(ctx context.Context, req *vl_pb.ReqAudioS
 	return nil
 }
 
-func (m *mainLogic) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAudioEdit, reply *vl_pb.ResCommentList) error {
-	commentList, err := dao.VoiceLoverAudioCommentDao.GetList(ctx, req.Id)
+func (m *mainLogic) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAudioCommentList, reply *vl_pb.ResCommentList) error {
+	commentList, err := dao.VoiceLoverAudioCommentDao.GetList(ctx, req.AudioId, req.Page, req.Size)
 	if err != nil || len(commentList) == 0 {
 		return errors.New("暂无数据")
 	}
@@ -514,8 +518,11 @@ func (m *mainLogic) SubmitAlbumComment(ctx context.Context, req *vl_pb.ReqAlbumS
 	data := g.Map{
 		"album_id": req.AlbumId,
 		"content":  req.Content,
+		"create_time": time.Now().Unix(),
+		"update_time": time.Now().Unix(),
+		"uid": req.Uid,
 	}
-	err := dao.VoiceLoverAlbumCommentDao.Insert(ctx, data)
+	_, err := dao.VoiceLoverAlbumCommentDao.Insert(ctx, data)
 	if err == nil {
 		reply.Success = true
 	}
@@ -523,7 +530,7 @@ func (m *mainLogic) SubmitAlbumComment(ctx context.Context, req *vl_pb.ReqAlbumS
 }
 
 func (m *mainLogic) GetAlbumCommentList(ctx context.Context, req *vl_pb.ReqGetAlbumCommentList, reply *vl_pb.ResCommentList) error {
-	commentList, err := dao.VoiceLoverAudioCommentDao.GetList(ctx, req.AlbumId)
+	commentList, err := dao.VoiceLoverAlbumCommentDao.GetList(ctx, req.AlbumId, req.Page, req.Size)
 	if err != nil || len(commentList) == 0 {
 		return errors.New("暂无数据")
 	}
@@ -531,7 +538,7 @@ func (m *mainLogic) GetAlbumCommentList(ctx context.Context, req *vl_pb.ReqGetAl
 		Fields: []string{"uid", "icon", "name"},
 	}
 	for _, v := range commentList {
-		reqUids.Uids = append(reqUids.Uids, v.Uid)
+		reqUids.Uids = append(reqUids.Uids, uint32(v.Uid))
 	}
 
 	userList, err := user.UserProfile.Mget(ctx, reqUids)
@@ -546,7 +553,7 @@ func (m *mainLogic) GetAlbumCommentList(ctx context.Context, req *vl_pb.ReqGetAl
 			Content:    v.Content,
 			CreateTime: v.CreateTime,
 		}
-		if profile, ok := userMap[v.Uid]; ok {
+		if profile, ok := userMap[uint32(v.Uid)]; ok {
 			tmp.UserInfo = &vl_pb.CommentUser{
 				Name:  profile.Name,
 				Avtar: profile.Icon,
