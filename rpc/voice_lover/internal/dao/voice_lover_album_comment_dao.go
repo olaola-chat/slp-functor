@@ -29,17 +29,16 @@ func (v *voiceLoverAlbumCommentDao) GetValidCommentCountByAlbumId(ctx context.Co
 	return count, nil
 }
 
-func (v *voiceLoverAlbumCommentDao) GetList(ctx context.Context, albumId uint64, page int32,limit uint32) ([]*dbpb.EntityVoiceLoverAlbumComment, error) {
+func (v *voiceLoverAlbumCommentDao) GetList(ctx context.Context, albumId uint64, offset int32,limit uint32) ([]*dbpb.EntityVoiceLoverAlbumComment, error) {
 
-	if page <= 1 {
-		page = 1
+	if offset <= 1 {
+		offset = 1
 	}
 	if limit <= 0 {
 		limit = 10
 	}
-	offset := int(page - 1) * int(limit)
 	res, err := functor.VoiceLoverAlbumComment.Ctx(ctx).Where(functor.VoiceLoverAlbumComment.Columns.AlbumID,
-		albumId).Offset(offset).Limit(int(limit)).FindAll()
+		albumId).Offset(int(offset)).Limit(int(limit)).FindAll()
 	if err != nil {
 		return nil, err
 	}

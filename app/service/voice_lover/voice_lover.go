@@ -202,10 +202,14 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 
 func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId uint64, page,limit uint32) (*pb.RespAudioComments, error) {
 	ret := &pb.RespAudioComments{}
+	if page <= 1 {
+		page = 1
+	}
+	offset := (page - 1) * limit
 	rows, err := vl_rpc.VoiceLoverMain.GetAudioCommentList(ctx, &vl_pb.ReqGetAudioCommentList{
 		AudioId: audioId,
-		Page: int32(page),
-		Size: uint32(limit)+1,
+		Offset: int32(offset),
+		Size: limit + 1,
 	})
 	if err != nil || len(rows.List) == 0 {
 		return nil, errors.New("暂无数据")
@@ -227,10 +231,14 @@ func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId 
 
 func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId uint64, page,limit uint32) (*pb.RespAlbumComments, error) {
 	ret := &pb.RespAlbumComments{}
+	if page <= 1 {
+		page = 1
+	}
+	offset := (page - 1) * limit
 	rows, err := vl_rpc.VoiceLoverMain.GetAlbumCommentList(ctx, &vl_pb.ReqGetAlbumCommentList{
 		AlbumId: albumId,
-		Page: int32(page),
-		Size: uint32(limit) + 1,
+		Offset: int32(offset),
+		Size: limit + 1,
 	})
 	if err != nil || len(rows.List) == 0 {
 		return nil, errors.New("暂无数据")

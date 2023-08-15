@@ -479,7 +479,7 @@ func (m *mainLogic) SubmitAudioComment(ctx context.Context, req *vl_pb.ReqAudioS
 }
 
 func (m *mainLogic) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAudioCommentList, reply *vl_pb.ResCommentList) error {
-	commentList, err := dao.VoiceLoverAudioCommentDao.GetList(ctx, req.AudioId, req.Page, req.Size)
+	commentList, err := dao.VoiceLoverAudioCommentDao.GetList(ctx, req.AudioId, req.Offset, req.Size)
 	if err != nil || len(commentList) == 0 {
 		return errors.New("暂无数据")
 	}
@@ -530,7 +530,7 @@ func (m *mainLogic) SubmitAlbumComment(ctx context.Context, req *vl_pb.ReqAlbumS
 }
 
 func (m *mainLogic) GetAlbumCommentList(ctx context.Context, req *vl_pb.ReqGetAlbumCommentList, reply *vl_pb.ResCommentList) error {
-	commentList, err := dao.VoiceLoverAlbumCommentDao.GetList(ctx, req.AlbumId, req.Page, req.Size)
+	commentList, err := dao.VoiceLoverAlbumCommentDao.GetList(ctx, req.AlbumId, req.Offset, req.Size)
 	if err != nil || len(commentList) == 0 {
 		return errors.New("暂无数据")
 	}
