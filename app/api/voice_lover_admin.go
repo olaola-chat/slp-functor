@@ -34,7 +34,7 @@ var VoiceLoverAdmin = &voiceLoverAdminApi{}
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAudioList query
 // @Success 200 {object} pb.RespAdminVoiceLoverAudioList
-// @Router /go/func/admin/voice_lover/audio-list [get]
+// @Router /go/func/admin/voice_lover/audioList [get]
 func (a *voiceLoverAdminApi) AudioList(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAudioList
 	if err := r.Parse(&req); err != nil {
@@ -68,7 +68,7 @@ func (a *voiceLoverAdminApi) AudioList(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAudioDetail query
 // @Success 200 {object} pb.RespAdminVoiceLoverAudioDetail
-// @Router /go/func/admin/voice_lover/audio-detail [get]
+// @Router /go/func/admin/voice_lover/audioDetail [get]
 func (a *voiceLoverAdminApi) AudioDetail(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAudioDetail
 	if err := r.Parse(&req); err != nil {
@@ -157,7 +157,7 @@ func buildAudioEdit(edits []*voice_lover3.AudioEditData, userMap map[uint32]*xia
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAudioUpdate query
 // @Success 200 {object} pb.RespAdminVoiceLoverAudioUpdate
-// @Router /go/func/admin/voice_lover/audio-update [post]
+// @Router /go/func/admin/voice_lover/audioUpdate [post]
 func (a *voiceLoverAdminApi) AudioUpdate(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAudioUpdate
 	if err := r.Parse(&req); err != nil {
@@ -187,8 +187,8 @@ func (a *voiceLoverAdminApi) AudioUpdate(r *ghttp.Request) {
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAudioAudit query
-// @Success 200 {object} pb.RespAdminVoiceLoverAudioAudit {
-// @Router /go/func/admin/voice_lover/audio-audit [post]
+// @Success 200 {object} pb.RespAdminVoiceLoverAudioAudit
+// @Router /go/func/admin/voice_lover/audioAudit [post]
 func (a *voiceLoverAdminApi) AudioAudit(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAudioAudit
 	if err := r.Parse(&req); err != nil {
@@ -219,7 +219,7 @@ func (a *voiceLoverAdminApi) AudioAudit(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query
 // @Success 200 {object} pb.RespAdminVoiceLoverAudioAuditReason
-// @Router /go/func/admin/voice_lover/audio-audit-reason [get]
+// @Router /go/func/admin/voice_lover/audioAuditReason [get]
 func (a *voiceLoverAdminApi) AudioAuditReason(r *ghttp.Request) {
 	data := &pb.RespAdminVoiceLoverAudioAuditReason{}
 	for id, reason := range consts.AuditAudioReasonMap {
@@ -245,7 +245,7 @@ func (a *voiceLoverAdminApi) AudioAuditReason(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAlbumCreate query
 // @Success 200 {object} pb.RespAdminVoiceLoverAlbumCreate
-// @Router /go/func/admin/voice_lover/album-update [post]
+// @Router /go/func/admin/voice_lover/albumCreate [post]
 func (a *voiceLoverAdminApi) AlbumCreate(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumCreate
 	if err := r.Parse(&req); err != nil {
@@ -277,8 +277,8 @@ func (a *voiceLoverAdminApi) AlbumCreate(r *ghttp.Request) {
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAlbumUpdate query
-// @Success 200 {object}
-// @Router /go/func/admin/voice_lover/album-update [post]
+// @Success 200 {object} pb.RespAdminVoiceLoverAlbumUpdate
+// @Router /go/func/admin/voice_lover/albumUpdate [post]
 func (a *voiceLoverAdminApi) AlbumUpdate(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumUpdate
 	if err := r.Parse(&req); err != nil {
@@ -309,7 +309,7 @@ func (a *voiceLoverAdminApi) AlbumUpdate(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAlbumDel query
 // @Success 200 {object} pb.RespAdminVoiceLoverAlbumDel
-// @Router /go/func/admin/voice_lover/album-del [post]
+// @Router /go/func/admin/voice_lover/albumDel [post]
 func (a *voiceLoverAdminApi) AlbumDel(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumDel
 	if err := r.Parse(&req); err != nil {
@@ -341,7 +341,7 @@ func (a *voiceLoverAdminApi) AlbumDel(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAlbumDetail query
 // @Success 200 {object} pb.RespAdminVoiceLoverAlbumDetail
-// @Router /go/func/admin/voice_lover/album-detail [get]
+// @Router /go/func/admin/voice_lover/albumDetail [get]
 func (a *voiceLoverAdminApi) AlbumDetail(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumDetail
 	if err := r.Parse(&req); err != nil {
@@ -388,7 +388,7 @@ func (a *voiceLoverAdminApi) AlbumDetail(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAlbumList query
 // @Success 200 {object} pb.RespAdminVoiceLoverAlbumList
-// @Router /go/func/admin/voice_lover/album-list [get]
+// @Router /go/func/admin/voice_lover/albumList [get]
 func (a *voiceLoverAdminApi) AlbumList(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumList
 	if err := r.Parse(&req); err != nil {
@@ -434,7 +434,7 @@ func (a *voiceLoverAdminApi) AlbumList(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAudioCollectList query
 // @Success 200 {object} pb.RespAdminVoiceLoverAlbumList
-// @Router /go/func/admin/voice_lover/audio-collect-list [get]
+// @Router /go/func/admin/voice_lover/audioCollectList [get]
 func (a *voiceLoverAdminApi) AudioCollectList(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAudioCollectList
 	if err := r.Parse(&req); err != nil {
@@ -468,7 +468,7 @@ func (a *voiceLoverAdminApi) AudioCollectList(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAudioCollect query
 // @Success 200 {object} pb.RespAdminVoiceLoverAudioCollect
-// @Router /go/func/admin/voice_lover/audio-collect [post]
+// @Router /go/func/admin/voice_lover/audioCollect [post]
 func (a *voiceLoverAdminApi) AudioCollect(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAudioCollect
 	if err := r.Parse(&req); err != nil {
@@ -504,7 +504,7 @@ func (a *voiceLoverAdminApi) AudioCollect(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverSubjectCreate query
 // @Success 200 {object} pb.RespAdminVoiceLoverSubjectCreate
-// @Router /go/func/admin/voice_lover/subject-create [post]
+// @Router /go/func/admin/voice_lover/subjectCreate [post]
 func (a *voiceLoverAdminApi) SubjectCreate(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverSubjectCreate
 	if err := r.Parse(&req); err != nil {
@@ -539,7 +539,7 @@ func (a *voiceLoverAdminApi) SubjectCreate(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverSubjectUpdate query
 // @Success 200 {object} pb.RespAdminVoiceLoverSubjectUpdate
-// @Router /go/func/admin/voice_lover/subject-update [post]
+// @Router /go/func/admin/voice_lover/subjectUpdate [post]
 func (a *voiceLoverAdminApi) SubjectUpdate(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverSubjectUpdate
 	if err := r.Parse(&req); err != nil {
@@ -574,7 +574,7 @@ func (a *voiceLoverAdminApi) SubjectUpdate(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverSubjectDel query
 // @Success 200 {object} pb.RespAdminVoiceLoverSubjectDel
-// @Router /go/func/admin/voice_lover/subject-update [post]
+// @Router /go/func/admin/voice_lover/subjectDel [post]
 func (a *voiceLoverAdminApi) SubjectDel(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverSubjectDel
 	if err := r.Parse(&req); err != nil {
@@ -608,7 +608,7 @@ func (a *voiceLoverAdminApi) SubjectDel(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverSubjectList query
 // @Success 200 {object} pb.RespAdminVoiceLoverSubjectList
-// @Router /go/func/admin/voice_lover/subject-list [get]
+// @Router /go/func/admin/voice_lover/subjectList [get]
 func (a *voiceLoverAdminApi) SubjectList(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverSubjectList
 	if err := r.Parse(&req); err != nil {
@@ -655,7 +655,7 @@ func (a *voiceLoverAdminApi) SubjectList(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAlbumCollect query
 // @Success 200 {object} pb.RespAdminVoiceLoverAlbumCollect
-// @Router /go/func/admin/voice_lover/album-collect [get]
+// @Router /go/func/admin/voice_lover/albumCollect [get]
 func (a *voiceLoverAdminApi) AlbumCollect(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumCollect
 	if err := r.Parse(&req); err != nil {
@@ -689,7 +689,7 @@ func (a *voiceLoverAdminApi) AlbumCollect(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAlbumCollectList query
 // @Success 200 {object} pb.RespAdminVoiceLoverAlbumCollectList
-// @Router /go/func/admin/voice_lover/album-collect-list [get]
+// @Router /go/func/admin/voice_lover/albumCollectList [get]
 func (a *voiceLoverAdminApi) AlbumCollectList(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumCollectList
 	if err := r.Parse(&req); err != nil {
@@ -735,7 +735,7 @@ func (a *voiceLoverAdminApi) AlbumCollectList(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverSubjectDetail query
 // @Success 200 {object} pb.RespAdminVoiceLoverSubjectDetail
-// @Router /go/func/admin/voice_lover/subject-detail [get]
+// @Router /go/func/admin/voice_lover/subjectDetail [get]
 func (a *voiceLoverAdminApi) SubjectDetail(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverSubjectDetail
 	if err := r.Parse(&req); err != nil {
@@ -779,8 +779,8 @@ func (a *voiceLoverAdminApi) SubjectDetail(r *ghttp.Request) {
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAlbumChoice query
-// @Success 200 {object} pb.RespAdminVoiceLoverAlbumChoice {
-// @Router /go/func/admin/voice_lover/album-choice [post]
+// @Success 200 {object} pb.RespAdminVoiceLoverAlbumChoice
+// @Router /go/func/admin/voice_lover/albumChoice [post]
 func (a *voiceLoverAdminApi) AlbumChoice(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumChoice
 	if err := r.Parse(&req); err != nil {
@@ -813,8 +813,8 @@ func (a *voiceLoverAdminApi) AlbumChoice(r *ghttp.Request) {
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request  query
-// @Success 200 {object} pb.RespAdminVoiceLoverAlbumChoiceList {
-// @Router /go/func/admin/voice_lover/album-choice-list [post]
+// @Success 200 {object} pb.RespAdminVoiceLoverAlbumChoiceList
+// @Router /go/func/admin/voice_lover/albumChoiceList [get]
 func (a *voiceLoverAdminApi) AlbumChoiceList(r *ghttp.Request) {
 	ctx := r.Context()
 	reply, err := voice_lover2.VoiceLoverAdmin.GetAlbumChoice(ctx, &voice_lover3.ReqGetAlbumChoice{})

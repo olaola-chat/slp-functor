@@ -51,6 +51,10 @@ func (v *VoiceLoverMain) IsUserCollectAlbum(ctx context.Context, req *vl_pb.ReqI
 	return logic.MainLogic.IsUserCollectAlbum(ctx, req, reply)
 }
 
+func (v *VoiceLoverMain) Collect(ctx context.Context, req *vl_pb.ReqCollect, reply *vl_pb.ResCollect) error {
+	return logic.MainLogic.Collect(ctx, req, reply)
+}
+
 func (v *VoiceLoverMain) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGetAudioListByAlbumId, reply *vl_pb.ResGetAudioListByAlbumId) error {
 	return logic.MainLogic.GetAudioListByAlbumId(ctx, req, reply)
 }
