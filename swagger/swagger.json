@@ -1,0 +1,1735 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/go/func/admin/voice_lover/album-choice": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAlbumChoice"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/album-choice-list": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAlbumChoiceList"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/album-collect": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAlbumCollect"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/album-collect-list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAlbumCollectList"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/album-del": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAlbumDel"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/album-detail": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAlbumDetail"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/album-list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAlbumList"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/album-update": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAlbumUpdate"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/audio-audit": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAudioAudit"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/audio-audit-reason": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAudioAuditReason"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/audio-collect": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAudioCollect"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/audio-collect-list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAlbumList"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/audio-detail": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio detail",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio detail",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAudioDetail"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/audio-list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAudioList"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/audio-update": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAudioUpdate"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/subject-create": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverSubjectCreate"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/subject-detail": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverSubjectDetail"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/subject-list": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverSubjectList"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/subject-update": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverSubjectDel"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/voice_lover/albumComments": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "查看专辑评论列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "查看专辑评论列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAlbumComments"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/voice_lover/albumDetail": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "查看专辑详情",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "查看专辑详情",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAlbumDetail"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/voice_lover/albumList": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "获取更多专辑列表 精选\u0026非精选\u0026专题都走该接口",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "获取更多专辑列表 精选\u0026非精选\u0026专题都走该接口",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAlbumList"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/voice_lover/audioComments": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "查看音频评论\u0026弹幕列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "查看音频评论\u0026弹幕列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAudioComments"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/voice_lover/audioDetail": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "查看音频详情",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "查看音频详情",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAudioDetail"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/voice_lover/collect": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "收藏接口",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "收藏接口",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespCollectVoiceLover"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/voice_lover/commentAlbum": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "发表专辑评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "发表专辑评论",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespCommentAlbum"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/voice_lover/commentAudio": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "发表音频评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "发表音频评论",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespCommentAudio"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/voice_lover/main": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋首页",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "声恋首页",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespVoiceLoverMain"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/voice_lover/post": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋投稿",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "声恋投稿",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespVoiceLoverPost"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/voice_lover/recUserList": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "获取更多推荐用户接口",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "获取更多推荐用户接口",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespRecUserList"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "pb.AdminAlbumData": {
+            "type": "object",
+            "properties": {
+                "create_time": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "pb.AdminVoiceLoverAlbum": {
+            "type": "object",
+            "properties": {
+                "audio_count": {
+                    "type": "integer"
+                },
+                "cover": {
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "intro": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "op_uid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "pb.AdminVoiceLoverAlbumSubject": {
+            "type": "object",
+            "properties": {
+                "album_id": {
+                    "type": "integer"
+                },
+                "album_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "subject_id": {
+                    "type": "integer"
+                },
+                "subject_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "pb.AdminVoiceLoverAudio": {
+            "type": "object",
+            "properties": {
+                "audit_status": {
+                    "type": "integer"
+                },
+                "broker": {
+                    "type": "string"
+                },
+                "covers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "create_time": {
+                    "type": "integer"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "edit_contents": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AdminVoiceLoverAudioEdit"
+                    }
+                },
+                "edit_covers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AdminVoiceLoverAudioEdit"
+                    }
+                },
+                "edit_dubs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AdminVoiceLoverAudioEdit"
+                    }
+                },
+                "edit_posts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AdminVoiceLoverAudioEdit"
+                    }
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "labels": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "op_uid": {
+                    "type": "integer"
+                },
+                "pub_uid": {
+                    "type": "integer"
+                },
+                "pub_user_name": {
+                    "type": "string"
+                },
+                "resource": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "pb.AdminVoiceLoverAudioAuditReason": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "reason": {
+                    "type": "string"
+                }
+            }
+        },
+        "pb.AdminVoiceLoverAudioEdit": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "pb.AlbumComments": {
+            "type": "object",
+            "properties": {
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.CommentData"
+                    }
+                },
+                "has_more": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.AlbumData": {
+            "type": "object",
+            "properties": {
+                "audio_total": {
+                    "description": "专辑内音频数量",
+                    "type": "integer"
+                },
+                "cover": {
+                    "description": "专辑显示封面",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "专辑id",
+                    "type": "integer"
+                },
+                "play_stats": {
+                    "description": "播放量统计，服务端控制显示规则",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "专辑标题",
+                    "type": "string"
+                }
+            }
+        },
+        "pb.AlbumDetail": {
+            "type": "object",
+            "properties": {
+                "album": {
+                    "description": "专辑信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/pb.AlbumData"
+                        }
+                    ]
+                },
+                "audios": {
+                    "description": "音频列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AudioData"
+                    }
+                },
+                "comment_count": {
+                    "description": "评论数量",
+                    "type": "integer"
+                },
+                "is_collected": {
+                    "description": "是否收藏",
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.AlbumList": {
+            "type": "object",
+            "properties": {
+                "albums": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AlbumData"
+                    }
+                },
+                "has_more": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.AudioComments": {
+            "type": "object",
+            "properties": {
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.CommentData"
+                    }
+                },
+                "has_more": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.AudioData": {
+            "type": "object",
+            "properties": {
+                "covers": {
+                    "description": "音频封面",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "description": "音频唯一标识",
+                    "type": "integer"
+                },
+                "play_stats": {
+                    "description": "音频播放次数",
+                    "type": "string"
+                },
+                "resource": {
+                    "description": "音频资源",
+                    "type": "string"
+                },
+                "seconds": {
+                    "description": "音频时长",
+                    "type": "integer"
+                },
+                "title": {
+                    "description": "音频标题",
+                    "type": "string"
+                },
+                "user_info": {
+                    "description": "发布人",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/pb.UserData"
+                        }
+                    ]
+                }
+            }
+        },
+        "pb.AudioDetail": {
+            "type": "object",
+            "properties": {
+                "audio": {
+                    "description": "音频信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/pb.AudioData"
+                        }
+                    ]
+                },
+                "audios": {
+                    "description": "音频列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AlbumData"
+                    }
+                },
+                "comment_count": {
+                    "description": "评论数量",
+                    "type": "integer"
+                },
+                "isFollow": {
+                    "description": "是否已关注",
+                    "type": "boolean"
+                },
+                "is_collected": {
+                    "description": "是否收藏",
+                    "type": "boolean"
+                },
+                "room_id": {
+                    "description": "房间id 为0则表示不在房间内",
+                    "type": "integer"
+                }
+            }
+        },
+        "pb.BannerData": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "banner id",
+                    "type": "integer"
+                },
+                "img_url": {
+                    "description": "banner图片资源地址",
+                    "type": "string"
+                },
+                "redirect_url": {
+                    "description": "点击后跳转地址",
+                    "type": "string"
+                }
+            }
+        },
+        "pb.CommentData": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "description": "评论内容",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "评论唯一标识",
+                    "type": "integer"
+                },
+                "user_info": {
+                    "description": "评论人信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/pb.UserData"
+                        }
+                    ]
+                }
+            }
+        },
+        "pb.RecUserList": {
+            "type": "object",
+            "properties": {
+                "has_more": {
+                    "type": "boolean"
+                },
+                "rec_users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.UserData"
+                    }
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAlbumChoice": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAlbumChoiceList": {
+            "type": "object",
+            "properties": {
+                "albums": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AdminAlbumData"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAlbumCollect": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAlbumCollectList": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AdminVoiceLoverAlbumSubject"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAlbumCreate": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAlbumDel": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAlbumDetail": {
+            "type": "object",
+            "properties": {
+                "album": {
+                    "$ref": "#/definitions/pb.AdminVoiceLoverAlbum"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAlbumList": {
+            "type": "object",
+            "properties": {
+                "albums": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AdminVoiceLoverAlbum"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAlbumUpdate": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAudioAudit": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAudioAuditReason": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "reasons": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AdminVoiceLoverAudioAuditReason"
+                    }
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAudioCollect": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAudioDetail": {
+            "type": "object",
+            "properties": {
+                "audio": {
+                    "$ref": "#/definitions/pb.AdminVoiceLoverAudio"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAudioList": {
+            "type": "object",
+            "properties": {
+                "audios": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AdminVoiceLoverAudio"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAudioUpdate": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverSubjectCreate": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverSubjectDel": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverSubjectDetail": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "subject": {
+                    "$ref": "#/definitions/pb.SubjectData"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverSubjectList": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.SubjectData"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverSubjectUpdate": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAlbumComments": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/pb.AlbumComments"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAlbumDetail": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/pb.AlbumDetail"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAlbumList": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/pb.AlbumList"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAudioComments": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/pb.AudioComments"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAudioDetail": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/pb.AudioDetail"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespCollectVoiceLover": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespCommentAlbum": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespCommentAudio": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespRecUserList": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/pb.RecUserList"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespVoiceLoverMain": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/pb.VoiceLoverMain"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespVoiceLoverPost": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.SubjectData": {
+            "type": "object",
+            "properties": {
+                "album_total": {
+                    "type": "integer"
+                },
+                "albums": {
+                    "description": "专题下专辑列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AlbumData"
+                    }
+                },
+                "id": {
+                    "description": "专题id",
+                    "type": "integer"
+                },
+                "title": {
+                    "description": "专题名称",
+                    "type": "string"
+                }
+            }
+        },
+        "pb.UserData": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "description": "用户头像",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "用户昵称",
+                    "type": "string"
+                },
+                "uid": {
+                    "description": "用户uid",
+                    "type": "integer"
+                }
+            }
+        },
+        "pb.VoiceLoverMain": {
+            "type": "object",
+            "properties": {
+                "common_albums": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AlbumData"
+                    }
+                },
+                "rec_albums": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AlbumData"
+                    }
+                },
+                "rec_banners": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.BannerData"
+                    }
+                },
+                "rec_subjects": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.SubjectData"
+                    }
+                },
+                "rec_users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.UserData"
+                    }
+                }
+            }
+        }
+    }
+}

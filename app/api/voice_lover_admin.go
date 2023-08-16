@@ -187,7 +187,7 @@ func (a *voiceLoverAdminApi) AudioUpdate(r *ghttp.Request) {
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAudioAudit query
-// @Success 200 {object} pb.RespAdminVoiceLoverAudioAudit {
+// @Success 200 {object} pb.RespAdminVoiceLoverAudioAudit
 // @Router /go/func/admin/voice_lover/audio-audit [post]
 func (a *voiceLoverAdminApi) AudioAudit(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAudioAudit
@@ -277,7 +277,7 @@ func (a *voiceLoverAdminApi) AlbumCreate(r *ghttp.Request) {
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAlbumUpdate query
-// @Success 200 {object}
+// @Success 200 {object} pb.RespAdminVoiceLoverAlbumUpdate
 // @Router /go/func/admin/voice_lover/album-update [post]
 func (a *voiceLoverAdminApi) AlbumUpdate(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumUpdate
@@ -779,7 +779,7 @@ func (a *voiceLoverAdminApi) SubjectDetail(r *ghttp.Request) {
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request query.ReqAdminVoiceLoverAlbumChoice query
-// @Success 200 {object} pb.RespAdminVoiceLoverAlbumChoice {
+// @Success 200 {object} pb.RespAdminVoiceLoverAlbumChoice
 // @Router /go/func/admin/voice_lover/album-choice [post]
 func (a *voiceLoverAdminApi) AlbumChoice(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumChoice
@@ -813,7 +813,7 @@ func (a *voiceLoverAdminApi) AlbumChoice(r *ghttp.Request) {
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Request  query
-// @Success 200 {object} pb.RespAdminVoiceLoverAlbumChoiceList {
+// @Success 200 {object} pb.RespAdminVoiceLoverAlbumChoiceList
 // @Router /go/func/admin/voice_lover/album-choice-list [post]
 func (a *voiceLoverAdminApi) AlbumChoiceList(r *ghttp.Request) {
 	ctx := r.Context()
