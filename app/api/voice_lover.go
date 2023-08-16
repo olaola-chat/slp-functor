@@ -314,6 +314,17 @@ func (a *voiceLoverAPI) Collect(r *ghttp.Request) {
 		})
 		return
 	}
+	ctx := r.GetCtx()
+	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	_, err := vl_rpc.VoiceLoverMain.Collect(ctx, &vl_pb.ReqCollect{Uid: ctxUser.UID, Id: req.Id, Type: req.Type})
+	if err != nil {
+		g.Log().Errorf("voiceLoverAPI Collect error=%v", err)
+		response.Output(r, &pb.RespCollectVoiceLover{
+			Success: false,
+			Msg:     consts.ERROR_SYSTEM.Msg(),
+		})
+		return
+	}
 	OutputCustomData(r, &pb.RespCollectVoiceLover{Success: true, Msg: ""})
 }
 

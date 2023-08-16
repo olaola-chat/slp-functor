@@ -397,6 +397,11 @@ func (m *mainLogic) IsUserCollectAlbum(ctx context.Context, req *vl_pb.ReqIsUser
 	return nil
 }
 
+func (m *mainLogic) Collect(ctx context.Context, req *vl_pb.ReqCollect, reply *vl_pb.ResCollect) error {
+	
+	return nil
+}
+
 func (m *mainLogic) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGetAudioListByAlbumId, reply *vl_pb.ResGetAudioListByAlbumId) error {
 	reply.Audios = make([]*vl_pb.AudioSimpleData, 0)
 	list, err := dao.VoiceLoverAudioAlbumDao.GetListByAlbumId(ctx, req.AlbumId)
