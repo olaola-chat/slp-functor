@@ -206,7 +206,7 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 	return res, nil
 }
 
-func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, uid uint32, audioId uint64) (*pb.RespAudioComments, error) {
+func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId uint64, page, limit uint32) (*pb.RespAudioComments, error) {
 	ret := &pb.RespAudioComments{
 		Success: true,
 		Msg:     "",
@@ -215,15 +215,25 @@ func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, uid uint
 			HasMore:  false,
 		},
 	}
+	if page <= 1 {
+		page = 1
+	}
+	offset := (page - 1) * limit
 	rows, err := vl_rpc.VoiceLoverMain.GetAudioCommentList(ctx, &vl_pb.ReqGetAudioCommentList{
 		AudioId: audioId,
+		Offset:  int32(offset),
+		Size:    limit + 1,
 	})
 	if err != nil || len(rows.List) == 0 {
 		return nil, errors.New("暂无数据")
 	}
 
 	ret.Success = true
-	for _, v := range rows.List {
+	for k, v := range rows.List {
+		if k >= int(limit) {
+			ret.Data.HasMore = true
+			break
+		}
 		ret.Data.Comments = append(ret.Data.Comments, &pb.CommentData{
 			Id: v.Id,
 		})
@@ -232,7 +242,7 @@ func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, uid uint
 	return ret, nil
 }
 
-func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, uid uint32, audioId uint64) (*pb.RespAlbumComments, error) {
+func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId uint64, page, limit uint32) (*pb.RespAlbumComments, error) {
 	ret := &pb.RespAlbumComments{
 		Success: true,
 		Msg:     "",
@@ -241,15 +251,24 @@ func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, uid uint
 			HasMore:  false,
 		},
 	}
-	rows, err := vl_rpc.VoiceLoverMain.GetAudioCommentList(ctx, &vl_pb.ReqGetAudioCommentList{
-		AudioId: audioId,
+	if page <= 1 {
+		page = 1
+	}
+	offset := (page - 1) * limit
+	rows, err := vl_rpc.VoiceLoverMain.GetAlbumCommentList(ctx, &vl_pb.ReqGetAlbumCommentList{
+		AlbumId: albumId,
+		Offset:  int32(offset),
+		Size:    limit + 1,
 	})
 	if err != nil || len(rows.List) == 0 {
 		return nil, errors.New("暂无数据")
 	}
-
 	ret.Success = true
-	for _, v := range rows.List {
+	for k, v := range rows.List {
+		if k >= int(limit) {
+			ret.Data.HasMore = true
+			break
+		}
 		ret.Data.Comments = append(ret.Data.Comments, &pb.CommentData{
 			Id: v.Id,
 		})

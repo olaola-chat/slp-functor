@@ -5,6 +5,7 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/olaola-chat/rbp-library/response"
 	context2 "github.com/olaola-chat/rbp-library/server/http/context"
+
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
@@ -156,9 +157,7 @@ func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
 		})
 		return
 	}
-	ctx := r.GetCtx()
-	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
-	_, err := vl_serv.VoiceLoverService.GetAlbumCommentList(ctx, ctxUser.UID, req.AlbumId)
+	ret, err := vl_serv.VoiceLoverService.GetAlbumCommentList(r.GetCtx(), req.AlbumId, req.Paginator.Page, req.Paginator.Limit)
 	if err != nil {
 		response.Output(r, &pb.RespAlbumComments{
 			Success: false,
@@ -166,7 +165,7 @@ func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAlbumComments{Success: true, Msg: ""})
+	OutputCustomData(r, ret)
 }
 
 // CommentAlbum
@@ -188,6 +187,22 @@ func (a *voiceLoverAPI) CommentAlbum(r *ghttp.Request) {
 		})
 		return
 	}
+
+	ctx := r.GetCtx()
+	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	_, err := vl_rpc.VoiceLoverMain.SubmitAlbumComment(ctx, &vl_pb.ReqAlbumSubmitComment{
+		AlbumId: req.AlbumId,
+		Content: req.Comment,
+		Uid:     ctxUser.UID,
+	})
+	if err != nil {
+		response.Output(r, &pb.CommonResp{
+			Success: false,
+			Msg:     err.Error(),
+		})
+		return
+	}
+
 	OutputCustomData(r, &pb.RespCommentAlbum{Success: true, Msg: ""})
 }
 
@@ -224,7 +239,7 @@ func (a *voiceLoverAPI) AudioDetail(r *ghttp.Request) {
 // @Success 200 {object} pb.RespAudioComments
 // @Router /go/func/voice_lover/audioComments [get]
 func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
-	var req *query.ReqAudioDetail
+	var req *query.ReqAudioCommentList
 	if err := r.ParseQuery(&req); err != nil {
 		response.Output(r, &pb.RespAudioComments{
 			Success: false,
@@ -232,9 +247,7 @@ func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 		})
 		return
 	}
-	ctx := r.GetCtx()
-	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
-	ret, err := vl_serv.VoiceLoverService.GetAudioCommentList(ctx, ctxUser.UID, req.AudioId)
+	ret, err := vl_serv.VoiceLoverService.GetAudioCommentList(r.GetCtx(), req.AudioId, req.Paginator.Page, req.Paginator.Limit)
 	if err != nil {
 		response.Output(r, &pb.RespAudioComments{
 			Success: false,
