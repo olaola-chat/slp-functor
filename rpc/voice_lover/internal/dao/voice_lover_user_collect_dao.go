@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+	"time"
 
 	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
@@ -16,6 +17,34 @@ const (
 	CollectTypeAlbum = 0 // 专辑收藏
 	CollectTypeAudio = 1 // 音频收藏
 )
+
+func (v *voiceLoverUserCollectDao) Add(ctx context.Context, uid uint32, collectId uint64, collectType int) (int64, error) {
+	now := uint64(time.Now().Unix())
+	data := &functor.EntityVoiceLoverUserCollect{
+		Uid:         uint64(uid),
+		CollectId:   collectId,
+		CollectType: int32(collectType),
+		CreateTime:  now,
+		UpdateTime:  now,
+	}
+	res, err := functor2.VoiceLoverUserCollect.Ctx(ctx).Insert(data)
+	if err != nil {
+		return 0, err
+	}
+	lastId, _ := res.LastInsertId()
+	return lastId, nil
+}
+
+func (v *voiceLoverUserCollectDao) Delete(ctx context.Context, uid uint32, collectId uint64, collectType int) error {
+	_, err := functor2.VoiceLoverUserCollect.Ctx(ctx).
+		Where(functor2.VoiceLoverUserCollect.Columns.UID, uid).
+		Where(functor2.VoiceLoverUserCollect.Columns.CollectID, collectId).
+		Where(functor2.VoiceLoverUserCollect.Columns.CollectType, collectType).Delete()
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 func (v *voiceLoverUserCollectDao) GetInfoByUidAndTypeAndId(ctx context.Context, uid uint32, id uint64, collectType int) (*functor.EntityVoiceLoverUserCollect, error) {
 	data, err := functor2.VoiceLoverUserCollect.Ctx(ctx).
