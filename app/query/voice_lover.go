@@ -61,3 +61,13 @@ type ReqVoiceLoverPost struct {
 	EditCover   string `json:"edit_cover"`     // 编辑封面
 	Labels      string `json:"labels"`         // 标签
 }
+
+type ReqAudioCommentList struct {
+	AudioId   uint64 `v:"audio_id@required"` // 音频id
+	Paginator Paginator
+}
+
+type ReqAlbumCommentList struct {
+	AlbumId   uint64 `v:"audio_id@required"` // 音频id
+	Paginator Paginator
+}

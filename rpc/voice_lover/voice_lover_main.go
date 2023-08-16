@@ -59,7 +59,7 @@ func (v *VoiceLoverMain) SubmitAudioComment(ctx context.Context, req *vl_pb.ReqA
 	return logic.MainLogic.SubmitAudioComment(ctx, req, reply)
 }
 
-func (v *VoiceLoverMain) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAudioEdit, reply *vl_pb.ResCommentList) error {
+func (v *VoiceLoverMain) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAudioCommentList, reply *vl_pb.ResCommentList) error {
 	return logic.MainLogic.GetAudioCommentList(ctx, req, reply)
 }
 

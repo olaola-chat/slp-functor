@@ -21,13 +21,15 @@ type voiceLoverService struct{}
 
 func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb.RespVoiceLoverMain, error) {
 	res := &pb.RespVoiceLoverMain{
-		Success:      true,
-		Msg:          "",
-		RecAlbums:    make([]*pb.AlbumData, 0),
-		RecBanners:   make([]*pb.BannerData, 0),
-		RecUsers:     make([]*pb.UserData, 0),
-		RecSubjects:  make([]*pb.SubjectData, 0),
-		CommonAlbums: make([]*pb.AlbumData, 0),
+		Success: true,
+		Msg:     "",
+		Data: &pb.VoiceLoverMain{
+			RecAlbums:    make([]*pb.AlbumData, 0),
+			RecBanners:   make([]*pb.BannerData, 0),
+			RecUsers:     make([]*pb.UserData, 0),
+			RecSubjects:  make([]*pb.SubjectData, 0),
+			CommonAlbums: make([]*pb.AlbumData, 0),
+		},
 	}
 	wg := sync.WaitGroup{}
 	wg.Add(2)
@@ -40,7 +42,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 			return
 		}
 		for _, v := range recAlbumList.GetAlbums() {
-			res.RecAlbums = append(res.RecAlbums, &pb.AlbumData{
+			res.Data.RecAlbums = append(res.Data.RecAlbums, &pb.AlbumData{
 				Id:         v.Id,
 				Title:      v.Name,
 				Cover:      v.Cover,
@@ -80,8 +82,10 @@ func (serv *voiceLoverService) GetAlbumList(ctx context.Context, req *query.ReqA
 	res := &pb.RespAlbumList{
 		Success: true,
 		Msg:     "",
-		Albums:  make([]*pb.AlbumData, 0),
-		HasMore: false,
+		Data: &pb.AlbumList{
+			Albums:  make([]*pb.AlbumData, 0),
+			HasMore: false,
+		},
 	}
 	var albumsRes *vl_pb.ResGetAlbumsByPage
 	var err error
@@ -111,9 +115,9 @@ func (serv *voiceLoverService) GetAlbumList(ctx context.Context, req *query.ReqA
 		g.Log().Errorf("voiceLoverService GetAlbumList req.Choice=%d not supported", req.Choice)
 		return res, gerror.New("param error")
 	}
-	res.HasMore = albumsRes.GetHasMore()
+	res.Data.HasMore = albumsRes.GetHasMore()
 	for _, v := range albumsRes.GetAlbums() {
-		res.Albums = append(res.Albums, &pb.AlbumData{
+		res.Data.Albums = append(res.Data.Albums, &pb.AlbumData{
 			Id:         v.Id,
 			Title:      v.Name,
 			Cover:      v.Cover,
@@ -127,7 +131,9 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 	res := &pb.RespAlbumDetail{
 		Success: true,
 		Msg:     "",
-		Audios:  make([]*pb.AudioData, 0),
+		Data: &pb.AlbumDetail{
+			Audios: make([]*pb.AudioData, 0),
+		},
 	}
 
 	// 查询专辑主体信息
@@ -140,7 +146,7 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 		g.Log().Errorf("voiceLoverService GetAlbumDetail GetAlbumInfoById empty||albumId=%d", albumId)
 		return res, gerror.New("system error")
 	}
-	res.Album = &pb.AlbumData{
+	res.Data.Album = &pb.AlbumData{
 		Id:         albumInfoRes.Album.Id,
 		Title:      albumInfoRes.Album.Name,
 		Cover:      albumInfoRes.Album.Cover,
@@ -161,7 +167,7 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 			g.Log().Errorf("voiceLoverService GetAlbumDetail IsUserCollectAlbum error=%v", rErr)
 			return
 		}
-		res.IsCollected = isAlbumCollectRes.GetIsCollect()
+		res.Data.IsCollected = isAlbumCollectRes.GetIsCollect()
 	}()
 	// 专辑评论数量
 	go func() {
@@ -173,7 +179,7 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 			g.Log().Errorf("voiceLoverService GetAlbumDetail GetAlbumCommentCount error=%v", rErr)
 			return
 		}
-		res.CommentCount = albumCommentCountRes.GetTotal()
+		res.Data.CommentCount = albumCommentCountRes.GetTotal()
 	}()
 	// 获取音频列表
 	go func() {
@@ -186,7 +192,7 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 			return
 		}
 		for _, v := range audioListRes.GetAudios() {
-			res.Audios = append(res.Audios, &pb.AudioData{
+			res.Data.Audios = append(res.Data.Audios, &pb.AudioData{
 				Id:        v.Id,
 				Title:     v.Title,
 				Resource:  v.Resource,
@@ -200,18 +206,35 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 	return res, nil
 }
 
-func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, uid uint32, audioId uint64) (*pb.RespAudioComments, error) {
-	ret := &pb.RespAudioComments{}
+func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId uint64, page, limit uint32) (*pb.RespAudioComments, error) {
+	ret := &pb.RespAudioComments{
+		Success: true,
+		Msg:     "",
+		Data: &pb.AudioComments{
+			Comments: make([]*pb.CommentData, 0),
+			HasMore:  false,
+		},
+	}
+	if page <= 1 {
+		page = 1
+	}
+	offset := (page - 1) * limit
 	rows, err := vl_rpc.VoiceLoverMain.GetAudioCommentList(ctx, &vl_pb.ReqGetAudioCommentList{
 		AudioId: audioId,
+		Offset:  int32(offset),
+		Size:    limit + 1,
 	})
 	if err != nil || len(rows.List) == 0 {
 		return nil, errors.New("暂无数据")
 	}
 
 	ret.Success = true
-	for _, v := range rows.List {
-		ret.Comments = append(ret.Comments, &pb.CommentData{
+	for k, v := range rows.List {
+		if k >= int(limit) {
+			ret.Data.HasMore = true
+			break
+		}
+		ret.Data.Comments = append(ret.Data.Comments, &pb.CommentData{
 			Id: v.Id,
 		})
 	}
@@ -219,18 +242,34 @@ func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, uid uint
 	return ret, nil
 }
 
-func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, uid uint32, audioId uint64) (*pb.RespAlbumComments, error) {
-	ret := &pb.RespAlbumComments{}
-	rows, err := vl_rpc.VoiceLoverMain.GetAudioCommentList(ctx, &vl_pb.ReqGetAudioCommentList{
-		AudioId: audioId,
+func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId uint64, page, limit uint32) (*pb.RespAlbumComments, error) {
+	ret := &pb.RespAlbumComments{
+		Success: true,
+		Msg:     "",
+		Data: &pb.AlbumComments{
+			Comments: make([]*pb.CommentData, 0),
+			HasMore:  false,
+		},
+	}
+	if page <= 1 {
+		page = 1
+	}
+	offset := (page - 1) * limit
+	rows, err := vl_rpc.VoiceLoverMain.GetAlbumCommentList(ctx, &vl_pb.ReqGetAlbumCommentList{
+		AlbumId: albumId,
+		Offset:  int32(offset),
+		Size:    limit + 1,
 	})
 	if err != nil || len(rows.List) == 0 {
 		return nil, errors.New("暂无数据")
 	}
-
 	ret.Success = true
-	for _, v := range rows.List {
-		ret.Comments = append(ret.Comments, &pb.CommentData{
+	for k, v := range rows.List {
+		if k >= int(limit) {
+			ret.Data.HasMore = true
+			break
+		}
+		ret.Data.Comments = append(ret.Data.Comments, &pb.CommentData{
 			Id: v.Id,
 		})
 	}

@@ -6,6 +6,7 @@ import (
 	"github.com/gogf/gf/frame/g"
 
 	"github.com/olaola-chat/rbp-proto/dao/functor"
+	dbpb "github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 )
 
 type voiceLoverAlbumCommentDao struct {
@@ -28,6 +29,27 @@ func (v *voiceLoverAlbumCommentDao) GetValidCommentCountByAlbumId(ctx context.Co
 	return count, nil
 }
 
-func (v *voiceLoverAlbumCommentDao) Insert(ctx context.Context, data g.Map) error {
-	return nil
+func (v *voiceLoverAlbumCommentDao) GetList(ctx context.Context, albumId uint64, offset int32, limit uint32) ([]*dbpb.EntityVoiceLoverAlbumComment, error) {
+
+	if offset <= 1 {
+		offset = 1
+	}
+	if limit <= 0 {
+		limit = 10
+	}
+	res, err := functor.VoiceLoverAlbumComment.Ctx(ctx).Where(functor.VoiceLoverAlbumComment.Columns.AlbumID,
+		albumId).Offset(int(offset)).Limit(int(limit)).FindAll()
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func (v *voiceLoverAlbumCommentDao) Insert(ctx context.Context, data g.Map) (bool, error) {
+	sqlRes, err := functor.VoiceLoverAlbumComment.Ctx(ctx).Insert(data)
+	if err != nil {
+		return false, err
+	}
+	affect, _ := sqlRes.RowsAffected()
+	return affect > 0, nil
 }
