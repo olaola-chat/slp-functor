@@ -46,6 +46,7 @@ type ReqCommentAudio struct {
 type ReqCollectVoiceLover struct {
 	Id   uint64 `v:"id@required"`   // 资源id
 	Type uint32 `v:"type@required"` // 0-专辑 1-音频
+	From uint32 `v:"from@required"` // 0-收藏 1-取消收藏
 }
 
 type ReqVoiceLoverPost struct {
