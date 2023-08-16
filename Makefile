@@ -17,6 +17,7 @@ fmt:
 	gofmt -l -s -w rpc
 	gofmt -l -s -w cmd
 	#gofmt -l -s -w library
+	swag init -dir app --parseInternal --parseDependency --output ./swagger --outputTypes json
 
 lint:
 	#golangci-lint run ./app/... ./logic/... ./service/... ./db/... ./library/...
