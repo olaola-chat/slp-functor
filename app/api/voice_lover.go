@@ -160,7 +160,7 @@ func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
 	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
 	_, err := vl_serv.VoiceLoverService.GetAlbumCommentList(ctx, ctxUser.UID, req.AlbumId)
 	if err != nil {
-		response.Output(r, &pb.CommonResp{
+		response.Output(r, &pb.RespAlbumComments{
 			Success: false,
 			Msg:     err.Error(),
 		})
@@ -226,7 +226,7 @@ func (a *voiceLoverAPI) AudioDetail(r *ghttp.Request) {
 func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 	var req *query.ReqAudioDetail
 	if err := r.ParseQuery(&req); err != nil {
-		response.Output(r, &pb.CommonResp{
+		response.Output(r, &pb.RespAudioComments{
 			Success: false,
 			Msg:     consts.ERROR_PARAM.Msg(),
 		})
@@ -236,7 +236,7 @@ func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
 	ret, err := vl_serv.VoiceLoverService.GetAudioCommentList(ctx, ctxUser.UID, req.AudioId)
 	if err != nil {
-		response.Output(r, &pb.CommonResp{
+		response.Output(r, &pb.RespAudioComments{
 			Success: false,
 			Msg:     err.Error(),
 		})
@@ -258,7 +258,7 @@ func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 	var req *query.ReqCommentAudio
 	if err := r.ParseForm(&req); err != nil {
-		response.Output(r, &pb.CommonResp{
+		response.Output(r, &pb.RespCommentAudio{
 			Success: false,
 			Msg:     consts.ERROR_PARAM.Msg(),
 		})
@@ -273,7 +273,7 @@ func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 		Type: req.Type,
 	})
 	if err != nil {
-		response.Output(r, &pb.CommonResp{
+		response.Output(r, &pb.RespCommentAudio{
 			Success: false,
 			Msg:     err.Error(),
 		})
