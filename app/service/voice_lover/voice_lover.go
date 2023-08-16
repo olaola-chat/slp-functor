@@ -32,7 +32,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 		},
 	}
 	wg := sync.WaitGroup{}
-	wg.Add(2)
+	wg.Add(4)
 	// 获取精选专辑推荐
 	go func() {
 		defer wg.Done()
@@ -49,6 +49,14 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 				AudioTotal: v.AudioCount,
 			})
 		}
+	}()
+	// 获取banner推荐
+	go func() {
+		defer wg.Done()
+	}()
+	// 获取用户推荐
+	go func() {
+		defer wg.Done()
 	}()
 	// 获取话题推荐
 	go func() {
