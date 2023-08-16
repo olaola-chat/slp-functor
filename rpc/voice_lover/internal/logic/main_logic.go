@@ -398,7 +398,7 @@ func (m *mainLogic) IsUserCollectAlbum(ctx context.Context, req *vl_pb.ReqIsUser
 }
 
 func (m *mainLogic) Collect(ctx context.Context, req *vl_pb.ReqCollect, reply *vl_pb.ResCollect) error {
-	
+
 	return nil
 }
 
