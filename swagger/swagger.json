@@ -4,7 +4,7 @@
         "contact": {}
     },
     "paths": {
-        "/go/func/admin/voice_lover/album-choice": {
+        "/go/func/admin/voice_lover/albumChoice": {
             "post": {
                 "security": [
                     {
@@ -32,8 +32,8 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/album-choice-list": {
-            "post": {
+        "/go/func/admin/voice_lover/albumChoiceList": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth,OAuth2Implicit": []
@@ -60,7 +60,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/album-collect": {
+        "/go/func/admin/voice_lover/albumCollect": {
             "get": {
                 "security": [
                     {
@@ -88,7 +88,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/album-collect-list": {
+        "/go/func/admin/voice_lover/albumCollectList": {
             "get": {
                 "security": [
                     {
@@ -116,7 +116,35 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/album-del": {
+        "/go/func/admin/voice_lover/albumCreate": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAlbumCreate"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/albumDel": {
             "post": {
                 "security": [
                     {
@@ -144,7 +172,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/album-detail": {
+        "/go/func/admin/voice_lover/albumDetail": {
             "get": {
                 "security": [
                     {
@@ -172,7 +200,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/album-list": {
+        "/go/func/admin/voice_lover/albumList": {
             "get": {
                 "security": [
                     {
@@ -200,7 +228,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/album-update": {
+        "/go/func/admin/voice_lover/albumUpdate": {
             "post": {
                 "security": [
                     {
@@ -228,7 +256,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/audio-audit": {
+        "/go/func/admin/voice_lover/audioAudit": {
             "post": {
                 "security": [
                     {
@@ -256,7 +284,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/audio-audit-reason": {
+        "/go/func/admin/voice_lover/audioAuditReason": {
             "get": {
                 "security": [
                     {
@@ -284,7 +312,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/audio-collect": {
+        "/go/func/admin/voice_lover/audioCollect": {
             "post": {
                 "security": [
                     {
@@ -312,7 +340,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/audio-collect-list": {
+        "/go/func/admin/voice_lover/audioCollectList": {
             "get": {
                 "security": [
                     {
@@ -340,7 +368,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/audio-detail": {
+        "/go/func/admin/voice_lover/audioDetail": {
             "get": {
                 "security": [
                     {
@@ -368,7 +396,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/audio-list": {
+        "/go/func/admin/voice_lover/audioList": {
             "get": {
                 "security": [
                     {
@@ -396,7 +424,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/audio-update": {
+        "/go/func/admin/voice_lover/audioUpdate": {
             "post": {
                 "security": [
                     {
@@ -424,7 +452,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/subject-create": {
+        "/go/func/admin/voice_lover/subjectCreate": {
             "post": {
                 "security": [
                     {
@@ -452,7 +480,35 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/subject-detail": {
+        "/go/func/admin/voice_lover/subjectDel": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverSubjectDel"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/subjectDetail": {
             "get": {
                 "security": [
                     {
@@ -480,7 +536,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/subject-list": {
+        "/go/func/admin/voice_lover/subjectList": {
             "get": {
                 "security": [
                     {
@@ -508,7 +564,7 @@
                 }
             }
         },
-        "/go/func/admin/voice_lover/subject-update": {
+        "/go/func/admin/voice_lover/subjectUpdate": {
             "post": {
                 "security": [
                     {
@@ -530,7 +586,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/pb.RespAdminVoiceLoverSubjectDel"
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverSubjectUpdate"
                         }
                     }
                 }
