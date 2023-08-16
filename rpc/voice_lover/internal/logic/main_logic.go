@@ -398,7 +398,43 @@ func (m *mainLogic) IsUserCollectAlbum(ctx context.Context, req *vl_pb.ReqIsUser
 }
 
 func (m *mainLogic) Collect(ctx context.Context, req *vl_pb.ReqCollect, reply *vl_pb.ResCollect) error {
+	var err error
+	if req.Type == 0 {
+		// 处理专辑
+		key := consts.UserCollectAlbumKey.Key(req.Uid, req.Id)
+		if req.From == 0 {
+			// 收藏
+			_, err = dao.VoiceLoverUserCollectDao.Add(ctx, req.Uid, req.Id, dao.CollectTypeAlbum)
+			_ = m.rds.Set(ctx, key, 1, consts.UserCollectAlbumKey.Ttl())
+		} else if req.From == 1 {
+			// 取消收藏
+			err = dao.VoiceLoverUserCollectDao.Delete(ctx, req.Uid, req.Id, dao.CollectTypeAlbum)
+			_ = m.rds.Set(ctx, key, 0, consts.UserCollectAlbumKey.Ttl())
+		} else {
+			return gerror.New(fmt.Sprintf("param req.From=%d invalid", req.From))
+		}
 
+	} else if req.Type == 1 {
+		// 处理音频
+		key := consts.UserCollectAudioKey.Key(req.Uid, req.Id)
+		if req.From == 0 {
+			// 收藏
+			_, err = dao.VoiceLoverUserCollectDao.Add(ctx, req.Uid, req.Id, dao.CollectTypeAudio)
+			_ = m.rds.Set(ctx, key, 1, consts.UserCollectAudioKey.Ttl())
+		} else if req.From == 1 {
+			// 取消收藏
+			err = dao.VoiceLoverUserCollectDao.Delete(ctx, req.Uid, req.Id, dao.CollectTypeAudio)
+			_ = m.rds.Set(ctx, key, 0, consts.UserCollectAudioKey.Ttl())
+		} else {
+			return gerror.New(fmt.Sprintf("param req.From=%d invalid", req.From))
+		}
+	} else {
+		return gerror.New(fmt.Sprintf("param req.Type=%d invalid", req.Type))
+	}
+	if err != nil {
+		g.Log().Errorf("mainLogic Collect req=%+v||error=%v", req, err)
+		return err
+	}
 	return nil
 }
 
