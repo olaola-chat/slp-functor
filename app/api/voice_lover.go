@@ -225,7 +225,10 @@ func (a *voiceLoverAPI) AudioDetail(r *ghttp.Request) {
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAudioDetail{Success: true, Msg: ""})
+	ctx := r.GetCtx()
+	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	ret := vl_serv.VoiceLoverService.GetAudioDetail(ctx, ctxUser.UID, req.AudioId)
+	OutputCustomData(r, ret)
 }
 
 // AudioComments
