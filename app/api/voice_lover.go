@@ -42,9 +42,6 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 	ctx := r.GetCtx()
 	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
 	g.Log().Debugf("ctxUser=%+v", ctxUser)
-
-	ctxUser1, _ := r.GetCtxVar(context2.ContextUserKey).Interface().(*context2.ContextUser)
-	g.Log().Debugf("ctxUser1=%+v", ctxUser1)
 	data, err := vl_serv.VoiceLoverService.GetMainData(ctx, ctxUser.UID)
 	if err != nil {
 		response.Output(r, &pb.RespVoiceLoverMain{
