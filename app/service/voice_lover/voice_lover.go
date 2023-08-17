@@ -98,6 +98,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 					AudioTotal: albumData.AudioCount,
 				})
 			}
+			res.Data.RecSubjects = append(res.Data.RecSubjects, subjectData)
 		}
 	}()
 	// 获取普通专辑
