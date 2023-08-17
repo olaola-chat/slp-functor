@@ -109,7 +109,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 			return
 		}
 		for _, v := range recAlbumList.GetAlbums() {
-			res.Data.RecAlbums = append(res.Data.RecAlbums, &pb.AlbumData{
+			res.Data.CommonAlbums = append(res.Data.CommonAlbums, &pb.AlbumData{
 				Id:         v.Id,
 				Title:      v.Name,
 				Cover:      v.Cover,
