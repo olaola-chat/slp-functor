@@ -800,6 +800,16 @@
                     "VoiceLover"
                 ],
                 "summary": "查看专辑评论列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAlbumComments"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -828,6 +838,16 @@
                     "VoiceLover"
                 ],
                 "summary": "查看专辑详情",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAlbumDetail"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -856,6 +876,16 @@
                     "VoiceLover"
                 ],
                 "summary": "获取更多专辑列表 精选\u0026非精选\u0026专题都走该接口",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAlbumList"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -884,6 +914,16 @@
                     "VoiceLover"
                 ],
                 "summary": "查看音频评论\u0026弹幕列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAudioCommentList"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -912,6 +952,16 @@
                     "VoiceLover"
                 ],
                 "summary": "查看音频详情",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAudioDetail"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -940,6 +990,16 @@
                     "VoiceLover"
                 ],
                 "summary": "收藏接口",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqCollectVoiceLover"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -968,6 +1028,16 @@
                     "VoiceLover"
                 ],
                 "summary": "发表专辑评论",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqCommentAlbum"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -996,6 +1066,16 @@
                     "VoiceLover"
                 ],
                 "summary": "发表音频评论",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqCommentAudio"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1024,6 +1104,16 @@
                     "VoiceLover"
                 ],
                 "summary": "声恋首页",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqVoiceLoverMain"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1052,6 +1142,16 @@
                     "VoiceLover"
                 ],
                 "summary": "声恋投稿",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqVoiceLoverPost"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1080,6 +1180,16 @@
                     "VoiceLover"
                 ],
                 "summary": "获取更多推荐用户接口",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqRecUserList"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1977,6 +2087,19 @@
                 }
             }
         },
+        "query.Paginator": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "description": "每页多少, 范围[10,50]",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "第几页, 范围[1,10]",
+                    "type": "integer"
+                }
+            }
+        },
         "query.ReqAdminVoiceLoverAlbumChoice": {
             "type": "object",
             "properties": {
@@ -2287,6 +2410,186 @@
                 },
                 "opUid": {
                     "type": "integer"
+                }
+            }
+        },
+        "query.ReqAlbumComments": {
+            "type": "object",
+            "properties": {
+                "albumId": {
+                    "description": "专辑id",
+                    "type": "integer"
+                },
+                "limit": {
+                    "description": "每页多少, 范围[10,50]",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "第几页, 范围[1,10]",
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAlbumDetail": {
+            "type": "object",
+            "properties": {
+                "albumId": {
+                    "description": "专辑id",
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAlbumList": {
+            "type": "object",
+            "properties": {
+                "choice": {
+                    "description": "0-默认 1-精选 99-专题",
+                    "type": "integer"
+                },
+                "limit": {
+                    "description": "每页多少, 范围[10,50]",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "第几页, 范围[1,10]",
+                    "type": "integer"
+                },
+                "subject_id": {
+                    "description": "Choice=99的时候，需要传专题id",
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAudioCommentList": {
+            "type": "object",
+            "properties": {
+                "audioId": {
+                    "description": "音频id",
+                    "type": "integer"
+                },
+                "paginator": {
+                    "$ref": "#/definitions/query.Paginator"
+                }
+            }
+        },
+        "query.ReqAudioDetail": {
+            "type": "object",
+            "properties": {
+                "audioId": {
+                    "description": "音频id",
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqCollectVoiceLover": {
+            "type": "object",
+            "properties": {
+                "from": {
+                    "description": "0-收藏 1-取消收藏",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "资源id",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "0-专辑 1-音频",
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqCommentAlbum": {
+            "type": "object",
+            "properties": {
+                "albumId": {
+                    "description": "专辑id",
+                    "type": "integer"
+                },
+                "comment": {
+                    "description": "评论内容",
+                    "type": "string"
+                }
+            }
+        },
+        "query.ReqCommentAudio": {
+            "type": "object",
+            "properties": {
+                "audioId": {
+                    "description": "音频id",
+                    "type": "integer"
+                },
+                "comment": {
+                    "description": "评论内容",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "0-普通评论 1-弹幕",
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqRecUserList": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "description": "每页多少, 范围[10,50]",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "第几页, 范围[1,10]",
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqVoiceLoverMain": {
+            "type": "object"
+        },
+        "query.ReqVoiceLoverPost": {
+            "type": "object",
+            "properties": {
+                "cover": {
+                    "description": "封面",
+                    "type": "string"
+                },
+                "desc": {
+                    "description": "简介",
+                    "type": "string"
+                },
+                "edit_content": {
+                    "description": "编辑文案",
+                    "type": "string"
+                },
+                "edit_cover": {
+                    "description": "编辑封面",
+                    "type": "string"
+                },
+                "edit_dub": {
+                    "description": "编辑配音",
+                    "type": "string"
+                },
+                "edit_post": {
+                    "description": "编辑后期",
+                    "type": "string"
+                },
+                "labels": {
+                    "description": "标签",
+                    "type": "string"
+                },
+                "resource": {
+                    "description": "音频资源",
+                    "type": "string"
+                },
+                "seconds": {
+                    "description": "音频时长 单位秒",
+                    "type": "integer"
+                },
+                "source": {
+                    "description": "来源 1:原创 2:搬运",
+                    "type": "integer"
+                },
+                "title": {
+                    "description": "标题",
+                    "type": "string"
                 }
             }
         }

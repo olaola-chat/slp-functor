@@ -27,7 +27,7 @@ type voiceLoverAPI struct {
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
-// @Request request body query.ReqVoiceLoverMain false "request"
+// @Param request body query.ReqVoiceLoverMain false "request"
 // @Success 200 {object} pb.RespVoiceLoverMain
 // @Router /go/func/voice_lover/main [get]
 func (a *voiceLoverAPI) Main(r *ghttp.Request) {
@@ -63,7 +63,7 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
-// @Request request body query.ReqAlbumList false "request"
+// @Param request body query.ReqAlbumList false "request"
 // @Success 200 {object} pb.RespAlbumList
 // @Router /go/func/voice_lover/albumList [get]
 func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
@@ -93,7 +93,7 @@ func (a *voiceLoverAPI) AlbumList(r *ghttp.Request) {
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
-// @Request request body query.ReqRecUserList false "request"
+// @Param request body query.ReqRecUserList false "request"
 // @Success 200 {object} pb.RespRecUserList
 // @Router /go/func/voice_lover/recUserList [get]
 func (a *voiceLoverAPI) RecUserList(r *ghttp.Request) {
@@ -115,7 +115,7 @@ func (a *voiceLoverAPI) RecUserList(r *ghttp.Request) {
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
-// @Request request body query.ReqAlbumDetail false "request"
+// @Param request body query.ReqAlbumDetail false "request"
 // @Success 200 {object} pb.RespAlbumDetail
 // @Router /go/func/voice_lover/albumDetail [get]
 func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
@@ -147,7 +147,7 @@ func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
-// @Request request body query.ReqAlbumComments false "request"
+// @Param request body query.ReqAlbumComments false "request"
 // @Success 200 {object} pb.RespAlbumComments
 // @Router /go/func/voice_lover/albumComments [get]
 func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
@@ -177,7 +177,7 @@ func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
-// @Request request body query.ReqCommentAlbum false "request"
+// @Param request body query.ReqCommentAlbum false "request"
 // @Success 200 {object} pb.RespCommentAlbum
 // @Router /go/func/voice_lover/commentAlbum [post]
 func (a *voiceLoverAPI) CommentAlbum(r *ghttp.Request) {
@@ -215,7 +215,7 @@ func (a *voiceLoverAPI) CommentAlbum(r *ghttp.Request) {
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
-// @Request request body query.ReqAudioDetail false "request"
+// @Param request body query.ReqAudioDetail false "request"
 // @Success 200 {object} pb.RespAudioDetail
 // @Router /go/func/voice_lover/audioDetail [get]
 func (a *voiceLoverAPI) AudioDetail(r *ghttp.Request) {
@@ -240,7 +240,7 @@ func (a *voiceLoverAPI) AudioDetail(r *ghttp.Request) {
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
-// @Request request body query.ReqAudioCommentList false "request"
+// @Param request body query.ReqAudioCommentList false "request"
 // @Success 200 {object} pb.RespAudioComments
 // @Router /go/func/voice_lover/audioComments [get]
 func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
@@ -270,7 +270,7 @@ func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
-// @Request request body query.ReqCommentAudio false "request"
+// @Param request body query.ReqCommentAudio false "request"
 // @Success 200 {object} pb.RespCommentAudio
 // @Router /go/func/voice_lover/commentAudio [post]
 func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
@@ -307,7 +307,7 @@ func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
-// @Request request body query.ReqCollectVoiceLover false "request"
+// @Param request body query.ReqCollectVoiceLover false "request"
 // @Success 200 {object} pb.RespCollectVoiceLover
 // @Router /go/func/voice_lover/collect [post]
 func (a *voiceLoverAPI) Collect(r *ghttp.Request) {
@@ -344,7 +344,7 @@ func (a *voiceLoverAPI) Collect(r *ghttp.Request) {
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
-// @Request request body query.ReqVoiceLoverPost false "request"
+// @Param request body query.ReqVoiceLoverPost false "request"
 // @Success 200 {object} pb.RespVoiceLoverPost
 // @Router /go/func/voice_lover/post [post]
 func (a *voiceLoverAPI) Post(r *ghttp.Request) {
