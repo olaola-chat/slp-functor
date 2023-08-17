@@ -623,10 +623,10 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 	albumIds, err := dao.VoiceLoverAudioAlbumDao.GetAlbumIdsByAudioId(ctx, req.Id)
 	if err == nil && len(albumIds) == 0 {
 		albumInfoMap, _ := dao.VoiceLoverAlbumDao.GetValidAlbumListByIds(ctx, albumIds)
-		for _, info:= range albumInfoMap {
-			albumBase  = append(albumBase , &vl_pb.AlbumData{
-				Id: info.Id,
-				Name: info.Name,
+		for _, info := range albumInfoMap {
+			albumBase = append(albumBase, &vl_pb.AlbumData{
+				Id:    info.Id,
+				Name:  info.Name,
 				Intro: info.Intro,
 				Cover: info.Cover,
 			})
@@ -639,7 +639,6 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 	//if err == nil && follow != nil {
 	//	reply.Follow = 1
 	//}
-
 
 	return nil
 }
