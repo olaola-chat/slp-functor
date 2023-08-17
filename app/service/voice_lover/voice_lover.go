@@ -54,6 +54,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 				Title:      v.Name,
 				Cover:      v.Cover,
 				AudioTotal: v.AudioCount,
+				PlayStats:  v.PlayCountDesc,
 			})
 		}
 		// 判断用户是否已收藏专辑
