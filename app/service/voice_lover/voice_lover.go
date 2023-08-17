@@ -108,6 +108,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 					Title:      albumData.Name,
 					Cover:      albumData.Cover,
 					AudioTotal: albumData.AudioCount,
+					PlayStats:  albumData.PlayCountDesc,
 				})
 			}
 			res.Data.RecSubjects = append(res.Data.RecSubjects, subjectData)
@@ -127,6 +128,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 				Title:      v.Name,
 				Cover:      v.Cover,
 				AudioTotal: v.AudioCount,
+				PlayStats:  v.PlayCountDesc,
 			})
 		}
 	}()
