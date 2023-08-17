@@ -31,6 +31,10 @@ func (v *VoiceLoverMain) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecA
 	return logic.MainLogic.GetRecAlbums(ctx, req, reply)
 }
 
+func (v *VoiceLoverMain) GetRecCommonAlbums(ctx context.Context, req *vl_pb.ReqGetRecCommonAlbums, reply *vl_pb.ResGetRecAlbums) error {
+	return logic.MainLogic.GetRecCommonAlbums(ctx, req, reply)
+}
+
 func (v *VoiceLoverMain) GetAlbumsByPage(ctx context.Context, req *vl_pb.ReqGetAlbumsByPage, reply *vl_pb.ResGetAlbumsByPage) error {
 	return logic.MainLogic.GetAlbumsByPage(ctx, req, reply)
 }

@@ -37,7 +37,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 		},
 	}
 	wg := sync.WaitGroup{}
-	wg.Add(4)
+	wg.Add(5)
 	// 获取精选专辑推荐
 	go func() {
 		defer wg.Done()
@@ -98,6 +98,23 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 					AudioTotal: albumData.AudioCount,
 				})
 			}
+		}
+	}()
+	// 获取普通专辑
+	go func() {
+		defer wg.Done()
+		recAlbumList, err := vl_rpc.VoiceLoverMain.GetRecCommonAlbums(ctx, &vl_pb.ReqGetRecCommonAlbums{Uid: uid})
+		if err != nil {
+			g.Log().Errorf("voiceLoverService GetMainData GetRecCommonAlbums error=%v", err)
+			return
+		}
+		for _, v := range recAlbumList.GetAlbums() {
+			res.Data.RecAlbums = append(res.Data.RecAlbums, &pb.AlbumData{
+				Id:         v.Id,
+				Title:      v.Name,
+				Cover:      v.Cover,
+				AudioTotal: v.AudioCount,
+			})
 		}
 	}()
 	wg.Wait()
