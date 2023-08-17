@@ -381,6 +381,35 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 	OutputCustomData(r, &pb.RespVoiceLoverPost{Success: true, Msg: ""})
 }
 
+// Report
+// @Tags Report
+// @Summary 声恋投稿
+// @Description 声恋投稿
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Param request body query.ReqVoiceLoverPost false "request"
+// @Success 200 {object} pb.CommonResp
+// @Router /go/func/voice_lover/report [post]
+func (a *voiceLoverAPI) Report(r *ghttp.Request) {
+	var req *query.ReqReport
+	if err := r.ParseForm(*req); err != nil {
+		response.Output(r, &pb.CommonResp{
+			Success: false,
+			Msg:     consts.ERROR_SYSTEM.Msg(),
+		})
+		return
+	}
+	_, err := vl_rpc.VoiceLoverMain.UpdateReportStatus(r.GetCtx(), &vl_pb.ReqUpdateStatus{
+		Id:   req.Id,
+		Type: req.Type,
+	})
+	if err != nil {
+		OutputCustomData(r, &pb.CommonResp{Success: false, Msg: err.Error()})
+	}
+	OutputCustomData(r, &pb.CommonResp{Success: true})
+}
+
 // PlayStatReport
 // @Tags VoiceLover
 // @Summary 专辑播放事件上报

@@ -22,8 +22,8 @@ message RespVoiceLoverMain {
 }
 
 message AlbumList {
-  repeated AlbumData albums = 3;
-  bool has_more = 4;
+  repeated AlbumData albums = 1;
+  bool has_more = 2;
 }
 message RespAlbumList {
   bool success = 1;
@@ -32,8 +32,8 @@ message RespAlbumList {
 }
 
 message RecUserList {
-  repeated UserData rec_users = 3;
-  bool has_more = 4;
+  repeated UserData rec_users = 1;
+  bool has_more = 2;
 }
 message RespRecUserList {
   bool success = 1;
@@ -42,10 +42,10 @@ message RespRecUserList {
 }
 
 message AlbumDetail {
-  AlbumData album = 3;              // 专辑信息
-  bool is_collected = 4;            // 是否收藏
-  uint32 comment_count = 5;         // 评论数量
-  repeated AudioData audios = 6;    // 音频列表
+  AlbumData album = 1;              // 专辑信息
+  bool is_collected = 2;            // 是否收藏
+  uint32 comment_count = 3;         // 评论数量
+  repeated AudioData audios = 4;    // 音频列表
 }
 message RespAlbumDetail {
   bool success = 1;
@@ -54,8 +54,8 @@ message RespAlbumDetail {
 }
 
 message AlbumComments {
-  repeated CommentData comments = 3;
-  bool has_more = 4;
+  repeated CommentData comments = 1;
+  bool has_more = 2;
 }
 message RespAlbumComments {
   bool success = 1;
@@ -69,12 +69,12 @@ message RespCommentAlbum {
 }
 
 message AudioDetail {
-  AudioData audio = 3;              // 音频信息
-  bool isFollow = 4;                // 是否已关注
-  uint32 room_id = 5;               // 房间id 为0则表示不在房间内
-  bool is_collected = 6;            // 是否收藏
-  uint32 comment_count = 7;         // 评论数量
-  repeated AlbumData audios = 8;    // 音频列表
+  AudioData audio = 1;              // 音频信息
+  bool isFollow = 2;                // 是否已关注
+  uint32 room_id = 3;               // 房间id 为0则表示不在房间内
+  bool is_collected = 4;            // 是否收藏
+  uint32 comment_count = 5;         // 评论数量
+  repeated AlbumData audios = 6;    // 音频列表
 }
 message RespAudioDetail {
   bool success = 1;
@@ -83,8 +83,8 @@ message RespAudioDetail {
 }
 
 message AudioComments {
-  repeated CommentData comments = 3;
-  bool has_more = 4;
+  repeated CommentData comments = 1;
+  bool has_more = 2;
 }
 message RespAudioComments {
   bool success = 1;
