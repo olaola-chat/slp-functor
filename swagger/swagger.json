@@ -22,6 +22,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverAlbumChoice"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -78,6 +88,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverAlbumCollect"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -106,6 +126,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverAlbumCollectList"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -134,6 +164,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverAlbumCreate"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -162,6 +202,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverAlbumDel"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -190,6 +240,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverAlbumDetail"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -218,6 +278,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverAlbumList"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -246,6 +316,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverAlbumUpdate"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -274,6 +354,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverAudioAudit"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -330,6 +420,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverAudioCollect"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -358,6 +458,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverAudioCollectList"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -386,6 +496,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio detail",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverAudioDetail"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -414,6 +534,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverAudioList"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -442,6 +572,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverAudioUpdate"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -470,6 +610,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverSubjectCreate"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -498,6 +648,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverSubjectDel"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -526,6 +686,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverSubjectDetail"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -554,6 +724,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverSubjectList"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -582,6 +762,16 @@
                     "VoiceLoverAdmin"
                 ],
                 "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverSubjectUpdate"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1784,6 +1974,319 @@
                     "items": {
                         "$ref": "#/definitions/pb.UserData"
                     }
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverAlbumChoice": {
+            "type": "object",
+            "properties": {
+                "choice": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverAlbumCollect": {
+            "type": "object",
+            "properties": {
+                "albumId": {
+                    "type": "integer"
+                },
+                "subjectId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverAlbumCollectList": {
+            "type": "object",
+            "properties": {
+                "albumStr": {
+                    "type": "string"
+                },
+                "limit": {
+                    "description": "每页多少, 范围[10,50]",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "第几页, 范围[1,10]",
+                    "type": "integer"
+                },
+                "subjectStr": {
+                    "type": "string"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverAlbumCreate": {
+            "type": "object",
+            "properties": {
+                "cover": {
+                    "type": "string"
+                },
+                "intro": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "opUid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverAlbumDel": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "opUid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverAlbumDetail": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverAlbumList": {
+            "type": "object",
+            "properties": {
+                "endTime": {
+                    "type": "integer"
+                },
+                "limit": {
+                    "description": "每页多少, 范围[10,50]",
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "page": {
+                    "description": "第几页, 范围[1,10]",
+                    "type": "integer"
+                },
+                "startTime": {
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverAlbumUpdate": {
+            "type": "object",
+            "properties": {
+                "cover": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "intro": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "opUid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverAudioAudit": {
+            "type": "object",
+            "properties": {
+                "auditReason": {
+                    "type": "integer"
+                },
+                "auditStatus": {
+                    "description": "1:通过 2:不通过",
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "opUid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverAudioCollect": {
+            "type": "object",
+            "properties": {
+                "albumId": {
+                    "type": "integer"
+                },
+                "audioId": {
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "0:收录 1:移除",
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverAudioCollectList": {
+            "type": "object",
+            "properties": {
+                "albumStr": {
+                    "type": "string"
+                },
+                "audioStr": {
+                    "type": "string"
+                },
+                "collectStatus": {
+                    "description": "-1:全部 0:未收录 1:已收录",
+                    "type": "integer"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "limit": {
+                    "description": "每页多少, 范围[10,50]",
+                    "type": "integer"
+                },
+                "order": {
+                    "type": "string"
+                },
+                "page": {
+                    "description": "第几页, 范围[1,10]",
+                    "type": "integer"
+                },
+                "userStr": {
+                    "type": "string"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverAudioDetail": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverAudioList": {
+            "type": "object",
+            "properties": {
+                "auditStatus": {
+                    "description": "-1:全部 0:未审 1:通过 2:未通过",
+                    "type": "integer"
+                },
+                "endTime": {
+                    "type": "integer"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "limit": {
+                    "description": "每页多少, 范围[10,50]",
+                    "type": "integer"
+                },
+                "order": {
+                    "type": "string"
+                },
+                "page": {
+                    "description": "第几页, 范围[1,10]",
+                    "type": "integer"
+                },
+                "source": {
+                    "type": "integer"
+                },
+                "startTime": {
+                    "type": "integer"
+                },
+                "userStr": {
+                    "type": "string"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverAudioUpdate": {
+            "type": "object",
+            "properties": {
+                "desc": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "labels": {
+                    "type": "string"
+                },
+                "opUid": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverSubjectCreate": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "opUid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverSubjectDel": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "opUid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverSubjectDetail": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverSubjectList": {
+            "type": "object",
+            "properties": {
+                "endTime": {
+                    "type": "integer"
+                },
+                "limit": {
+                    "description": "每页多少, 范围[10,50]",
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "page": {
+                    "description": "第几页, 范围[1,10]",
+                    "type": "integer"
+                },
+                "startTime": {
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverSubjectUpdate": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "opUid": {
+                    "type": "integer"
                 }
             }
         }
