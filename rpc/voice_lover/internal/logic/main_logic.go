@@ -169,6 +169,7 @@ func buildAudioEsModel(data *functor2.EntityVoiceLoverAudio) *voice_lover2.Voice
 
 func (m *mainLogic) BuildRecAlbumsExtendInfo(ctx context.Context, infos []*vl_pb.AlbumData) {
 	countMap := make(map[uint64]uint32)
+	playCountsMap := make(map[uint64]uint64)
 	wg := sync.WaitGroup{}
 	for _, v := range infos {
 		if _, ok := countMap[v.Id]; ok {
@@ -180,12 +181,22 @@ func (m *mainLogic) BuildRecAlbumsExtendInfo(ctx context.Context, infos []*vl_pb
 			defer wg.Done()
 			total, _ := dao.VoiceLoverAudioAlbumDao.GetCountByAlbumId(ctx, albumId)
 			countMap[albumId] = uint32(total)
+			playCount := gconv.Uint64(m.rds.Get(ctx, consts.VoiceLoverAlbumPlayCount.Key(albumId)).Val())
+			playCountsMap[albumId] = playCount
 		}(v.Id)
 	}
 	wg.Wait()
 	for _, v := range infos {
 		if count, ok := countMap[v.Id]; ok {
 			v.AudioCount = count
+		}
+		if playCount, ok := playCountsMap[v.Id]; ok {
+			v.PlayCount = playCount
+			if playCount < 10000 {
+				v.PlayCountDesc = fmt.Sprintf("%d", playCount)
+			} else {
+				v.PlayCountDesc = fmt.Sprintf("%.1fw", float64(playCount)/10000.0)
+			}
 		}
 	}
 }
@@ -418,6 +429,27 @@ func (m *mainLogic) IsUserCollectAlbum(ctx context.Context, req *vl_pb.ReqIsUser
 
 func (m *mainLogic) IsUserCollectAlbums(ctx context.Context, req *vl_pb.ReqIsUserCollectAlbums, reply *vl_pb.ResIsUserCollectAlbums) error {
 	reply.IsCollects = make([]bool, 0)
+	isCollectMap := make(map[uint64]bool)
+	wg := sync.WaitGroup{}
+	for _, v := range req.AlbumIds {
+		if _, ok := isCollectMap[v]; ok {
+			continue
+		}
+		isCollectMap[v] = false
+		wg.Add(1)
+		go func(albumId uint64) {
+			tmpReply := &vl_pb.ResIsUserCollectAlbum{}
+			_ = m.IsUserCollectAlbum(ctx, &vl_pb.ReqIsUserCollectAlbum{Uid: req.Uid, AlbumId: albumId}, tmpReply)
+			isCollectMap[albumId] = tmpReply.GetIsCollect()
+		}(v)
+	}
+	for _, v := range req.AlbumIds {
+		if _, ok := isCollectMap[v]; ok {
+			reply.IsCollects = append(reply.IsCollects, isCollectMap[v])
+		} else {
+			reply.IsCollects = append(reply.IsCollects, false)
+		}
+	}
 	return nil
 }
 
@@ -678,5 +710,11 @@ func (m *mainLogic) UpdateReportStatus(ctx context.Context, req *vl_pb.ReqUpdate
 	if err == nil && r {
 		reply.Success = true
 	}
+	return nil
+}
+
+func (m *mainLogic) PlayStatReport(ctx context.Context, req *vl_pb.ReqPlayStatReport, reply *vl_pb.ResPlayStatReport) error {
+	_ = m.rds.Incr(ctx, consts.VoiceLoverAlbumPlayCount.Key(req.AlbumId))
+	_ = m.rds.Incr(ctx, consts.VoiceLoverAudioPlayCount.Key(req.AudioId))
 	return nil
 }

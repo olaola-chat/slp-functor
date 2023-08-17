@@ -69,11 +69,16 @@ type ReqAudioCommentList struct {
 }
 
 type ReqAlbumCommentList struct {
-	AlbumId   uint64 `v:"audio_id@required"` // 音频id
+	AlbumId   uint64 `v:"album_id@required"` // 音频id
 	Paginator Paginator
 }
 
 type ReqReport struct {
 	Id   uint64 `v:"id@required"`
 	Type string `v:"type@required"`
+}
+
+type ReqPlayStatReport struct {
+	AlbumId uint64 `v:"album_id@required"` // 专辑id
+	AudioId uint64 `v:"audio_id@required"` // 音频id
 }

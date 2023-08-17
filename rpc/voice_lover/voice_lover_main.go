@@ -90,3 +90,7 @@ func (v *VoiceLoverMain) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGet
 func (v *VoiceLoverMain) UpdateReportStatus(ctx context.Context, req *vl_pb.ReqUpdateStatus, reply *vl_pb.ResUpdateStatus) error {
 	return logic.MainLogic.UpdateReportStatus(ctx, req, reply)
 }
+
+func (v *VoiceLoverMain) PlayStatReport(ctx context.Context, req *vl_pb.ReqPlayStatReport, reply *vl_pb.ResPlayStatReport) error {
+	return logic.MainLogic.PlayStatReport(ctx, req, reply)
+}

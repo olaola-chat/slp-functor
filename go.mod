@@ -4,7 +4,6 @@ go 1.20
 
 replace (
 	github.com/gogf/gf => github.com/olaola-chat/gf v1.0.1
-	github.com/olaola-chat/rbp-proto => ../rbp-proto
 	github.com/smallnest/rpcx => github.com/olaola-chat/rbp-rpcx v0.1.0-alpha
 )
 

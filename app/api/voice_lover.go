@@ -410,3 +410,31 @@ func (a *voiceLoverAPI) Report(r *ghttp.Request) {
 	}
 	OutputCustomData(r, &pb.CommonResp{Success: true})
 }
+
+// PlayStatReport
+// @Tags VoiceLover
+// @Summary 专辑播放事件上报
+// @Description 专辑播放事件上报
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Param request body query.ReqPlayStatReport false "request"
+// @Success 200 {object} pb.RespPlayStatReport
+// @Router /go/func/voice_lover/playStatReport [post]
+func (a *voiceLoverAPI) PlayStatReport(r *ghttp.Request) {
+	var req *query.ReqPlayStatReport
+	if err := r.Parse(&req); err != nil {
+		g.Log().Errorf("voiceLoverAPI PlayStatReport param error=%v", err)
+		response.Output(r, &pb.RespPlayStatReport{
+			Success: true,
+			Msg:     "",
+		})
+		return
+	}
+	ctx := r.GetCtx()
+	_, _ = vl_rpc.VoiceLoverMain.PlayStatReport(ctx, &vl_pb.ReqPlayStatReport{
+		AlbumId: req.AlbumId,
+		AudioId: req.AudioId,
+	})
+	OutputCustomData(r, &pb.RespPlayStatReport{Success: true, Msg: ""})
+}

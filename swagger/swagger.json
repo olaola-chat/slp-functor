@@ -1124,6 +1124,44 @@
                 }
             }
         },
+        "/go/func/voice_lover/playStatReport": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "专辑播放事件上报",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "专辑播放事件上报",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqPlayStatReport"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespPlayStatReport"
+                        }
+                    }
+                }
+            }
+        },
         "/go/func/voice_lover/post": {
             "post": {
                 "security": [
@@ -2048,6 +2086,17 @@
                 }
             }
         },
+        "pb.RespPlayStatReport": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
         "pb.RespRecUserList": {
             "type": "object",
             "properties": {
@@ -2599,6 +2648,19 @@
                 },
                 "type": {
                     "description": "0-普通评论 1-弹幕",
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqPlayStatReport": {
+            "type": "object",
+            "properties": {
+                "albumId": {
+                    "description": "专辑id",
+                    "type": "integer"
+                },
+                "audioId": {
+                    "description": "音频id",
                     "type": "integer"
                 }
             }
