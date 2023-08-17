@@ -605,3 +605,40 @@ func (m *mainLogic) GetAlbumCommentList(ctx context.Context, req *vl_pb.ReqGetAl
 
 	return nil
 }
+
+func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudioDetail, reply *vl_pb.ResGetAudioDetail) error {
+	row, err := dao.VoiceLoverAudioDao.GetAudioDetailByAudioId(ctx, req.Id)
+	if err != nil || row == nil {
+		reply.Audio = nil
+		return errors.New("暂无该记录")
+	}
+	//音频基础信息
+	reply.Audio.Title = row.Title
+	reply.Audio.Desc = row.Desc
+	reply.Audio.Covers = []string{row.Cover}
+	reply.Audio.Resource = row.Resource
+
+	//专辑基础信息
+	var albumBase []*vl_pb.AlbumData
+	albumIds, err := dao.VoiceLoverAudioAlbumDao.GetAlbumIdsByAudioId(ctx, req.Id)
+	if err == nil && len(albumIds) == 0 {
+		albumInfoMap, _ := dao.VoiceLoverAlbumDao.GetValidAlbumListByIds(ctx, albumIds)
+		for _, info := range albumInfoMap {
+			albumBase = append(albumBase, &vl_pb.AlbumData{
+				Id:    info.Id,
+				Name:  info.Name,
+				Intro: info.Intro,
+				Cover: info.Cover,
+			})
+		}
+		m.BuildRecAlbumsExtendInfo(ctx, albumBase)
+	}
+
+	//是否关注了
+	//follow, err := xsDao.XsUserFriend.Ctx(ctx).One("uid=? and to=?", req.Uid, row.PubUid)
+	//if err == nil && follow != nil {
+	//	reply.Follow = 1
+	//}
+
+	return nil
+}

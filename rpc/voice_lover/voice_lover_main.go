@@ -74,3 +74,7 @@ func (v *VoiceLoverMain) SubmitAlbumComment(ctx context.Context, req *vl_pb.ReqA
 func (v *VoiceLoverMain) GetAlbumCommentList(ctx context.Context, req *vl_pb.ReqGetAlbumCommentList, reply *vl_pb.ResCommentList) error {
 	return logic.MainLogic.GetAlbumCommentList(ctx, req, reply)
 }
+
+func (v *VoiceLoverMain) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudioDetail, reply *vl_pb.ResGetAudioDetail) error {
+	return logic.MainLogic.GetAudioInfoById(ctx, req, reply)
+}
