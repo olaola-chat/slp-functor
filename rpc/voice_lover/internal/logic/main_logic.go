@@ -698,3 +698,9 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 
 	return nil
 }
+
+func (m *mainLogic) PlayStatReport(ctx context.Context, req *vl_pb.ReqPlayStatReport, reply *vl_pb.ResPlayStatReport) error {
+	_ = m.rds.Incr(ctx, consts.VoiceLoverAlbumPlayCount.Key(req.AlbumId))
+	_ = m.rds.Incr(ctx, consts.VoiceLoverAudioPlayCount.Key(req.AudioId))
+	return nil
+}
