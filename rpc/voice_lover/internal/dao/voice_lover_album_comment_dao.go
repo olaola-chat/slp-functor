@@ -53,3 +53,15 @@ func (v *voiceLoverAlbumCommentDao) Insert(ctx context.Context, data g.Map) (boo
 	affect, _ := sqlRes.RowsAffected()
 	return affect > 0, nil
 }
+
+func (v *voiceLoverAlbumCommentDao) UpdateStatus(ctx context.Context, id uint64, status uint32) (bool, error) {
+	_, err := functor.VoiceLoverAlbumComment.Ctx(ctx).Where("id=?", id).Data(
+		g.Map{
+			functor.VoiceLoverAlbumComment.Columns.Status: status,
+		},
+	).Update()
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}

@@ -4,14 +4,15 @@ go 1.20
 
 replace (
 	github.com/gogf/gf => github.com/olaola-chat/gf v1.0.1
+	github.com/olaola-chat/rbp-proto => ../rbp-proto
 	github.com/smallnest/rpcx => github.com/olaola-chat/rbp-rpcx v0.1.0-alpha
 )
 
 require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gogf/gf v1.16.9
-	github.com/olaola-chat/rbp-library v0.0.0-20230815102228-dfafe747d030
-	github.com/olaola-chat/rbp-proto v0.0.0-20230817075813-221db0a5a3ad
+	github.com/olaola-chat/rbp-library v0.0.0-20230817091852-42698a06ed5e
+	github.com/olaola-chat/rbp-proto v0.0.0-20230817102016-e07f791cdb8a
 	google.golang.org/protobuf v1.31.0
 )
 

@@ -666,3 +666,17 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 
 	return nil
 }
+
+func (m *mainLogic) UpdateReportStatus(ctx context.Context, req *vl_pb.ReqUpdateStatus, reply *vl_pb.ResUpdateStatus) error {
+	var r bool
+	var err error
+	if req.Type == "album" {
+		r, err = dao.VoiceLoverAlbumCommentDao.UpdateStatus(ctx, req.Id, req.Status)
+	} else if req.Type == "audio" {
+		r, err = dao.VoiceLoverAudioCommentDao.UpdateStatus(ctx, req.Id, req.Status)
+	}
+	if err == nil && r {
+		reply.Success = true
+	}
+	return nil
+}

@@ -86,3 +86,7 @@ func (v *VoiceLoverMain) GetAlbumCommentList(ctx context.Context, req *vl_pb.Req
 func (v *VoiceLoverMain) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudioDetail, reply *vl_pb.ResGetAudioDetail) error {
 	return logic.MainLogic.GetAudioInfoById(ctx, req, reply)
 }
+
+func (v *VoiceLoverMain) UpdateReportStatus(ctx context.Context, req *vl_pb.ReqUpdateStatus, reply *vl_pb.ResUpdateStatus) error {
+	return logic.MainLogic.UpdateReportStatus(ctx, req, reply)
+}

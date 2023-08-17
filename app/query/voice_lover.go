@@ -72,3 +72,8 @@ type ReqAlbumCommentList struct {
 	AlbumId   uint64 `v:"audio_id@required"` // 音频id
 	Paginator Paginator
 }
+
+type ReqReport struct {
+	Id   uint64 `v:"id@required"`
+	Type string `v:"type@required"`
+}

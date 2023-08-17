@@ -18,6 +18,7 @@ import (
 
 	"github.com/olaola-chat/rbp-functor/app/pb"
 	"github.com/olaola-chat/rbp-functor/app/query"
+	//"github.com/olaola-chat/rbp-library/nsq"
 )
 
 var VoiceLoverService = &voiceLoverService{}
@@ -349,4 +350,13 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 		res.Data.RoomId = roomInfo.Rid
 	}
 	return res
+}
+
+func (serv *voiceLoverService) Report(ctx context.Context, uniqueId uint32, desc string) *pb.CommonResp {
+	//todo 发送nsq给后台
+	//nsq.NewNsqClient().SendBytes()
+
+	return &pb.CommonResp{
+		Success: true,
+	}
 }
