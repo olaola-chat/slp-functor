@@ -9,10 +9,10 @@ import (
 	"github.com/gogf/gf/frame/g"
 
 	xsDao "github.com/olaola-chat/rbp-proto/dao/xianshi"
-	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/room"
-	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
+	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	rpcRoom "github.com/olaola-chat/rbp-proto/rpcclient/room"
+	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
 	"github.com/olaola-chat/rbp-functor/app/pb"
 	"github.com/olaola-chat/rbp-functor/app/query"
@@ -291,27 +291,27 @@ func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId 
 func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, audioId uint64) *pb.RespAudioDetail {
 	res := &pb.RespAudioDetail{
 		Success: true,
-		Data: &pb.AudioDetail{},
+		Data:    &pb.AudioDetail{},
 	}
 
 	// 查询专辑主体信息
 	detail, err := vl_rpc.VoiceLoverMain.GetAudioInfoById(ctx, &vl_pb.ReqGetAudioDetail{
-		Id: audioId,
+		Id:  audioId,
 		Uid: uid,
 	})
-	if err != nil  || detail == nil || detail.Audio == nil{
+	if err != nil || detail == nil || detail.Audio == nil {
 		res.Msg = "暂无数据"
 		return res
 	}
 
 	//是否关注了
-	follow, err := xsDao.XsUserFriend.Ctx(ctx).One("uid=? and to=?",  uid, detail.Audio.Uid)
+	follow, err := xsDao.XsUserFriend.Ctx(ctx).One("uid=? and to=?", uid, detail.Audio.Uid)
 	if err == nil && follow != nil {
 		res.Data.IsFollow = true
 	}
 
 	//是否在房间
-	roomInfo, err := rpcRoom.RoomInfo.InRoom(ctx,  &room.ReqUid{Uid: detail.Audio.Uid})
+	roomInfo, err := rpcRoom.RoomInfo.InRoom(ctx, &room.ReqUid{Uid: detail.Audio.Uid})
 	if err == nil && roomInfo.Rid > 0 {
 		res.Data.RoomId = roomInfo.Rid
 	}
