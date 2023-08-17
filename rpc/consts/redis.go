@@ -30,6 +30,7 @@ func (k *RedisKey) Ttl() time.Duration {
 var (
 	// 播放次数 %d = id
 	VoiceLoverAudioPlayCount = &RedisKey{key: "vl.audio.play_count.%d", ttl: -1}
+	VoiceLoverAlbumPlayCount = &RedisKey{key: "vl.album.play_count.%d", ttl: -1}
 )
 
 // 用户收藏模块
