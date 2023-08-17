@@ -416,6 +416,11 @@ func (m *mainLogic) IsUserCollectAlbum(ctx context.Context, req *vl_pb.ReqIsUser
 	return nil
 }
 
+func (m *mainLogic) IsUserCollectAlbums(ctx context.Context, req *vl_pb.ReqIsUserCollectAlbums, reply *vl_pb.ResIsUserCollectAlbums) error {
+	reply.IsCollects = make([]bool, 0)
+	return nil
+}
+
 func (m *mainLogic) Collect(ctx context.Context, req *vl_pb.ReqCollect, reply *vl_pb.ResCollect) error {
 	var err error
 	if req.Type == 0 {

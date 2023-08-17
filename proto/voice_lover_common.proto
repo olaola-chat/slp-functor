@@ -23,6 +23,7 @@ message AlbumData {
   string cover = 3;         // 专辑显示封面
   uint32 audio_total = 4;   // 专辑内音频数量
   string play_stats = 5;    // 播放量统计，服务端控制显示规则
+  bool is_collect = 6;      // 是否收藏
 }
 
 message SubjectData {
