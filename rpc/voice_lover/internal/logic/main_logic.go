@@ -181,7 +181,7 @@ func (m *mainLogic) BuildRecAlbumsExtendInfo(ctx context.Context, infos []*vl_pb
 			defer wg.Done()
 			total, _ := dao.VoiceLoverAudioAlbumDao.GetCountByAlbumId(ctx, albumId)
 			countMap[albumId] = uint32(total)
-			playCount := uint64(0) // 待定
+			playCount := gconv.Uint64(m.rds.Get(ctx, consts.VoiceLoverAlbumPlayCount.Key(albumId)).Val())
 			playCountsMap[albumId] = playCount
 		}(v.Id)
 	}
