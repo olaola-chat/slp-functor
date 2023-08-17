@@ -10,8 +10,10 @@ import (
 
 	xsDao "github.com/olaola-chat/rbp-proto/dao/xianshi"
 	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/room"
+	user_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	rpcRoom "github.com/olaola-chat/rbp-proto/rpcclient/room"
+	user_rpc "github.com/olaola-chat/rbp-proto/rpcclient/user"
 	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
 	"github.com/olaola-chat/rbp-functor/app/pb"
@@ -60,6 +62,19 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 	// 获取用户推荐
 	go func() {
 		defer wg.Done()
+		recUids := []uint32{101000097}
+		userInfosRes, err := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: recUids, Fields: []string{"name", "uid", "icon"}})
+		if err != nil {
+			g.Log().Errorf("voiceLoverService GetMainData Mget UserInfo error=%v", err)
+			return
+		}
+		for _, v := range userInfosRes.GetData() {
+			res.Data.RecUsers = append(res.Data.RecUsers, &pb.UserData{
+				Uid:    v.Uid,
+				Avatar: v.Icon,
+				Name:   v.Name,
+			})
+		}
 	}()
 	// 获取话题推荐
 	go func() {
