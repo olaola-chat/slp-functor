@@ -169,6 +169,7 @@ func buildAudioEsModel(data *functor2.EntityVoiceLoverAudio) *voice_lover2.Voice
 
 func (m *mainLogic) BuildRecAlbumsExtendInfo(ctx context.Context, infos []*vl_pb.AlbumData) {
 	countMap := make(map[uint64]uint32)
+	playCountsMap := make(map[uint64]uint64)
 	wg := sync.WaitGroup{}
 	for _, v := range infos {
 		if _, ok := countMap[v.Id]; ok {
@@ -180,12 +181,22 @@ func (m *mainLogic) BuildRecAlbumsExtendInfo(ctx context.Context, infos []*vl_pb
 			defer wg.Done()
 			total, _ := dao.VoiceLoverAudioAlbumDao.GetCountByAlbumId(ctx, albumId)
 			countMap[albumId] = uint32(total)
+			playCount := uint64(0) // 待定
+			playCountsMap[albumId] = playCount
 		}(v.Id)
 	}
 	wg.Wait()
 	for _, v := range infos {
 		if count, ok := countMap[v.Id]; ok {
 			v.AudioCount = count
+		}
+		if playCount, ok := playCountsMap[v.Id]; ok {
+			v.PlayCount = playCount
+			if playCount < 10000 {
+				v.PlayCountDesc = fmt.Sprintf("%d", playCount)
+			} else {
+				v.PlayCountDesc = fmt.Sprintf("%.1fw", float64(playCount)/10000.0)
+			}
 		}
 	}
 }
