@@ -1393,6 +1393,10 @@
                     "description": "专辑id",
                     "type": "integer"
                 },
+                "is_collect": {
+                    "description": "是否收藏",
+                    "type": "boolean"
+                },
                 "play_stats": {
                     "description": "播放量统计，服务端控制显示规则",
                     "type": "string"

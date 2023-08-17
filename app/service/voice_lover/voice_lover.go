@@ -46,13 +46,24 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 			g.Log().Errorf("voiceLoverService GetMainData GetRecAlbums error=%v", err)
 			return
 		}
+		albumIds := make([]uint64, 0)
 		for _, v := range recAlbumList.GetAlbums() {
+			albumIds = append(albumIds, v.Id)
 			res.Data.RecAlbums = append(res.Data.RecAlbums, &pb.AlbumData{
 				Id:         v.Id,
 				Title:      v.Name,
 				Cover:      v.Cover,
 				AudioTotal: v.AudioCount,
 			})
+		}
+		// 判断用户是否已收藏专辑
+		isCollectsRes, err := vl_rpc.VoiceLoverMain.IsUserCollectAlbums(ctx, &vl_pb.ReqIsUserCollectAlbums{Uid: uid, AlbumIds: albumIds})
+		if err != nil {
+			g.Log().Errorf("voiceLoverService GetMainData IsUserCollectAlbums error=%v", err)
+			return
+		}
+		for i, v := range isCollectsRes.GetIsCollects() {
+			res.Data.RecAlbums[i].IsCollect = v
 		}
 	}()
 	// 获取banner推荐

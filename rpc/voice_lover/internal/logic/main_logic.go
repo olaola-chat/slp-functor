@@ -416,6 +416,32 @@ func (m *mainLogic) IsUserCollectAlbum(ctx context.Context, req *vl_pb.ReqIsUser
 	return nil
 }
 
+func (m *mainLogic) IsUserCollectAlbums(ctx context.Context, req *vl_pb.ReqIsUserCollectAlbums, reply *vl_pb.ResIsUserCollectAlbums) error {
+	reply.IsCollects = make([]bool, 0)
+	isCollectMap := make(map[uint64]bool)
+	wg := sync.WaitGroup{}
+	for _, v := range req.AlbumIds {
+		if _, ok := isCollectMap[v]; ok {
+			continue
+		}
+		isCollectMap[v] = false
+		wg.Add(1)
+		go func(albumId uint64) {
+			tmpReply := &vl_pb.ResIsUserCollectAlbum{}
+			_ = m.IsUserCollectAlbum(ctx, &vl_pb.ReqIsUserCollectAlbum{Uid: req.Uid, AlbumId: albumId}, tmpReply)
+			isCollectMap[albumId] = tmpReply.GetIsCollect()
+		}(v)
+	}
+	for _, v := range req.AlbumIds {
+		if _, ok := isCollectMap[v]; ok {
+			reply.IsCollects = append(reply.IsCollects, isCollectMap[v])
+		} else {
+			reply.IsCollects = append(reply.IsCollects, false)
+		}
+	}
+	return nil
+}
+
 func (m *mainLogic) Collect(ctx context.Context, req *vl_pb.ReqCollect, reply *vl_pb.ResCollect) error {
 	var err error
 	if req.Type == 0 {
