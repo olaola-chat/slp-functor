@@ -230,8 +230,8 @@ func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 		g.Log().Errorf("AudioComments: %v", err)
 		response.Output(r, &pb.CommonResp{
 			Success: false,
-			//Msg:     consts.ERROR_PARAM.Msg(),
-			Msg:     err.Error(),
+			Msg:     consts.ERROR_PARAM.Msg(),
+			//Msg:     err.Error(),
 		})
 		return
 	}

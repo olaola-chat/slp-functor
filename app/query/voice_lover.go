@@ -64,7 +64,7 @@ type ReqVoiceLoverPost struct {
 }
 
 type ReqAudioCommentList struct {
-	AudioId   uint64 `v:"audio_id@required"` // 音频id
+	AudioId   uint64 `v:"audio_id@integer"` // 音频id
 	Paginator Paginator
 }
 
