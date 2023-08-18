@@ -670,11 +670,13 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 		return errors.New("暂无该记录")
 	}
 	//音频基础信息
-	reply.Audio.Title = row.Title
-	reply.Audio.Desc = row.Desc
-	reply.Audio.Covers = []string{row.Cover}
-	reply.Audio.Resource = row.Resource
-	g.Log().Infof("GetAudioInfoById: %v", reply)
+	reply.Audio = &vl_pb.AudioData{
+		Title: row.Title,
+		Desc: row.Desc,
+		Covers: []string{row.Cover},
+		Resource: row.Resource,
+	}
+
 	//专辑基础信息
 	var albumBase []*vl_pb.AlbumData
 	albumIds, err := dao.VoiceLoverAudioAlbumDao.GetAlbumIdsByAudioId(ctx, req.Id)
@@ -690,11 +692,6 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 		}
 		m.BuildRecAlbumsExtendInfo(ctx, albumBase)
 	}
-	//是否关注了
-	//follow, err := xsDao.XsUserFriend.Ctx(ctx).One("uid=? and to=?", req.Uid, row.PubUid)
-	//if err == nil && follow != nil {
-	//	reply.Follow = 1
-	//}
 
 	return nil
 }
