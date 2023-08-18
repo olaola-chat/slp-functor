@@ -3,7 +3,9 @@ package voice_lover
 import (
 	"context"
 	"errors"
+	"fmt"
 	"sync"
+	"time"
 
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
@@ -18,6 +20,7 @@ import (
 
 	"github.com/olaola-chat/rbp-functor/app/pb"
 	"github.com/olaola-chat/rbp-functor/app/query"
+	"github.com/olaola-chat/rbp-library/redis"
 	//"github.com/olaola-chat/rbp-library/nsq"
 )
 
@@ -374,3 +377,42 @@ func (serv *voiceLoverService) Report(ctx context.Context, uniqueId uint32, desc
 		Success: true,
 	}
 }
+
+func (serv *voiceLoverService) SubmitAudioComment(ctx context.Context, req *vl_pb.ReqAudioSubmitComment) *pb.RespCommentAudio {
+	ret := &pb.RespCommentAudio{}
+	key := fmt.Sprintf("submit.audio.comment.%d", req.Uid)
+	rds := redis.NewMutex("go-redis.cache", key)
+	success, err := rds.TryLockWithTtl(ctx, time.Second * 3)
+	if err != nil || !success {
+		ret.Msg = "请勿频繁操作"
+		return ret
+	}
+	_, err = vl_rpc.VoiceLoverMain.SubmitAudioComment(ctx, req)
+	if err != nil {
+		g.Log().Errorf("err: %v,%v", req, err)
+		ret.Msg = "提交失败"
+		return ret
+	}
+
+	return ret
+}
+
+func (serv *voiceLoverService) SubmitAlbumComment(ctx context.Context, req *vl_pb.ReqAlbumSubmitComment) *pb.RespCommentAlbum {
+	ret := &pb.RespCommentAlbum{}
+	key := fmt.Sprintf("submit.album.comment.%d", req.Uid)
+	rds := redis.NewMutex("go-redis.cache", key)
+	success, err := rds.TryLockWithTtl(ctx, time.Second * 3)
+	if err != nil || !success {
+		ret.Msg = "请勿频繁操作"
+		return ret
+	}
+	_, err = vl_rpc.VoiceLoverMain.SubmitAlbumComment(ctx, req)
+	if err != nil {
+		g.Log().Errorf("err: %v,%v", req, err)
+		ret.Msg = "提交失败"
+		return ret
+	}
+
+	return ret
+}
+
