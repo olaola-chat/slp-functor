@@ -276,7 +276,7 @@ func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 		AudioId: req.AudioId,
 		Content: req.Comment,
 		Uid:     ctxUser.UID,
-		Type: req.Type,
+		Type:    req.Type,
 	})
 
 	response.Output(r, ret)
