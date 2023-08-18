@@ -155,14 +155,7 @@ func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
 		})
 		return
 	}
-	ret, err := vl_serv.VoiceLoverService.GetAlbumCommentList(r.GetCtx(), req.AlbumId, req.Paginator.Page, req.Paginator.Limit)
-	if err != nil {
-		response.Output(r, &pb.RespAlbumComments{
-			Success: false,
-			Msg:     err.Error(),
-		})
-		return
-	}
+	ret := vl_serv.VoiceLoverService.GetAlbumCommentList(r.GetCtx(), req.AlbumId, req.Paginator.Page, req.Paginator.Limit)
 	response.Output(r, ret)
 }
 
