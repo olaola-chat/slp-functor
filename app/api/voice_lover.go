@@ -5,6 +5,7 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/olaola-chat/rbp-library/response"
 	context2 "github.com/olaola-chat/rbp-library/server/http/context"
+	"google.golang.org/protobuf/proto"
 
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
@@ -134,7 +135,8 @@ func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
 		})
 		return
 	}
-	g.Log().Debugf("AlbumDetail=%s", data)
+	bs, _ := proto.Marshal(data)
+	g.Log().Debugf("AlbumDetail=%v", bs)
 	OutputCustomData(r, data)
 }
 
