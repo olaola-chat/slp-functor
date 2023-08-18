@@ -18,9 +18,10 @@ import (
 	user_rpc "github.com/olaola-chat/rbp-proto/rpcclient/user"
 	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
+	"github.com/olaola-chat/rbp-library/redis"
+
 	"github.com/olaola-chat/rbp-functor/app/pb"
 	"github.com/olaola-chat/rbp-functor/app/query"
-	"github.com/olaola-chat/rbp-library/redis"
 	//"github.com/olaola-chat/rbp-library/nsq"
 )
 
@@ -304,7 +305,7 @@ func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId 
 	return ret, nil
 }
 
-func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId uint64, page, limit uint32) (*pb.RespAlbumComments, error) {
+func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId uint64, page, limit uint32) *pb.RespAlbumComments {
 	ret := &pb.RespAlbumComments{
 		Success: true,
 		Msg:     "",
@@ -323,7 +324,8 @@ func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId 
 		Size:    limit + 1,
 	})
 	if err != nil || len(rows.List) == 0 {
-		return nil, errors.New("暂无数据")
+		ret.Msg = "暂无数据"
+		return ret
 	}
 	ret.Success = true
 	for k, v := range rows.List {
@@ -333,10 +335,15 @@ func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId 
 		}
 		ret.Data.Comments = append(ret.Data.Comments, &pb.CommentData{
 			Id: v.Id,
+			Comment: v.Content,
+			UserInfo: &pb.UserData{
+				Name: v.UserInfo.Name,
+				Avatar: v.UserInfo.Avtar,
+			},
 		})
 	}
 
-	return ret, nil
+	return ret
 }
 
 func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, audioId uint64) *pb.RespAudioDetail {
