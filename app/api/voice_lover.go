@@ -101,7 +101,7 @@ func (a *voiceLoverAPI) RecUserList(r *ghttp.Request) {
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespRecUserList{Success: true, Msg: ""})
+	response.Output(r, &pb.RespRecUserList{Success: true, Msg: ""})
 }
 
 // AlbumDetail
@@ -133,7 +133,7 @@ func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
 		})
 		return
 	}
-	OutputCustomData(r, data)
+	response.Output(r, data)
 }
 
 // AlbumComments
@@ -163,7 +163,7 @@ func (a *voiceLoverAPI) AlbumComments(r *ghttp.Request) {
 		})
 		return
 	}
-	OutputCustomData(r, ret)
+	response.Output(r, ret)
 }
 
 // CommentAlbum
@@ -200,8 +200,7 @@ func (a *voiceLoverAPI) CommentAlbum(r *ghttp.Request) {
 		})
 		return
 	}
-
-	OutputCustomData(r, &pb.RespCommentAlbum{Success: true, Msg: ""})
+	response.Output(r, &pb.RespCommentAlbum{Success: true, Msg: ""})
 }
 
 // AudioDetail
@@ -226,7 +225,7 @@ func (a *voiceLoverAPI) AudioDetail(r *ghttp.Request) {
 	ctx := r.GetCtx()
 	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
 	ret := vl_serv.VoiceLoverService.GetAudioDetail(ctx, ctxUser.UID, req.AudioId)
-	OutputCustomData(r, ret)
+	response.Output(r, ret)
 }
 
 // AudioComments
@@ -256,7 +255,7 @@ func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 		})
 		return
 	}
-	OutputCustomData(r, ret)
+	response.Output(r, ret)
 }
 
 // CommentAudio
@@ -293,7 +292,7 @@ func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAudioComments{Success: true})
+	response.Output(r, &pb.RespAudioComments{Success: true})
 }
 
 // Collect
@@ -330,7 +329,7 @@ func (a *voiceLoverAPI) Collect(r *ghttp.Request) {
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespCollectVoiceLover{Success: true, Msg: ""})
+	response.Output(r, &pb.RespCollectVoiceLover{Success: true, Msg: ""})
 }
 
 // Post
@@ -377,7 +376,7 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespVoiceLoverPost{Success: true, Msg: ""})
+	response.Output(r, &pb.RespVoiceLoverPost{Success: true, Msg: ""})
 }
 
 // Report
@@ -404,9 +403,12 @@ func (a *voiceLoverAPI) Report(r *ghttp.Request) {
 		Type: req.Type,
 	})
 	if err != nil {
-		OutputCustomData(r, &pb.CommonResp{Success: false, Msg: err.Error()})
+		response.Output(r, &pb.RespVoiceLoverPost{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
 	}
-	OutputCustomData(r, &pb.CommonResp{Success: true})
+	response.Output(r, &pb.CommonResp{Success: true})
 }
 
 // PlayStatReport
@@ -434,5 +436,5 @@ func (a *voiceLoverAPI) PlayStatReport(r *ghttp.Request) {
 		AlbumId: req.AlbumId,
 		AudioId: req.AudioId,
 	})
-	OutputCustomData(r, &pb.RespPlayStatReport{Success: true, Msg: ""})
+	response.Output(r, &pb.RespPlayStatReport{Success: true, Msg: ""})
 }
