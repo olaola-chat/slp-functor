@@ -365,7 +365,7 @@ func (m *mainLogic) GetRecSubjects(ctx context.Context, req *vl_pb.ReqGetRecSubj
 	for _, v := range albums {
 		albumsMap[v.Id] = v
 	}
-	
+
 	for _, v := range reply.Subjects {
 		if _, ok := subjectAlbumsMap[v.Id]; !ok {
 			continue
