@@ -235,14 +235,7 @@ func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 		})
 		return
 	}
-	ret, err := vl_serv.VoiceLoverService.GetAudioCommentList(r.GetCtx(), req.AudioId, req.Paginator.Page, req.Paginator.Limit)
-	if err != nil {
-		response.Output(r, &pb.RespAudioComments{
-			Success: false,
-			Msg:     err.Error(),
-		})
-		return
-	}
+	ret := vl_serv.VoiceLoverService.GetAudioCommentList(r.GetCtx(), req.AudioId, req.Paginator.Page, req.Paginator.Limit)
 	response.Output(r, ret)
 }
 

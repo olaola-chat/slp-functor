@@ -2,7 +2,6 @@ package voice_lover
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"sync"
 	"time"
@@ -269,7 +268,7 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 	return res, nil
 }
 
-func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId uint64, page, limit uint32) (*pb.RespAudioComments, error) {
+func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId uint64, page, limit uint32) *pb.RespAudioComments {
 	ret := &pb.RespAudioComments{
 		Success: true,
 		Msg:     "",
@@ -281,6 +280,9 @@ func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId 
 	if page <= 1 {
 		page = 1
 	}
+	if limit <= 0 {
+		limit = 10
+	}
 	offset := (page - 1) * limit
 	rows, err := vl_rpc.VoiceLoverMain.GetAudioCommentList(ctx, &vl_pb.ReqGetAudioCommentList{
 		AudioId: audioId,
@@ -288,7 +290,8 @@ func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId 
 		Size:    limit + 1,
 	})
 	if err != nil || len(rows.List) == 0 {
-		return nil, errors.New("暂无数据")
+		ret.Msg = "暂无数据"
+		return ret
 	}
 
 	ret.Success = true
@@ -297,12 +300,21 @@ func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId 
 			ret.Data.HasMore = true
 			break
 		}
-		ret.Data.Comments = append(ret.Data.Comments, &pb.CommentData{
+		tmp := &pb.CommentData{
 			Id: v.Id,
-		})
+			Comment: v.Content,
+		}
+
+		if v.UserInfo != nil {
+			tmp.UserInfo = &pb.UserData{
+				Name: v.UserInfo.Name,
+				Avatar: v.UserInfo.Avtar,
+			}
+		}
+		ret.Data.Comments = append(ret.Data.Comments, tmp)
 	}
 
-	return ret, nil
+	return ret
 }
 
 func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId uint64, page, limit uint32) *pb.RespAlbumComments {
@@ -316,6 +328,9 @@ func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId 
 	}
 	if page <= 1 {
 		page = 1
+	}
+	if limit <= 0 {
+		limit = 10
 	}
 	offset := (page - 1) * limit
 	rows, err := vl_rpc.VoiceLoverMain.GetAlbumCommentList(ctx, &vl_pb.ReqGetAlbumCommentList{
@@ -333,14 +348,18 @@ func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId 
 			ret.Data.HasMore = true
 			break
 		}
-		ret.Data.Comments = append(ret.Data.Comments, &pb.CommentData{
+
+		tmp := &pb.CommentData{
 			Id: v.Id,
 			Comment: v.Content,
-			UserInfo: &pb.UserData{
+		}
+		if v.UserInfo != nil {
+			tmp.UserInfo = &pb.UserData{
 				Name: v.UserInfo.Name,
 				Avatar: v.UserInfo.Avtar,
-			},
-		})
+			}
+		}
+		ret.Data.Comments = append(ret.Data.Comments, tmp)
 	}
 
 	return ret
