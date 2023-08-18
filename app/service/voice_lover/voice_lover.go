@@ -376,6 +376,7 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 		Id:  audioId,
 		Uid: uid,
 	})
+	g.Log().Infof("GetAudioInfoById_r: %v", detail)
 	if err != nil || detail == nil || detail.Audio == nil {
 		res.Msg = "暂无数据"
 		return res
