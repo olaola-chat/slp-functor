@@ -382,7 +382,7 @@ func (serv *voiceLoverService) SubmitAudioComment(ctx context.Context, req *vl_p
 	ret := &pb.RespCommentAudio{}
 	key := fmt.Sprintf("submit.audio.comment.%d", req.Uid)
 	rds := redis.NewMutex("cache", key)
-	success, err := rds.TryLockWithTtl(ctx, time.Second * 3)
+	success, err := rds.TryLockWithTtl(ctx, time.Second*3)
 	if err != nil || !success {
 		ret.Msg = "请勿频繁操作"
 		return ret
@@ -401,7 +401,7 @@ func (serv *voiceLoverService) SubmitAlbumComment(ctx context.Context, req *vl_p
 	ret := &pb.RespCommentAlbum{}
 	key := fmt.Sprintf("submit.album.comment.%d", req.Uid)
 	rds := redis.NewMutex("cache", key)
-	success, err := rds.TryLockWithTtl(ctx, time.Second * 3)
+	success, err := rds.TryLockWithTtl(ctx, time.Second*3)
 	if err != nil || !success {
 		ret.Msg = "请勿频繁操作"
 		return ret
@@ -415,4 +415,3 @@ func (serv *voiceLoverService) SubmitAlbumComment(ctx context.Context, req *vl_p
 
 	return ret
 }
-
