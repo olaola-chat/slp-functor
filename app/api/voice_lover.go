@@ -134,6 +134,7 @@ func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
 		})
 		return
 	}
+	g.Log().Debugf("AlbumDetail=%s", data)
 	OutputCustomData(r, data)
 }
 
