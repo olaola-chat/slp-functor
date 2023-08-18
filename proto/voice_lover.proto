@@ -50,7 +50,7 @@ message AlbumDetail {
 message RespAlbumDetail {
   bool success = 1;
   string msg = 2;
-  AlbumDetail data = 5;
+  AlbumDetail data = 3;
 }
 
 message AlbumComments {
