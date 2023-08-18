@@ -567,6 +567,7 @@ func (m *mainLogic) SubmitAudioComment(ctx context.Context, req *vl_pb.ReqAudioS
 		"create_time": time.Now().Unix(),
 		"update_time": time.Now().Unix(),
 		"uid":         req.Uid,
+		"type": req.Type,
 	}
 	success, err := dao.VoiceLoverAudioCommentDao.Insert(ctx, data)
 	if err == nil && success {

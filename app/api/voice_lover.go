@@ -188,19 +188,12 @@ func (a *voiceLoverAPI) CommentAlbum(r *ghttp.Request) {
 
 	ctx := r.GetCtx()
 	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
-	_, err := vl_rpc.VoiceLoverMain.SubmitAlbumComment(ctx, &vl_pb.ReqAlbumSubmitComment{
+	ret := vl_serv.VoiceLoverService.SubmitAlbumComment(ctx, &vl_pb.ReqAlbumSubmitComment{
 		AlbumId: req.AlbumId,
 		Content: req.Comment,
 		Uid:     ctxUser.UID,
 	})
-	if err != nil {
-		response.Output(r, &pb.CommonResp{
-			Success: false,
-			Msg:     err.Error(),
-		})
-		return
-	}
-	response.Output(r, &pb.RespCommentAlbum{Success: true, Msg: ""})
+	response.Output(r, ret)
 }
 
 // AudioDetail
@@ -278,21 +271,15 @@ func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 		return
 	}
 	ctx := r.GetCtx()
-	//ctxUser := context2.ContextSrv.GetUserCtx(ctx)
-	_, err := vl_rpc.VoiceLoverMain.SubmitAudioComment(ctx, &vl_pb.ReqAudioSubmitComment{
+	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	ret := vl_serv.VoiceLoverService.SubmitAudioComment(ctx, &vl_pb.ReqAudioSubmitComment{
 		AudioId: req.AudioId,
 		Content: req.Comment,
-		//Uid:     ctxUser.UID,
+		Uid:     ctxUser.UID,
 		Type: req.Type,
 	})
-	if err != nil {
-		response.Output(r, &pb.RespCommentAudio{
-			Success: false,
-			Msg:     err.Error(),
-		})
-		return
-	}
-	response.Output(r, &pb.RespAudioComments{Success: true})
+
+	response.Output(r, ret)
 }
 
 // Collect
