@@ -227,7 +227,8 @@ func (a *voiceLoverAPI) AudioDetail(r *ghttp.Request) {
 func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 	var req *query.ReqAudioCommentList
 	if err := r.ParseQuery(&req); err != nil {
-		response.Output(r, &pb.RespAudioComments{
+		g.Log().Errorf("AudioComments: %v", err)
+		response.Output(r, &pb.CommonResp{
 			Success: false,
 			//Msg:     consts.ERROR_PARAM.Msg(),
 			Msg:     err.Error(),
