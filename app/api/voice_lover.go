@@ -136,7 +136,7 @@ func (a *voiceLoverAPI) AlbumDetail(r *ghttp.Request) {
 		return
 	}
 	data.ProtoReflect().Range(func(descriptor protoreflect.FieldDescriptor, value protoreflect.Value) bool {
-		g.Log().Debugf("%v %v", descriptor.Name(), descriptor.Enum())
+		g.Log().Debugf("%v %v", descriptor.Name(), descriptor.Number())
 		return true
 	})
 	OutputCustomData(r, data)
