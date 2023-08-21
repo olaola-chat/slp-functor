@@ -70,7 +70,7 @@ type ReqAudioCommentList struct {
 }
 
 type ReqAlbumCommentList struct {
-	AlbumId   uint64 `v:"album_id@required"` // 音频id
+	AlbumId   uint64 `v:"album_id@integer|min:1"` // 音频id
 	Paginator Paginator
 }
 
