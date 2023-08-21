@@ -11,7 +11,7 @@ require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gogf/gf v1.16.9
 	github.com/olaola-chat/rbp-library v0.0.0-20230817091852-42698a06ed5e
-	github.com/olaola-chat/rbp-proto v0.0.0-20230817102016-e07f791cdb8a
+	github.com/olaola-chat/rbp-proto v0.0.0-20230821022227-597472c1d83f
 	google.golang.org/protobuf v1.31.0
 )
 
