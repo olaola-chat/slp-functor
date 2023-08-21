@@ -679,7 +679,7 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 
 	//专辑基础信息
 	albumIds, err := dao.VoiceLoverAudioAlbumDao.GetAlbumIdsByAudioId(ctx, req.Id)
-	if err == nil && len(albumIds) == 0 {
+	if err == nil && len(albumIds) > 0 {
 		albumInfoMap, _ := dao.VoiceLoverAlbumDao.GetValidAlbumListByIds(ctx, albumIds)
 		for _, info := range albumInfoMap {
 			reply.Album = append(reply.Album, &vl_pb.AlbumData{
