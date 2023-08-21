@@ -714,3 +714,31 @@ func (m *mainLogic) PlayStatReport(ctx context.Context, req *vl_pb.ReqPlayStatRe
 	_ = m.rds.Incr(ctx, consts.VoiceLoverAudioPlayCount.Key(req.AudioId))
 	return nil
 }
+
+func (m *mainLogic) IsUserCollectAudio(ctx context.Context, req *vl_pb.ReqCollect, reply *vl_pb.ResIsUserCollectAudio) error {
+	reply.IsCollect = false
+	// 如果UserCollectAlbumKey存在 0=未收藏 1=已收藏
+	// 如果UserCollectAlbumKey存在 从mysql查一遍 写缓存
+	key := consts.UserCollectAudioKey.Key(req.Uid, req.Id)
+	if m.rds.Exists(ctx, key).Val() == 1 {
+		if m.rds.Get(ctx, key).Val() == "1" {
+			reply.IsCollect = true
+		}
+	} else {
+		data, err := dao.VoiceLoverUserCollectDao.GetInfoByUidAndTypeAndId(ctx, req.Uid, req.Id, dao.CollectTypeAudio)
+		if err != nil {
+			return err
+		}
+		if data.GetId() > 0 {
+			reply.IsCollect = true
+		}
+		defer func(isCollect bool) {
+			value := 0
+			if isCollect {
+				value = 1
+			}
+			_ = m.rds.Set(ctx, key, value, consts.UserCollectAudioKey.Ttl()).Err()
+		}(reply.IsCollect)
+	}
+	return nil
+}
