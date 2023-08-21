@@ -400,6 +400,17 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 		},
 		Audios: item,
 	}
+	profile, err := user_rpc.UserProfile.Get(ctx, &user_pb.ReqUserProfile{
+		Uid: detail.Audio.Uid,
+		Fields: []string{"name","icon",},
+	})
+	if err == nil && profile != nil {
+		res.Data.Audio.UserInfo = &pb.UserData{
+			Uid: detail.Audio.Uid,
+			Name: profile.Name,
+			Avatar: profile.Icon,
+		}
+	}
 
 	//是否关注了
 	follow, err := xsDao.XsUserFriend.Ctx(ctx).One("uid=? and to=?", uid, detail.Audio.Uid)
