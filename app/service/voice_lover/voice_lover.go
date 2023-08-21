@@ -380,6 +380,25 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 		res.Msg = "暂无数据"
 		return res
 	}
+	var item []*pb.AlbumData
+	for _,v := range detail.Album {
+		item = append(item, &pb.AlbumData{
+			Id: v.Id,
+			Cover: v.Cover,
+			Title: v.Intro,
+			PlayStats: v.PlayCountDesc,
+			AudioTotal: v.AudioCount,
+		})
+	}
+	res.Data = &pb.AudioDetail{
+		Audio: &pb.AudioData{
+			Id: detail.Audio.Id,
+			Title: detail.Audio.Title,
+			Covers: detail.Audio.Covers,
+			Resource: detail.Audio.Resource,
+		},
+		Audios: item,
+	}
 
 	//是否关注了
 	follow, err := xsDao.XsUserFriend.Ctx(ctx).One("uid=? and to=?", uid, detail.Audio.Uid)

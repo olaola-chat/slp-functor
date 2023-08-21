@@ -666,7 +666,6 @@ func (m *mainLogic) GetAlbumCommentList(ctx context.Context, req *vl_pb.ReqGetAl
 func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudioDetail, reply *vl_pb.ResGetAudioDetail) error {
 	row, err := dao.VoiceLoverAudioDao.GetAudioDetailByAudioId(ctx, req.Id)
 	if err != nil || row == nil {
-		reply.Audio = nil
 		return errors.New("暂无该记录")
 	}
 	//音频基础信息
@@ -679,19 +678,18 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 
 
 	//专辑基础信息
-	var albumBase []*vl_pb.AlbumData
 	albumIds, err := dao.VoiceLoverAudioAlbumDao.GetAlbumIdsByAudioId(ctx, req.Id)
 	if err == nil && len(albumIds) == 0 {
 		albumInfoMap, _ := dao.VoiceLoverAlbumDao.GetValidAlbumListByIds(ctx, albumIds)
 		for _, info := range albumInfoMap {
-			albumBase = append(albumBase, &vl_pb.AlbumData{
+			reply.Album = append(reply.Album, &vl_pb.AlbumData{
 				Id:    info.Id,
 				Name:  info.Name,
 				Intro: info.Intro,
 				Cover: info.Cover,
 			})
 		}
-		m.BuildRecAlbumsExtendInfo(ctx, albumBase)
+		m.BuildRecAlbumsExtendInfo(ctx, reply.Album)
 	}
 
 	return nil

@@ -368,6 +368,8 @@ github.com/olaola-chat/rbp-library v0.0.0-20230817091852-42698a06ed5e h1:hKp2Li1
 github.com/olaola-chat/rbp-library v0.0.0-20230817091852-42698a06ed5e/go.mod h1:g+pabWcllQnLXV2vNCT7iHC7b0VbefqtrSKhtzZmuhU=
 github.com/olaola-chat/rbp-proto v0.0.0-20230817102016-e07f791cdb8a h1:beh9+8BeeajtY00qfm1dAjkIETBoeM1nyd2xUKVLgJg=
 github.com/olaola-chat/rbp-proto v0.0.0-20230817102016-e07f791cdb8a/go.mod h1:PhNFZnK6mAbHtJeG9jkp3eb5n2LmHkp1RM26sU4/G6M=
+github.com/olaola-chat/rbp-proto v0.0.0-20230821022227-597472c1d83f h1:TH5xohGbGWupC5iy6GgNaeibDtdxkI+kqZoaRWSZUWc=
+github.com/olaola-chat/rbp-proto v0.0.0-20230821022227-597472c1d83f/go.mod h1:PhNFZnK6mAbHtJeG9jkp3eb5n2LmHkp1RM26sU4/G6M=
 github.com/olaola-chat/rbp-rpcx v0.1.0-alpha h1:xb1USyMn5/FRzfRgOnMEQJsP6pL21rmH1BHQKFfCWp4=
 github.com/olaola-chat/rbp-rpcx v0.1.0-alpha/go.mod h1:rALCbQ09OQ7vbFAZRsSOHd2N/OIpg4MYezZRSWx/czU=
 github.com/olekukonko/tablewriter v0.0.1/go.mod h1:vsDQFd/mU46D+Z4whnwzcISnGGzXWMclvtLoiIKAKIo=
