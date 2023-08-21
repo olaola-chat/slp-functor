@@ -397,6 +397,7 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 			Title: detail.Audio.Title,
 			Covers: detail.Audio.Covers,
 			Resource: detail.Audio.Resource,
+			Seconds: detail.Audio.Seconds,
 		},
 		Audios: item,
 	}
@@ -412,6 +413,15 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 	if err == nil && roomInfo.Rid > 0 {
 		res.Data.RoomId = roomInfo.Rid
 	}
+
+	//是否收藏了
+	collected, _ := vl_rpc.VoiceLoverMain.IsUserCollectAudio(ctx, &vl_pb.ReqCollect{
+		Id:res.Data.Audio.Id,
+		Uid: uid,
+		Type: 1,
+	})
+	res.Data.IsCollected = collected.IsCollect
+
 	return res
 }
 

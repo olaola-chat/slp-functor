@@ -94,3 +94,7 @@ func (v *VoiceLoverMain) UpdateReportStatus(ctx context.Context, req *vl_pb.ReqU
 func (v *VoiceLoverMain) PlayStatReport(ctx context.Context, req *vl_pb.ReqPlayStatReport, reply *vl_pb.ResPlayStatReport) error {
 	return logic.MainLogic.PlayStatReport(ctx, req, reply)
 }
+
+func (v *VoiceLoverMain) IsUserCollectAudio(ctx context.Context, req *vl_pb.ReqCollect, reply *vl_pb.ResIsUserCollectAudio) error {
+	return logic.MainLogic.IsUserCollectAudio(ctx, req, reply)
+}
