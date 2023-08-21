@@ -183,6 +183,7 @@ func (serv *voiceLoverService) GetAlbumList(ctx context.Context, req *query.ReqA
 			Title:      v.Name,
 			Cover:      v.Cover,
 			AudioTotal: v.AudioCount,
+			PlayStats:  v.PlayCountDesc,
 		})
 	}
 	return res, nil
@@ -414,7 +415,7 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 
 	//是否关注了
 	follow, err := user_rpc.UserProfile.CheckFollow(ctx, &user_pb.ReqCheckFollow{
-		Uid: uid,
+		Uid:   uid,
 		ToUid: detail.Audio.Uid,
 	})
 	if err == nil && follow != nil {

@@ -3,8 +3,8 @@ package voice_lover
 import (
 	"context"
 
-	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	userpb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
+	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 
 	"github.com/olaola-chat/rbp-functor/rpc/voice_lover/internal/logic"
 )
