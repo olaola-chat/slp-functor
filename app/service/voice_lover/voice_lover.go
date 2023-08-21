@@ -301,13 +301,13 @@ func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId 
 			break
 		}
 		tmp := &pb.CommentData{
-			Id: v.Id,
+			Id:      v.Id,
 			Comment: v.Content,
 		}
 
 		if v.UserInfo != nil {
 			tmp.UserInfo = &pb.UserData{
-				Name: v.UserInfo.Name,
+				Name:   v.UserInfo.Name,
 				Avatar: v.UserInfo.Avtar,
 			}
 		}
@@ -350,12 +350,12 @@ func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId 
 		}
 
 		tmp := &pb.CommentData{
-			Id: v.Id,
+			Id:      v.Id,
 			Comment: v.Content,
 		}
 		if v.UserInfo != nil {
 			tmp.UserInfo = &pb.UserData{
-				Name: v.UserInfo.Name,
+				Name:   v.UserInfo.Name,
 				Avatar: v.UserInfo.Avtar,
 			}
 		}
