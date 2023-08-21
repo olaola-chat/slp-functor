@@ -382,33 +382,33 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 		return res
 	}
 	var item []*pb.AlbumData
-	for _,v := range detail.Album {
+	for _, v := range detail.Album {
 		item = append(item, &pb.AlbumData{
-			Id: v.Id,
-			Cover: v.Cover,
-			Title: v.Intro,
-			PlayStats: v.PlayCountDesc,
+			Id:         v.Id,
+			Cover:      v.Cover,
+			Title:      v.Intro,
+			PlayStats:  v.PlayCountDesc,
 			AudioTotal: v.AudioCount,
 		})
 	}
 	res.Data = &pb.AudioDetail{
 		Audio: &pb.AudioData{
-			Id: detail.Audio.Id,
-			Title: detail.Audio.Title,
-			Covers: detail.Audio.Covers,
+			Id:       detail.Audio.Id,
+			Title:    detail.Audio.Title,
+			Covers:   detail.Audio.Covers,
 			Resource: detail.Audio.Resource,
-			Seconds: detail.Audio.Seconds,
+			Seconds:  detail.Audio.Seconds,
 		},
 		Audios: item,
 	}
 	profile, err := user_rpc.UserProfile.Get(ctx, &user_pb.ReqUserProfile{
-		Uid: detail.Audio.Uid,
-		Fields: []string{"name","icon",},
+		Uid:    detail.Audio.Uid,
+		Fields: []string{"name", "icon"},
 	})
 	if err == nil && profile != nil {
 		res.Data.Audio.UserInfo = &pb.UserData{
-			Uid: detail.Audio.Uid,
-			Name: profile.Name,
+			Uid:    detail.Audio.Uid,
+			Name:   profile.Name,
 			Avatar: profile.Icon,
 		}
 	}
@@ -427,8 +427,8 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 
 	//是否收藏了
 	collected, _ := vl_rpc.VoiceLoverMain.IsUserCollectAudio(ctx, &vl_pb.ReqCollect{
-		Id:res.Data.Audio.Id,
-		Uid: uid,
+		Id:   res.Data.Audio.Id,
+		Uid:  uid,
 		Type: 1,
 	})
 	res.Data.IsCollected = collected.IsCollect

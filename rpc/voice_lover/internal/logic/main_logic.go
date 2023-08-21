@@ -672,13 +672,12 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 	}
 	//音频基础信息
 	reply.Audio = &vl_pb.AudioData{
-		Title: row.Title,
-		Desc: row.Desc,
-		Covers: []string{row.Cover},
+		Title:    row.Title,
+		Desc:     row.Desc,
+		Covers:   []string{row.Cover},
 		Resource: row.Resource,
-		Uid: uint32(row.PubUid),
+		Uid:      uint32(row.PubUid),
 	}
-
 
 	//专辑基础信息
 	albumIds, err := dao.VoiceLoverAudioAlbumDao.GetAlbumIdsByAudioId(ctx, req.Id)
