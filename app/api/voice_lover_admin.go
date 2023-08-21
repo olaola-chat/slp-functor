@@ -48,7 +48,7 @@ func (a *voiceLoverAdminApi) AudioList(r *ghttp.Request) {
 	g.Log().Infof("VoiceLoverAdmin audio_list param = %v", *req)
 	res, total, err := voice_lover.VoiceLoverService.GetAudioList(ctx, req)
 	if err != nil {
-		OutputCustomError(r, consts.ERROR_SYSTEM)
+		response.Output(r, consts.ERROR_SYSTEM)
 		return
 	}
 	response.Output(r, &pb.RespAdminVoiceLoverAudioList{
@@ -82,7 +82,7 @@ func (a *voiceLoverAdminApi) AudioDetail(r *ghttp.Request) {
 	g.Log().Infof("VoiceLoverAdmin audio_detail param = %v", *req)
 	reply, err := voice_lover2.VoiceLoverAdmin.GetAudioDetail(ctx, &voice_lover3.ReqGetAudioDetail{Id: req.Id})
 	if err != nil {
-		OutputCustomError(r, consts.ERROR_SYSTEM)
+		response.Output(r, consts.ERROR_SYSTEM)
 		return
 	}
 	if reply.Audio == nil {
@@ -174,7 +174,7 @@ func (a *voiceLoverAdminApi) AudioUpdate(r *ghttp.Request) {
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverAudioUpdate{
+	response.Output(r, &pb.RespAdminVoiceLoverAudioUpdate{
 		Success: true,
 	})
 }
@@ -205,7 +205,7 @@ func (a *voiceLoverAdminApi) AudioAudit(r *ghttp.Request) {
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverAudioAudit{
+	response.Output(r, &pb.RespAdminVoiceLoverAudioAudit{
 		Success: true,
 	})
 }
@@ -230,7 +230,7 @@ func (a *voiceLoverAdminApi) AudioAuditReason(r *ghttp.Request) {
 	sort.Slice(data.Reasons, func(i, j int) bool {
 		return data.Reasons[i].Id < data.Reasons[j].Id
 	})
-	OutputCustomData(r, &pb.RespAdminVoiceLoverAudioAuditReason{
+	response.Output(r, &pb.RespAdminVoiceLoverAudioAuditReason{
 		Success: true,
 	})
 }
@@ -248,7 +248,7 @@ func (a *voiceLoverAdminApi) AudioAuditReason(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) AlbumCreate(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumCreate
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCreate{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumCreate{
 			Msg: err.Error(),
 		})
 		return
@@ -256,12 +256,12 @@ func (a *voiceLoverAdminApi) AlbumCreate(r *ghttp.Request) {
 	ctx := r.Context()
 	reply, err := voice_lover2.VoiceLoverAdmin.CreateAlbum(ctx, &voice_lover3.ReqCreateAlbum{Name: req.Name, Intro: req.Intro, Cover: req.Cover, OpUid: req.OpUid})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCreate{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumCreate{
 			Msg: err.Error(),
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCreate{
+	response.Output(r, &pb.RespAdminVoiceLoverAlbumCreate{
 		Success: true,
 		Id:      reply.Id,
 	})
@@ -281,7 +281,7 @@ func (a *voiceLoverAdminApi) AlbumCreate(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) AlbumUpdate(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumUpdate
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumUpdate{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumUpdate{
 			Msg: err.Error(),
 		})
 		return
@@ -289,12 +289,12 @@ func (a *voiceLoverAdminApi) AlbumUpdate(r *ghttp.Request) {
 	ctx := r.Context()
 	_, err := voice_lover2.VoiceLoverAdmin.UpdateAlbum(ctx, &voice_lover3.ReqUpdateAlbum{Id: req.Id, Name: req.Name, Intro: req.Intro, Cover: req.Cover, OpUid: req.OpUid})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumUpdate{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumUpdate{
 			Msg: err.Error(),
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumUpdate{
+	response.Output(r, &pb.RespAdminVoiceLoverAlbumUpdate{
 		Success: true,
 	})
 }
@@ -312,7 +312,7 @@ func (a *voiceLoverAdminApi) AlbumUpdate(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) AlbumDel(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumDel
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumDel{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumDel{
 			Msg: err.Error(),
 		})
 		return
@@ -320,12 +320,12 @@ func (a *voiceLoverAdminApi) AlbumDel(r *ghttp.Request) {
 	ctx := r.Context()
 	_, err := voice_lover2.VoiceLoverAdmin.DelAlbum(ctx, &voice_lover3.ReqDelAlbum{Id: req.Id, OpUid: req.OpUid})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumDel{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumDel{
 			Msg: err.Error(),
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumDel{
+	response.Output(r, &pb.RespAdminVoiceLoverAlbumDel{
 		Success: true,
 	})
 	return
@@ -344,7 +344,7 @@ func (a *voiceLoverAdminApi) AlbumDel(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) AlbumDetail(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumDetail
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumDetail{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumDetail{
 			Msg: err.Error(),
 		})
 		return
@@ -352,13 +352,13 @@ func (a *voiceLoverAdminApi) AlbumDetail(r *ghttp.Request) {
 	ctx := r.Context()
 	reply, err := voice_lover2.VoiceLoverAdmin.GetAlbumDetail(ctx, &voice_lover3.ReqGetAlbumDetail{AlbumStr: []string{gconv.String(req.Id)}})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumDetail{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumDetail{
 			Msg: err.Error(),
 		})
 		return
 	}
 	if reply.Albums == nil || reply.Albums[req.Id] == nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumDetail{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumDetail{
 			Success: true,
 		})
 		return
@@ -372,7 +372,7 @@ func (a *voiceLoverAdminApi) AlbumDetail(r *ghttp.Request) {
 		CreateTime: reply.Albums[req.Id].CreateTime,
 		OpUid:      reply.Albums[req.Id].OpUid,
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumDetail{
+	response.Output(r, &pb.RespAdminVoiceLoverAlbumDetail{
 		Success: true,
 		Album:   album,
 	})
@@ -391,7 +391,7 @@ func (a *voiceLoverAdminApi) AlbumDetail(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) AlbumList(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumList
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumList{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumList{
 			Msg: err.Error(),
 		})
 		return
@@ -400,7 +400,7 @@ func (a *voiceLoverAdminApi) AlbumList(r *ghttp.Request) {
 	reply, err := voice_lover2.VoiceLoverAdmin.GetAlbumList(ctx, &voice_lover3.ReqGetAlbumList{Name: req.Name, StartTime: req.StartTime, EndTime: req.EndTime,
 		Limit: int32(req.Limit), Page: int32(req.Page)})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumList{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumList{
 			Msg: err.Error(),
 		})
 		return
@@ -417,7 +417,7 @@ func (a *voiceLoverAdminApi) AlbumList(r *ghttp.Request) {
 			CreateTime: l.CreateTime,
 		})
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumList{
+	response.Output(r, &pb.RespAdminVoiceLoverAlbumList{
 		Success: true,
 		Total:   reply.Total,
 		Albums:  albums,
@@ -437,7 +437,7 @@ func (a *voiceLoverAdminApi) AlbumList(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) AudioCollectList(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAudioCollectList
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumList{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumList{
 			Msg: err.Error(),
 		})
 		return
@@ -446,12 +446,12 @@ func (a *voiceLoverAdminApi) AudioCollectList(r *ghttp.Request) {
 	g.Log().Infof("VoiceLoverAdmin audio_collect_list param = %v", *req)
 	res, total, err := voice_lover.VoiceLoverService.GetAudioCollectList(ctx, req)
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAudioCollectList{
+		response.Output(r, &pb.RespAdminVoiceLoverAudioCollectList{
 			Msg: err.Error(),
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverAudioCollectList{
+	response.Output(r, &pb.RespAdminVoiceLoverAudioCollectList{
 		Success: true,
 		Total:   total,
 		Audios:  res,
@@ -471,7 +471,7 @@ func (a *voiceLoverAdminApi) AudioCollectList(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) AudioCollect(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAudioCollect
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAudioCollect{
+		response.Output(r, &pb.RespAdminVoiceLoverAudioCollect{
 			Msg: err.Error(),
 		})
 		return
@@ -484,12 +484,12 @@ func (a *voiceLoverAdminApi) AudioCollect(r *ghttp.Request) {
 		Type:    req.Type,
 	})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAudioCollect{
+		response.Output(r, &pb.RespAdminVoiceLoverAudioCollect{
 			Msg: err.Error(),
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverAudioCollect{
+	response.Output(r, &pb.RespAdminVoiceLoverAudioCollect{
 		Success: true,
 	})
 }
@@ -507,7 +507,7 @@ func (a *voiceLoverAdminApi) AudioCollect(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) SubjectCreate(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverSubjectCreate
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectCreate{
+		response.Output(r, &pb.RespAdminVoiceLoverSubjectCreate{
 			Msg: err.Error(),
 		})
 		return
@@ -518,12 +518,12 @@ func (a *voiceLoverAdminApi) SubjectCreate(r *ghttp.Request) {
 		OpUid: req.OpUid,
 	})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectCreate{
+		response.Output(r, &pb.RespAdminVoiceLoverSubjectCreate{
 			Msg: err.Error(),
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectCreate{
+	response.Output(r, &pb.RespAdminVoiceLoverSubjectCreate{
 		Success: true,
 		Id:      reply.Id,
 	})
@@ -542,7 +542,7 @@ func (a *voiceLoverAdminApi) SubjectCreate(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) SubjectUpdate(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverSubjectUpdate
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectUpdate{
+		response.Output(r, &pb.RespAdminVoiceLoverSubjectUpdate{
 			Msg: err.Error(),
 		})
 		return
@@ -554,12 +554,12 @@ func (a *voiceLoverAdminApi) SubjectUpdate(r *ghttp.Request) {
 		OpUid: req.OpUid,
 	})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectUpdate{
+		response.Output(r, &pb.RespAdminVoiceLoverSubjectUpdate{
 			Msg: err.Error(),
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectUpdate{
+	response.Output(r, &pb.RespAdminVoiceLoverSubjectUpdate{
 		Success: true,
 	})
 }
@@ -577,7 +577,7 @@ func (a *voiceLoverAdminApi) SubjectUpdate(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) SubjectDel(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverSubjectDel
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectDel{
+		response.Output(r, &pb.RespAdminVoiceLoverSubjectDel{
 			Msg: err.Error(),
 		})
 		return
@@ -588,12 +588,12 @@ func (a *voiceLoverAdminApi) SubjectDel(r *ghttp.Request) {
 		OpUid: req.OpUid,
 	})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectDel{
+		response.Output(r, &pb.RespAdminVoiceLoverSubjectDel{
 			Msg: err.Error(),
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectDel{
+	response.Output(r, &pb.RespAdminVoiceLoverSubjectDel{
 		Success: true,
 	})
 }
@@ -611,7 +611,7 @@ func (a *voiceLoverAdminApi) SubjectDel(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) SubjectList(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverSubjectList
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectList{
+		response.Output(r, &pb.RespAdminVoiceLoverSubjectList{
 			Msg: err.Error(),
 		})
 		return
@@ -625,7 +625,7 @@ func (a *voiceLoverAdminApi) SubjectList(r *ghttp.Request) {
 		EndTime:   req.EndTime,
 	})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectList{
+		response.Output(r, &pb.RespAdminVoiceLoverSubjectList{
 			Msg: err.Error(),
 		})
 		return
@@ -638,7 +638,7 @@ func (a *voiceLoverAdminApi) SubjectList(r *ghttp.Request) {
 			AlbumTotal: uint32(subject.AlbumCount),
 		})
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectList{
+	response.Output(r, &pb.RespAdminVoiceLoverSubjectList{
 		Success: true,
 		List:    list,
 		Total:   reply.Total,
@@ -658,7 +658,7 @@ func (a *voiceLoverAdminApi) SubjectList(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) AlbumCollect(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumCollect
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCollect{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumCollect{
 			Msg: err.Error(),
 		})
 		return
@@ -669,12 +669,12 @@ func (a *voiceLoverAdminApi) AlbumCollect(r *ghttp.Request) {
 		SubjectId: req.SubjectId,
 	})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCollect{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumCollect{
 			Msg: err.Error(),
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCollect{
+	response.Output(r, &pb.RespAdminVoiceLoverAlbumCollect{
 		Success: true,
 	})
 }
@@ -692,7 +692,7 @@ func (a *voiceLoverAdminApi) AlbumCollect(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) AlbumCollectList(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumCollectList
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCollectList{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumCollectList{
 			Msg: err.Error(),
 		})
 		return
@@ -703,7 +703,7 @@ func (a *voiceLoverAdminApi) AlbumCollectList(r *ghttp.Request) {
 		SubjectStr: req.SubjectStr,
 	})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCollectList{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumCollectList{
 			Msg: err.Error(),
 		})
 		return
@@ -718,7 +718,7 @@ func (a *voiceLoverAdminApi) AlbumCollectList(r *ghttp.Request) {
 			SubjectId:   a.SubjectId,
 		})
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumCollectList{
+	response.Output(r, &pb.RespAdminVoiceLoverAlbumCollectList{
 		Success: true,
 		List:    list,
 		Total:   reply.Total,
@@ -738,7 +738,7 @@ func (a *voiceLoverAdminApi) AlbumCollectList(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) SubjectDetail(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverSubjectDetail
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectDetail{
+		response.Output(r, &pb.RespAdminVoiceLoverSubjectDetail{
 			Msg: err.Error(),
 		})
 		return
@@ -748,19 +748,19 @@ func (a *voiceLoverAdminApi) SubjectDetail(r *ghttp.Request) {
 		Ids: []uint64{req.Id},
 	})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectDetail{
+		response.Output(r, &pb.RespAdminVoiceLoverSubjectDetail{
 			Msg: err.Error(),
 		})
 		return
 	}
 	if reply.Subjects[req.Id] == nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectDetail{
+		response.Output(r, &pb.RespAdminVoiceLoverSubjectDetail{
 			Success: true,
 		})
 		return
 	}
 
-	OutputCustomData(r, &pb.RespAdminVoiceLoverSubjectDetail{
+	response.Output(r, &pb.RespAdminVoiceLoverSubjectDetail{
 		Success: true,
 		Subject: &pb.SubjectData{
 			Id:         reply.Subjects[req.Id].GetId(),
@@ -783,7 +783,7 @@ func (a *voiceLoverAdminApi) SubjectDetail(r *ghttp.Request) {
 func (a *voiceLoverAdminApi) AlbumChoice(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverAlbumChoice
 	if err := r.Parse(&req); err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumChoice{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumChoice{
 			Msg: err.Error(),
 		})
 		return
@@ -794,12 +794,12 @@ func (a *voiceLoverAdminApi) AlbumChoice(r *ghttp.Request) {
 		Type: req.Choice,
 	})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumChoice{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumChoice{
 			Msg: err.Error(),
 		})
 		return
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumChoice{
+	response.Output(r, &pb.RespAdminVoiceLoverAlbumChoice{
 		Success: true,
 	})
 }
@@ -817,7 +817,7 @@ func (a *voiceLoverAdminApi) AlbumChoiceList(r *ghttp.Request) {
 	ctx := r.Context()
 	reply, err := voice_lover2.VoiceLoverAdmin.GetAlbumChoice(ctx, &voice_lover3.ReqGetAlbumChoice{})
 	if err != nil {
-		OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumChoiceList{
+		response.Output(r, &pb.RespAdminVoiceLoverAlbumChoiceList{
 			Msg: err.Error(),
 		})
 		return
@@ -833,7 +833,7 @@ func (a *voiceLoverAdminApi) AlbumChoiceList(r *ghttp.Request) {
 		})
 		level = level + 1
 	}
-	OutputCustomData(r, &pb.RespAdminVoiceLoverAlbumChoiceList{
+	response.Output(r, &pb.RespAdminVoiceLoverAlbumChoiceList{
 		Success: true,
 		Albums:  res,
 	})
