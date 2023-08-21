@@ -4,6 +4,7 @@ import (
 	"context"
 
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
+	userpb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
 
 	"github.com/olaola-chat/rbp-functor/rpc/voice_lover/internal/logic"
 )
@@ -97,4 +98,8 @@ func (v *VoiceLoverMain) PlayStatReport(ctx context.Context, req *vl_pb.ReqPlayS
 
 func (v *VoiceLoverMain) IsUserCollectAudio(ctx context.Context, req *vl_pb.ReqCollect, reply *vl_pb.ResIsUserCollectAudio) error {
 	return logic.MainLogic.IsUserCollectAudio(ctx, req, reply)
+}
+
+func (v *VoiceLoverMain) CheckFollow(ctx context.Context, req *userpb.ReqCheckFollow, reply *userpb.RepCheckFollow) error {
+	return logic.MainLogic.CheckFollow(ctx, req, reply)
 }
