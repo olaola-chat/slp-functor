@@ -64,8 +64,9 @@ type ReqVoiceLoverPost struct {
 }
 
 type ReqAudioCommentList struct {
-	AId   uint64 `v:"a_id@required"` // 音频id
-	Paginator Paginator
+	Id   uint64 `v:"id@required"` // 音频id
+	Page  uint32 `v:"page@integer|min:1"`          // 第几页, 范围[1,10]
+	Limit uint32 `v:"limit@integer|min:10|max:50"` // 每页多少, 范围[10,50]
 }
 
 type ReqAlbumCommentList struct {
