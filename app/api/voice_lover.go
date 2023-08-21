@@ -235,7 +235,7 @@ func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 		})
 		return
 	}
-	ret := vl_serv.VoiceLoverService.GetAudioCommentList(r.GetCtx(), req.Id, 1, 10)
+	ret := vl_serv.VoiceLoverService.GetAudioCommentList(r.GetCtx(), req.Id, req.Page, req.Limit)
 	response.Output(r, ret)
 }
 
