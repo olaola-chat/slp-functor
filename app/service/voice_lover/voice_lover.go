@@ -9,7 +9,6 @@ import (
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
 
-	xsDao "github.com/olaola-chat/rbp-proto/dao/xianshi"
 	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/room"
 	user_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
@@ -414,9 +413,12 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 	}
 
 	//是否关注了
-	follow, err := xsDao.XsUserFriend.Ctx(ctx).One("uid=? and to=?", uid, detail.Audio.Uid)
+	follow, err := user_rpc.UserProfile.CheckFollow(ctx, &user_pb.ReqCheckFollow{
+		Uid: uid,
+		ToUid: detail.Audio.Uid,
+	})
 	if err == nil && follow != nil {
-		res.Data.IsFollow = true
+		res.Data.IsFollow = follow.IsFollow
 	}
 
 	//是否在房间
