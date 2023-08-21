@@ -260,7 +260,7 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 				Resource:  v.Resource,
 				Covers:    v.Covers,
 				Seconds:   v.Seconds,
-				PlayStats: "",
+				PlayStats: v.PlayCountDesc,
 			})
 		}
 	}()

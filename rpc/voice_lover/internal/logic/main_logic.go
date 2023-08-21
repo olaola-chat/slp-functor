@@ -555,6 +555,11 @@ func (m *mainLogic) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGet
 		}
 		if playCount, ok := audioPlayCountMap[audioId]; ok {
 			audioDetailMap[audioId].PlayCount = playCount
+			if playCount < 10000 {
+				audioDetailMap[audioId].PlayCountDesc = fmt.Sprintf("%d", playCount)
+			} else {
+				audioDetailMap[audioId].PlayCountDesc = fmt.Sprintf("%.1fw", float64(playCount)/10000.0)
+			}
 		}
 		reply.Audios = append(reply.Audios, audioDetailMap[audioId])
 	}
