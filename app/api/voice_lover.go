@@ -273,6 +273,7 @@ func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 	}
 	region, err := tool.IP.GetAddr(r.RemoteAddr)
 	if err == nil && region.Province != "" {
+		g.Log().Infof("CommentAudio: %v", region)
 		postData.Address = region.Province
 	}
 	ret := vl_serv.VoiceLoverService.SubmitAudioComment(ctx, postData)
