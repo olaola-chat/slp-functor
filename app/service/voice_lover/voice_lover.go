@@ -242,7 +242,12 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 			g.Log().Errorf("voiceLoverService GetAlbumDetail GetAlbumCommentCount error=%v", rErr)
 			return
 		}
-		res.Data.CommentCount = albumCommentCountRes.GetTotal()
+		commentCount := albumCommentCountRes.GetTotal()
+		if commentCount < 10000 {
+			res.Data.CommentCountDesc = fmt.Sprintf("%d", commentCount)
+		} else {
+			res.Data.CommentCountDesc = fmt.Sprintf("%.1fw", float64(commentCount)/10000.0)
+		}
 	}()
 	// 获取音频列表
 	go func() {
