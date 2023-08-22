@@ -5,6 +5,7 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/olaola-chat/rbp-library/response"
 	context2 "github.com/olaola-chat/rbp-library/server/http/context"
+	"github.com/olaola-chat/rbp-library/tool"
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
@@ -181,11 +182,16 @@ func (a *voiceLoverAPI) CommentAlbum(r *ghttp.Request) {
 
 	ctx := r.GetCtx()
 	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
-	ret := vl_serv.VoiceLoverService.SubmitAlbumComment(ctx, &vl_pb.ReqAlbumSubmitComment{
+	postData := &vl_pb.ReqAlbumSubmitComment{
 		AlbumId: req.AlbumId,
 		Content: req.Comment,
 		Uid:     ctxUser.UID,
-	})
+	}
+	region, err := tool.IP.GetAddr(r.RemoteAddr)
+	if err == nil && region.Province != "" {
+		postData.Address = region.Province
+	}
+	ret := vl_serv.VoiceLoverService.SubmitAlbumComment(ctx, postData)
 	response.Output(r, ret)
 }
 
@@ -259,12 +265,17 @@ func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 	}
 	ctx := r.GetCtx()
 	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
-	ret := vl_serv.VoiceLoverService.SubmitAudioComment(ctx, &vl_pb.ReqAudioSubmitComment{
+	postData := &vl_pb.ReqAudioSubmitComment{
 		AudioId: req.AudioId,
 		Content: req.Comment,
 		Uid:     ctxUser.UID,
 		Type:    req.Type,
-	})
+	}
+	region, err := tool.IP.GetAddr(r.RemoteAddr)
+	if err == nil && region.Province != "" {
+		postData.Address = region.Province
+	}
+	ret := vl_serv.VoiceLoverService.SubmitAudioComment(ctx, postData)
 
 	response.Output(r, ret)
 }

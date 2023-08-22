@@ -1651,8 +1651,16 @@
         "pb.CommentData": {
             "type": "object",
             "properties": {
+                "address": {
+                    "description": "地址",
+                    "type": "string"
+                },
                 "comment": {
                     "description": "评论内容",
+                    "type": "string"
+                },
+                "date": {
+                    "description": "日期",
                     "type": "string"
                 },
                 "id": {
