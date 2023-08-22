@@ -44,7 +44,7 @@ message RespRecUserList {
 message AlbumDetail {
   AlbumData album = 1;              // 专辑信息
   bool is_collected = 2;            // 是否收藏
-  uint32 comment_count = 3;         // 评论数量
+  string comment_count_desc = 3;    // 评论数量
   repeated AudioData audios = 4;    // 音频列表
 }
 message RespAlbumDetail {
@@ -73,7 +73,7 @@ message AudioDetail {
   bool isFollow = 2;                // 是否已关注
   uint32 room_id = 3;               // 房间id 为0则表示不在房间内
   bool is_collected = 4;            // 是否收藏
-  uint32 comment_count = 5;         // 评论数量
+  string comment_count_desc = 5;    // 评论数量
   repeated AlbumData audios = 6;    // 音频列表
 }
 message RespAudioDetail {

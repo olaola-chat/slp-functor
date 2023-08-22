@@ -1593,9 +1593,9 @@
                         "$ref": "#/definitions/pb.AudioData"
                     }
                 },
-                "comment_count": {
+                "comment_count_desc": {
                     "description": "评论数量",
-                    "type": "integer"
+                    "type": "string"
                 },
                 "is_collected": {
                     "description": "是否收藏",
@@ -1689,9 +1689,9 @@
                         "$ref": "#/definitions/pb.AlbumData"
                     }
                 },
-                "comment_count": {
+                "comment_count_desc": {
                     "description": "评论数量",
-                    "type": "integer"
+                    "type": "string"
                 },
                 "isFollow": {
                     "description": "是否已关注",
