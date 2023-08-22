@@ -495,6 +495,67 @@ func (m *mainLogic) Collect(ctx context.Context, req *vl_pb.ReqCollect, reply *v
 	return nil
 }
 
+func (m *mainLogic) GetAlbumCollectList(ctx context.Context, req *vl_pb.ReqGetAlbumCollectList, reply *vl_pb.ResGetAlbumCollectList) error {
+	reply.List = make([]*vl_pb.AlbumData, 0)
+	list, err := dao.VoiceLoverUserCollectDao.GetListByUidAndType(ctx, req.Uid, dao.CollectTypeAlbum, int(req.Page), int(req.Limit)+1)
+	if err != nil {
+		return err
+	}
+	if len(list) > int(req.Limit) {
+		list = list[:req.Limit]
+		reply.HasMore = true
+	}
+	albumIds := make([]uint64, 0)
+	for _, v := range list {
+		albumIds = append(albumIds, v.CollectId)
+	}
+	albumList, err := dao.VoiceLoverAlbumDao.GetValidAlbumListByIds(ctx, albumIds)
+	if err != nil {
+		return err
+	}
+	for _, v := range albumList {
+		reply.List = append(reply.List, &vl_pb.AlbumData{
+			Id:         v.Id,
+			Name:       v.Name,
+			Intro:      v.Intro,
+			Cover:      v.Cover,
+			CreateTime: v.CreateTime,
+		})
+	}
+	m.BuildRecAlbumsExtendInfo(ctx, reply.List)
+	return nil
+}
+
+func (m *mainLogic) GetAudioCollectList(ctx context.Context, req *vl_pb.ReqGetAudioCollectList, reply *vl_pb.ResGetAudioCollectList) error {
+	reply.List = make([]*vl_pb.AudioSimpleData, 0)
+	list, err := dao.VoiceLoverUserCollectDao.GetListByUidAndType(ctx, req.Uid, dao.CollectTypeAudio, int(req.Page), int(req.Limit)+1)
+	if err != nil {
+		return err
+	}
+	if len(list) > int(req.Limit) {
+		list = list[:req.Limit]
+		reply.HasMore = true
+	}
+	audioIds := make([]uint64, 0)
+	for _, v := range list {
+		audioIds = append(audioIds, v.CollectId)
+	}
+	audioList, err := dao.VoiceLoverAudioDao.GetValidAudioListByIds(ctx, audioIds)
+	if err != nil {
+		return err
+	}
+	for _, v := range audioList {
+		reply.List = append(reply.List, &vl_pb.AudioSimpleData{
+			Id:       v.Id,
+			Title:    v.Title,
+			Resource: v.Resource,
+			Covers:   []string{},
+			Uid:      uint32(v.PubUid),
+		})
+	}
+	return nil
+}
+
 func (m *mainLogic) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGetAudioListByAlbumId, reply *vl_pb.ResGetAudioListByAlbumId) error {
 	reply.Audios = make([]*vl_pb.AudioSimpleData, 0)
 	list, err := dao.VoiceLoverAudioAlbumDao.GetListByAlbumId(ctx, req.AlbumId)

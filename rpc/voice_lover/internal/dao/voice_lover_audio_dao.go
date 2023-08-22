@@ -46,6 +46,17 @@ func (v *voiceLoverAudioDao) GetAudioDetailsByAudioIds(ctx context.Context, ids 
 	return list, nil
 }
 
+func (v *voiceLoverAudioDao) GetValidAudioListByIds(ctx context.Context, ids []uint64) ([]*functor.EntityVoiceLoverAudio, error) {
+	list, err := functor2.VoiceLoverAudio.Ctx(ctx).
+		Where(fmt.Sprintf("%s IN (?)", functor2.VoiceLoverAudio.Columns.ID), ids).
+		Where(functor2.VoiceLoverAudio.Columns.AuditStatus, AuditPass).
+		Order(functor2.VoiceLoverAudio.Columns.CreateTime, "desc").FindAll()
+	if err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
 func (v *voiceLoverAudioDao) UpdateAudioById(ctx context.Context, id uint64, data g.Map) (int64, error) {
 	sqlRes, err := functor2.VoiceLoverAudio.Ctx(ctx).Where(functor2.VoiceLoverAudio.Columns.ID, id).Update(data)
 	if err != nil {

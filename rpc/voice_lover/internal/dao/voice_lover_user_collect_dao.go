@@ -46,6 +46,22 @@ func (v *voiceLoverUserCollectDao) Delete(ctx context.Context, uid uint32, colle
 	return nil
 }
 
+func (v *voiceLoverUserCollectDao) GetListByUidAndType(ctx context.Context, uid uint32, collectType int, page int, limit int) ([]*functor.EntityVoiceLoverUserCollect, error) {
+	if page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * limit
+	list, err := functor2.VoiceLoverUserCollect.Ctx(ctx).
+		Where(functor2.VoiceLoverUserCollect.Columns.UID, uid).
+		Where(functor2.VoiceLoverUserCollect.Columns.CollectType, collectType).
+		Offset(offset).
+		Limit(limit).FindAll()
+	if err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
 func (v *voiceLoverUserCollectDao) GetInfoByUidAndTypeAndId(ctx context.Context, uid uint32, id uint64, collectType int) (*functor.EntityVoiceLoverUserCollect, error) {
 	data, err := functor2.VoiceLoverUserCollect.Ctx(ctx).
 		Where(functor2.VoiceLoverUserCollect.Columns.UID, uid).
