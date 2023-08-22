@@ -190,6 +190,7 @@ func (a *voiceLoverAPI) CommentAlbum(r *ghttp.Request) {
 		Uid:     ctxUser.UID,
 	}
 	region, err := tool.IP.GetAddr(r.RemoteAddr)
+	g.Log().Debugf("test IP: r.RemoteAddr=%s  region=%+v", r.RemoteAddr, region)
 	if err == nil && region.Province != "" {
 		postData.Address = region.Province
 	}
