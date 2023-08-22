@@ -155,6 +155,7 @@ func (s *voiceLoverService) BuildAudioSearchQuery(ctx context.Context, req *quer
 		PageNum:     int32(req.Page),
 		PageSize:    int32(req.Limit),
 		Order:       map[string]string{},
+		HasAlbum:    -1,
 	}
 	_ = json.Unmarshal([]byte(req.Order), &q.Order)
 	g.Log().Infof("BuildAudioSearchQuery query = %v", *q)
