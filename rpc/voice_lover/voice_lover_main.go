@@ -64,6 +64,14 @@ func (v *VoiceLoverMain) Collect(ctx context.Context, req *vl_pb.ReqCollect, rep
 	return logic.MainLogic.Collect(ctx, req, reply)
 }
 
+func (v *VoiceLoverMain) GetAlbumCollectList(ctx context.Context, req *vl_pb.ReqGetAlbumCollectList, reply *vl_pb.ResGetAlbumCollectList) error {
+	return logic.MainLogic.GetAlbumCollectList(ctx, req, reply)
+}
+
+func (v *VoiceLoverMain) GetAudioCollectList(ctx context.Context, req *vl_pb.ReqGetAudioCollectList, reply *vl_pb.ResGetAudioCollectList) error {
+	return logic.MainLogic.GetAudioCollectList(ctx, req, reply)
+}
+
 func (v *VoiceLoverMain) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGetAudioListByAlbumId, reply *vl_pb.ResGetAudioListByAlbumId) error {
 	return logic.MainLogic.GetAudioListByAlbumId(ctx, req, reply)
 }

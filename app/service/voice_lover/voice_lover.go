@@ -8,6 +8,7 @@ import (
 
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
+	"github.com/olaola-chat/rbp-proto/gen_pb/db/xianshi"
 
 	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/room"
 	user_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
@@ -491,4 +492,78 @@ func (serv *voiceLoverService) SubmitAlbumComment(ctx context.Context, req *vl_p
 	ret.Success = true
 
 	return ret
+}
+
+func (serv *voiceLoverService) GetCollectAlbumList(ctx context.Context, uid uint32, req *query.ReqCollectAlbumList) (*pb.RespCollectAlbumList, error) {
+	res := &pb.RespCollectAlbumList{
+		Success: true,
+		Msg:     "",
+		Data: &pb.CollectAlbumList{
+			List:    make([]*pb.AlbumData, 0),
+			HasMore: false,
+		},
+	}
+	albumListRes, err := vl_rpc.VoiceLoverMain.GetAlbumCollectList(ctx, &vl_pb.ReqGetAlbumCollectList{Uid: uid, Limit: req.Limit, Page: req.Page})
+	if err != nil {
+		g.Log().Errorf("voiceLoverService GetCollectAlbumList GetAlbumCollectList error=%v", err)
+		return res, err
+	}
+	res.Data.HasMore = albumListRes.GetHasMore()
+	for _, v := range albumListRes.GetList() {
+		res.Data.List = append(res.Data.List, &pb.AlbumData{
+			Id:         v.Id,
+			Title:      v.Name,
+			Cover:      v.Cover,
+			AudioTotal: v.AudioCount,
+			PlayStats:  v.PlayCountDesc,
+		})
+	}
+	return res, nil
+}
+
+func (serv *voiceLoverService) GetCollectAudioList(ctx context.Context, uid uint32, req *query.ReqCollectAudioList) (*pb.RespCollectAudioList, error) {
+	res := &pb.RespCollectAudioList{
+		Success: true,
+		Msg:     "",
+		Data: &pb.CollectAudioList{
+			List:    make([]*pb.AudioData, 0),
+			HasMore: false,
+		},
+	}
+	audioListRes, err := vl_rpc.VoiceLoverMain.GetAudioCollectList(ctx, &vl_pb.ReqGetAudioCollectList{Uid: uid, Limit: req.Limit, Page: req.Page})
+	if err != nil {
+		g.Log().Errorf("voiceLoverService GetCollectAudioList GetAudioCollectList error=%v", err)
+		return res, err
+	}
+	res.Data.HasMore = audioListRes.GetHasMore()
+	uids := make([]uint32, 0)
+	for _, v := range audioListRes.GetList() {
+		uids = append(uids, v.Uid)
+		res.Data.List = append(res.Data.List, &pb.AudioData{
+			Id:       v.Id,
+			Title:    v.Title,
+			Resource: v.Resource,
+			Covers:   v.Covers,
+			UserInfo: &pb.UserData{
+				Uid: v.Uid,
+			},
+		})
+	}
+	userInfosRes, err := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: uids, Fields: []string{"name", "uid", "icon"}})
+	if err != nil {
+		g.Log().Errorf("voiceLoverService GetMainData Mget UserInfo error=%v", err)
+		return res, nil
+	}
+	userMap := make(map[uint32]*xianshi.EntityXsUserProfile, 0)
+	for _, v := range userInfosRes.GetData() {
+		userMap[v.Uid] = v
+	}
+	for _, v := range res.Data.List {
+		if _, ok := userMap[v.UserInfo.Uid]; !ok {
+			continue
+		}
+		v.UserInfo.Name = userMap[v.UserInfo.Uid].Name
+		v.UserInfo.Avatar = userMap[v.UserInfo.Uid].Icon
+	}
+	return res, nil
 }

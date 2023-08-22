@@ -337,16 +337,23 @@ func (a *voiceLoverAPI) CollectAlbumList(r *ghttp.Request) {
 		})
 		return
 	}
-	//ctx := r.GetCtx()
-	//ctxUser := context2.ContextSrv.GetUserCtx(ctx)
-
-	response.Output(r, &pb.RespCollectAlbumList{Success: true, Msg: ""})
+	ctx := r.GetCtx()
+	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	data, err := vl_serv.VoiceLoverService.GetCollectAlbumList(ctx, ctxUser.UID, req)
+	if err != nil {
+		response.Output(r, &pb.RespCollectAlbumList{
+			Success: false,
+			Msg:     consts.ERROR_SYSTEM.Msg(),
+		})
+		return
+	}
+	response.Output(r, data)
 }
 
 // CollectAudioList
 // @Tags VoiceLover
-// @Summary 专辑收藏列表接口
-// @Description 专辑收藏列表接口
+// @Summary 音频收藏列表接口
+// @Description 音频收藏列表接口
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
@@ -362,10 +369,17 @@ func (a *voiceLoverAPI) CollectAudioList(r *ghttp.Request) {
 		})
 		return
 	}
-	//ctx := r.GetCtx()
-	//ctxUser := context2.ContextSrv.GetUserCtx(ctx)
-
-	response.Output(r, &pb.RespCollectAudioList{Success: true, Msg: ""})
+	ctx := r.GetCtx()
+	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	data, err := vl_serv.VoiceLoverService.GetCollectAudioList(ctx, ctxUser.UID, req)
+	if err != nil {
+		response.Output(r, &pb.RespCollectAudioList{
+			Success: false,
+			Msg:     consts.ERROR_SYSTEM.Msg(),
+		})
+		return
+	}
+	response.Output(r, data)
 }
 
 // Post
