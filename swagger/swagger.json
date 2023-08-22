@@ -1010,6 +1010,82 @@
                 }
             }
         },
+        "/go/func/voice_lover/collectAlbumList": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "专辑收藏列表接口",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "专辑收藏列表接口",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqCollectAlbumList"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespCollectAlbumList"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/voice_lover/collectAudioList": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "专辑收藏列表接口",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "专辑收藏列表接口",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqCollectAudioList"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespCollectAudioList"
+                        }
+                    }
+                }
+            }
+        },
         "/go/func/voice_lover/commentAlbum": {
             "post": {
                 "security": [
@@ -1648,6 +1724,34 @@
                 }
             }
         },
+        "pb.CollectAlbumList": {
+            "type": "object",
+            "properties": {
+                "has_more": {
+                    "type": "boolean"
+                },
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AlbumData"
+                    }
+                }
+            }
+        },
+        "pb.CollectAudioList": {
+            "type": "object",
+            "properties": {
+                "has_more": {
+                    "type": "boolean"
+                },
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AudioData"
+                    }
+                }
+            }
+        },
         "pb.CommentData": {
             "type": "object",
             "properties": {
@@ -2052,6 +2156,34 @@
             "properties": {
                 "data": {
                     "$ref": "#/definitions/pb.AudioDetail"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespCollectAlbumList": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/pb.CollectAlbumList"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespCollectAudioList": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/pb.CollectAudioList"
                 },
                 "msg": {
                     "type": "string"
@@ -2601,6 +2733,32 @@
             "properties": {
                 "audioId": {
                     "description": "音频id",
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqCollectAlbumList": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "description": "每页多少, 范围[10,50]",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "第几页, 范围[1,10]",
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqCollectAudioList": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "description": "每页多少, 范围[10,50]",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "第几页, 范围[1,10]",
                     "type": "integer"
                 }
             }

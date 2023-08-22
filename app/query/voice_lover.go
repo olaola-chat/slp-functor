@@ -49,6 +49,14 @@ type ReqCollectVoiceLover struct {
 	From uint32 `v:"from@required"` // 0-收藏 1-取消收藏
 }
 
+type ReqCollectAlbumList struct {
+	Paginator
+}
+
+type ReqCollectAudioList struct {
+	Paginator
+}
+
 type ReqVoiceLoverPost struct {
 	Resource    string `v:"resource@required"` // 音频资源
 	Seconds     uint32 `v:"seconds@required"`  // 音频时长 单位秒

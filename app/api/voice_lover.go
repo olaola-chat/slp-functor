@@ -318,6 +318,56 @@ func (a *voiceLoverAPI) Collect(r *ghttp.Request) {
 	response.Output(r, &pb.RespCollectVoiceLover{Success: true, Msg: ""})
 }
 
+// CollectAlbumList
+// @Tags VoiceLover
+// @Summary 专辑收藏列表接口
+// @Description 专辑收藏列表接口
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Param request body query.ReqCollectAlbumList false "request"
+// @Success 200 {object} pb.RespCollectAlbumList
+// @Router /go/func/voice_lover/collectAlbumList [get]
+func (a *voiceLoverAPI) CollectAlbumList(r *ghttp.Request) {
+	var req *query.ReqCollectAlbumList
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespCollectAlbumList{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	//ctx := r.GetCtx()
+	//ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+
+	response.Output(r, &pb.RespCollectAlbumList{Success: true, Msg: ""})
+}
+
+// CollectAudioList
+// @Tags VoiceLover
+// @Summary 专辑收藏列表接口
+// @Description 专辑收藏列表接口
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Param request body query.ReqCollectAudioList false "request"
+// @Success 200 {object} pb.RespCollectAudioList
+// @Router /go/func/voice_lover/collectAudioList [get]
+func (a *voiceLoverAPI) CollectAudioList(r *ghttp.Request) {
+	var req *query.ReqCollectAudioList
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespCollectAudioList{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	//ctx := r.GetCtx()
+	//ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+
+	response.Output(r, &pb.RespCollectAudioList{Success: true, Msg: ""})
+}
+
 // Post
 // @Tags VoiceLover
 // @Summary 声恋投稿
