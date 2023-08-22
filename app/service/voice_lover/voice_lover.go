@@ -466,6 +466,7 @@ func (serv *voiceLoverService) SubmitAudioComment(ctx context.Context, req *vl_p
 		ret.Msg = "提交失败"
 		return ret
 	}
+	ret.Success = true
 
 	return ret
 }
@@ -485,6 +486,7 @@ func (serv *voiceLoverService) SubmitAlbumComment(ctx context.Context, req *vl_p
 		ret.Msg = "提交失败"
 		return ret
 	}
+	ret.Success = true
 
 	return ret
 }
