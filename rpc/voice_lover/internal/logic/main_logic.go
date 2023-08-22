@@ -555,6 +555,11 @@ func (m *mainLogic) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGet
 		}
 		if playCount, ok := audioPlayCountMap[audioId]; ok {
 			audioDetailMap[audioId].PlayCount = playCount
+			if playCount < 10000 {
+				audioDetailMap[audioId].PlayCountDesc = fmt.Sprintf("%d", playCount)
+			} else {
+				audioDetailMap[audioId].PlayCountDesc = fmt.Sprintf("%.1fw", float64(playCount)/10000.0)
+			}
 		}
 		reply.Audios = append(reply.Audios, audioDetailMap[audioId])
 	}
@@ -587,7 +592,7 @@ func (m *mainLogic) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAu
 		Fields: []string{"uid", "icon", "name"},
 	}
 	for _, v := range commentList {
-		reqUids.Uids = append(reqUids.Uids,uint32(v.Uid))
+		reqUids.Uids = append(reqUids.Uids, uint32(v.Uid))
 	}
 
 	userList, err := user.UserProfile.Mget(ctx, reqUids)
@@ -601,7 +606,7 @@ func (m *mainLogic) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAu
 			Id:         v.Id,
 			Content:    v.Content,
 			CreateTime: v.CreateTime,
-			Address: v.Address,
+			Address:    v.Address,
 		}
 		if profile, ok := userMap[uint32(v.Uid)]; ok {
 			tmp.UserInfo = &vl_pb.CommentUser{
@@ -654,7 +659,7 @@ func (m *mainLogic) GetAlbumCommentList(ctx context.Context, req *vl_pb.ReqGetAl
 			Id:         v.Id,
 			Content:    v.Content,
 			CreateTime: v.CreateTime,
-			Address: v.Address,
+			Address:    v.Address,
 		}
 		if profile, ok := userMap[uint32(v.Uid)]; ok {
 			tmp.UserInfo = &vl_pb.CommentUser{
@@ -675,13 +680,12 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 	}
 	//音频基础信息
 	reply.Audio = &vl_pb.AudioData{
-			Title: row.Title,
-			Desc: row.Desc,
-			Covers: []string{row.Cover},
-			Resource: row.Resource,
-			Uid: uint32(row.PubUid),
+		Title:    row.Title,
+		Desc:     row.Desc,
+		Covers:   []string{row.Cover},
+		Resource: row.Resource,
+		Uid:      uint32(row.PubUid),
 	}
-
 
 	//专辑基础信息
 	albumIds, err := dao.VoiceLoverAudioAlbumDao.GetAlbumIdsByAudioId(ctx, req.Id)

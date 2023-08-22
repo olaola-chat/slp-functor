@@ -1651,8 +1651,16 @@
         "pb.CommentData": {
             "type": "object",
             "properties": {
+                "address": {
+                    "description": "地址",
+                    "type": "string"
+                },
                 "comment": {
                     "description": "评论内容",
+                    "type": "string"
+                },
+                "date": {
+                    "description": "日期",
                     "type": "string"
                 },
                 "id": {
@@ -2211,19 +2219,6 @@
                 }
             }
         },
-        "query.Paginator": {
-            "type": "object",
-            "properties": {
-                "limit": {
-                    "description": "每页多少, 范围[10,50]",
-                    "type": "integer"
-                },
-                "page": {
-                    "description": "第几页, 范围[1,10]",
-                    "type": "integer"
-                }
-            }
-        },
         "query.ReqAdminVoiceLoverAlbumChoice": {
             "type": "object",
             "properties": {
@@ -2591,8 +2586,13 @@
                     "description": "音频id",
                     "type": "integer"
                 },
-                "paginator": {
-                    "$ref": "#/definitions/query.Paginator"
+                "limit": {
+                    "description": "每页多少, 范围[10,50]",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "第几页, 范围[1,10]",
+                    "type": "integer"
                 }
             }
         },
