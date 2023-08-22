@@ -569,6 +569,7 @@ func (m *mainLogic) SubmitAudioComment(ctx context.Context, req *vl_pb.ReqAudioS
 		"update_time": time.Now().Unix(),
 		"uid":         req.Uid,
 		"type":        req.Type,
+		"address":     req.Address,
 	}
 	success, err := dao.VoiceLoverAudioCommentDao.Insert(ctx, data)
 	if err == nil && success {
@@ -621,6 +622,7 @@ func (m *mainLogic) SubmitAlbumComment(ctx context.Context, req *vl_pb.ReqAlbumS
 		"create_time": time.Now().Unix(),
 		"update_time": time.Now().Unix(),
 		"uid":         req.Uid,
+		"address":     req.Address,
 	}
 	_, err := dao.VoiceLoverAlbumCommentDao.Insert(ctx, data)
 	if err == nil {
