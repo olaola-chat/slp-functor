@@ -52,6 +52,7 @@ CREATE TABLE `voice_lover_audio_comment`
     `status`      tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '审核状态：0-默认状态 1-举报封禁',
     `create_time` bigint(20) unsigned NOT NULL COMMENT '创建时间',
     `update_time` bigint(20) unsigned NOT NULL COMMENT '更新时间',
+    `address`     varchar(64) NOT NULL DEFAULT '' COMMENT '位置',
     PRIMARY KEY (`id`, `create_time`),
     KEY           `idx_adid` (`audio_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='声音恋人音频评论表' PARTITION BY RANGE (`create_time`) (
@@ -86,6 +87,7 @@ CREATE TABLE `voice_lover_album_comment`
     `status`      tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '审核状态：0-默认状态 1-举报封禁',
     `create_time` bigint(20) unsigned NOT NULL COMMENT '创建时间',
     `update_time` bigint(20) unsigned NOT NULL COMMENT '更新时间',
+    `address`     varchar(64) NOT NULL DEFAULT '' COMMENT '位置',
     PRIMARY KEY (`id`, `create_time`),
     KEY           `idx_abid` (`album_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='声音恋人专辑评论表' PARTITION BY RANGE (`create_time`) (
