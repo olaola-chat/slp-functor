@@ -302,6 +302,8 @@ func (serv *voiceLoverService) GetAudioCommentList(ctx context.Context, audioId 
 		tmp := &pb.CommentData{
 			Id:      v.Id,
 			Comment: v.Content,
+			Address: v.Address,
+			Date: time.Unix(int64(v.CreateTime), 0).Local().Format("2006-01-02"),
 		}
 
 		if v.UserInfo != nil {
@@ -351,6 +353,8 @@ func (serv *voiceLoverService) GetAlbumCommentList(ctx context.Context, albumId 
 		tmp := &pb.CommentData{
 			Id:      v.Id,
 			Comment: v.Content,
+			Address: v.Address,
+			Date: time.Unix(int64(v.CreateTime), 0).Local().Format("2006-01-02"),
 		}
 		if v.UserInfo != nil {
 			tmp.UserInfo = &pb.UserData{

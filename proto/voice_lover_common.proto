@@ -37,4 +37,6 @@ message CommentData {
   uint64 id = 1;              // 评论唯一标识
   UserData user_info = 2;     // 评论人信息
   string comment = 3;         // 评论内容
+  string address = 4;         // 地址
+  string date = 5;            // 日期
 }

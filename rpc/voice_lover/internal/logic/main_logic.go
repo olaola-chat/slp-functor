@@ -586,7 +586,7 @@ func (m *mainLogic) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAu
 		Fields: []string{"uid", "icon", "name"},
 	}
 	for _, v := range commentList {
-		reqUids.Uids = append(reqUids.Uids, v.Uid)
+		reqUids.Uids = append(reqUids.Uids,uint32(v.Uid))
 	}
 
 	userList, err := user.UserProfile.Mget(ctx, reqUids)
@@ -600,8 +600,9 @@ func (m *mainLogic) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAu
 			Id:         v.Id,
 			Content:    v.Content,
 			CreateTime: v.CreateTime,
+			Address: v.Address,
 		}
-		if profile, ok := userMap[v.Uid]; ok {
+		if profile, ok := userMap[uint32(v.Uid)]; ok {
 			tmp.UserInfo = &vl_pb.CommentUser{
 				Name:  profile.Name,
 				Avtar: profile.Icon,
@@ -651,6 +652,7 @@ func (m *mainLogic) GetAlbumCommentList(ctx context.Context, req *vl_pb.ReqGetAl
 			Id:         v.Id,
 			Content:    v.Content,
 			CreateTime: v.CreateTime,
+			Address: v.Address,
 		}
 		if profile, ok := userMap[uint32(v.Uid)]; ok {
 			tmp.UserInfo = &vl_pb.CommentUser{
