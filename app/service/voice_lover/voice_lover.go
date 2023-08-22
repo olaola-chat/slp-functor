@@ -490,3 +490,27 @@ func (serv *voiceLoverService) SubmitAlbumComment(ctx context.Context, req *vl_p
 
 	return ret
 }
+
+func (serv *voiceLoverService) GetCollectAlbumList(ctx context.Context, uid uint32, req *query.ReqCollectAlbumList) (*pb.RespCollectAlbumList, error) {
+	res := &pb.RespCollectAlbumList{
+		Success: true,
+		Msg:     "",
+		Data: &pb.CollectAlbumList{
+			List:    make([]*pb.AlbumData, 0),
+			HasMore: false,
+		},
+	}
+	return res, nil
+}
+
+func (serv *voiceLoverService) GetCollectAudioList(ctx context.Context, uid uint32, req *query.ReqCollectAudioList) (*pb.RespCollectAudioList, error) {
+	res := &pb.RespCollectAudioList{
+		Success: true,
+		Msg:     "",
+		Data: &pb.CollectAudioList{
+			List:    make([]*pb.AudioData, 0),
+			HasMore: false,
+		},
+	}
+	return res, nil
+}

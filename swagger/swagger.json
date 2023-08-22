@@ -1055,7 +1055,7 @@
                         "ApiKeyAuth,OAuth2Implicit": []
                     }
                 ],
-                "description": "专辑收藏列表接口",
+                "description": "音频收藏列表接口",
                 "consumes": [
                     "application/json"
                 ],
@@ -1065,7 +1065,7 @@
                 "tags": [
                     "VoiceLover"
                 ],
-                "summary": "专辑收藏列表接口",
+                "summary": "音频收藏列表接口",
                 "parameters": [
                     {
                         "description": "request",
