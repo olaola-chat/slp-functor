@@ -103,6 +103,26 @@ message RespCollectVoiceLover {
   string msg = 2;
 }
 
+message CollectAlbumList {
+  repeated AlbumData list = 1;
+  bool has_more = 2;
+}
+message RespCollectAlbumList {
+  bool success = 1;
+  string msg = 2;
+  CollectAlbumList data = 3;
+}
+
+message CollectAudioList {
+  repeated AudioData list = 1;
+  bool has_more = 2;
+}
+message RespCollectAudioList {
+  bool success = 1;
+  string msg = 2;
+  CollectAudioList data = 3;
+}
+
 message RespVoiceLoverPost {
   bool success = 1;
   string msg = 2;
