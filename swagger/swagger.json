@@ -1490,7 +1490,7 @@
                         "name": "request",
                         "in": "body",
                         "schema": {
-                            "$ref": "#/definitions/query.ReqVoiceLoverPost"
+                            "$ref": "#/definitions/query.ReqReport"
                         }
                     }
                 ],
@@ -3266,6 +3266,19 @@
                 },
                 "page": {
                     "description": "第几页, 范围[1,10]",
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqReport": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "资源id",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "0-专辑 1-音频",
                     "type": "integer"
                 }
             }

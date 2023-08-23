@@ -72,8 +72,8 @@ type ReqVoiceLoverPost struct {
 }
 
 type ReqReport struct {
-	Id   uint64 `v:"id@required"`
-	Type string `v:"type@required"`
+	Id   uint64 `v:"id@required"`   // 资源id
+	Type uint32 `v:"type@required"` // 0-专辑 1-音频
 }
 
 type ReqPlayStatReport struct {

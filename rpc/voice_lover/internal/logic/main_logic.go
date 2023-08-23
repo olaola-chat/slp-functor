@@ -786,9 +786,9 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 func (m *mainLogic) UpdateReportStatus(ctx context.Context, req *vl_pb.ReqUpdateStatus, reply *vl_pb.ResUpdateStatus) error {
 	var r bool
 	var err error
-	if req.Type == "album" {
+	if req.Type == 0 {
 		r, err = dao.VoiceLoverAlbumCommentDao.UpdateStatus(ctx, req.Id, req.Status)
-	} else if req.Type == "audio" {
+	} else if req.Type == 1 {
 		r, err = dao.VoiceLoverAudioCommentDao.UpdateStatus(ctx, req.Id, req.Status)
 	}
 	if err == nil && r {

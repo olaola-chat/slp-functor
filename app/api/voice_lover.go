@@ -437,28 +437,28 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
-// @Param request body query.ReqVoiceLoverPost false "request"
+// @Param request body query.ReqReport false "request"
 // @Success 200 {object} pb.CommonResp
 // @Router /go/func/voice_lover/report [post]
 func (a *voiceLoverAPI) Report(r *ghttp.Request) {
 	var req *query.ReqReport
-	if err := r.ParseForm(*req); err != nil {
+	if err := r.ParseQuery(&req); err != nil {
 		response.Output(r, &pb.CommonResp{
-			Success: false,
-			Msg:     consts.ERROR_SYSTEM.Msg(),
-		})
-		return
-	}
-	_, err := vl_rpc.VoiceLoverMain.UpdateReportStatus(r.GetCtx(), &vl_pb.ReqUpdateStatus{
-		Id:   req.Id,
-		Type: req.Type,
-	})
-	if err != nil {
-		response.Output(r, &pb.RespVoiceLoverPost{
 			Success: false,
 			Msg:     consts.ERROR_PARAM.Msg(),
 		})
+		return
 	}
+	//_, err := vl_rpc.VoiceLoverMain.UpdateReportStatus(r.GetCtx(), &vl_pb.ReqUpdateStatus{
+	//	Id:   req.Id,
+	//	Type: req.Type,
+	//})
+	//if err != nil {
+	//	response.Output(r, &pb.RespVoiceLoverPost{
+	//		Success: false,
+	//		Msg:     consts.ERROR_PARAM.Msg(),
+	//	})
+	//}
 	response.Output(r, &pb.CommonResp{Success: true})
 }
 
