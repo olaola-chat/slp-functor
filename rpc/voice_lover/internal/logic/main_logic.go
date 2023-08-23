@@ -450,11 +450,13 @@ func (m *mainLogic) IsUserCollectAlbums(ctx context.Context, req *vl_pb.ReqIsUse
 		isCollectMap[v] = false
 		wg.Add(1)
 		go func(albumId uint64) {
+			defer wg.Done()
 			tmpReply := &vl_pb.ResIsUserCollectAlbum{}
 			_ = m.IsUserCollectAlbum(ctx, &vl_pb.ReqIsUserCollectAlbum{Uid: req.Uid, AlbumId: albumId}, tmpReply)
 			isCollectMap[albumId] = tmpReply.GetIsCollect()
 		}(v)
 	}
+	wg.Wait()
 	for _, v := range req.AlbumIds {
 		if _, ok := isCollectMap[v]; ok {
 			reply.IsCollects = append(reply.IsCollects, isCollectMap[v])
