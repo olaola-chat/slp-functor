@@ -592,6 +592,158 @@
                 }
             }
         },
+        "/go/func/admin/voice_lover/bannerCreate": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverBannerCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverBannerCreate"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/bannerDetail": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverBannerDetail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverBannerDetail"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/bannerList": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverBannerList"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverBannerList"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/admin/voice_lover/bannerUpdate": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "声恋后台audio 列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLoverAdmin"
+                ],
+                "summary": "声恋后台audio 列表",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqAdminVoiceLoverBannerUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverBannerUpdate"
+                        }
+                    }
+                }
+            }
+        },
         "/go/func/admin/voice_lover/subjectCreate": {
             "post": {
                 "security": [
@@ -1463,6 +1615,38 @@
                 }
             }
         },
+        "pb.AdminBannerData": {
+            "type": "object",
+            "properties": {
+                "cover": {
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "integer"
+                },
+                "end_time": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "op_uid": {
+                    "type": "integer"
+                },
+                "schema": {
+                    "type": "string"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "start_time": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
         "pb.AdminVoiceLoverAlbum": {
             "type": "object",
             "properties": {
@@ -2101,6 +2285,65 @@
                 }
             }
         },
+        "pb.RespAdminVoiceLoverBannerCreate": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverBannerDetail": {
+            "type": "object",
+            "properties": {
+                "banner": {
+                    "$ref": "#/definitions/pb.AdminBannerData"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverBannerList": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AdminBannerData"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverBannerUpdate": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
         "pb.RespAdminVoiceLoverSubjectCreate": {
             "type": "object",
             "properties": {
@@ -2698,6 +2941,86 @@
                     "type": "string"
                 },
                 "opUid": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverBannerCreate": {
+            "type": "object",
+            "properties": {
+                "cover": {
+                    "type": "string"
+                },
+                "endTime": {
+                    "type": "integer"
+                },
+                "opUid": {
+                    "type": "integer"
+                },
+                "schema": {
+                    "type": "string"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "startTime": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverBannerDetail": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverBannerList": {
+            "type": "object",
+            "properties": {
+                "endTime": {
+                    "type": "integer"
+                },
+                "startTime": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "query.ReqAdminVoiceLoverBannerUpdate": {
+            "type": "object",
+            "properties": {
+                "cover": {
+                    "type": "string"
+                },
+                "endTime": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "opUid": {
+                    "type": "integer"
+                },
+                "schema": {
+                    "type": "string"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "startTime": {
                     "type": "integer"
                 },
                 "title": {
