@@ -590,8 +590,18 @@ func (serv *voiceLoverService) ShareAlbumInfo(ctx context.Context, uid uint32, r
 	res := &pb.RespShareInfo{
 		Success: true,
 		Msg:     "",
-		Data:    &pb.ShareData{},
+		Data: &pb.ShareData{
+			ShareTitle: "少年骨骼清奇，快跟我一起闯荡彩虹星球直播江湖！",
+			ShareDesc:  "",
+			ShareUrl:   "https://www.caihongxq.com",
+			ShareIcon:  "",
+		},
 	}
+	userInfo, err := user_rpc.UserProfile.Get(ctx, &user_pb.ReqUserProfile{Uid: uid, Fields: []string{"name", "uid", "icon"}})
+	if err != nil {
+		return res, err
+	}
+	res.Data.ShareIcon = userInfo.GetIcon()
 	return res, nil
 }
 
@@ -599,7 +609,17 @@ func (serv *voiceLoverService) ShareAudioInfo(ctx context.Context, uid uint32, r
 	res := &pb.RespShareInfo{
 		Success: true,
 		Msg:     "",
-		Data:    &pb.ShareData{},
+		Data: &pb.ShareData{
+			ShareTitle: "少年骨骼清奇，快跟我一起闯荡彩虹星球直播江湖！",
+			ShareDesc:  "",
+			ShareUrl:   "https://www.caihongxq.com",
+			ShareIcon:  "",
+		},
 	}
+	userInfo, err := user_rpc.UserProfile.Get(ctx, &user_pb.ReqUserProfile{Uid: uid, Fields: []string{"name", "uid", "icon"}})
+	if err != nil {
+		return res, err
+	}
+	res.Data.ShareIcon = userInfo.GetIcon()
 	return res, nil
 }
