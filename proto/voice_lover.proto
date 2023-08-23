@@ -74,7 +74,7 @@ message AudioDetail {
   uint32 room_id = 3;               // 房间id 为0则表示不在房间内
   bool is_collected = 4;            // 是否收藏
   string comment_count_desc = 5;    // 评论数量
-  repeated AlbumData audios = 6;    // 音频列表
+  repeated AlbumData albums = 6;    // 专辑列表
 }
 message RespAudioDetail {
   bool success = 1;

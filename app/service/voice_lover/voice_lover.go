@@ -423,7 +423,7 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 			Resource: detail.Audio.Resource,
 			Seconds:  detail.Audio.Seconds,
 		},
-		Audios: item,
+		Albums: item,
 	}
 	profile, err := user_rpc.UserProfile.Get(ctx, &user_pb.ReqUserProfile{
 		Uid:    detail.Audio.Uid,

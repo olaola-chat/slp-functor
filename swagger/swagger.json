@@ -1750,6 +1750,13 @@
         "pb.AudioDetail": {
             "type": "object",
             "properties": {
+                "albums": {
+                    "description": "专辑列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AlbumData"
+                    }
+                },
                 "audio": {
                     "description": "音频信息",
                     "allOf": [
@@ -1757,13 +1764,6 @@
                             "$ref": "#/definitions/pb.AudioData"
                         }
                     ]
-                },
-                "audios": {
-                    "description": "音频列表",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/pb.AlbumData"
-                    }
                 },
                 "comment_count_desc": {
                     "description": "评论数量",
