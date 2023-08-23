@@ -144,4 +144,19 @@ CREATE TABLE `voice_lover_user_collect`
     `create_time`  bigint unsigned NOT NULL COMMENT '创建时间',
     `update_time`  bigint unsigned NOT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='房间恋人收藏表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='声音恋人收藏表';
+
+CREATE TABLE `voice_lover_banner`
+(
+    `id`       bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `title`    varchar(128) NOT NULL COMMENT '标题',
+    `cover`    TEXT COMMENT '专辑封面',
+    `schema`   TEXT COMMENT '跳转链接',
+    `op_uid`      bigint(20) unsigned NOT NULL COMMENT '操作人',
+    `start_time` bigint(20) unsigned NOT NULL COMMENT '开始时间',
+    `end_time`  bigint(20) unsigned NOT NULL COMMENT '结束时间',
+    `sort`      tinyint(3) unsigned NOT NULL COMMENT '排序',
+    `create_time`  bigint(20) unsigned NOT NULL COMMENT '创建时间',
+    `update_time`  bigint unsigned NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='声音恋人banner表';
