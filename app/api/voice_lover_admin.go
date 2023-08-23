@@ -981,7 +981,7 @@ func (a *voiceLoverAdminApi) BannerUpdate(r *ghttp.Request) {
 // @Security ApiKeyAuth,OAuth2Implicit
 // @Param request body query.ReqAdminVoiceLoverBannerDetail false "request"
 // @Success 200 {object} pb.RespAdminVoiceLoverBannerDetail
-// @Router /go/func/admin/voice_lover/bannerDetail [post]
+// @Router /go/func/admin/voice_lover/bannerDetail [get]
 func (a *voiceLoverAdminApi) BannerDetail(r *ghttp.Request) {
 	var req *query.ReqAdminVoiceLoverBannerDetail
 	if err := r.Parse(&req); err != nil {

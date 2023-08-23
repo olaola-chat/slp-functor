@@ -631,7 +631,7 @@
             }
         },
         "/go/func/admin/voice_lover/bannerDetail": {
-            "post": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth,OAuth2Implicit": []
