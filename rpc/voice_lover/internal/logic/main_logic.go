@@ -202,6 +202,17 @@ func (m *mainLogic) BuildRecAlbumsExtendInfo(ctx context.Context, infos []*vl_pb
 	}
 }
 
+func convertCoversToArray(coversStr string) []string {
+	covers := make([]string, 0)
+	for _, s := range strings.Split(coversStr, ",") {
+		if len(s) == 0 {
+			continue
+		}
+		covers = append(covers, s)
+	}
+	return covers
+}
+
 func (m *mainLogic) GetAlbumInfoById(ctx context.Context, req *vl_pb.ReqGetAlbumInfoById, reply *vl_pb.ResGetAlbumInfoById) error {
 	albumInfo, err := dao.VoiceLoverAlbumDao.GetValidAlbumById(ctx, req.Id)
 	if err != nil {
@@ -583,8 +594,9 @@ func (m *mainLogic) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGet
 				Id:       audioInfo.Id,
 				Title:    audioInfo.Title,
 				Resource: audioInfo.Resource,
-				Covers:   []string{},
+				Covers:   convertCoversToArray(audioInfo.Cover),
 				Seconds:  audioInfo.Seconds,
+				Uid:      uint32(audioInfo.PubUid),
 			}
 		}
 	}()

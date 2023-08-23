@@ -259,7 +259,9 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 			g.Log().Errorf("voiceLoverService GetAlbumDetail GetAudioListByAlbumId error=%v", rErr)
 			return
 		}
+		uids := make([]uint32, 0)
 		for _, v := range audioListRes.GetAudios() {
+			uids = append(uids, v.Uid)
 			res.Data.Audios = append(res.Data.Audios, &pb.AudioData{
 				Id:        v.Id,
 				Title:     v.Title,
@@ -267,7 +269,20 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 				Covers:    v.Covers,
 				Seconds:   v.Seconds,
 				PlayStats: v.PlayCountDesc,
+				UserInfo:  &pb.UserData{Uid: uid},
 			})
+		}
+		userInfosRes, _ := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: uids, Fields: []string{"name", "uid", "icon"}})
+		userMap := make(map[uint32]*xianshi.EntityXsUserProfile, 0)
+		for _, v := range userInfosRes.GetData() {
+			userMap[v.Uid] = v
+		}
+		for _, v := range res.Data.Audios {
+			if _, ok := userMap[v.UserInfo.Uid]; !ok {
+				continue
+			}
+			v.UserInfo.Name = userMap[v.UserInfo.Uid].Name
+			v.UserInfo.Avatar = userMap[v.UserInfo.Uid].Icon
 		}
 	}()
 	wg.Wait()
