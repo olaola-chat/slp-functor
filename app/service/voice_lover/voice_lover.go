@@ -269,7 +269,7 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 				Covers:    v.Covers,
 				Seconds:   v.Seconds,
 				PlayStats: v.PlayCountDesc,
-				UserInfo:  &pb.UserData{Uid: uid},
+				UserInfo:  &pb.UserData{Uid: v.Uid},
 			})
 		}
 		userInfosRes, _ := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: uids, Fields: []string{"name", "uid", "icon"}})
