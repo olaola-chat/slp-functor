@@ -562,7 +562,7 @@ func (m *mainLogic) GetAudioCollectList(ctx context.Context, req *vl_pb.ReqGetAu
 			Id:       v.Id,
 			Title:    v.Title,
 			Resource: v.Resource,
-			Covers:   []string{},
+			Covers:   convertCoversToArray(v.Cover),
 			Uid:      uint32(v.PubUid),
 		})
 	}
