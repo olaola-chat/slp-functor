@@ -1429,6 +1429,69 @@ func (x *RespPlayStatReport) GetMsg() string {
 	return ""
 }
 
+type RespShareInfo struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success bool       `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg     string     `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	Data    *ShareData `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+}
+
+func (x *RespShareInfo) Reset() {
+	*x = RespShareInfo{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_proto_msgTypes[23]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespShareInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespShareInfo) ProtoMessage() {}
+
+func (x *RespShareInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_proto_msgTypes[23]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespShareInfo.ProtoReflect.Descriptor instead.
+func (*RespShareInfo) Descriptor() ([]byte, []int) {
+	return file_voice_lover_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *RespShareInfo) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespShareInfo) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *RespShareInfo) GetData() *ShareData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
 var File_voice_lover_proto protoreflect.FileDescriptor
 
 var file_voice_lover_proto_rawDesc = []byte{
@@ -1587,7 +1650,13 @@ var file_voice_lover_proto_rawDesc = []byte{
 	0x61, 0x79, 0x53, 0x74, 0x61, 0x74, 0x52, 0x65, 0x70, 0x6f, 0x72, 0x74, 0x12, 0x18, 0x0a, 0x07,
 	0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73,
 	0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x42, 0x2b, 0x5a, 0x29, 0x67, 0x69, 0x74, 0x68,
+	0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x22, 0x5e, 0x0a, 0x0d, 0x52, 0x65, 0x73, 0x70,
+	0x53, 0x68, 0x61, 0x72, 0x65, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63,
+	0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63,
+	0x65, 0x73, 0x73, 0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x03, 0x6d, 0x73, 0x67, 0x12, 0x21, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x70, 0x62, 0x2e, 0x53, 0x68, 0x61, 0x72, 0x65, 0x44, 0x61,
+	0x74, 0x61, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x42, 0x2b, 0x5a, 0x29, 0x67, 0x69, 0x74, 0x68,
 	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x6c, 0x61, 0x6f, 0x6c, 0x61, 0x2d, 0x63, 0x68,
 	0x61, 0x74, 0x2f, 0x72, 0x62, 0x70, 0x2d, 0x66, 0x75, 0x6e, 0x63, 0x74, 0x6f, 0x72, 0x2f, 0x61,
 	0x70, 0x70, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
@@ -1605,7 +1674,7 @@ func file_voice_lover_proto_rawDescGZIP() []byte {
 	return file_voice_lover_proto_rawDescData
 }
 
-var file_voice_lover_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
+var file_voice_lover_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_voice_lover_proto_goTypes = []interface{}{
 	(*VoiceLoverMain)(nil),        // 0: pb.VoiceLoverMain
 	(*RespVoiceLoverMain)(nil),    // 1: pb.RespVoiceLoverMain
@@ -1630,43 +1699,46 @@ var file_voice_lover_proto_goTypes = []interface{}{
 	(*RespCollectAudioList)(nil),  // 20: pb.RespCollectAudioList
 	(*RespVoiceLoverPost)(nil),    // 21: pb.RespVoiceLoverPost
 	(*RespPlayStatReport)(nil),    // 22: pb.RespPlayStatReport
-	(*AlbumData)(nil),             // 23: pb.AlbumData
-	(*BannerData)(nil),            // 24: pb.BannerData
-	(*UserData)(nil),              // 25: pb.UserData
-	(*SubjectData)(nil),           // 26: pb.SubjectData
-	(*AudioData)(nil),             // 27: pb.AudioData
-	(*CommentData)(nil),           // 28: pb.CommentData
+	(*RespShareInfo)(nil),         // 23: pb.RespShareInfo
+	(*AlbumData)(nil),             // 24: pb.AlbumData
+	(*BannerData)(nil),            // 25: pb.BannerData
+	(*UserData)(nil),              // 26: pb.UserData
+	(*SubjectData)(nil),           // 27: pb.SubjectData
+	(*AudioData)(nil),             // 28: pb.AudioData
+	(*CommentData)(nil),           // 29: pb.CommentData
+	(*ShareData)(nil),             // 30: pb.ShareData
 }
 var file_voice_lover_proto_depIdxs = []int32{
-	23, // 0: pb.VoiceLoverMain.rec_albums:type_name -> pb.AlbumData
-	24, // 1: pb.VoiceLoverMain.rec_banners:type_name -> pb.BannerData
-	25, // 2: pb.VoiceLoverMain.rec_users:type_name -> pb.UserData
-	26, // 3: pb.VoiceLoverMain.rec_subjects:type_name -> pb.SubjectData
-	23, // 4: pb.VoiceLoverMain.common_albums:type_name -> pb.AlbumData
+	24, // 0: pb.VoiceLoverMain.rec_albums:type_name -> pb.AlbumData
+	25, // 1: pb.VoiceLoverMain.rec_banners:type_name -> pb.BannerData
+	26, // 2: pb.VoiceLoverMain.rec_users:type_name -> pb.UserData
+	27, // 3: pb.VoiceLoverMain.rec_subjects:type_name -> pb.SubjectData
+	24, // 4: pb.VoiceLoverMain.common_albums:type_name -> pb.AlbumData
 	0,  // 5: pb.RespVoiceLoverMain.data:type_name -> pb.VoiceLoverMain
-	23, // 6: pb.AlbumList.albums:type_name -> pb.AlbumData
+	24, // 6: pb.AlbumList.albums:type_name -> pb.AlbumData
 	2,  // 7: pb.RespAlbumList.data:type_name -> pb.AlbumList
-	25, // 8: pb.RecUserList.rec_users:type_name -> pb.UserData
+	26, // 8: pb.RecUserList.rec_users:type_name -> pb.UserData
 	4,  // 9: pb.RespRecUserList.data:type_name -> pb.RecUserList
-	23, // 10: pb.AlbumDetail.album:type_name -> pb.AlbumData
-	27, // 11: pb.AlbumDetail.audios:type_name -> pb.AudioData
+	24, // 10: pb.AlbumDetail.album:type_name -> pb.AlbumData
+	28, // 11: pb.AlbumDetail.audios:type_name -> pb.AudioData
 	6,  // 12: pb.RespAlbumDetail.data:type_name -> pb.AlbumDetail
-	28, // 13: pb.AlbumComments.comments:type_name -> pb.CommentData
+	29, // 13: pb.AlbumComments.comments:type_name -> pb.CommentData
 	8,  // 14: pb.RespAlbumComments.data:type_name -> pb.AlbumComments
-	27, // 15: pb.AudioDetail.audio:type_name -> pb.AudioData
-	23, // 16: pb.AudioDetail.audios:type_name -> pb.AlbumData
+	28, // 15: pb.AudioDetail.audio:type_name -> pb.AudioData
+	24, // 16: pb.AudioDetail.audios:type_name -> pb.AlbumData
 	11, // 17: pb.RespAudioDetail.data:type_name -> pb.AudioDetail
-	28, // 18: pb.AudioComments.comments:type_name -> pb.CommentData
+	29, // 18: pb.AudioComments.comments:type_name -> pb.CommentData
 	13, // 19: pb.RespAudioComments.data:type_name -> pb.AudioComments
-	23, // 20: pb.CollectAlbumList.list:type_name -> pb.AlbumData
+	24, // 20: pb.CollectAlbumList.list:type_name -> pb.AlbumData
 	17, // 21: pb.RespCollectAlbumList.data:type_name -> pb.CollectAlbumList
-	27, // 22: pb.CollectAudioList.list:type_name -> pb.AudioData
+	28, // 22: pb.CollectAudioList.list:type_name -> pb.AudioData
 	19, // 23: pb.RespCollectAudioList.data:type_name -> pb.CollectAudioList
-	24, // [24:24] is the sub-list for method output_type
-	24, // [24:24] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	30, // 24: pb.RespShareInfo.data:type_name -> pb.ShareData
+	25, // [25:25] is the sub-list for method output_type
+	25, // [25:25] is the sub-list for method input_type
+	25, // [25:25] is the sub-list for extension type_name
+	25, // [25:25] is the sub-list for extension extendee
+	0,  // [0:25] is the sub-list for field type_name
 }
 
 func init() { file_voice_lover_proto_init() }
@@ -1953,6 +2025,18 @@ func file_voice_lover_proto_init() {
 				return nil
 			}
 		}
+		file_voice_lover_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespShareInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1960,7 +2044,7 @@ func file_voice_lover_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_voice_lover_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   23,
+			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
