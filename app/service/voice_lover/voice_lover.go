@@ -585,3 +585,21 @@ func (serv *voiceLoverService) GetCollectAudioList(ctx context.Context, uid uint
 	}
 	return res, nil
 }
+
+func (serv *voiceLoverService) ShareAlbumInfo(ctx context.Context, uid uint32, req *query.ReqShareAlbum) (*pb.RespShareInfo, error) {
+	res := &pb.RespShareInfo{
+		Success: true,
+		Msg:     "",
+		Data:    &pb.ShareData{},
+	}
+	return res, nil
+}
+
+func (serv *voiceLoverService) ShareAudioInfo(ctx context.Context, uid uint32, req *query.ReqShareAudio) (*pb.RespShareInfo, error) {
+	res := &pb.RespShareInfo{
+		Success: true,
+		Msg:     "",
+		Data:    &pb.ShareData{},
+	}
+	return res, nil
+}

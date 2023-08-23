@@ -132,3 +132,9 @@ message RespPlayStatReport {
   bool success = 1;
   string msg = 2;
 }
+
+message RespShareInfo {
+  bool success = 1;
+  string msg = 2;
+  ShareData data = 3;
+}

@@ -230,11 +230,11 @@ func (a *voiceLoverAPI) AudioDetail(r *ghttp.Request) {
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
-// @Param request body query.ReqAudioCommentList false "request"
+// @Param request body query.ReqAudioComments false "request"
 // @Success 200 {object} pb.RespAudioComments
 // @Router /go/func/voice_lover/audioComments [get]
 func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
-	var req *query.ReqAudioCommentList
+	var req *query.ReqAudioComments
 	if err := r.ParseQuery(&req); err != nil {
 		response.Output(r, &pb.RespAudioComments{
 			Success: false,
@@ -431,9 +431,9 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 }
 
 // Report
-// @Tags Report
-// @Summary 声恋投稿
-// @Description 声恋投稿
+// @Tags VoiceLover
+// @Summary 评论举报
+// @Description 评论举报
 // @Accept application/json
 // @Produce json
 // @Security ApiKeyAuth,OAuth2Implicit
@@ -488,4 +488,68 @@ func (a *voiceLoverAPI) PlayStatReport(r *ghttp.Request) {
 		AudioId: req.AudioId,
 	})
 	response.Output(r, &pb.RespPlayStatReport{Success: true, Msg: ""})
+}
+
+// ShareAlbum
+// @Tags VoiceLover
+// @Summary 专辑分享接口
+// @Description 专辑分享接口
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Param request body query.ReqShareAlbum false "request"
+// @Success 200 {object} pb.RespShareInfo
+// @Router /go/func/voice_lover/shareAlbum [get]
+func (a *voiceLoverAPI) ShareAlbum(r *ghttp.Request) {
+	var req *query.ReqShareAlbum
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespShareInfo{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	ctx := r.GetCtx()
+	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	data, err := vl_serv.VoiceLoverService.ShareAlbumInfo(ctx, ctxUser.UID, req)
+	if err != nil {
+		response.Output(r, &pb.RespShareInfo{
+			Success: false,
+			Msg:     consts.ERROR_SYSTEM.Msg(),
+		})
+		return
+	}
+	response.Output(r, data)
+}
+
+// ShareAudio
+// @Tags VoiceLover
+// @Summary 音频分享接口
+// @Description 音频分享接口
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Param request body query.ReqShareAudio false "request"
+// @Success 200 {object} pb.RespShareInfo
+// @Router /go/func/voice_lover/shareAudio [get]
+func (a *voiceLoverAPI) ShareAudio(r *ghttp.Request) {
+	var req *query.ReqShareAudio
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespShareInfo{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	ctx := r.GetCtx()
+	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
+	data, err := vl_serv.VoiceLoverService.ShareAudioInfo(ctx, ctxUser.UID, req)
+	if err != nil {
+		response.Output(r, &pb.RespShareInfo{
+			Success: false,
+			Msg:     consts.ERROR_SYSTEM.Msg(),
+		})
+		return
+	}
+	response.Output(r, data)
 }

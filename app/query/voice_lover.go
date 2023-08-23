@@ -32,7 +32,7 @@ type ReqAudioDetail struct {
 }
 
 type ReqAudioComments struct {
-	AlbumId uint64 `v:"album_id@required"` // 音频id
+	AudioId uint64 `v:"audio_id@required"` // 音频id
 	Type    uint32 `v:"type@required"`     // 0-普通评论 1-弹幕
 	Paginator
 }
@@ -71,17 +71,6 @@ type ReqVoiceLoverPost struct {
 	Labels      string `json:"labels"`         // 标签
 }
 
-type ReqAudioCommentList struct {
-	AudioId uint64 `v:"audio_id@integer|min:1"`      // 音频id
-	Page    uint32 `v:"page@integer|min:1"`          // 第几页, 范围[1,10]
-	Limit   uint32 `v:"limit@integer|min:10|max:50"` // 每页多少, 范围[10,50]
-}
-
-type ReqAlbumCommentList struct {
-	AlbumId   uint64 `v:"album_id@integer|min:1"` // 音频id
-	Paginator Paginator
-}
-
 type ReqReport struct {
 	Id   uint64 `v:"id@required"`
 	Type string `v:"type@required"`
@@ -89,5 +78,13 @@ type ReqReport struct {
 
 type ReqPlayStatReport struct {
 	AlbumId uint64 `v:"album_id@required"` // 专辑id
+	AudioId uint64 `v:"audio_id@required"` // 音频id
+}
+
+type ReqShareAlbum struct {
+	AlbumId uint64 `v:"album_id@required"` // 专辑id
+}
+
+type ReqShareAudio struct {
 	AudioId uint64 `v:"audio_id@required"` // 音频id
 }

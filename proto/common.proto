@@ -23,3 +23,10 @@ message BannerData {
   string img_url = 2;       // banner图片资源地址
   string redirect_url = 3;  // 点击后跳转地址
 }
+
+message ShareData {
+  string share_title = 1;
+  string share_desc = 2;
+  string share_url = 3;
+  string share_icon = 4;
+}
