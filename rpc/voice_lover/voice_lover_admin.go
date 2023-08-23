@@ -150,3 +150,62 @@ func (v *VoiceLoverAdmin) GetAlbumChoice(ctx context.Context, req *vl_pb.ReqGetA
 	reply.Albums = res
 	return nil
 }
+
+func (v *VoiceLoverAdmin) GetBannerList(ctx context.Context, req *vl_pb.ReqGetBannerList, reply *vl_pb.ResGetBannerList) error {
+	list, count, err := logic.AdminLogic.GetBannerList(ctx, req)
+	if err != nil {
+		return err
+	}
+	res := make([]*vl_pb.BannerData, 0)
+	for _, l := range list {
+		res = append(res, &vl_pb.BannerData{
+			Id:         l.Id,
+			Title:      l.Title,
+			Cover:      l.Cover,
+			Schema:     l.Schema,
+			OpUid:      l.OpUid,
+			StartTime:  l.StartTime,
+			EndTime:    l.EndTime,
+			CreateTime: l.CreateTime,
+			Sort:       l.Sort,
+		})
+	}
+	reply.Banners = res
+	reply.Total = count
+	return nil
+}
+
+func (v *VoiceLoverAdmin) CreateBanner(ctx context.Context, req *vl_pb.ReqCreateBanner, reply *vl_pb.ResCreateBanner) error {
+	id, err := logic.AdminLogic.CreateBanner(ctx, req)
+	if err != nil {
+		return err
+	}
+	reply.Id = id
+	return nil
+}
+
+func (v *VoiceLoverAdmin) UpdateBanner(ctx context.Context, req *vl_pb.ReqUpdateBanner, reply *vl_pb.ResUpdateBanner) error {
+	return logic.AdminLogic.UpdateBanner(ctx, req)
+}
+
+func (v *VoiceLoverAdmin) GetBannerDetail(ctx context.Context, req *vl_pb.ReqGetBannerDetail, reply *vl_pb.ResGetBannerDetail) error {
+	b, err := logic.AdminLogic.GetBannerDetail(ctx, req)
+	if err != nil {
+		return err
+	}
+	if b == nil {
+		return nil
+	}
+	reply.Banner = &vl_pb.BannerData{
+		Id:         b.Id,
+		Title:      b.Title,
+		Cover:      b.Cover,
+		Schema:     b.Schema,
+		OpUid:      b.OpUid,
+		StartTime:  b.StartTime,
+		EndTime:    b.EndTime,
+		Sort:       b.Sort,
+		CreateTime: b.CreateTime,
+	}
+	return nil
+}
