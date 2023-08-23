@@ -1999,6 +1999,369 @@ func (x *AdminAlbumData) GetLevel() int32 {
 	return 0
 }
 
+type AdminBannerData struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id         uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Title      string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Cover      string `protobuf:"bytes,3,opt,name=cover,proto3" json:"cover,omitempty"`
+	Schema     string `protobuf:"bytes,4,opt,name=schema,proto3" json:"schema,omitempty"`
+	OpUid      uint64 `protobuf:"varint,5,opt,name=op_uid,json=opUid,proto3" json:"op_uid,omitempty"`
+	Sort       uint32 `protobuf:"varint,6,opt,name=sort,proto3" json:"sort,omitempty"`
+	StartTime  uint64 `protobuf:"varint,7,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime    uint64 `protobuf:"varint,8,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	CreateTime uint64 `protobuf:"varint,9,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+}
+
+func (x *AdminBannerData) Reset() {
+	*x = AdminBannerData{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_admin_proto_msgTypes[29]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AdminBannerData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdminBannerData) ProtoMessage() {}
+
+func (x *AdminBannerData) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_admin_proto_msgTypes[29]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdminBannerData.ProtoReflect.Descriptor instead.
+func (*AdminBannerData) Descriptor() ([]byte, []int) {
+	return file_voice_lover_admin_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *AdminBannerData) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *AdminBannerData) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *AdminBannerData) GetCover() string {
+	if x != nil {
+		return x.Cover
+	}
+	return ""
+}
+
+func (x *AdminBannerData) GetSchema() string {
+	if x != nil {
+		return x.Schema
+	}
+	return ""
+}
+
+func (x *AdminBannerData) GetOpUid() uint64 {
+	if x != nil {
+		return x.OpUid
+	}
+	return 0
+}
+
+func (x *AdminBannerData) GetSort() uint32 {
+	if x != nil {
+		return x.Sort
+	}
+	return 0
+}
+
+func (x *AdminBannerData) GetStartTime() uint64 {
+	if x != nil {
+		return x.StartTime
+	}
+	return 0
+}
+
+func (x *AdminBannerData) GetEndTime() uint64 {
+	if x != nil {
+		return x.EndTime
+	}
+	return 0
+}
+
+func (x *AdminBannerData) GetCreateTime() uint64 {
+	if x != nil {
+		return x.CreateTime
+	}
+	return 0
+}
+
+type RespAdminVoiceLoverBannerList struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success bool               `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg     string             `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	List    []*AdminBannerData `protobuf:"bytes,3,rep,name=list,proto3" json:"list,omitempty"`
+	Total   int32              `protobuf:"varint,4,opt,name=total,proto3" json:"total,omitempty"`
+}
+
+func (x *RespAdminVoiceLoverBannerList) Reset() {
+	*x = RespAdminVoiceLoverBannerList{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_admin_proto_msgTypes[30]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespAdminVoiceLoverBannerList) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespAdminVoiceLoverBannerList) ProtoMessage() {}
+
+func (x *RespAdminVoiceLoverBannerList) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_admin_proto_msgTypes[30]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespAdminVoiceLoverBannerList.ProtoReflect.Descriptor instead.
+func (*RespAdminVoiceLoverBannerList) Descriptor() ([]byte, []int) {
+	return file_voice_lover_admin_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *RespAdminVoiceLoverBannerList) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespAdminVoiceLoverBannerList) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *RespAdminVoiceLoverBannerList) GetList() []*AdminBannerData {
+	if x != nil {
+		return x.List
+	}
+	return nil
+}
+
+func (x *RespAdminVoiceLoverBannerList) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+type RespAdminVoiceLoverBannerDetail struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success bool             `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg     string           `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	Banner  *AdminBannerData `protobuf:"bytes,3,opt,name=banner,proto3" json:"banner,omitempty"`
+}
+
+func (x *RespAdminVoiceLoverBannerDetail) Reset() {
+	*x = RespAdminVoiceLoverBannerDetail{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_admin_proto_msgTypes[31]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespAdminVoiceLoverBannerDetail) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespAdminVoiceLoverBannerDetail) ProtoMessage() {}
+
+func (x *RespAdminVoiceLoverBannerDetail) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_admin_proto_msgTypes[31]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespAdminVoiceLoverBannerDetail.ProtoReflect.Descriptor instead.
+func (*RespAdminVoiceLoverBannerDetail) Descriptor() ([]byte, []int) {
+	return file_voice_lover_admin_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *RespAdminVoiceLoverBannerDetail) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespAdminVoiceLoverBannerDetail) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *RespAdminVoiceLoverBannerDetail) GetBanner() *AdminBannerData {
+	if x != nil {
+		return x.Banner
+	}
+	return nil
+}
+
+type RespAdminVoiceLoverBannerCreate struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success bool   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg     string `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	Id      uint64 `protobuf:"varint,3,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (x *RespAdminVoiceLoverBannerCreate) Reset() {
+	*x = RespAdminVoiceLoverBannerCreate{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_admin_proto_msgTypes[32]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespAdminVoiceLoverBannerCreate) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespAdminVoiceLoverBannerCreate) ProtoMessage() {}
+
+func (x *RespAdminVoiceLoverBannerCreate) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_admin_proto_msgTypes[32]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespAdminVoiceLoverBannerCreate.ProtoReflect.Descriptor instead.
+func (*RespAdminVoiceLoverBannerCreate) Descriptor() ([]byte, []int) {
+	return file_voice_lover_admin_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *RespAdminVoiceLoverBannerCreate) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespAdminVoiceLoverBannerCreate) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *RespAdminVoiceLoverBannerCreate) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type RespAdminVoiceLoverBannerUpdate struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success bool   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg     string `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+}
+
+func (x *RespAdminVoiceLoverBannerUpdate) Reset() {
+	*x = RespAdminVoiceLoverBannerUpdate{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_admin_proto_msgTypes[33]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespAdminVoiceLoverBannerUpdate) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespAdminVoiceLoverBannerUpdate) ProtoMessage() {}
+
+func (x *RespAdminVoiceLoverBannerUpdate) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_admin_proto_msgTypes[33]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespAdminVoiceLoverBannerUpdate.ProtoReflect.Descriptor instead.
+func (*RespAdminVoiceLoverBannerUpdate) Descriptor() ([]byte, []int) {
+	return file_voice_lover_admin_proto_rawDescGZIP(), []int{33}
+}
+
+func (x *RespAdminVoiceLoverBannerUpdate) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespAdminVoiceLoverBannerUpdate) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
 var File_voice_lover_admin_proto protoreflect.FileDescriptor
 
 var file_voice_lover_admin_proto_rawDesc = []byte{
@@ -2247,10 +2610,53 @@ var file_voice_lover_admin_proto_rawDesc = []byte{
 	0x12, 0x1f, 0x0a, 0x0b, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18,
 	0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0a, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x54, 0x69, 0x6d,
 	0x65, 0x12, 0x14, 0x0a, 0x05, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x18, 0x04, 0x20, 0x01, 0x28, 0x05,
-	0x52, 0x05, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x42, 0x2b, 0x5a, 0x29, 0x67, 0x69, 0x74, 0x68, 0x75,
-	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x6c, 0x61, 0x6f, 0x6c, 0x61, 0x2d, 0x63, 0x68, 0x61,
-	0x74, 0x2f, 0x72, 0x62, 0x70, 0x2d, 0x66, 0x75, 0x6e, 0x63, 0x74, 0x6f, 0x72, 0x2f, 0x61, 0x70,
-	0x70, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x52, 0x05, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x22, 0xeb, 0x01, 0x0a, 0x0f, 0x41, 0x64, 0x6d, 0x69,
+	0x6e, 0x42, 0x61, 0x6e, 0x6e, 0x65, 0x72, 0x44, 0x61, 0x74, 0x61, 0x12, 0x0e, 0x0a, 0x02, 0x69,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x74,
+	0x69, 0x74, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x69, 0x74, 0x6c,
+	0x65, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x6f, 0x76, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x05, 0x63, 0x6f, 0x76, 0x65, 0x72, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x63, 0x68, 0x65, 0x6d,
+	0x61, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x12,
+	0x15, 0x0a, 0x06, 0x6f, 0x70, 0x5f, 0x75, 0x69, 0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x04, 0x52,
+	0x05, 0x6f, 0x70, 0x55, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x6f, 0x72, 0x74, 0x18, 0x06,
+	0x20, 0x01, 0x28, 0x0d, 0x52, 0x04, 0x73, 0x6f, 0x72, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x74,
+	0x61, 0x72, 0x74, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09,
+	0x73, 0x74, 0x61, 0x72, 0x74, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x19, 0x0a, 0x08, 0x65, 0x6e, 0x64,
+	0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x08, 0x20, 0x01, 0x28, 0x04, 0x52, 0x07, 0x65, 0x6e, 0x64,
+	0x54, 0x69, 0x6d, 0x65, 0x12, 0x1f, 0x0a, 0x0b, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x5f, 0x74,
+	0x69, 0x6d, 0x65, 0x18, 0x09, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0a, 0x63, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x54, 0x69, 0x6d, 0x65, 0x22, 0x8a, 0x01, 0x0a, 0x1d, 0x52, 0x65, 0x73, 0x70, 0x41, 0x64,
+	0x6d, 0x69, 0x6e, 0x56, 0x6f, 0x69, 0x63, 0x65, 0x4c, 0x6f, 0x76, 0x65, 0x72, 0x42, 0x61, 0x6e,
+	0x6e, 0x65, 0x72, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65,
+	0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73,
+	0x73, 0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03,
+	0x6d, 0x73, 0x67, 0x12, 0x27, 0x0a, 0x04, 0x6c, 0x69, 0x73, 0x74, 0x18, 0x03, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x13, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x42, 0x61, 0x6e, 0x6e,
+	0x65, 0x72, 0x44, 0x61, 0x74, 0x61, 0x52, 0x04, 0x6c, 0x69, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05,
+	0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x04, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x74, 0x6f, 0x74,
+	0x61, 0x6c, 0x22, 0x7a, 0x0a, 0x1f, 0x52, 0x65, 0x73, 0x70, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56,
+	0x6f, 0x69, 0x63, 0x65, 0x4c, 0x6f, 0x76, 0x65, 0x72, 0x42, 0x61, 0x6e, 0x6e, 0x65, 0x72, 0x44,
+	0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12,
+	0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73,
+	0x67, 0x12, 0x2b, 0x0a, 0x06, 0x62, 0x61, 0x6e, 0x6e, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x13, 0x2e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x42, 0x61, 0x6e, 0x6e,
+	0x65, 0x72, 0x44, 0x61, 0x74, 0x61, 0x52, 0x06, 0x62, 0x61, 0x6e, 0x6e, 0x65, 0x72, 0x22, 0x5d,
+	0x0a, 0x1f, 0x52, 0x65, 0x73, 0x70, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56, 0x6f, 0x69, 0x63, 0x65,
+	0x4c, 0x6f, 0x76, 0x65, 0x72, 0x42, 0x61, 0x6e, 0x6e, 0x65, 0x72, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x10, 0x0a, 0x03, 0x6d,
+	0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x12, 0x0e, 0x0a,
+	0x02, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x22, 0x4d, 0x0a,
+	0x1f, 0x52, 0x65, 0x73, 0x70, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x56, 0x6f, 0x69, 0x63, 0x65, 0x4c,
+	0x6f, 0x76, 0x65, 0x72, 0x42, 0x61, 0x6e, 0x6e, 0x65, 0x72, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73,
+	0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x42, 0x2b, 0x5a, 0x29,
+	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x6c, 0x61, 0x6f, 0x6c,
+	0x61, 0x2d, 0x63, 0x68, 0x61, 0x74, 0x2f, 0x72, 0x62, 0x70, 0x2d, 0x66, 0x75, 0x6e, 0x63, 0x74,
+	0x6f, 0x72, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -2265,7 +2671,7 @@ func file_voice_lover_admin_proto_rawDescGZIP() []byte {
 	return file_voice_lover_admin_proto_rawDescData
 }
 
-var file_voice_lover_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
+var file_voice_lover_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
 var file_voice_lover_admin_proto_goTypes = []interface{}{
 	(*AdminVoiceLoverAudio)(nil),                // 0: pb.AdminVoiceLoverAudio
 	(*AdminVoiceLoverAudioEdit)(nil),            // 1: pb.AdminVoiceLoverAudioEdit
@@ -2296,7 +2702,12 @@ var file_voice_lover_admin_proto_goTypes = []interface{}{
 	(*RespAdminVoiceLoverAlbumChoice)(nil),      // 26: pb.RespAdminVoiceLoverAlbumChoice
 	(*RespAdminVoiceLoverAlbumChoiceList)(nil),  // 27: pb.RespAdminVoiceLoverAlbumChoiceList
 	(*AdminAlbumData)(nil),                      // 28: pb.AdminAlbumData
-	(*SubjectData)(nil),                         // 29: pb.SubjectData
+	(*AdminBannerData)(nil),                     // 29: pb.AdminBannerData
+	(*RespAdminVoiceLoverBannerList)(nil),       // 30: pb.RespAdminVoiceLoverBannerList
+	(*RespAdminVoiceLoverBannerDetail)(nil),     // 31: pb.RespAdminVoiceLoverBannerDetail
+	(*RespAdminVoiceLoverBannerCreate)(nil),     // 32: pb.RespAdminVoiceLoverBannerCreate
+	(*RespAdminVoiceLoverBannerUpdate)(nil),     // 33: pb.RespAdminVoiceLoverBannerUpdate
+	(*SubjectData)(nil),                         // 34: pb.SubjectData
 }
 var file_voice_lover_admin_proto_depIdxs = []int32{
 	1,  // 0: pb.AdminVoiceLoverAudio.edit_dubs:type_name -> pb.AdminVoiceLoverAudioEdit
@@ -2310,15 +2721,17 @@ var file_voice_lover_admin_proto_depIdxs = []int32{
 	7,  // 8: pb.RespAdminVoiceLoverAlbumList.albums:type_name -> pb.AdminVoiceLoverAlbum
 	11, // 9: pb.AdminVoiceLoverAudioCollect.collects:type_name -> pb.AdminVoiceLoverAudioCollectAlbum
 	10, // 10: pb.RespAdminVoiceLoverAudioCollectList.audios:type_name -> pb.AdminVoiceLoverAudioCollect
-	29, // 11: pb.RespAdminVoiceLoverSubjectList.list:type_name -> pb.SubjectData
-	29, // 12: pb.RespAdminVoiceLoverSubjectDetail.subject:type_name -> pb.SubjectData
+	34, // 11: pb.RespAdminVoiceLoverSubjectList.list:type_name -> pb.SubjectData
+	34, // 12: pb.RespAdminVoiceLoverSubjectDetail.subject:type_name -> pb.SubjectData
 	25, // 13: pb.RespAdminVoiceLoverAlbumCollectList.list:type_name -> pb.AdminVoiceLoverAlbumSubject
 	28, // 14: pb.RespAdminVoiceLoverAlbumChoiceList.albums:type_name -> pb.AdminAlbumData
-	15, // [15:15] is the sub-list for method output_type
-	15, // [15:15] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	29, // 15: pb.RespAdminVoiceLoverBannerList.list:type_name -> pb.AdminBannerData
+	29, // 16: pb.RespAdminVoiceLoverBannerDetail.banner:type_name -> pb.AdminBannerData
+	17, // [17:17] is the sub-list for method output_type
+	17, // [17:17] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_voice_lover_admin_proto_init() }
@@ -2676,6 +3089,66 @@ func file_voice_lover_admin_proto_init() {
 				return nil
 			}
 		}
+		file_voice_lover_admin_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AdminBannerData); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_voice_lover_admin_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespAdminVoiceLoverBannerList); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_voice_lover_admin_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespAdminVoiceLoverBannerDetail); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_voice_lover_admin_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespAdminVoiceLoverBannerCreate); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_voice_lover_admin_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespAdminVoiceLoverBannerUpdate); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -2683,7 +3156,7 @@ func file_voice_lover_admin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_voice_lover_admin_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   29,
+			NumMessages:   34,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

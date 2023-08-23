@@ -199,3 +199,39 @@ message AdminAlbumData {
   uint64 create_time = 3;
   int32 level = 4;
 }
+
+message AdminBannerData {
+    uint64 id = 1;
+    string title = 2;
+    string cover = 3;
+    string schema = 4;
+    uint64 op_uid = 5;
+    uint32 sort = 6;
+    uint64 start_time = 7;
+    uint64 end_time = 8;
+    uint64 create_time = 9;
+}
+
+message RespAdminVoiceLoverBannerList {
+  bool success = 1;
+  string msg = 2;
+  repeated AdminBannerData list = 3;
+  int32 total = 4;
+}
+
+message RespAdminVoiceLoverBannerDetail {
+  bool success = 1;
+  string msg = 2;
+  AdminBannerData banner = 3;
+}
+
+message RespAdminVoiceLoverBannerCreate {
+  bool success = 1;
+  string msg = 2;
+  uint64 id = 3;
+}
+
+message RespAdminVoiceLoverBannerUpdate {
+  bool success = 1;
+  string msg = 2;
+}
