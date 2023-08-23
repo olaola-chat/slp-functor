@@ -119,3 +119,35 @@ type ReqAdminVoiceLoverAlbumChoice struct {
 	Id     uint64
 	Choice int32
 }
+
+type ReqAdminVoiceLoverBannerList struct {
+	StartTime uint64
+	EndTime   uint64
+	Title     string
+	Status    int32
+}
+
+type ReqAdminVoiceLoverBannerCreate struct {
+	Title     string
+	Cover     string
+	Schema    string
+	OpUid     uint64
+	StartTime uint64
+	EndTime   uint64
+	Sort      uint32
+}
+
+type ReqAdminVoiceLoverBannerUpdate struct {
+	Id        uint64
+	Title     string
+	Cover     string
+	Schema    string
+	OpUid     uint64
+	StartTime uint64
+	EndTime   uint64
+	Sort      uint32
+}
+
+type ReqAdminVoiceLoverBannerDetail struct {
+	Id uint64
+}

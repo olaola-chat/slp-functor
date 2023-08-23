@@ -660,6 +660,7 @@ func (m *mainLogic) SubmitAudioComment(ctx context.Context, req *vl_pb.ReqAudioS
 
 func (m *mainLogic) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAudioCommentList, reply *vl_pb.ResCommentList) error {
 	commentList, err := dao.VoiceLoverAudioCommentDao.GetList(ctx, req.AudioId, req.Offset, req.Size)
+	g.Log().Printf("GetAudioCommentList_list=>%v", commentList)
 	if err != nil || len(commentList) == 0 {
 		return errors.New("暂无数据")
 	}
@@ -691,6 +692,7 @@ func (m *mainLogic) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAu
 		}
 		reply.List = append(reply.List, tmp)
 	}
+	g.Log().Printf("GetAudioCommentList_res=>%v", reply)
 
 	return nil
 }

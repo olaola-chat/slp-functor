@@ -6,7 +6,6 @@ import (
 	"github.com/olaola-chat/rbp-library/response"
 	context2 "github.com/olaola-chat/rbp-library/server/http/context"
 	"github.com/olaola-chat/rbp-library/tool"
-
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
@@ -40,7 +39,6 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 		})
 		return
 	}
-
 	ctx := r.GetCtx()
 	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
 	g.Log().Debugf("ctxUser=%+v", ctxUser)
@@ -239,6 +237,7 @@ func (a *voiceLoverAPI) AudioComments(r *ghttp.Request) {
 		response.Output(r, &pb.RespAudioComments{
 			Success: false,
 			Msg:     consts.ERROR_PARAM.Msg(),
+			//Msg:     err.Error(),
 		})
 		return
 	}
@@ -274,6 +273,7 @@ func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 		Type:    req.Type,
 	}
 	region, err := tool.IP.GetAddr(r.RemoteAddr)
+	g.Log().Infof("CommentAudio: %v,%v", region, err)
 	if err == nil && region.Province != "" {
 		postData.Address = region.Province
 	}

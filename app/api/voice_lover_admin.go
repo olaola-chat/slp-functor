@@ -232,6 +232,7 @@ func (a *voiceLoverAdminApi) AudioAuditReason(r *ghttp.Request) {
 	})
 	response.Output(r, &pb.RespAdminVoiceLoverAudioAuditReason{
 		Success: true,
+		Reasons: data.Reasons,
 	})
 }
 
@@ -836,5 +837,188 @@ func (a *voiceLoverAdminApi) AlbumChoiceList(r *ghttp.Request) {
 	response.Output(r, &pb.RespAdminVoiceLoverAlbumChoiceList{
 		Success: true,
 		Albums:  res,
+	})
+}
+
+// BannerList
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Param request body query.ReqAdminVoiceLoverBannerList false "request"
+// @Success 200 {object} pb.RespAdminVoiceLoverBannerList
+// @Router /go/func/admin/voice_lover/bannerList [get]
+func (a *voiceLoverAdminApi) BannerList(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverBannerList
+	if err := r.Parse(&req); err != nil {
+		response.Output(r, &pb.RespAdminVoiceLoverBannerList{
+			Msg: err.Error(),
+		})
+		return
+	}
+	ctx := r.Context()
+	reply, err := voice_lover2.VoiceLoverAdmin.GetBannerList(ctx, &voice_lover3.ReqGetBannerList{
+		StartTime: req.StartTime,
+		EndTime:   req.EndTime,
+		Status:    req.Status,
+		Title:     req.Title,
+	})
+	if err != nil {
+		response.Output(r, &pb.RespAdminVoiceLoverBannerList{
+			Msg: err.Error(),
+		})
+		return
+	}
+	res := make([]*pb.AdminBannerData, 0)
+	for _, b := range reply.Banners {
+		res = append(res, &pb.AdminBannerData{
+			Id:         b.Id,
+			Title:      b.Title,
+			Cover:      b.Cover,
+			Schema:     b.Schema,
+			OpUid:      b.OpUid,
+			Sort:       b.Sort,
+			StartTime:  b.StartTime,
+			EndTime:    b.EndTime,
+			CreateTime: b.CreateTime,
+		})
+	}
+	response.Output(r, &pb.RespAdminVoiceLoverBannerList{
+		Success: true,
+		Total:   reply.Total,
+		List:    res,
+	})
+}
+
+// BannerCreate
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Param request body query.ReqAdminVoiceLoverBannerCreate false "request"
+// @Success 200 {object} pb.RespAdminVoiceLoverBannerCreate
+// @Router /go/func/admin/voice_lover/bannerCreate [post]
+func (a *voiceLoverAdminApi) BannerCreate(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverBannerCreate
+	if err := r.Parse(&req); err != nil {
+		response.Output(r, &pb.RespAdminVoiceLoverBannerCreate{
+			Msg: err.Error(),
+		})
+		return
+	}
+	ctx := r.Context()
+	reply, err := voice_lover2.VoiceLoverAdmin.CreateBanner(ctx, &voice_lover3.ReqCreateBanner{
+		StartTime: req.StartTime,
+		EndTime:   req.EndTime,
+		Title:     req.Title,
+		OpUid:     req.OpUid,
+		Sort:      req.Sort,
+		Cover:     req.Cover,
+		Schema:    req.Schema,
+	})
+	if err != nil {
+		response.Output(r, &pb.RespAdminVoiceLoverBannerCreate{
+			Msg: err.Error(),
+		})
+		return
+	}
+	response.Output(r, &pb.RespAdminVoiceLoverBannerCreate{
+		Success: true,
+		Id:      reply.Id,
+	})
+}
+
+// BannerUpdate
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Param request body query.ReqAdminVoiceLoverBannerUpdate false "request"
+// @Success 200 {object} pb.RespAdminVoiceLoverBannerUpdate
+// @Router /go/func/admin/voice_lover/bannerUpdate [post]
+func (a *voiceLoverAdminApi) BannerUpdate(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverBannerUpdate
+	if err := r.Parse(&req); err != nil {
+		response.Output(r, &pb.RespAdminVoiceLoverBannerUpdate{
+			Msg: err.Error(),
+		})
+		return
+	}
+	ctx := r.Context()
+	_, err := voice_lover2.VoiceLoverAdmin.UpdateBanner(ctx, &voice_lover3.ReqUpdateBanner{
+		StartTime: req.StartTime,
+		EndTime:   req.EndTime,
+		Title:     req.Title,
+		OpUid:     req.OpUid,
+		Sort:      req.Sort,
+		Cover:     req.Cover,
+		Schema:    req.Schema,
+		Id:        req.Id,
+	})
+	if err != nil {
+		response.Output(r, &pb.RespAdminVoiceLoverBannerUpdate{
+			Msg: err.Error(),
+		})
+		return
+	}
+	response.Output(r, &pb.RespAdminVoiceLoverBannerUpdate{
+		Success: true,
+	})
+}
+
+// BannerDetail
+// @Tags VoiceLoverAdmin
+// @Summary 声恋后台audio 列表
+// @Description 声恋后台audio 列表
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Param request body query.ReqAdminVoiceLoverBannerDetail false "request"
+// @Success 200 {object} pb.RespAdminVoiceLoverBannerDetail
+// @Router /go/func/admin/voice_lover/bannerDetail [get]
+func (a *voiceLoverAdminApi) BannerDetail(r *ghttp.Request) {
+	var req *query.ReqAdminVoiceLoverBannerDetail
+	if err := r.Parse(&req); err != nil {
+		response.Output(r, &pb.RespAdminVoiceLoverBannerDetail{
+			Msg: err.Error(),
+		})
+		return
+	}
+	ctx := r.Context()
+	reply, err := voice_lover2.VoiceLoverAdmin.GetBannerDetail(ctx, &voice_lover3.ReqGetBannerDetail{
+
+		Id: req.Id,
+	})
+	if err != nil {
+		response.Output(r, &pb.RespAdminVoiceLoverBannerDetail{
+			Msg: err.Error(),
+		})
+		return
+	}
+	if reply.Banner == nil {
+		response.Output(r, &pb.RespAdminVoiceLoverBannerDetail{
+			Success: true,
+		})
+	}
+	banner := &pb.AdminBannerData{
+		Id:         reply.Banner.Id,
+		Title:      reply.Banner.Title,
+		Cover:      reply.Banner.Cover,
+		Schema:     reply.Banner.Schema,
+		OpUid:      reply.Banner.OpUid,
+		Sort:       reply.Banner.Sort,
+		StartTime:  reply.Banner.StartTime,
+		EndTime:    reply.Banner.EndTime,
+		CreateTime: reply.Banner.CreateTime,
+	}
+	response.Output(r, &pb.RespAdminVoiceLoverBannerDetail{
+		Success: true,
+		Banner:  banner,
 	})
 }

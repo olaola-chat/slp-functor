@@ -401,6 +401,7 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 		Id:  audioId,
 		Uid: uid,
 	})
+	g.Log().Infof("GetAudioInfoById_r: %v", detail)
 	if err != nil || detail == nil || detail.Audio == nil {
 		res.Msg = "暂无数据"
 		return res
@@ -497,6 +498,7 @@ func (serv *voiceLoverService) SubmitAlbumComment(ctx context.Context, req *vl_p
 	key := fmt.Sprintf("submit.album.comment.%d", req.Uid)
 	rds := redis.NewMutex("cache", key)
 	success, err := rds.TryLockWithTtl(ctx, time.Second*3)
+	g.Log().Printf("debug: %v,%v,%v", success, err, req.Uid)
 	if err != nil || !success {
 		ret.Msg = "请勿频繁操作"
 		return ret

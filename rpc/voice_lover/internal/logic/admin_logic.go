@@ -501,3 +501,19 @@ func (a *adminLogic) AlbumChoice(ctx context.Context, req *voice_lover.ReqAlbumC
 func (a *adminLogic) GetAlbumChoice(ctx context.Context, req *voice_lover.ReqGetAlbumChoice) ([]*functor.EntityVoiceLoverAlbum, error) {
 	return dao.VoiceLoverAlbumDao.GetAlbumChoice(ctx)
 }
+
+func (a *adminLogic) GetBannerList(ctx context.Context, req *voice_lover.ReqGetBannerList) ([]*functor.EntityVoiceLoverBanner, int32, error) {
+	return dao.VoiceLoverBannerDao.GetBannerList(ctx, req.StartTime, req.EndTime, req.Title, req.Status, int(req.Page), int(req.Limit))
+}
+
+func (a *adminLogic) CreateBanner(ctx context.Context, req *voice_lover.ReqCreateBanner) (uint64, error) {
+	return dao.VoiceLoverBannerDao.CreateBanner(ctx, req.StartTime, req.EndTime, req.Title, req.Cover, req.Schema, req.OpUid, req.Sort)
+}
+
+func (a *adminLogic) UpdateBanner(ctx context.Context, req *voice_lover.ReqUpdateBanner) error {
+	return dao.VoiceLoverBannerDao.UpdateBanner(ctx, req.Id, req.StartTime, req.EndTime, req.Title, req.Cover, req.Schema, req.OpUid, req.Sort)
+}
+
+func (a *adminLogic) GetBannerDetail(ctx context.Context, req *voice_lover.ReqGetBannerDetail) (*functor.EntityVoiceLoverBanner, error) {
+	return dao.VoiceLoverBannerDao.GetBannerById(ctx, req.Id)
+}
