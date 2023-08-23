@@ -1,0 +1,8 @@
+syntax = "proto3";
+package pb;
+
+option go_package = "github.com/olaola-chat/rbp-functor/app/pb";
+
+message MQVoiceLoverAudioAuditPassData {
+  uint64 audio_id = 1;
+}

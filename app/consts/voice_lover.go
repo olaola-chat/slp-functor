@@ -7,3 +7,7 @@ var AuditAudioReasonMap = map[uint64]string{
 	4: "音频简介不合规",
 	5: "疑似非原创",
 }
+
+const (
+	AudioPassTopic = "audio_pass"
+)
