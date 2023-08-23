@@ -232,6 +232,7 @@ func (a *voiceLoverAdminApi) AudioAuditReason(r *ghttp.Request) {
 	})
 	response.Output(r, &pb.RespAdminVoiceLoverAudioAuditReason{
 		Success: true,
+		Reasons: data.Reasons,
 	})
 }
 
