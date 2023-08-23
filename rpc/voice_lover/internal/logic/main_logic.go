@@ -757,6 +757,7 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 	}
 	//音频基础信息
 	reply.Audio = &vl_pb.AudioData{
+		Id:       row.Id,
 		Title:    row.Title,
 		Desc:     row.Desc,
 		Covers:   []string{row.Cover},
