@@ -16,6 +16,7 @@ message UserData {
   uint32 uid = 1;       // 用户uid
   string avatar = 2;    // 用户头像
   string name = 3;      // 用户昵称
+  uint32 fans_num = 4;  // 粉丝数量
 }
 
 message BannerData {

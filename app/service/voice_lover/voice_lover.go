@@ -17,6 +17,9 @@ import (
 	user_rpc "github.com/olaola-chat/rbp-proto/rpcclient/user"
 	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
+	friend_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/friends"
+	friend_rpc "github.com/olaola-chat/rbp-proto/rpcclient/friends"
+
 	"github.com/olaola-chat/rbp-library/redis"
 
 	"github.com/olaola-chat/rbp-functor/app/pb"
@@ -495,6 +498,9 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 			}
 		}
 	}
+	// 粉丝数量
+	friendRes, _ := friend_rpc.Friend.Count(ctx, &friend_pb.ReqFriendCount{Uid: res.Data.Audio.UserInfo.Uid, Follow: true})
+	res.Data.Audio.UserInfo.FansNum = friendRes.GetFollow()
 
 	//是否关注了
 	follow, err := user_rpc.UserProfile.CheckFollow(ctx, &user_pb.ReqCheckFollow{

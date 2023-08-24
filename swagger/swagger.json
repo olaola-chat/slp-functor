@@ -2758,6 +2758,10 @@
                     "description": "用户头像",
                     "type": "string"
                 },
+                "fans_num": {
+                    "description": "粉丝数量",
+                    "type": "integer"
+                },
                 "name": {
                     "description": "用户昵称",
                     "type": "string"
