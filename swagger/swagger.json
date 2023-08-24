@@ -472,7 +472,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAlbumList"
+                            "$ref": "#/definitions/pb.RespAdminVoiceLoverAudioCollectList"
                         }
                     }
                 }
@@ -1778,6 +1778,49 @@
                 }
             }
         },
+        "pb.AdminVoiceLoverAudioCollect": {
+            "type": "object",
+            "properties": {
+                "collects": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AdminVoiceLoverAudioCollectAlbum"
+                    }
+                },
+                "create_time": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "labels": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "pub_uid": {
+                    "type": "integer"
+                },
+                "pub_user_name": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "pb.AdminVoiceLoverAudioCollectAlbum": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "pb.AdminVoiceLoverAudioEdit": {
             "type": "object",
             "properties": {
@@ -2237,6 +2280,26 @@
                 },
                 "success": {
                     "type": "boolean"
+                }
+            }
+        },
+        "pb.RespAdminVoiceLoverAudioCollectList": {
+            "type": "object",
+            "properties": {
+                "audios": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AdminVoiceLoverAudioCollect"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                },
+                "total": {
+                    "type": "integer"
                 }
             }
         },
