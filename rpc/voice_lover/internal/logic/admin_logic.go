@@ -453,7 +453,7 @@ func (a *adminLogic) AlbumCollect(ctx context.Context, req *voice_lover.ReqAlbum
 				return err
 			}
 		}
-		if req.CollectType == Collect {
+		if req.CollectType == Collect && album.HasSubject == 0 {
 			err = dao.VoiceLoverAlbumDao.UpdateAlbumHasSubject(tx, req.AlbumId, int32(1))
 		}
 		if req.CollectType == CollectRemove && count == 1 {

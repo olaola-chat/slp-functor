@@ -83,10 +83,10 @@ func (v *voiceLoverAlbumSubjectDao) Delete(tx *gdb.TX, albumId uint64, subjectId
 
 func (v *voiceLoverAlbumSubjectDao) GetAlbumCollect(ctx context.Context, albumId uint64, subjectId uint64, page int32, limit int32) ([]*functor.EntityVoiceLoverAlbumSubject, int, error) {
 	d := functor2.VoiceLoverAlbumSubject.Ctx(ctx)
-	if albumId > 0 {
+	if albumId > -1 {
 		d = d.Where("album_id", albumId)
 	}
-	if subjectId > 0 {
+	if subjectId > -1 {
 		d = d.Where("subject_id", subjectId)
 	}
 	total, _ := d.Count()
