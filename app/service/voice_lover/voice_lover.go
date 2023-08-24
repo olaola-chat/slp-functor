@@ -503,12 +503,10 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 	res.Data.Audio.UserInfo.FansNum = friendRes.GetFollow()
 
 	//是否关注了
-	follow, err := user_rpc.UserProfile.CheckFollow(ctx, &user_pb.ReqCheckFollow{
-		Uid:   uid,
-		ToUid: detail.Audio.Uid,
-	})
-	if err == nil && follow != nil {
-		res.Data.IsFollow = follow.IsFollow
+	followRes, _ := friend_rpc.Friend.IsFollow(ctx, &friend_pb.ReqIsFollow{Uid: res.Data.Audio.UserInfo.Uid, Uids: []uint32{uid}})
+	g.Log().Debugf("testlw||uid=%d||toUid=%d||res=%+v", uid, res.Data.Audio.UserInfo.Uid, followRes.GetData())
+	if len(followRes.GetData()) == 1 && followRes.Data[0].GetFollow() == 1 {
+		res.Data.IsFollow = true
 	}
 
 	//是否在房间

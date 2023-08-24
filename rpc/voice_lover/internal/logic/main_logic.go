@@ -15,8 +15,6 @@ import (
 	"github.com/gogf/gf/util/gconv"
 	"github.com/olaola-chat/rbp-library/es"
 	"github.com/olaola-chat/rbp-library/redis"
-	xsDao "github.com/olaola-chat/rbp-proto/dao/xianshi"
-
 	"github.com/olaola-chat/rbp-proto/dao/functor"
 	functor2 "github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/xianshi"
@@ -892,10 +890,10 @@ func (m *mainLogic) IsUserCollectAudio(ctx context.Context, req *vl_pb.ReqCollec
 	return nil
 }
 
-func (m *mainLogic) CheckFollow(ctx context.Context, req *userpb.ReqCheckFollow, reply *userpb.RepCheckFollow) error {
-	follow, err := xsDao.XsUserFriend.Ctx(ctx).One("uid=? and to=?", req.Uid, req.ToUid)
-	if err == nil && follow != nil {
-		reply.IsFollow = true
-	}
-	return nil
-}
+//func (m *mainLogic) CheckFollow(ctx context.Context, req *userpb.ReqCheckFollow, reply *userpb.RepCheckFollow) error {
+//	follow, err := xsDao.XsUserFriend.Ctx(ctx).One("uid=? and to=?", req.Uid, req.ToUid)
+//	if err == nil && follow != nil {
+//		reply.IsFollow = true
+//	}
+//	return nil
+//}
