@@ -471,7 +471,7 @@ func (a *adminLogic) GetAlbumCollect(ctx context.Context, req *voice_lover.ReqGe
 	albumStr := req.AlbumStr
 	subjectStr := req.SubjectStr
 	var err error
-	var albumId = -1
+	var albumId = dao.AlbumSubjectPlaceHolderID
 	if len(albumStr) > 0 {
 		albumId, err = strconv.Atoi(albumStr)
 		if err != nil {
@@ -482,7 +482,7 @@ func (a *adminLogic) GetAlbumCollect(ctx context.Context, req *voice_lover.ReqGe
 			albumId = int(album.GetId())
 		}
 	}
-	var subjectId = -1
+	var subjectId = dao.AlbumSubjectPlaceHolderID
 	if len(subjectStr) > 0 {
 		subjectId, err = strconv.Atoi(subjectStr)
 		if err != nil {

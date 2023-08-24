@@ -15,6 +15,10 @@ type voiceLoverAlbumSubjectDao struct {
 
 var VoiceLoverAlbumSubjectDao = &voiceLoverAlbumSubjectDao{}
 
+const (
+	AlbumSubjectPlaceHolderID = 10000
+)
+
 func (v *voiceLoverAlbumSubjectDao) GetListBySubjectId(ctx context.Context, subjectId uint64, page int, limit int) ([]*functor.EntityVoiceLoverAlbumSubject, error) {
 	if page < 1 {
 		page = 1
@@ -83,10 +87,10 @@ func (v *voiceLoverAlbumSubjectDao) Delete(tx *gdb.TX, albumId uint64, subjectId
 
 func (v *voiceLoverAlbumSubjectDao) GetAlbumCollect(ctx context.Context, albumId uint64, subjectId uint64, page int32, limit int32) ([]*functor.EntityVoiceLoverAlbumSubject, int, error) {
 	d := functor2.VoiceLoverAlbumSubject.Ctx(ctx)
-	if albumId > -1 {
+	if albumId != AlbumSubjectPlaceHolderID {
 		d = d.Where("album_id", albumId)
 	}
-	if subjectId > -1 {
+	if subjectId != AlbumSubjectPlaceHolderID {
 		d = d.Where("subject_id", subjectId)
 	}
 	total, _ := d.Count()
