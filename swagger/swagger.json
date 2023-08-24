@@ -1901,9 +1901,31 @@
                         "type": "string"
                     }
                 },
+                "create_time": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "desc": {
+                    "description": "简介",
+                    "type": "string"
+                },
                 "id": {
                     "description": "音频唯一标识",
                     "type": "integer"
+                },
+                "labels": {
+                    "description": "标签",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "partners": {
+                    "description": "参与人",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pb.AudioPartner"
+                    }
                 },
                 "play_stats": {
                     "description": "音频播放次数",
@@ -1964,6 +1986,23 @@
                 "room_id": {
                     "description": "房间id 为0则表示不在房间内",
                     "type": "integer"
+                }
+            }
+        },
+        "pb.AudioPartner": {
+            "type": "object",
+            "properties": {
+                "tag": {
+                    "description": "标签 1:配音 2:文案 3:后期 4:封面设计",
+                    "type": "string"
+                },
+                "user": {
+                    "description": "参与人",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/pb.UserData"
+                        }
+                    ]
                 }
             }
         },

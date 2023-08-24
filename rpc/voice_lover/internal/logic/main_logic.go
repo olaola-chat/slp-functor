@@ -213,6 +213,17 @@ func convertCoversToArray(coversStr string) []string {
 	return covers
 }
 
+func convertLabelsToArray(labelsStr string) []string {
+	labels := make([]string, 0)
+	for _, s := range strings.Split(labelsStr, ",") {
+		if len(s) == 0 {
+			continue
+		}
+		labels = append(labels, s)
+	}
+	return labels
+}
+
 func (m *mainLogic) GetAlbumInfoById(ctx context.Context, req *vl_pb.ReqGetAlbumInfoById, reply *vl_pb.ResGetAlbumInfoById) error {
 	albumInfo, err := dao.VoiceLoverAlbumDao.GetValidAlbumById(ctx, req.Id)
 	if err != nil {
@@ -757,12 +768,18 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 	}
 	//音频基础信息
 	reply.Audio = &vl_pb.AudioData{
-		Id:       row.Id,
-		Title:    row.Title,
-		Desc:     row.Desc,
-		Covers:   []string{row.Cover},
-		Resource: row.Resource,
-		Uid:      uint32(row.PubUid),
+		Id:           row.Id,
+		Title:        row.Title,
+		Desc:         row.Desc,
+		Covers:       []string{row.Cover},
+		Resource:     row.Resource,
+		Labels:       convertLabelsToArray(row.Labels),
+		Uid:          uint32(row.PubUid),
+		CreateTime:   row.CreateTime,
+		EditDubs:     make([]*vl_pb.AudioEditData, 0),
+		EditContents: make([]*vl_pb.AudioEditData, 0),
+		EditPosts:    make([]*vl_pb.AudioEditData, 0),
+		EditCovers:   make([]*vl_pb.AudioEditData, 0),
 	}
 
 	//专辑基础信息
@@ -780,6 +797,34 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 		m.BuildRecAlbumsExtendInfo(ctx, reply.Album)
 	}
 
+	// 参与人信息
+	partnerList, _ := dao.VoiceLoverAudioPartnerDao.GetAudioPartnerByAudioId(ctx, req.Id)
+	for _, e := range partnerList {
+		if e.Type == Dub {
+			reply.Audio.EditDubs = append(reply.Audio.EditDubs, &vl_pb.AudioEditData{
+				Uid:  uint32(e.Uid),
+				Type: e.Type,
+			})
+		}
+		if e.Type == Content {
+			reply.Audio.EditContents = append(reply.Audio.EditContents, &vl_pb.AudioEditData{
+				Uid:  uint32(e.Uid),
+				Type: e.Type,
+			})
+		}
+		if e.Type == Post {
+			reply.Audio.EditPosts = append(reply.Audio.EditPosts, &vl_pb.AudioEditData{
+				Uid:  uint32(e.Uid),
+				Type: e.Type,
+			})
+		}
+		if e.Type == Cover {
+			reply.Audio.EditCovers = append(reply.Audio.EditCovers, &vl_pb.AudioEditData{
+				Uid:  uint32(e.Uid),
+				Type: e.Type,
+			})
+		}
+	}
 	return nil
 }
 

@@ -396,12 +396,11 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 		Data:    &pb.AudioDetail{},
 	}
 
-	// 查询专辑主体信息
+	// 查询音频主体信息
 	detail, err := vl_rpc.VoiceLoverMain.GetAudioInfoById(ctx, &vl_pb.ReqGetAudioDetail{
 		Id:  audioId,
 		Uid: uid,
 	})
-	g.Log().Infof("GetAudioInfoById_r: %v", detail)
 	if err != nil || detail == nil || detail.Audio == nil {
 		res.Msg = "暂无数据"
 		return res
@@ -418,23 +417,66 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 	}
 	res.Data = &pb.AudioDetail{
 		Audio: &pb.AudioData{
-			Id:       detail.Audio.Id,
-			Title:    detail.Audio.Title,
-			Covers:   detail.Audio.Covers,
-			Resource: detail.Audio.Resource,
-			Seconds:  detail.Audio.Seconds,
+			Id:         detail.Audio.Id,
+			Title:      detail.Audio.Title,
+			Desc:       detail.Audio.Desc,
+			Covers:     detail.Audio.Covers,
+			Resource:   detail.Audio.Resource,
+			Seconds:    detail.Audio.Seconds,
+			CreateTime: detail.Audio.CreateTime,
+			Labels:     detail.Audio.Labels,
+			UserInfo:   &pb.UserData{Uid: detail.Audio.Uid},
+			Partners:   make([]*pb.AudioPartner, 0),
 		},
 		Albums: item,
 	}
-	profile, err := user_rpc.UserProfile.Get(ctx, &user_pb.ReqUserProfile{
-		Uid:    detail.Audio.Uid,
+	uids := make([]uint32, 0)
+	uids = append(uids, detail.Audio.Uid)
+	// 处理参与人信息
+	for _, v := range detail.Audio.EditDubs {
+		uids = append(uids, v.Uid)
+		res.Data.Audio.Partners = append(res.Data.Audio.Partners, &pb.AudioPartner{
+			User: &pb.UserData{Uid: v.Uid},
+			Tag:  "配音",
+		})
+	}
+	for _, v := range detail.Audio.EditContents {
+		uids = append(uids, v.Uid)
+		res.Data.Audio.Partners = append(res.Data.Audio.Partners, &pb.AudioPartner{
+			User: &pb.UserData{Uid: v.Uid},
+			Tag:  "文案",
+		})
+	}
+	for _, v := range detail.Audio.EditCovers {
+		uids = append(uids, v.Uid)
+		res.Data.Audio.Partners = append(res.Data.Audio.Partners, &pb.AudioPartner{
+			User: &pb.UserData{Uid: v.Uid},
+			Tag:  "封面设计",
+		})
+	}
+	for _, v := range detail.Audio.EditPosts {
+		uids = append(uids, v.Uid)
+		res.Data.Audio.Partners = append(res.Data.Audio.Partners, &pb.AudioPartner{
+			User: &pb.UserData{Uid: v.Uid},
+			Tag:  "后期",
+		})
+	}
+	userInfosRes, _ := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{
+		Uids:   uids,
 		Fields: []string{"name", "icon"},
 	})
-	if err == nil && profile != nil {
-		res.Data.Audio.UserInfo = &pb.UserData{
-			Uid:    detail.Audio.Uid,
-			Name:   profile.Name,
-			Avatar: profile.Icon,
+	userInfosMap := make(map[uint32]*xianshi.EntityXsUserProfile)
+	for _, v := range userInfosRes.GetData() {
+		userInfosMap[v.Uid] = v
+	}
+	if userInfo, ok := userInfosMap[res.Data.Audio.UserInfo.Uid]; ok {
+		res.Data.Audio.UserInfo.Name = userInfo.Name
+		res.Data.Audio.UserInfo.Avatar = userInfo.Icon
+	}
+	for _, v := range res.Data.Audio.Partners {
+		if userInfo, ok := userInfosMap[v.User.Uid]; ok {
+			v.User.Name = userInfo.Name
+			v.User.Avatar = userInfo.Icon
 		}
 	}
 
