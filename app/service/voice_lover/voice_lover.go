@@ -463,7 +463,7 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 	}
 	userInfosRes, err := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{
 		Uids:   uids,
-		Fields: []string{"name", "icon"},
+		Fields: []string{"name", "icon", "uid"},
 	})
 	if err != nil {
 		g.Log().Errorf("voiceLoverService GetAudioDetail Mget userinfo error=%v", err)
