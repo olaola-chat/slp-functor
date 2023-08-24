@@ -2826,6 +2826,10 @@
                 },
                 "subjectId": {
                     "type": "integer"
+                },
+                "type": {
+                    "description": "0:收录 1:移除",
+                    "type": "integer"
                 }
             }
         },

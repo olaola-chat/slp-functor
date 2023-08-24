@@ -666,8 +666,9 @@ func (a *voiceLoverAdminApi) AlbumCollect(r *ghttp.Request) {
 	}
 	ctx := r.Context()
 	_, err := voice_lover2.VoiceLoverAdmin.AlbumCollect(ctx, &voice_lover3.ReqAlbumCollect{
-		AlbumId:   req.AlbumId,
-		SubjectId: req.SubjectId,
+		AlbumId:     req.AlbumId,
+		SubjectId:   req.SubjectId,
+		CollectType: req.Type,
 	})
 	if err != nil {
 		response.Output(r, &pb.RespAdminVoiceLoverAlbumCollect{

@@ -114,6 +114,7 @@ type ReqAdminVoiceLoverAlbumCollectList struct {
 type ReqAdminVoiceLoverAlbumCollect struct {
 	AlbumId   uint64
 	SubjectId uint64
+	Type      int32 //0:收录 1:移除
 }
 
 type ReqAdminVoiceLoverAlbumChoice struct {
