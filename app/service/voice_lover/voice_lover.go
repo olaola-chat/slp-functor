@@ -74,6 +74,18 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 	// 获取banner推荐
 	go func() {
 		defer wg.Done()
+		recBannersRes, err := vl_rpc.VoiceLoverMain.GetRecBanners(ctx, &vl_pb.ReqGetRecBanners{Uid: uid})
+		if err != nil {
+			g.Log().Errorf("voiceLoverService GetMainData GetRecBanners error=%v", err)
+			return
+		}
+		for _, v := range recBannersRes.GetBanners() {
+			res.Data.RecBanners = append(res.Data.RecBanners, &pb.BannerData{
+				Id:          uint32(v.Id),
+				ImgUrl:      v.Cover,
+				RedirectUrl: v.Schema,
+			})
+		}
 	}()
 	// 获取用户推荐
 	go func() {

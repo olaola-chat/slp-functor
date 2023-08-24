@@ -271,6 +271,22 @@ func (m *mainLogic) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums
 	return nil
 }
 
+func (m *mainLogic) GetRecBanners(ctx context.Context, req *vl_pb.ReqGetRecBanners, reply *vl_pb.ResGetRecBanners) error {
+	reply.Banners = make([]*vl_pb.BannerData, 0)
+	list, err := dao.VoiceLoverBannerDao.GetValidListByLimit(ctx, 10)
+	if err != nil {
+		return err
+	}
+	for _, v := range list {
+		reply.Banners = append(reply.Banners, &vl_pb.BannerData{
+			Id:     v.Id,
+			Cover:  v.Cover,
+			Schema: v.Schema,
+		})
+	}
+	return nil
+}
+
 func (m *mainLogic) GetRecCommonAlbums(ctx context.Context, req *vl_pb.ReqGetRecCommonAlbums, reply *vl_pb.ResGetRecAlbums) error {
 	reply.Albums = make([]*vl_pb.AlbumData, 0)
 	list, err := dao.VoiceLoverAlbumDao.GetValidAlbumListByChoice(ctx, dao.ChoiceDefault, 0, 3)

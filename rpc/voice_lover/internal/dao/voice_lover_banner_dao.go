@@ -40,6 +40,20 @@ func (v *voiceLoverBannerDao) GetBannerList(ctx context.Context, startTime, endT
 	return list, int32(count), nil
 }
 
+func (v *voiceLoverBannerDao) GetValidListByLimit(ctx context.Context, limit int) ([]*functor.EntityVoiceLoverBanner, error) {
+	now := time.Now().Unix()
+	list, err := functor2.VoiceLoverBanner.Ctx(ctx).
+		Where("start_time < ?", now).
+		Where("end_time > ?", now).
+		Limit(limit).
+		Order(functor2.VoiceLoverBanner.Columns.Sort, "desc").
+		FindAll()
+	if err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
 func (v *voiceLoverBannerDao) CreateBanner(ctx context.Context, startTime, endTime uint64, title, cover, schema string, opUid uint64, sort uint32) (uint64, error) {
 	d := functor2.VoiceLoverBanner.Ctx(ctx)
 	b := &functor.EntityVoiceLoverBanner{
