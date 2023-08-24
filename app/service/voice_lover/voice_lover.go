@@ -504,7 +504,7 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 
 	//是否关注了
 	//followRes, _ := friend_rpc.Friend.IsFollow(ctx, &friend_pb.ReqIsFollow{Uid: res.Data.Audio.UserInfo.Uid, Uids: []uint32{uid}})
-	followRes, _ := friend_rpc.Friend.IsFollow(ctx, &friend_pb.ReqIsFollow{Uid: uid, Uids: []uint32{res.Data.Audio.UserInfo.Uid}})
+	followRes, _ := friend_rpc.Friend.IsFollow(ctx, &friend_pb.ReqIsFollow{Uid: 101000023, Uids: []uint32{101000097}})
 	g.Log().Debugf("testlw||uid=%d||toUid=%d||res=%+v", uid, res.Data.Audio.UserInfo.Uid, followRes.GetData())
 	if len(followRes.GetData()) == 1 && followRes.Data[0].GetFollow() == 1 {
 		res.Data.IsFollow = true
