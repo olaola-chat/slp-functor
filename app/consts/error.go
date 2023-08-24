@@ -50,4 +50,5 @@ var (
 	ERROR_SUBJECT_HAS_ALBUM            = newError(10011, "该主题已收录专辑")
 	ERROR_ALBUM_SUBJECT_COLLECT        = newError(10012, "该专辑已收录在该专题下")
 	ERROR_ALBUM_SUBJECT_COLLECT_REMOVE = newError(10013, "该专辑还未收录在该专题下")
+	ERROR_SUBJECT_NOT_EXIST            = newError(10014, "专题不存在")
 )

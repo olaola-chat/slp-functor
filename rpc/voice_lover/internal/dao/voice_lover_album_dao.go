@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/gogf/gf/database/gdb"
 	"github.com/gogf/gf/frame/g"
 	"github.com/olaola-chat/rbp-proto/dao/functor"
 	functor2 "github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
@@ -120,7 +121,7 @@ func (v *voiceLoverAlbumDao) GetValidAlbumByName(ctx context.Context, name strin
 	return data, nil
 }
 
-func (v *voiceLoverAlbumDao) GetValidAlbumList(ctx context.Context, startTime uint64, endTime uint64, name string, page int, limit int) ([]*functor2.EntityVoiceLoverAlbum, uint32, error) {
+func (v *voiceLoverAlbumDao) GetValidAlbumList(ctx context.Context, startTime uint64, endTime uint64, name string, collectStatus int32, page int, limit int) ([]*functor2.EntityVoiceLoverAlbum, uint32, error) {
 	if endTime == 0 {
 		endTime = uint64(time.Now().Unix())
 	}
@@ -129,6 +130,9 @@ func (v *voiceLoverAlbumDao) GetValidAlbumList(ctx context.Context, startTime ui
 		Where("is_deleted", 0)
 	if len(name) > 0 {
 		d = d.Where("name", name)
+	}
+	if collectStatus > -1 {
+		d = d.Where("has_subject", collectStatus)
 	}
 	total, _ := d.Count()
 	list, err := d.Page(page, limit).Order("id desc").FindAll()
@@ -178,4 +182,16 @@ func (v *voiceLoverAlbumDao) AlbumChoice(ctx context.Context, id uint64, choice 
 func (v *voiceLoverAlbumDao) GetAlbumChoice(ctx context.Context) ([]*functor2.EntityVoiceLoverAlbum, error) {
 	list, err := functor.VoiceLoverAlbum.Ctx(ctx).Where("is_deleted", 0).Where("choice > 0").Order("choice_time desc").FindAll()
 	return list, err
+}
+
+func (v *voiceLoverAlbumDao) UpdateAlbumHasSubject(tx *gdb.TX, id uint64, hasSubject int32) error {
+	data := g.Map{
+		"update_time": time.Now().Unix(),
+	}
+	data["has_subject"] = hasSubject
+	_, err := functor.VoiceLoverAlbum.TX(tx).Where("id", id).Update(data)
+	if err != nil {
+		return err
+	}
+	return nil
 }

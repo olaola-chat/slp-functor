@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/gogf/gf/database/gdb"
 	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 )
@@ -64,14 +65,19 @@ func (v *voiceLoverAlbumSubjectDao) GetAlbumSubjectByAIdAndSId(ctx context.Conte
 	return data, nil
 }
 
-func (v *voiceLoverAlbumSubjectDao) Create(ctx context.Context, albumId uint64, subjectId uint64) error {
+func (v *voiceLoverAlbumSubjectDao) Create(tx *gdb.TX, albumId uint64, subjectId uint64) error {
 	data := &functor.EntityVoiceLoverAlbumSubject{
 		AlbumId:    albumId,
 		SubjectId:  subjectId,
 		CreateTime: uint64(time.Now().Unix()),
 		UpdateTime: uint64(time.Now().Unix()),
 	}
-	_, err := functor2.VoiceLoverAlbumSubject.Ctx(ctx).Insert(data)
+	_, err := functor2.VoiceLoverAlbumSubject.TX(tx).Insert(data)
+	return err
+}
+
+func (v *voiceLoverAlbumSubjectDao) Delete(tx *gdb.TX, albumId uint64, subjectId uint64) error {
+	_, err := functor2.VoiceLoverAlbumSubject.TX(tx).Where("album_id", albumId).Where("subject_id", subjectId).Delete()
 	return err
 }
 

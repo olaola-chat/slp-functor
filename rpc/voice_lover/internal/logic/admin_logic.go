@@ -6,9 +6,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gogf/gf/database/gdb"
 	"github.com/gogf/gf/frame/g"
 	"github.com/olaola-chat/rbp-library/es"
 	"github.com/olaola-chat/rbp-library/rocketmq"
+	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	"google.golang.org/protobuf/proto"
@@ -278,7 +280,7 @@ func (a *adminLogic) GetAlbumDetail(ctx context.Context, req *voice_lover.ReqGet
 }
 
 func (a *adminLogic) GetAlbumList(ctx context.Context, req *voice_lover.ReqGetAlbumList) ([]*voice_lover.AlbumData, int32, error) {
-	list, total, err := dao.VoiceLoverAlbumDao.GetValidAlbumList(ctx, req.StartTime, req.EndTime, req.Name, int(req.Page), int(req.Limit))
+	list, total, err := dao.VoiceLoverAlbumDao.GetValidAlbumList(ctx, req.StartTime, req.EndTime, req.Name, req.CollectStatus, int(req.Page), int(req.Limit))
 	if err != nil {
 		return nil, 0, err
 	}
@@ -410,21 +412,57 @@ func (a *adminLogic) GetSubjectList(ctx context.Context, req *voice_lover.ReqGet
 }
 
 func (a *adminLogic) AlbumCollect(ctx context.Context, req *voice_lover.ReqAlbumCollect) error {
+	album, err := dao.VoiceLoverAlbumDao.GetValidAlbumById(ctx, req.AlbumId)
+	if err != nil {
+		return err
+	}
+	if album == nil {
+		return consts.ERROR_ALBUM_NOT_EXIST
+	}
+	subject, err := dao.VoiceLoverSubjectDao.GetValidSubjectById(ctx, req.SubjectId)
+	if err != nil {
+		return err
+	}
+	if subject == nil {
+		return consts.ERROR_SUBJECT_NOT_EXIST
+	}
 	albumSubject, err := dao.VoiceLoverAlbumSubjectDao.GetAlbumSubjectByAIdAndSId(ctx, req.AlbumId, req.SubjectId)
 	if err != nil {
 		return err
 	}
-	if req.CollectType == Collect {
-		if albumSubject != nil {
-			return consts.ERROR_ALBUM_SUBJECT_COLLECT
+	err = functor2.VoiceLoverAlbumSubject.DB.Transaction(func(tx *gdb.TX) error {
+		if req.CollectType == Collect {
+			if albumSubject != nil {
+				return consts.ERROR_ALBUM_SUBJECT_COLLECT
+			}
+			err = dao.VoiceLoverAlbumSubjectDao.Create(tx, req.AlbumId, req.SubjectId)
+			if err != nil {
+				return err
+			}
 		}
-	}
-	if req.CollectType == CollectRemove {
-		if albumSubject == nil {
-			return consts.ERROR_ALBUM_SUBJECT_COLLECT_REMOVE
+		if req.CollectType == CollectRemove {
+			if albumSubject == nil {
+				return consts.ERROR_ALBUM_SUBJECT_COLLECT_REMOVE
+			}
+			err = dao.VoiceLoverAlbumSubjectDao.Delete(tx, req.AlbumId, req.SubjectId)
+			if err != nil {
+				return err
+			}
 		}
-	}
-	err = dao.VoiceLoverAlbumSubjectDao.Create(ctx, req.AlbumId, req.SubjectId)
+		count, err := dao.VoiceLoverAlbumSubjectDao.GetCountByAlbumId(ctx, req.GetAlbumId())
+		if err != nil {
+			return err
+		}
+		hasSubject := 0
+		if count > 0 {
+			hasSubject = 1
+		}
+		err = dao.VoiceLoverAlbumDao.UpdateAlbumHasSubject(tx, req.AlbumId, int32(hasSubject))
+		if err != nil {
+			return err
+		}
+		return nil
+	})
 	return err
 }
 

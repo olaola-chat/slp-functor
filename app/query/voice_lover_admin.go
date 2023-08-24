@@ -52,9 +52,10 @@ type ReqAdminVoiceLoverAlbumUpdate struct {
 
 type ReqAdminVoiceLoverAlbumList struct {
 	Paginator
-	Name      string
-	StartTime uint64
-	EndTime   uint64
+	Name          string
+	StartTime     uint64
+	EndTime       uint64
+	CollectStatus int32 //-1:全部 0:未收录 1:已收录
 }
 
 type ReqAdminVoiceLoverAlbumDetail struct {

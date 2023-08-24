@@ -109,3 +109,11 @@ func (v *voiceLoverSubjectDao) GetValidSubjectByName(ctx context.Context, name s
 	}
 	return subject, nil
 }
+
+func (v *voiceLoverSubjectDao) GetValidSubjectById(ctx context.Context, id uint64) (*functor2.EntityVoiceLoverSubject, error) {
+	subject, err := functor.VoiceLoverSubject.Ctx(ctx).Where("id", id).Where(functor.VoiceLoverSubject.Columns.IsDeleted, Subject_IsDeletedDefault).One()
+	if err != nil {
+		return nil, err
+	}
+	return subject, nil
+}

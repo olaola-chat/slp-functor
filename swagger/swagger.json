@@ -2883,6 +2883,10 @@
         "query.ReqAdminVoiceLoverAlbumList": {
             "type": "object",
             "properties": {
+                "collectStatus": {
+                    "description": "-1:全部 0:未收录 1:已收录",
+                    "type": "integer"
+                },
                 "endTime": {
                     "type": "integer"
                 },

@@ -399,7 +399,7 @@ func (a *voiceLoverAdminApi) AlbumList(r *ghttp.Request) {
 	}
 	ctx := r.Context()
 	reply, err := voice_lover2.VoiceLoverAdmin.GetAlbumList(ctx, &voice_lover3.ReqGetAlbumList{Name: req.Name, StartTime: req.StartTime, EndTime: req.EndTime,
-		Limit: int32(req.Limit), Page: int32(req.Page)})
+		Limit: int32(req.Limit), Page: int32(req.Page), CollectStatus: req.CollectStatus})
 	if err != nil {
 		response.Output(r, &pb.RespAdminVoiceLoverAlbumList{
 			Msg: err.Error(),
