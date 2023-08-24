@@ -461,22 +461,26 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 			Tag:  "后期",
 		})
 	}
-	userInfosRes, _ := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{
+	userInfosRes, err := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{
 		Uids:   uids,
 		Fields: []string{"name", "icon"},
 	})
-	userInfosMap := make(map[uint32]*xianshi.EntityXsUserProfile)
-	for _, v := range userInfosRes.GetData() {
-		userInfosMap[v.Uid] = v
-	}
-	if userInfo, ok := userInfosMap[res.Data.Audio.UserInfo.Uid]; ok {
-		res.Data.Audio.UserInfo.Name = userInfo.Name
-		res.Data.Audio.UserInfo.Avatar = userInfo.Icon
-	}
-	for _, v := range res.Data.Audio.Partners {
-		if userInfo, ok := userInfosMap[v.User.Uid]; ok {
-			v.User.Name = userInfo.Name
-			v.User.Avatar = userInfo.Icon
+	if err != nil {
+		g.Log().Errorf("voiceLoverService GetAudioDetail Mget userinfo error=%v", err)
+	} else {
+		userInfosMap := make(map[uint32]*xianshi.EntityXsUserProfile)
+		for _, v := range userInfosRes.GetData() {
+			userInfosMap[v.Uid] = v
+		}
+		if userInfo, ok := userInfosMap[res.Data.Audio.UserInfo.Uid]; ok {
+			res.Data.Audio.UserInfo.Name = userInfo.Name
+			res.Data.Audio.UserInfo.Avatar = userInfo.Icon
+		}
+		for _, v := range res.Data.Audio.Partners {
+			if userInfo, ok := userInfosMap[v.User.Uid]; ok {
+				v.User.Name = userInfo.Name
+				v.User.Avatar = userInfo.Icon
+			}
 		}
 	}
 
