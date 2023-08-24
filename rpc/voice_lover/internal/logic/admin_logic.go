@@ -430,6 +430,10 @@ func (a *adminLogic) AlbumCollect(ctx context.Context, req *voice_lover.ReqAlbum
 	if err != nil {
 		return err
 	}
+	count, err := dao.VoiceLoverAlbumSubjectDao.GetCountByAlbumId(ctx, req.GetAlbumId())
+	if err != nil {
+		return err
+	}
 	err = functor2.VoiceLoverAlbumSubject.DB.Transaction(func(tx *gdb.TX) error {
 		if req.CollectType == Collect {
 			if albumSubject != nil {
@@ -449,15 +453,12 @@ func (a *adminLogic) AlbumCollect(ctx context.Context, req *voice_lover.ReqAlbum
 				return err
 			}
 		}
-		count, err := dao.VoiceLoverAlbumSubjectDao.GetCountByAlbumId(ctx, req.GetAlbumId())
-		if err != nil {
-			return err
+		if req.CollectType == Collect {
+			err = dao.VoiceLoverAlbumDao.UpdateAlbumHasSubject(tx, req.AlbumId, int32(1))
 		}
-		hasSubject := 0
-		if count > 0 {
-			hasSubject = 1
+		if req.CollectType == CollectRemove && count == 1 {
+			err = dao.VoiceLoverAlbumDao.UpdateAlbumHasSubject(tx, req.AlbumId, int32(0))
 		}
-		err = dao.VoiceLoverAlbumDao.UpdateAlbumHasSubject(tx, req.AlbumId, int32(hasSubject))
 		if err != nil {
 			return err
 		}
