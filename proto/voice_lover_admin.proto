@@ -71,6 +71,7 @@ message AdminVoiceLoverAlbum {
   uint64 op_uid = 5;
   int32 audio_count = 6;
   uint64 create_time = 7;
+  int32 has_subject = 8;
 }
 
 message RespAdminVoiceLoverAlbumDetail {

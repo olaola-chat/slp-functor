@@ -416,6 +416,7 @@ func (a *voiceLoverAdminApi) AlbumList(r *ghttp.Request) {
 			OpUid:      l.OpUid,
 			AudioCount: int32(l.AudioCount),
 			CreateTime: l.CreateTime,
+			HasSubject: l.HasSubject,
 		})
 	}
 	response.Output(r, &pb.RespAdminVoiceLoverAlbumList{

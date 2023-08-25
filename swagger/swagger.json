@@ -1659,6 +1659,9 @@
                 "create_time": {
                     "type": "integer"
                 },
+                "has_subject": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "integer"
                 },

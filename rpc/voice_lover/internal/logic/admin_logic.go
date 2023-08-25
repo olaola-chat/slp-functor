@@ -295,6 +295,7 @@ func (a *adminLogic) GetAlbumList(ctx context.Context, req *voice_lover.ReqGetAl
 			CreateTime: l.CreateTime,
 			AudioCount: uint32(count),
 			OpUid:      l.OpUid,
+			HasSubject: int32(l.HasSubject),
 		})
 	}
 	return res, int32(total), nil
