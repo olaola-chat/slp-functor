@@ -3390,12 +3390,12 @@
         "query.ReqReport": {
             "type": "object",
             "properties": {
-                "id": {
-                    "description": "资源id",
+                "from": {
+                    "description": "0-专辑 1-音频",
                     "type": "integer"
                 },
-                "type": {
-                    "description": "0-专辑 1-音频",
+                "id": {
+                    "description": "资源id",
                     "type": "integer"
                 }
             }
