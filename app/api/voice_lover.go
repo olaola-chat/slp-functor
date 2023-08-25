@@ -188,8 +188,7 @@ func (a *voiceLoverAPI) CommentAlbum(r *ghttp.Request) {
 		Uid:     ctxUser.UID,
 	}
 	region, err := tool.IP.GetAddr(r.RemoteAddr)
-	g.Log().Debugf("test IP: r.RemoteAddr=%s  region=%+v", r.RemoteAddr, region)
-	if err == nil && region.Province != "" {
+	if err == nil && region.Province != "" && region.Province != "0" {
 		postData.Address = region.Province
 	}
 	ret := vl_serv.VoiceLoverService.SubmitAlbumComment(ctx, postData)
@@ -273,8 +272,7 @@ func (a *voiceLoverAPI) CommentAudio(r *ghttp.Request) {
 		Type:    req.Type,
 	}
 	region, err := tool.IP.GetAddr(r.RemoteAddr)
-	g.Log().Infof("CommentAudio: %v,%v", region, err)
-	if err == nil && region.Province != "" {
+	if err == nil && region.Province != "" && region.Province != "0" {
 		postData.Address = region.Province
 	}
 	ret := vl_serv.VoiceLoverService.SubmitAudioComment(ctx, postData)

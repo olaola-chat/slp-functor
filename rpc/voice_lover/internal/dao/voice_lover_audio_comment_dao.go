@@ -16,8 +16,12 @@ var VoiceLoverAudioCommentDao = &voiceLoverAudioCommentDao{}
 
 func (v *voiceLoverAudioCommentDao) GetList(ctx context.Context, audioId uint64, offset int32, limit uint32) (
 	[]*functor.EntityVoiceLoverAudioComment, error) {
-	res, err := functor2.VoiceLoverAudioComment.Ctx(ctx).Where(
-		functor2.VoiceLoverAudioComment.Columns.AudioID, audioId).Offset(int(offset)).Limit(int(limit)).FindAll()
+	res, err := functor2.VoiceLoverAudioComment.Ctx(ctx).
+		Where(functor2.VoiceLoverAudioComment.Columns.AudioID, audioId).
+		Offset(int(offset)).
+		Limit(int(limit)).
+		Order(functor2.VoiceLoverAudioComment.Columns.CreateTime, "desc").
+		FindAll()
 	if err != nil {
 		return nil, err
 	}

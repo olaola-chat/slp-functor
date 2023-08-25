@@ -30,8 +30,11 @@ func (v *voiceLoverAlbumCommentDao) GetValidCommentCountByAlbumId(ctx context.Co
 }
 
 func (v *voiceLoverAlbumCommentDao) GetList(ctx context.Context, albumId uint64, offset int32, limit uint32) ([]*dbpb.EntityVoiceLoverAlbumComment, error) {
-	res, err := functor.VoiceLoverAlbumComment.Ctx(ctx).Where(functor.VoiceLoverAlbumComment.Columns.AlbumID,
-		albumId).Offset(int(offset)).Limit(int(limit)).FindAll()
+	res, err := functor.VoiceLoverAlbumComment.Ctx(ctx).
+		Where(functor.VoiceLoverAlbumComment.Columns.AlbumID, albumId).
+		Offset(int(offset)).
+		Limit(int(limit)).
+		Order(functor.VoiceLoverAlbumComment.Columns.CreateTime, "desc").FindAll()
 	if err != nil {
 		return nil, err
 	}
