@@ -442,6 +442,7 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 			Labels:     detail.Audio.Labels,
 			UserInfo:   &pb.UserData{Uid: detail.Audio.Uid},
 			Partners:   make([]*pb.AudioPartner, 0),
+			PlayStats: detail.Audio.PlayCountDesc,
 		},
 		Albums: item,
 	}
