@@ -796,6 +796,15 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 		EditCovers:   make([]*vl_pb.AudioEditData, 0),
 	}
 
+	// 获取音频播放数量
+	val := m.rds.Get(ctx, consts.VoiceLoverAudioPlayCount.Key(req.Id)).Val()
+	reply.Audio.PlayCount = gconv.Uint64(val)
+	if reply.Audio.PlayCount < 10000 {
+		reply.Audio.PlayCountDesc = fmt.Sprintf("%d", reply.Audio.PlayCount)
+	} else {
+		reply.Audio.PlayCountDesc = fmt.Sprintf("%.1fw", float64(reply.Audio.PlayCount)/10000.0)
+	}
+
 	//专辑基础信息
 	albumIds, err := dao.VoiceLoverAudioAlbumDao.GetAlbumIdsByAudioId(ctx, req.Id)
 	if err == nil && len(albumIds) > 0 {
