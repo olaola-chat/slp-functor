@@ -191,11 +191,11 @@ func (m *mainLogic) BuildRecAlbumsExtendInfo(ctx context.Context, infos []*vl_pb
 		}
 		if playCount, ok := playCountsMap[v.Id]; ok {
 			v.PlayCount = playCount
-			if playCount < 10000 {
-				v.PlayCountDesc = fmt.Sprintf("%d", playCount)
-			} else {
-				v.PlayCountDesc = fmt.Sprintf("%.1fw", float64(playCount)/10000.0)
-			}
+		}
+		if v.PlayCount < 10000 {
+			v.PlayCountDesc = fmt.Sprintf("%d", v.PlayCount)
+		} else {
+			v.PlayCountDesc = fmt.Sprintf("%.1fw", float64(v.PlayCount)/10000.0)
 		}
 	}
 }
