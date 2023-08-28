@@ -497,11 +497,11 @@ func (m *mainLogic) Collect(ctx context.Context, req *vl_pb.ReqCollect, reply *v
 	if req.Type == 0 {
 		// 处理专辑
 		key := consts.UserCollectAlbumKey.Key(req.Uid, req.Id)
-		if req.From == 0 {
+		if req.From == 1 {
 			// 收藏
 			_, err = dao.VoiceLoverUserCollectDao.Add(ctx, req.Uid, req.Id, dao.CollectTypeAlbum)
 			_ = m.rds.Set(ctx, key, 1, consts.UserCollectAlbumKey.Ttl())
-		} else if req.From == 1 {
+		} else if req.From == 0 {
 			// 取消收藏
 			err = dao.VoiceLoverUserCollectDao.Delete(ctx, req.Uid, req.Id, dao.CollectTypeAlbum)
 			_ = m.rds.Set(ctx, key, 0, consts.UserCollectAlbumKey.Ttl())
@@ -512,11 +512,11 @@ func (m *mainLogic) Collect(ctx context.Context, req *vl_pb.ReqCollect, reply *v
 	} else if req.Type == 1 {
 		// 处理音频
 		key := consts.UserCollectAudioKey.Key(req.Uid, req.Id)
-		if req.From == 0 {
+		if req.From == 1 {
 			// 收藏
 			_, err = dao.VoiceLoverUserCollectDao.Add(ctx, req.Uid, req.Id, dao.CollectTypeAudio)
 			_ = m.rds.Set(ctx, key, 1, consts.UserCollectAudioKey.Ttl())
-		} else if req.From == 1 {
+		} else if req.From == 0 {
 			// 取消收藏
 			err = dao.VoiceLoverUserCollectDao.Delete(ctx, req.Uid, req.Id, dao.CollectTypeAudio)
 			_ = m.rds.Set(ctx, key, 0, consts.UserCollectAudioKey.Ttl())
