@@ -88,3 +88,11 @@ type ReqShareAlbum struct {
 type ReqShareAudio struct {
 	AudioId uint64 `v:"audio_id@required"` // 音频id
 }
+
+type ReqShareAlbumFans struct {
+	AlbumId uint64 `v:"album_id@required"` // 专辑id
+}
+
+type ReqShareAudioFans struct {
+	AudioId uint64 `v:"audio_id@required"` // 音频id
+}

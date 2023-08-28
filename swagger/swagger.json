@@ -1542,6 +1542,44 @@
                 }
             }
         },
+        "/go/func/voice_lover/shareAlbumFans": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "分享专辑通知粉丝接口",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "分享专辑通知粉丝接口",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqShareAlbumFans"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.CommonResp"
+                        }
+                    }
+                }
+            }
+        },
         "/go/func/voice_lover/shareAudio": {
             "get": {
                 "security": [
@@ -1575,6 +1613,44 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/pb.RespShareInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/go/func/voice_lover/shareAudioFans": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth,OAuth2Implicit": []
+                    }
+                ],
+                "description": "分享音频通知粉丝接口",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VoiceLover"
+                ],
+                "summary": "分享音频通知粉丝接口",
+                "parameters": [
+                    {
+                        "description": "request",
+                        "name": "request",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/query.ReqShareAudioFans"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pb.CommonResp"
                         }
                     }
                 }
@@ -3412,7 +3488,25 @@
                 }
             }
         },
+        "query.ReqShareAlbumFans": {
+            "type": "object",
+            "properties": {
+                "albumId": {
+                    "description": "专辑id",
+                    "type": "integer"
+                }
+            }
+        },
         "query.ReqShareAudio": {
+            "type": "object",
+            "properties": {
+                "audioId": {
+                    "description": "音频id",
+                    "type": "integer"
+                }
+            }
+        },
+        "query.ReqShareAudioFans": {
             "type": "object",
             "properties": {
                 "audioId": {

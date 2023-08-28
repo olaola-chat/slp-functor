@@ -551,3 +551,51 @@ func (a *voiceLoverAPI) ShareAudio(r *ghttp.Request) {
 	}
 	response.Output(r, data)
 }
+
+// ShareAlbumFans
+// @Tags VoiceLover
+// @Summary 分享专辑通知粉丝接口
+// @Description 分享专辑通知粉丝接口
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Param request body query.ReqShareAlbumFans false "request"
+// @Success 200 {object} pb.CommonResp
+// @Router /go/func/voice_lover/shareAlbumFans [post]
+func (a *voiceLoverAPI) ShareAlbumFans(r *ghttp.Request) {
+	var req *query.ReqShareAlbumFans
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.CommonResp{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	response.Output(r, &pb.CommonResp{
+		Success: true,
+	})
+}
+
+// ShareAudioFans
+// @Tags VoiceLover
+// @Summary 分享音频通知粉丝接口
+// @Description 分享音频通知粉丝接口
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Param request body query.ReqShareAudioFans false "request"
+// @Success 200 {object} pb.CommonResp
+// @Router /go/func/voice_lover/shareAudioFans [post]
+func (a *voiceLoverAPI) ShareAudioFans(r *ghttp.Request) {
+	var req *query.ReqShareAudioFans
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.CommonResp{
+			Success: false,
+			Msg:     consts.ERROR_PARAM.Msg(),
+		})
+		return
+	}
+	response.Output(r, &pb.CommonResp{
+		Success: true,
+	})
+}
