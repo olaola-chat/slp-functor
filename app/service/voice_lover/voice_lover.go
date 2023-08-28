@@ -41,11 +41,11 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 			RecUsers:     make([]*pb.UserData, 0),
 			RecSubjects:  make([]*pb.SubjectData, 0),
 			CommonAlbums: make([]*pb.AlbumData, 0),
-			IsAnchor:     true,
+			IsAnchor:     false,
 		},
 	}
 	wg := sync.WaitGroup{}
-	wg.Add(5)
+	wg.Add(6)
 	// 获取精选专辑推荐
 	go func() {
 		defer wg.Done()
@@ -150,6 +150,14 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 				AudioTotal: v.AudioCount,
 				PlayStats:  v.PlayCountDesc,
 			})
+		}
+	}()
+	// 判断是否有有效工会
+	go func() {
+		defer wg.Done()
+		isBrokerUserRes, _ := user_rpc.UserProfile.IsValidBrokerUser(ctx, &user_pb.ReqIsValidBrokerUser{Uid: uid})
+		if isBrokerUserRes.GetResult() {
+			res.Data.IsAnchor = true
 		}
 	}()
 	wg.Wait()
