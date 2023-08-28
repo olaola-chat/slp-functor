@@ -2784,6 +2784,9 @@
                         "$ref": "#/definitions/pb.AlbumData"
                     }
                 },
+                "is_anchor": {
+                    "type": "boolean"
+                },
                 "rec_albums": {
                     "type": "array",
                     "items": {
@@ -3318,7 +3321,7 @@
             "type": "object",
             "properties": {
                 "from": {
-                    "description": "0-收藏 1-取消收藏",
+                    "description": "0-取消收藏 1-收藏",
                     "type": "integer"
                 },
                 "id": {

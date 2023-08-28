@@ -14,6 +14,7 @@ message VoiceLoverMain {
   repeated UserData rec_users = 3;
   repeated SubjectData rec_subjects = 4;
   repeated AlbumData common_albums = 5;
+  bool is_anchor = 6;
 }
 message RespVoiceLoverMain {
   bool success = 1;
