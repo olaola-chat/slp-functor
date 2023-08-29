@@ -361,7 +361,7 @@ func (m *mainLogic) GetSubjectAlbumsByPage(ctx context.Context, req *vl_pb.ReqGe
 
 func (m *mainLogic) GetRecSubjects(ctx context.Context, req *vl_pb.ReqGetRecSubjects, reply *vl_pb.ResGetRecSubjects) error {
 	reply.Subjects = make([]*vl_pb.SubjectData, 0)
-	list, err := dao.VoiceLoverSubjectDao.GetValidSubjectList(ctx, 0, 3)
+	list, err := dao.VoiceLoverSubjectDao.GetValidSubjectList(ctx, 0, 10)
 	if err != nil {
 		return err
 	}
