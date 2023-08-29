@@ -65,3 +65,13 @@ func (v *voiceLoverAudioDao) UpdateAudioById(ctx context.Context, id uint64, dat
 	affect, _ := sqlRes.RowsAffected()
 	return affect, nil
 }
+
+func (v *voiceLoverAudioDao) GetValidUidsByUid(ctx context.Context, uid uint32) ([]*functor.EntityVoiceLoverAudio, error) {
+	list, err := functor2.VoiceLoverAudio.Ctx(ctx).Fields(functor2.VoiceLoverAudio.Columns.PubUID).
+		Where(fmt.Sprintf("%s != ?", functor2.VoiceLoverAudio.Columns.PubUID), uid).
+		Where(functor2.VoiceLoverAudio.Columns.AuditStatus, AuditPass).Limit(1000).FindAll()
+	if err != nil {
+		return nil, err
+	}
+	return list, nil
+}

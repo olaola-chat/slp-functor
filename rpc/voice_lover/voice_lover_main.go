@@ -111,6 +111,6 @@ func (v *VoiceLoverMain) IsUserCollectAudio(ctx context.Context, req *vl_pb.ReqC
 	return logic.MainLogic.IsUserCollectAudio(ctx, req, reply)
 }
 
-//func (v *VoiceLoverMain) CheckFollow(ctx context.Context, req *userpb.ReqCheckFollow, reply *userpb.RepCheckFollow) error {
-//	return logic.MainLogic.CheckFollow(ctx, req, reply)
-//}
+func (v *VoiceLoverMain) GetValidAudioUsers(ctx context.Context, req *vl_pb.ReqGetValidAudioUsers, reply *vl_pb.ResGetValidAudioUsers) error {
+	return logic.MainLogic.GetValidAudioUsers(ctx, req, reply)
+}

@@ -24,6 +24,7 @@ import (
 	userpb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
 
 	voice_lover2 "github.com/olaola-chat/rbp-functor/app/model/voice_lover"
+	"github.com/olaola-chat/rbp-functor/app/utils"
 	"github.com/olaola-chat/rbp-functor/rpc/consts"
 	"github.com/olaola-chat/rbp-functor/rpc/voice_lover/internal/dao"
 )
@@ -361,7 +362,7 @@ func (m *mainLogic) GetSubjectAlbumsByPage(ctx context.Context, req *vl_pb.ReqGe
 
 func (m *mainLogic) GetRecSubjects(ctx context.Context, req *vl_pb.ReqGetRecSubjects, reply *vl_pb.ResGetRecSubjects) error {
 	reply.Subjects = make([]*vl_pb.SubjectData, 0)
-	list, err := dao.VoiceLoverSubjectDao.GetValidSubjectList(ctx, 0, 3)
+	list, err := dao.VoiceLoverSubjectDao.GetValidSubjectList(ctx, 0, 10)
 	if err != nil {
 		return err
 	}
@@ -906,10 +907,27 @@ func (m *mainLogic) IsUserCollectAudio(ctx context.Context, req *vl_pb.ReqCollec
 	return nil
 }
 
-//func (m *mainLogic) CheckFollow(ctx context.Context, req *userpb.ReqCheckFollow, reply *userpb.RepCheckFollow) error {
-//	follow, err := xsDao.XsUserFriend.Ctx(ctx).One("uid=? and to=?", req.Uid, req.ToUid)
-//	if err == nil && follow != nil {
-//		reply.IsFollow = true
-//	}
-//	return nil
-//}
+func (m *mainLogic) GetValidAudioUsers(ctx context.Context, req *vl_pb.ReqGetValidAudioUsers, reply *vl_pb.ResGetValidAudioUsers) error {
+	reply.Uids = make([]uint32, 0)
+	val := m.rds.SMembers(ctx, consts.VoiceLoverAudioPostUids.Key()).Val()
+	if len(val) == 0 {
+		// 从mysql查询数据
+		list, err := dao.VoiceLoverAudioDao.GetValidUidsByUid(ctx, req.Uid)
+		if err != nil {
+			g.Log().Errorf("mainLogic GetValidAudioUsers GetValidUidsByUid error=%v", err)
+			return err
+		}
+		tmpUids := make([]uint64, 0)
+		for _, v := range list {
+			tmpUids = append(tmpUids, v.PubUid)
+		}
+		uids := utils.DistinctUint64Slice(tmpUids)
+		reply.Uids = gconv.Uint32s(uids)
+		if len(uids) != 0 {
+			_ = m.rds.SAdd(ctx, consts.VoiceLoverAudioPostUids.Key(), uids)
+		}
+	} else {
+		reply.Uids = gconv.Uint32s(val)
+	}
+	return nil
+}
