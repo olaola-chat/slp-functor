@@ -9,14 +9,11 @@ import (
 	"github.com/gogf/gf/database/gdb"
 	"github.com/gogf/gf/frame/g"
 	"github.com/olaola-chat/rbp-library/es"
-	"github.com/olaola-chat/rbp-library/rocketmq"
 	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
-	"google.golang.org/protobuf/proto"
 
 	"github.com/olaola-chat/rbp-functor/app/consts"
-	"github.com/olaola-chat/rbp-functor/app/pb"
 	"github.com/olaola-chat/rbp-functor/rpc/voice_lover/internal/dao"
 )
 
@@ -166,12 +163,12 @@ func (a *adminLogic) AuditAudio(ctx context.Context, req *voice_lover.ReqAuditAu
 		delete(data, "update_time")
 		_ = es.EsClient(es.EsVpc).Update("voice_lover_audio", req.Id, data)
 
-		if req.AuditStatus == dao.AuditPass {
+		/**if req.AuditStatus == dao.AuditPass {
 			// 审核通过 发送mq消息
 			if mqData, pErr := proto.Marshal(&pb.MQVoiceLoverAudioAuditPassData{AudioId: req.Id}); pErr == nil {
 				_ = rocketmq.NewClient("default").Produce(consts.AudioPassTopic, mqData)
 			}
-		}
+		}**/
 	}
 	return nil
 }
