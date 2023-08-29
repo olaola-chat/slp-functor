@@ -17,7 +17,7 @@ CREATE TABLE `voice_lover_audio`
     PRIMARY KEY (`id`),
     KEY            `idx_puid` (`pub_uid`),
     KEY            `idx_create_time` (`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='声音恋人音频表';
+) ENGINE=InnoDB AUTO_INCREMENT=1000000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='声音恋人音频表';
 
 CREATE TABLE `voice_lover_audio_partner`
 (
