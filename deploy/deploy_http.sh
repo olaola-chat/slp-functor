@@ -1,7 +1,7 @@
 #!/bin/bash  
 
 httpExitFun(){
-	curl "http://127.0.0.1:9090/unregister"
+	curl "http://127.0.0.1:8081/unregister"
 }
 
 cd `dirname $0`

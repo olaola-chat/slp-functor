@@ -1,6 +1,6 @@
 # HTTP Server.
 [server]
-	Address        = ":9090"
+	Address        = ":8081"
 	ServerRoot     = "public"
 	ServerAgent    = "we are family"
 	LogPath        = "/tmp/log/server"
@@ -11,7 +11,7 @@
 	RunMode	       = "prod"
 	AlphaHosts		= ["iZbp1ddfx87fw4rdskyov2Z"]
 	Language		   = ["zh-cn"]
-	TraceName	   = "rbp-go-prod"
+	TraceName	   = "rbp-functor-prod"
 
 # Logger configurations.
 [logger]

@@ -31,17 +31,6 @@ CREATE TABLE `voice_lover_audio_partner`
     KEY           `idx_adid` (`audio_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT '房间恋人音频参与人表';
 
-CREATE TABLE `voice_lover_audio_label`
-(
-    `id`          bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
-    `audio_id`    bigint(20) unsigned NOT NULL COMMENT '音频id',
-    `label`       varchar(256) NOT NULL DEFAULT '' COMMENT '标签文案',
-    `create_time` bigint(20) unsigned NOT NULL COMMENT '创建时间',
-    `update_time` bigint(20) unsigned NOT NULL COMMENT '更新时间',
-    PRIMARY KEY (`id`),
-    KEY           `idx_adid` (`audio_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT '房间恋人音频标签表';
-
 CREATE TABLE `voice_lover_audio_comment`
 (
     `id`          bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
