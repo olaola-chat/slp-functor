@@ -9,10 +9,10 @@ cd ..
 
 path=$(pwd)
 
-targetPath="/home/ecs-user/webroot/rbp.http"
-logPath="/home/ecs-user/log/rbp.http"
+targetPath="/home/ecs-user/webroot/rbp-functor.http"
+logPath="/home/ecs-user/log/rbp-functor.http"
 supervisorPath="/home/ecs-user/.local/etc/supervisor/conf.d"
-prefix="rbp"
+prefix="rbp-functor"
 
 if [ ! -d "$targetPath" ]; then
 	mkdir -p "$targetPath"
