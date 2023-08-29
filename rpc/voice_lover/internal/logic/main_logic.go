@@ -170,6 +170,7 @@ func (m *mainLogic) BuildRecAlbumsExtendInfo(ctx context.Context, infos []*vl_pb
 	countMap := make(map[uint64]uint32)
 	playCountsMap := make(map[uint64]uint64)
 	wg := sync.WaitGroup{}
+	mutex := &sync.Mutex{}
 	for _, v := range infos {
 		if _, ok := countMap[v.Id]; ok {
 			continue
@@ -181,7 +182,9 @@ func (m *mainLogic) BuildRecAlbumsExtendInfo(ctx context.Context, infos []*vl_pb
 			total, _ := dao.VoiceLoverAudioAlbumDao.GetCountByAlbumId(ctx, albumId)
 			countMap[albumId] = uint32(total)
 			playCount := gconv.Uint64(m.rds.Get(ctx, consts.VoiceLoverAlbumPlayCount.Key(albumId)).Val())
+			mutex.Lock()
 			playCountsMap[albumId] = playCount
+			mutex.Unlock()
 		}(v.Id)
 	}
 	wg.Wait()
@@ -420,6 +423,7 @@ func (m *mainLogic) GetRecSubjects(ctx context.Context, req *vl_pb.ReqGetRecSubj
 func (m *mainLogic) BatchGetAlbumAudioCount(ctx context.Context, req *vl_pb.ReqBatchGetAlbumAudioCount, reply *vl_pb.ResBatchGetAlbumAudioCount) error {
 	reply.AlbumCounts = make(map[uint64]uint32)
 	wg := sync.WaitGroup{}
+	mutex := &sync.Mutex{}
 	for _, v := range req.AlbumIds {
 		if _, ok := reply.AlbumCounts[v]; ok {
 			continue
@@ -429,7 +433,9 @@ func (m *mainLogic) BatchGetAlbumAudioCount(ctx context.Context, req *vl_pb.ReqB
 		go func(albumId uint64) {
 			defer wg.Done()
 			total, _ := dao.VoiceLoverAudioAlbumDao.GetCountByAlbumId(ctx, albumId)
+			mutex.Lock()
 			reply.AlbumCounts[albumId] = uint32(total)
+			mutex.Unlock()
 		}(v)
 	}
 	wg.Wait()
@@ -468,6 +474,7 @@ func (m *mainLogic) IsUserCollectAlbums(ctx context.Context, req *vl_pb.ReqIsUse
 	reply.IsCollects = make([]bool, 0)
 	isCollectMap := make(map[uint64]bool)
 	wg := sync.WaitGroup{}
+	mutex := &sync.Mutex{}
 	for _, v := range req.AlbumIds {
 		if _, ok := isCollectMap[v]; ok {
 			continue
@@ -478,7 +485,9 @@ func (m *mainLogic) IsUserCollectAlbums(ctx context.Context, req *vl_pb.ReqIsUse
 			defer wg.Done()
 			tmpReply := &vl_pb.ResIsUserCollectAlbum{}
 			_ = m.IsUserCollectAlbum(ctx, &vl_pb.ReqIsUserCollectAlbum{Uid: req.Uid, AlbumId: albumId}, tmpReply)
+			mutex.Lock()
 			isCollectMap[albumId] = tmpReply.GetIsCollect()
+			mutex.Unlock()
 		}(v)
 	}
 	wg.Wait()
@@ -717,8 +726,6 @@ func (m *mainLogic) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAu
 		}
 		reply.List = append(reply.List, tmp)
 	}
-	g.Log().Printf("GetAudioCommentList_res=>%v", reply)
-
 	return nil
 }
 

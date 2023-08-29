@@ -238,7 +238,7 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 		Title:      albumInfoRes.Album.Name,
 		Cover:      albumInfoRes.Album.Cover,
 		AudioTotal: albumInfoRes.Album.AudioCount,
-		PlayStats: albumInfoRes.Album.PlayCountDesc,
+		PlayStats:  albumInfoRes.Album.PlayCountDesc,
 	}
 
 	// 专辑主体信息获取正常的话，并发获取其他数据
