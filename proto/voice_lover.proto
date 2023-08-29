@@ -1,0 +1,141 @@
+syntax = "proto3";
+package pb;
+
+//表示目标文件生成的路径, go的包名就是最后的目录名
+//目前统一生成到 app/pb 目录下
+option go_package = "github.com/olaola-chat/rbp-functor/app/pb";
+
+import "common.proto";
+import "voice_lover_common.proto";
+
+message VoiceLoverMain {
+  repeated AlbumData rec_albums = 1;
+  repeated BannerData rec_banners = 2;
+  repeated UserData rec_users = 3;
+  repeated SubjectData rec_subjects = 4;
+  repeated AlbumData common_albums = 5;
+  bool is_anchor = 6;
+}
+message RespVoiceLoverMain {
+  bool success = 1;
+  string msg = 2;
+  VoiceLoverMain data = 3;
+}
+
+message AlbumList {
+  repeated AlbumData albums = 1;
+  bool has_more = 2;
+}
+message RespAlbumList {
+  bool success = 1;
+  string msg = 2;
+  AlbumList data = 3;
+}
+
+message RecUserList {
+  repeated UserData rec_users = 1;
+  bool has_more = 2;
+}
+message RespRecUserList {
+  bool success = 1;
+  string msg = 2;
+  RecUserList data = 3;
+}
+
+message AlbumDetail {
+  AlbumData album = 1;              // 专辑信息
+  bool is_collected = 2;            // 是否收藏
+  string comment_count_desc = 3;    // 评论数量
+  repeated AudioData audios = 4;    // 音频列表
+}
+message RespAlbumDetail {
+  bool success = 1;
+  string msg = 2;
+  AlbumDetail data = 3;
+}
+
+message AlbumComments {
+  repeated CommentData comments = 1;
+  bool has_more = 2;
+}
+message RespAlbumComments {
+  bool success = 1;
+  string msg = 2;
+  AlbumComments data = 3;
+}
+
+message RespCommentAlbum {
+  bool success = 1;
+  string msg = 2;
+}
+
+message AudioDetail {
+  AudioData audio = 1;              // 音频信息
+  bool isFollow = 2;                // 是否已关注
+  uint32 room_id = 3;               // 房间id 为0则表示不在房间内
+  bool is_collected = 4;            // 是否收藏
+  string comment_count_desc = 5;    // 评论数量
+  repeated AlbumData albums = 6;    // 专辑列表
+}
+message RespAudioDetail {
+  bool success = 1;
+  string msg = 2;
+  AudioDetail data = 3;
+  
+}
+
+message AudioComments {
+  repeated CommentData comments = 1;
+  bool has_more = 2;
+}
+message RespAudioComments {
+  bool success = 1;
+  string msg = 2;
+  AudioComments data = 3;
+}
+
+message RespCommentAudio {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespCollectVoiceLover {
+  bool success = 1;
+  string msg = 2;
+}
+
+message CollectAlbumList {
+  repeated AlbumData list = 1;
+  bool has_more = 2;
+}
+message RespCollectAlbumList {
+  bool success = 1;
+  string msg = 2;
+  CollectAlbumList data = 3;
+}
+
+message CollectAudioList {
+  repeated AudioData list = 1;
+  bool has_more = 2;
+}
+message RespCollectAudioList {
+  bool success = 1;
+  string msg = 2;
+  CollectAudioList data = 3;
+}
+
+message RespVoiceLoverPost {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespPlayStatReport {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespShareInfo {
+  bool success = 1;
+  string msg = 2;
+  ShareData data = 3;
+}

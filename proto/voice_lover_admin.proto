@@ -1,0 +1,238 @@
+syntax = "proto3";
+package pb;
+
+//表示目标文件生成的路径, go的包名就是最后的目录名
+//目前统一生成到 app/pb 目录下
+option go_package = "github.com/olaola-chat/rbp-functor/app/pb";
+
+import "voice_lover_common.proto";
+
+message AdminVoiceLoverAudio {
+  uint64 id = 1;
+  uint64 create_time = 2;
+  uint32 pub_uid = 3;
+  string pub_user_name = 4;
+  string broker = 5;
+  string resource = 6;
+  repeated string covers = 7;
+  int32 source = 8;
+  string desc = 9;
+  string title = 10;
+  repeated string labels = 11;
+  int32 audit_status = 12;
+  uint64 op_uid = 13;
+  repeated AdminVoiceLoverAudioEdit edit_dubs = 14;
+  repeated AdminVoiceLoverAudioEdit edit_contents = 15;
+  repeated AdminVoiceLoverAudioEdit edit_posts = 16;
+  repeated AdminVoiceLoverAudioEdit edit_covers = 17;
+}
+
+message AdminVoiceLoverAudioEdit {
+  uint32 uid = 1;
+  string name = 2;
+  string avatar = 3;
+}
+
+message RespAdminVoiceLoverAudioList {
+  bool success = 1;
+  string msg = 2;
+  repeated AdminVoiceLoverAudio audios = 3;
+  int32 total = 4;
+}
+
+message RespAdminVoiceLoverAudioDetail {
+  bool success = 1;
+  string msg = 2;
+  AdminVoiceLoverAudio audio = 3;
+}
+
+message RespAdminVoiceLoverAudioAuditReason {
+  bool success = 1;
+  string msg = 2;
+  repeated AdminVoiceLoverAudioAuditReason reasons = 3;
+}
+
+message AdminVoiceLoverAudioAuditReason {
+  uint64 id = 1;
+  string reason = 2;
+}
+
+message RespAdminVoiceLoverAlbumCreate {
+  bool success = 1;
+  string msg = 2;
+  uint64 id = 3;
+}
+
+message AdminVoiceLoverAlbum {
+  uint64 id = 1;
+  string name = 2;
+  string intro = 3;
+  string cover = 4;
+  uint64 op_uid = 5;
+  int32 audio_count = 6;
+  uint64 create_time = 7;
+  int32 has_subject = 8;
+}
+
+message RespAdminVoiceLoverAlbumDetail {
+  bool success = 1;
+  string msg = 2;
+  AdminVoiceLoverAlbum album = 3;
+}
+
+message RespAdminVoiceLoverAlbumList {
+  bool success = 1;
+  string msg = 2;
+  repeated AdminVoiceLoverAlbum albums = 3;
+  int32 total = 4;
+}
+
+message AdminVoiceLoverAudioCollect {
+  uint64 id = 1;
+  string title = 2;
+  repeated string labels = 3;
+  uint32 pub_uid = 4;
+  string pub_user_name = 5;
+  repeated AdminVoiceLoverAudioCollectAlbum collects = 6;
+  uint64 create_time = 7;
+}
+
+message AdminVoiceLoverAudioCollectAlbum {
+  uint64 id = 1;
+  string name = 2;
+}
+
+message RespAdminVoiceLoverAudioCollectList {
+  bool success = 1;
+  string msg = 2;
+  repeated AdminVoiceLoverAudioCollect audios = 3;
+  int32 total = 4;
+}
+
+message RespAdminVoiceLoverAudioUpdate {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverAudioAudit {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverAlbumUpdate {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverAlbumDel {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverAudioCollect {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverSubjectCreate {
+  bool success = 1;
+  string msg = 2;
+  uint64 id = 3;
+}
+
+message RespAdminVoiceLoverSubjectUpdate {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverSubjectDel {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverSubjectList {
+  bool success = 1;
+  string msg = 2;
+  repeated SubjectData list = 3;
+  int32 total = 4;
+}
+
+message RespAdminVoiceLoverSubjectDetail {
+  bool success = 1;
+  string msg = 2;
+  SubjectData subject = 3;
+}
+
+message RespAdminVoiceLoverAlbumCollect {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverAlbumCollectList {
+  bool success = 1;
+  string msg = 2;
+  repeated AdminVoiceLoverAlbumSubject list = 3;
+  int32 total = 4;
+}
+
+message AdminVoiceLoverAlbumSubject {
+  uint64 id = 1;
+  string album_name = 2;
+  string subject_name = 3;
+  uint64 album_id = 4;
+  uint64 subject_id = 5;
+}
+
+message RespAdminVoiceLoverAlbumChoice {
+  bool success = 1;
+  string msg = 2;
+}
+
+message RespAdminVoiceLoverAlbumChoiceList {
+  bool success = 1;
+  string msg = 2;
+  repeated AdminAlbumData albums = 3;
+}
+
+message AdminAlbumData {
+  uint64 id = 1;
+  string name = 2;
+  uint64 create_time = 3;
+  int32 level = 4;
+}
+
+message AdminBannerData {
+    uint64 id = 1;
+    string title = 2;
+    string cover = 3;
+    string schema = 4;
+    uint64 op_uid = 5;
+    uint32 sort = 6;
+    uint64 start_time = 7;
+    uint64 end_time = 8;
+    uint64 create_time = 9;
+}
+
+message RespAdminVoiceLoverBannerList {
+  bool success = 1;
+  string msg = 2;
+  repeated AdminBannerData list = 3;
+  int32 total = 4;
+}
+
+message RespAdminVoiceLoverBannerDetail {
+  bool success = 1;
+  string msg = 2;
+  AdminBannerData banner = 3;
+}
+
+message RespAdminVoiceLoverBannerCreate {
+  bool success = 1;
+  string msg = 2;
+  uint64 id = 3;
+}
+
+message RespAdminVoiceLoverBannerUpdate {
+  bool success = 1;
+  string msg = 2;
+}

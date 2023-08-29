@@ -1,6 +1,6 @@
 # HTTP Server.
 [server]
-	Address        = ":9090"
+	Address        = ":8081"
 	ServerRoot     = "public"
 	ServerAgent    = "we are family"
 	LogPath        = "/tmp/log/server"
@@ -39,7 +39,7 @@
 	#读写分离主库
     [[database.default]]
         type = "bbsql"
-        link = "root:123456@tcp(127.0.0.1:3306)/xianshi"
+        link = "root:123456@tcp(127.0.0.1:3306)/functor"
         charset = "utf8mb4"
         debug = true
         maxIdle = 1
@@ -49,7 +49,7 @@
     #读写分离从库
     [[database.default]]
         type = "bbsql"
-        link = "root:123456@tcp(127.0.0.1:3306)/xianshi"
+        link = "root:123456@tcp(127.0.0.1:3306)/functor"
         charset = "utf8mb4"
         debug = true
         maxIdle = 1
@@ -146,6 +146,25 @@
         maxOpen = 100
         maxLifetime = 30
         role = "slave"
+     [[database.functor]]
+            type = "bbsql"
+            link = "root:123456@tcp(127.0.0.1:3306)/functor"
+            charset = "utf8mb4"
+            debug = true
+            maxIdle = 1
+            maxOpen = 100
+            maxLifetime = 30
+            role = "master"
+        #朋友圈从库
+     [[database.functor]]
+            type = "bbsql"
+            link = "root:123456@tcp(127.0.0.1:3306)/functor"
+            charset = "utf8mb4"
+            debug = true
+            maxIdle = 1
+            maxOpen = 100
+            maxLifetime = 30
+            role = "slave"
 
 # go-redis 配置
 [go-redis]
@@ -264,7 +283,13 @@
 		Type = "consul"
 		Addr = ["127.0.0.1:8500"]
 		# Addr = ["120.26.196.226:6545"]
-		Path = "/banban"
+		Path = "/rbp"
+
+[go-rocketmq]
+    [default]
+        EndPoint = "127.0.0.1:8082"
+        AccessKey = ""
+        AccessSecret = ""
 
 
 # GF-CLI工具配置
