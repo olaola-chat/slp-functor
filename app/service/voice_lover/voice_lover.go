@@ -113,11 +113,19 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 			}
 		}
 		recUids := make([]uint32, 0)
-		recUids = append(recUids, inRoomUids[:5]...)
+		if len(inRoomUids) >= 5 {
+			recUids = append(recUids, inRoomUids[:5]...)
+		} else {
+			recUids = append(recUids, inRoomUids...)
+		}
 		showNum := 5
 		if len(recUids) < showNum {
 			left := showNum - len(recUids)
-			recUids = append(recUids, notInRoomUids[:left]...)
+			if len(notInRoomUids) >= left {
+				recUids = append(recUids, notInRoomUids[:left]...)
+			} else {
+				recUids = append(recUids, notInRoomUids...)
+			}
 		}
 		if len(recUids) == 0 {
 			return
