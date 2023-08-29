@@ -62,6 +62,7 @@ CREATE TABLE `voice_lover_album`
     `op_uid`      bigint(20) unsigned NOT NULL COMMENT '操作人',
     `choice`      tinyint(3) NOT NULL DEFAULT '0' COMMENT '类型:0:默认 1:精选',
     `choice_time` bigint(20) unsigned DEFAULT '0' COMMENT '设置类型时间，choice非0时写入',
+    `has_subject` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '是否被专题收录',
     `create_time` bigint(20) unsigned NOT NULL COMMENT '创建时间',
     `update_time` bigint(20) unsigned NOT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
