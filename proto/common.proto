@@ -14,6 +14,7 @@ message UserData {
   string avatar = 2;    // 用户头像
   string name = 3;      // 用户昵称
   uint32 fans_num = 4;  // 粉丝数量
+  uint32 rid = 5;       // 房间号
 }
 
 message BannerData {

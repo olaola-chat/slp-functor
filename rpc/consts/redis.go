@@ -31,6 +31,9 @@ var (
 	// 播放次数 %d = id
 	VoiceLoverAudioPlayCount = &RedisKey{key: "vl.audio.play_count.%d", ttl: -1}
 	VoiceLoverAlbumPlayCount = &RedisKey{key: "vl.album.play_count.%d", ttl: -1}
+
+	// 音频参与人缓存
+	VoiceLoverAudioPostUids = &RedisKey{key: "vl.audio.post_uids", ttl: 5 * time.Minute}
 )
 
 // 用户收藏模块

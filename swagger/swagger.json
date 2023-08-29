@@ -2826,6 +2826,10 @@
                     "description": "用户昵称",
                     "type": "string"
                 },
+                "rid": {
+                    "description": "房间号",
+                    "type": "integer"
+                },
                 "uid": {
                     "description": "用户uid",
                     "type": "integer"
