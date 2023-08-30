@@ -10,4 +10,4 @@ if [ "$1" = "-force" ]; then
 fi
 
 bash deploy_do.sh ${force} rbp-functor.rpc.voice_lover_admin
-bash deploy_do.sh ${force} rbp-functor.rpc.voice_lover_main.conf
+bash deploy_do.sh ${force} rbp-functor.rpc.voice_lover_main
