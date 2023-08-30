@@ -147,6 +147,25 @@
 		maxOpen = 100
 		maxLifetime = 30
 		role = "slave"
+	[[database.functor]]
+		type = "bbsql"
+		link = "rbp:OLfs1E1)vafw-s^X@tcp(polardb-rbp-master.mysql.polardb.rds.aliyuncs.com:3306)/functor"
+		charset = "utf8mb4"
+		debug = false
+		maxIdle = 1
+		maxOpen = 100
+		maxLifetime = 30
+		role = "master"
+	#读写分离从库
+	[[database.functor]]
+		type = "bbsql"
+		link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/functor"
+		charset = "utf8mb4"
+		debug = false
+		maxIdle = 1
+		maxOpen = 100
+		maxLifetime = 30
+		role = "slave"
         
 # go-redis 配置
 [go-redis]
