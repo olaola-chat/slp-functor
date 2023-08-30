@@ -40,7 +40,7 @@
 	#读写分离主库
     [[database.default]]
         type = "bbsql"
-        link = "rbp:OLfs1E1)vafw-s^X@tcp(polardb-rbp-master.mysql.polardb.rds.aliyuncs.com:3306)/xianshi"
+        link = "rbp:OLfs1E1)vafw-s^X@tcp(polardb-rbp-master.mysql.polardb.rds.aliyuncs.com:3306)/functor"
         charset = "utf8mb4"
         debug = false
         maxIdle = 1
@@ -50,7 +50,7 @@
     #读写分离从库
     [[database.default]]
         type = "bbsql"
-        link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/xianshi"
+        link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/functor"
         charset = "utf8mb4"
         debug = false
         maxIdle = 1
