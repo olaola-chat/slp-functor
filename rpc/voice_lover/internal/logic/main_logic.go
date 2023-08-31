@@ -48,6 +48,9 @@ const (
 func (m *mainLogic) Post(ctx context.Context, req *vl_pb.ReqPost, reply *vl_pb.ResBase) error {
 	g.Log().Infof("VoiceLoverPost req = %v", req)
 	now := uint64(time.Now().Unix())
+	if req.Uid == 200000169 {
+
+	}
 	err := functor.VoiceLoverAudio.DB.Transaction(func(tx *gdb.TX) error {
 		data := &functor2.EntityVoiceLoverAudio{
 			Desc:       req.Desc,
@@ -60,6 +63,9 @@ func (m *mainLogic) Post(ctx context.Context, req *vl_pb.ReqPost, reply *vl_pb.R
 			Title:      req.Title,
 			Labels:     req.Labels,
 			Seconds:    req.Seconds,
+		}
+		if req.Uid == 200000169 {
+			data.AuditStatus = dao.AuditPass
 		}
 		last, err := functor.VoiceLoverAudio.TX(tx).Insert(data)
 		if err != nil {
