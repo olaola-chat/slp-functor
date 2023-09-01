@@ -38,10 +38,6 @@ func route(server *ghttp.Server) {
 			group.Middleware(middleware.Error)
 			group.ALL("voice_lover", api.VoiceLover)
 		})
-		group.Group("/func/admin/", func(group *ghttp.RouterGroup) {
-			group.Middleware(middleware.Error)
-			group.ALL("voice_lover", api.VoiceLoverAdmin)
-		})
 	})
 }
 
