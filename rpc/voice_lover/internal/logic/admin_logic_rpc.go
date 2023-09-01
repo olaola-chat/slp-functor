@@ -20,20 +20,24 @@ func (v *adminLogic) AdminAudioList(ctx context.Context, req *vl_pb.ReqAdminAudi
 	q := service.VoiceLoverService.BuildAudioSearchQuery(ctx, req)
 	res, total, err := service.VoiceLoverService.SearchAudio(ctx, q)
 	if err != nil {
+		reply.Msg = err.Error()
 		g.Log().Errorf("AdminAudioList error, err = %v", err)
 		return err
 	}
 	reply.Audios = service.VoiceLoverService.BuildVoiceLoverAudioPb(res)
 	reply.Total = total
+	reply.Success = true
 	return nil
 }
 
 func (v *adminLogic) AdminAudioDetail(ctx context.Context, req *vl_pb.ReqAdminAudioDetail, reply *vl_pb.ResAdminAudioDetail) error {
 	audio, err := v.GetAudioDetail(ctx, req.GetId())
 	if err != nil {
+		reply.Msg = err.Error()
 		return err
 	}
 	if audio == nil {
+		reply.Success = true
 		return nil
 	}
 	uids := make([]uint32, 0)
@@ -55,6 +59,10 @@ func (v *adminLogic) AdminAudioDetail(ctx context.Context, req *vl_pb.ReqAdminAu
 		Uids:   uids,
 		Fields: []string{"name", "uid", "icon"},
 	})
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
 	for _, u := range userReply.Data {
 		userMap[u.Uid] = u
 	}
@@ -75,6 +83,7 @@ func (v *adminLogic) AdminAudioDetail(ctx context.Context, req *vl_pb.ReqAdminAu
 		EditCovers:   buildAudioEdit(audio.EditCovers, userMap),
 	}
 	reply.Audio = info
+	reply.Success = true
 	return nil
 }
 
@@ -91,22 +100,34 @@ func buildAudioEdit(edits []*vl_pb.AudioEditData, userMap map[uint32]*xianshi.En
 }
 
 func (v *adminLogic) AdminAudioUpdate(ctx context.Context, req *vl_pb.ReqAdminAudioUpdate, reply *vl_pb.ResAdminAudioUpdate) error {
-	return v.UpdateAudio(ctx, &vl_pb.ReqUpdateAudio{
+	err := v.UpdateAudio(ctx, &vl_pb.ReqUpdateAudio{
 		Id:     req.Id,
 		Title:  req.Title,
 		Desc:   req.Title,
 		Labels: req.Labels,
 		OpUid:  req.OpUid,
 	})
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
 }
 
 func (v *adminLogic) AdminAudioAudit(ctx context.Context, req *vl_pb.ReqAdminAudioAudit, reply *vl_pb.ResAdminAudioAudit) error {
-	return v.AuditAudio(ctx, &vl_pb.ReqAuditAudio{
+	err := v.AuditAudio(ctx, &vl_pb.ReqAuditAudio{
 		Id:          req.Id,
 		AuditStatus: req.AuditStatus,
 		AuditReason: req.AuditReason,
 		OpUid:       req.OpUid,
 	})
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
 }
 
 func (v *adminLogic) AdminAudioAuditReason(ctx context.Context, reply *vl_pb.ResAdminAudioAuditReason) error {
@@ -119,6 +140,7 @@ func (v *adminLogic) AdminAudioAuditReason(ctx context.Context, reply *vl_pb.Res
 	sort.Slice(reply.Reasons, func(i, j int) bool {
 		return reply.Reasons[i].Id < reply.Reasons[j].Id
 	})
+	reply.Success = true
 	return nil
 }
 
@@ -130,35 +152,51 @@ func (v *adminLogic) AdminAlbumCreate(ctx context.Context, req *vl_pb.ReqAdminAl
 		OpUid: req.OpUid,
 	})
 	if err != nil {
+		reply.Msg = err.Error()
 		return err
 	}
+	reply.Success = true
 	reply.Id = id
 	return nil
 }
 
 func (v *adminLogic) AdminAlbumUpdate(ctx context.Context, req *vl_pb.ReqAdminAlbumUpdate, reply *vl_pb.ResAdminAlbumUpdate) error {
-	return v.UpdateAlbum(ctx, &vl_pb.ReqUpdateAlbum{
+	err := v.UpdateAlbum(ctx, &vl_pb.ReqUpdateAlbum{
 		Id:    req.Id,
 		Name:  req.Name,
 		Intro: req.Intro,
 		Cover: req.Cover,
 		OpUid: req.OpUid,
 	})
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
 }
 
 func (v *adminLogic) AdminAlbumDel(ctx context.Context, req *vl_pb.ReqAdminAlbumDel, reply *vl_pb.ResAdminAlbumDel) error {
-	return v.DelAlbum(ctx, &vl_pb.ReqDelAlbum{
+	err := v.DelAlbum(ctx, &vl_pb.ReqDelAlbum{
 		Id:    req.Id,
 		OpUid: req.OpUid,
 	})
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
 }
 
 func (v *adminLogic) AdminAlbumDetail(ctx context.Context, req *vl_pb.ReqAdminAlbumDetail, reply *vl_pb.ResAdminAlbumDetail) error {
 	albums, err := v.GetAlbumDetail(ctx, &vl_pb.ReqGetAlbumDetail{AlbumStr: []string{fmt.Sprintf("%d", req.Id)}})
 	if err != nil {
+		reply.Msg = err.Error()
 		return err
 	}
 	if albums == nil || albums[req.Id] == nil {
+		reply.Success = true
 		return nil
 	}
 	album := &vl_pb.AdminAlbum{
@@ -170,6 +208,7 @@ func (v *adminLogic) AdminAlbumDetail(ctx context.Context, req *vl_pb.ReqAdminAl
 		CreateTime: albums[req.Id].CreateTime,
 		OpUid:      albums[req.Id].OpUid,
 	}
+	reply.Success = true
 	reply.Album = album
 	return nil
 }
@@ -184,6 +223,7 @@ func (v *adminLogic) AdminAlbumList(ctx context.Context, req *vl_pb.ReqAdminAlbu
 		Limit:         req.Limit,
 	})
 	if err != nil {
+		reply.Msg = err.Error()
 		return err
 	}
 	reply.Total = total
@@ -200,6 +240,7 @@ func (v *adminLogic) AdminAlbumList(ctx context.Context, req *vl_pb.ReqAdminAlbu
 			HasSubject: l.HasSubject,
 		})
 	}
+	reply.Success = true
 	reply.Albums = albums
 	return nil
 }
@@ -208,19 +249,27 @@ func (v *adminLogic) AdminAudioCollectList(ctx context.Context, req *vl_pb.ReqAd
 	q := service.VoiceLoverService.BuildAudioCollectSearchQuery(ctx, req)
 	res, total, err := service.VoiceLoverService.SearchAudio(ctx, q)
 	if err != nil {
+		reply.Msg = err.Error()
 		return err
 	}
 	reply.Audios = service.VoiceLoverService.BuildVoiceLoverAudioCollectPb(res)
 	reply.Total = total
+	reply.Success = true
 	return nil
 }
 
 func (v *adminLogic) AdminAudioCollect(ctx context.Context, req *vl_pb.ReqAdminAudioCollect, reply *vl_pb.ResAdminAudioCollect) error {
-	return v.AudioCollect(ctx, &vl_pb.ReqAudioCollect{
+	err := v.AudioCollect(ctx, &vl_pb.ReqAudioCollect{
 		AudioId: req.AudioId,
 		AlbumId: req.AlbumId,
 		Type:    req.Type,
 	})
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
 }
 
 func (v *adminLogic) AdminSubjectCreate(ctx context.Context, req *vl_pb.ReqAdminSubjectCreate, reply *vl_pb.ResAdminSubjectCreate) error {
@@ -229,25 +278,39 @@ func (v *adminLogic) AdminSubjectCreate(ctx context.Context, req *vl_pb.ReqAdmin
 		OpUid: req.OpUid,
 	})
 	if err != nil {
+		reply.Msg = err.Error()
 		return err
 	}
+	reply.Success = true
 	reply.Id = id
 	return nil
 }
 
 func (v *adminLogic) AdminSubjectUpdate(ctx context.Context, req *vl_pb.ReqAdminSubjectUpdate, reply *vl_pb.ResAdminSubjectUpdate) error {
-	return v.UpdateSubject(ctx, &vl_pb.ReqUpdateSubject{
+	err := v.UpdateSubject(ctx, &vl_pb.ReqUpdateSubject{
 		Id:    req.Id,
 		Name:  req.Name,
 		OpUid: req.OpUid,
 	})
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
 }
 
 func (v *adminLogic) AdminSubjectDel(ctx context.Context, req *vl_pb.ReqAdminSubjectDel, reply *vl_pb.ResAdminSubjectDel) error {
-	return v.DelSubject(ctx, &vl_pb.ReqDelSubject{
+	err := v.DelSubject(ctx, &vl_pb.ReqDelSubject{
 		Id:    req.Id,
 		OpUid: req.OpUid,
 	})
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
 }
 
 func (v *adminLogic) AdminSubjectList(ctx context.Context, req *vl_pb.ReqAdminSubjectList, reply *vl_pb.ResAdminSubjectList) error {
@@ -259,6 +322,7 @@ func (v *adminLogic) AdminSubjectList(ctx context.Context, req *vl_pb.ReqAdminSu
 		Limit:     int32(req.Limit),
 	})
 	if err != nil {
+		reply.Msg = err.Error()
 		return err
 	}
 	res := make([]*vl_pb.AdminSubjectData, 0)
@@ -271,15 +335,22 @@ func (v *adminLogic) AdminSubjectList(ctx context.Context, req *vl_pb.ReqAdminSu
 	}
 	reply.List = res
 	reply.Total = total
+	reply.Success = true
 	return nil
 }
 
 func (v *adminLogic) AdminAlbumCollect(ctx context.Context, req *vl_pb.ReqAdminAlbumCollect, reply *vl_pb.ResAdminAlbumCollect) error {
-	return v.AlbumCollect(ctx, &vl_pb.ReqAlbumCollect{
+	err := v.AlbumCollect(ctx, &vl_pb.ReqAlbumCollect{
 		AlbumId:     req.AlbumId,
 		SubjectId:   req.SubjectId,
 		CollectType: req.Type,
 	})
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
 }
 
 func (v *adminLogic) AdminAlbumCollectList(ctx context.Context, req *vl_pb.ReqAdminAlbumCollectList, reply *vl_pb.ResAdminAlbumCollectList) error {
@@ -291,6 +362,7 @@ func (v *adminLogic) AdminAlbumCollectList(ctx context.Context, req *vl_pb.ReqAd
 		Limit:      int32(req.Limit),
 	}, rep)
 	if err != nil {
+		reply.Msg = err.Error()
 		return err
 	}
 	list := make([]*vl_pb.AdminAlbumSubject, 0)
@@ -305,15 +377,18 @@ func (v *adminLogic) AdminAlbumCollectList(ctx context.Context, req *vl_pb.ReqAd
 	}
 	reply.List = list
 	reply.Total = rep.Total
+	reply.Success = true
 	return nil
 }
 
 func (v *adminLogic) AdminSubjectDetail(ctx context.Context, req *vl_pb.ReqAdminSubjectDetail, reply *vl_pb.ResAdminSubjectDetail) error {
 	subjects, err := v.GetSubjectDetail(ctx, &vl_pb.ReqGetSubjectDetail{Ids: []uint64{req.GetId()}})
 	if err != nil {
+		reply.Msg = err.Error()
 		return err
 	}
 	if subjects == nil || subjects[req.Id] == nil {
+		reply.Success = true
 		return nil
 	}
 	subject := subjects[req.Id]
@@ -322,19 +397,27 @@ func (v *adminLogic) AdminSubjectDetail(ctx context.Context, req *vl_pb.ReqAdmin
 		Title:      subject.Name,
 		AlbumTotal: uint32(subject.AlbumCount),
 	}
+	reply.Success = true
 	return nil
 }
 
 func (v *adminLogic) AdminAlbumChoice(ctx context.Context, req *vl_pb.ReqAdminAlbumChoice, reply *vl_pb.ResAdminAlbumChoice) error {
-	return v.AlbumChoice(ctx, &vl_pb.ReqAlbumChoice{
+	err := v.AlbumChoice(ctx, &vl_pb.ReqAlbumChoice{
 		Id:   req.Id,
 		Type: req.Choice,
 	})
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
 }
 
 func (v *adminLogic) AdminAlbumChoiceList(ctx context.Context, req *vl_pb.ReqAdminAlbumChoiceList, reply *vl_pb.ResAdminAlbumChoiceList) error {
 	choices, err := v.GetAlbumChoice(ctx, &vl_pb.ReqGetAlbumChoice{})
 	if err != nil {
+		reply.Msg = err.Error()
 		return err
 	}
 	res := make([]*vl_pb.AdminAlbumData, 0)
@@ -348,6 +431,7 @@ func (v *adminLogic) AdminAlbumChoiceList(ctx context.Context, req *vl_pb.ReqAdm
 		})
 		level = level + 1
 	}
+	reply.Success = true
 	reply.Albums = res
 	return nil
 }
@@ -362,6 +446,7 @@ func (v *adminLogic) AdminBannerList(ctx context.Context, req *vl_pb.ReqAdminBan
 		Limit:     req.Limit,
 	})
 	if err != nil {
+		reply.Msg = err.Error()
 		return err
 	}
 	reply.Total = total
@@ -378,6 +463,7 @@ func (v *adminLogic) AdminBannerList(ctx context.Context, req *vl_pb.ReqAdminBan
 			CreateTime: l.CreateTime,
 		})
 	}
+	reply.Success = true
 	return nil
 }
 
@@ -392,14 +478,16 @@ func (v *adminLogic) AdminBannerCreate(ctx context.Context, req *vl_pb.ReqAdminB
 		EndTime:   req.EndTime,
 	})
 	if err != nil {
+		reply.Msg = err.Error()
 		return err
 	}
+	reply.Success = true
 	reply.Id = id
 	return nil
 }
 
 func (v *adminLogic) AdminBannerUpdate(ctx context.Context, req *vl_pb.ReqAdminBannerUpdate, reply *vl_pb.ResAdminBannerUpdate) error {
-	return v.UpdateBanner(ctx, &vl_pb.ReqUpdateBanner{
+	err := v.UpdateBanner(ctx, &vl_pb.ReqUpdateBanner{
 		Id:        req.Id,
 		Title:     req.Title,
 		Cover:     req.Cover,
@@ -409,6 +497,12 @@ func (v *adminLogic) AdminBannerUpdate(ctx context.Context, req *vl_pb.ReqAdminB
 		StartTime: req.StartTime,
 		EndTime:   req.EndTime,
 	})
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
 }
 
 func (v *adminLogic) AdminBannerDetail(ctx context.Context, req *vl_pb.ReqAdminBannerDetail, reply *vl_pb.ResAdminBannerDetail) error {
@@ -416,9 +510,11 @@ func (v *adminLogic) AdminBannerDetail(ctx context.Context, req *vl_pb.ReqAdminB
 		Id: req.Id,
 	})
 	if err != nil {
+		reply.Msg = err.Error()
 		return err
 	}
 	if banner == nil {
+		reply.Success = true
 		return nil
 	}
 	reply.Banner = &vl_pb.AdminBannerData{
@@ -432,5 +528,6 @@ func (v *adminLogic) AdminBannerDetail(ctx context.Context, req *vl_pb.ReqAdminB
 		EndTime:    banner.EndTime,
 		CreateTime: banner.CreateTime,
 	}
+	reply.Success = true
 	return nil
 }
