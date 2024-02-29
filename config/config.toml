@@ -39,7 +39,7 @@
 	#读写分离主库
     [[database.default]]
         type = "bbsql"
-        link = "root:123456@tcp(127.0.0.1:3306)/functor"
+        link = "root:root@tcp(127.0.0.1:3306)/functor"
         charset = "utf8mb4"
         debug = true
         maxIdle = 1
@@ -49,7 +49,7 @@
     #读写分离从库
     [[database.default]]
         type = "bbsql"
-        link = "root:123456@tcp(127.0.0.1:3306)/functor"
+        link = "root:root@tcp(127.0.0.1:3306)/functor"
         charset = "utf8mb4"
         debug = true
         maxIdle = 1
@@ -64,7 +64,7 @@
 	#读写分离主库
     [[database.xianshi]]
         type = "bbsql"
-        link = "root:123456@tcp(127.0.0.1:3306)/xianshi"
+        link = "root:root@tcp(127.0.0.1:3306)/xianshi"
         charset = "utf8mb4"
         debug = true
         maxIdle = 1
@@ -74,7 +74,7 @@
     #读写分离从库
     [[database.xianshi]]
         type = "bbsql"
-        link = "root:123456@tcp(127.0.0.1:3306)/xianshi"
+        link = "root:root@tcp(127.0.0.1:3306)/xianshi"
         charset = "utf8mb4"
         debug = true
         maxIdle = 1
@@ -84,7 +84,7 @@
 	#rush库
 	[[database.rush]]
 		type = "bbsql"
-		link = "root:123456@tcp(127.0.0.1:3306)/rush"
+		link = "root:root@tcp(127.0.0.1:3306)/rush"
 		charset = "utf8mb4"
 		debug = true
 		maxIdle = 1
@@ -93,7 +93,7 @@
 	#联盟库
 	[[database.bbu]]
 		type = "bbsql"
-		link = "root:123456@tcp(127.0.0.1:3306)/banban_union"
+		link = "root:root@tcp(127.0.0.1:3306)/banban_union"
 		charset = "utf8mb4"
 		debug = true
 		maxIdle = 1
@@ -102,7 +102,7 @@
 	#数据统计库
 	[[database.banban]]
 		type = "bbsql"
-		link = "root:123456@tcp(127.0.0.1:3306)/banban"
+		link = "root:root@tcp(127.0.0.1:3306)/banban"
 		charset = "utf8mb4"
 		debug = true
 		maxIdle = 1
@@ -111,7 +111,7 @@
 	#配置库
 	[[database.config]]
 		type = "bbsql"
-		link = "root:123456@tcp(127.0.0.1:3306)/config"
+		link = "root:root@tcp(127.0.0.1:3306)/config"
 		charset = "utf8mb4"
 		debug = true
 		maxIdle = 1
@@ -120,7 +120,7 @@
 	#xsst库
 	[[database.xsst]]
 		type = "bbsql"
-		link = "root:123456@tcp(127.0.0.1:3306)/xsst"
+		link = "root:root@tcp(127.0.0.1:3306)/xsst"
 		charset = "utf8mb4"
 		debug = true
 		maxIdle = 1
@@ -129,7 +129,7 @@
     #朋友圈主库
     [[database.circle]]
         type = "bbsql"
-        link = "root:123456@tcp(127.0.0.1:3306)/circle_dev"
+        link = "root:root@tcp(127.0.0.1:3306)/circle_dev"
         charset = "utf8mb4"
         debug = true
         maxIdle = 1
@@ -139,7 +139,7 @@
     #朋友圈从库
     [[database.circle]]
         type = "bbsql"
-        link = "root:123456@tcp(127.0.0.1:3306)/circle_dev"
+        link = "root:root@tcp(127.0.0.1:3306)/circle_dev"
         charset = "utf8mb4"
         debug = true
         maxIdle = 1
@@ -148,7 +148,7 @@
         role = "slave"
      [[database.functor]]
             type = "bbsql"
-            link = "root:123456@tcp(127.0.0.1:3306)/functor"
+            link = "root:root@tcp(127.0.0.1:3306)/functor"
             charset = "utf8mb4"
             debug = true
             maxIdle = 1
@@ -158,7 +158,7 @@
         #朋友圈从库
      [[database.functor]]
             type = "bbsql"
-            link = "root:123456@tcp(127.0.0.1:3306)/functor"
+            link = "root:root@tcp(127.0.0.1:3306)/functor"
             charset = "utf8mb4"
             debug = true
             maxIdle = 1
@@ -183,7 +183,7 @@
 
 	[go-redis.room]
 		Host = "127.0.0.1"
-		Port = 6378
+		Port = 6379
 		Password = ""
 	[go-redis.user]
 		Host = "127.0.0.1"
@@ -218,10 +218,10 @@
 
 # go-nsq 配置
 [go-nsq]
-	lookup = ["172.16.1.63:4161"]
-	nsq = ["172.16.1.63:4150"]
-	default = ["172.16.1.63:4150"]
-	circle = ["172.16.1.63:4150"]
+	lookup = ["127.0.0.1:4161"]
+	nsq = ["127.0.0.1:4150"]
+	default = ["127.0.0.1:4150"]
+	circle = ["127.0.0.1:4150"]
 
 [go-es]
 	[go-es.user]
@@ -296,12 +296,12 @@
 [gfcli]
     # 自定义DAO生成配置(默认是读取database配置)
     [[gfcli.gen.dao]]
-		link   = "mysql:root:123456@tcp(172.16.1.63:3306)/config"
-		#link   = "mysql:root:123456@tcp(172.16.1.63:3306)/xianshi"
+		link   = "mysql:root:root@tcp(172.16.1.63:3306)/config"
+		#link   = "mysql:root:root@tcp(172.16.1.63:3306)/xianshi"
 		jsonCase = "Snake"
 	[[gfcli.gen.pbentity]]
-		link    = "mysql:root:123456@tcp(172.16.1.63:3306)/config"
-		#link    = "mysql:root:123456@tcp(172.16.1.63:3306)/xianshi"
+		link    = "mysql:root:root@tcp(172.16.1.63:3306)/config"
+		#link    = "mysql:root:root@tcp(172.16.1.63:3306)/xianshi"
 		path    = "proto"
 		jsonCase = "Snake"
 		package = "pb"
