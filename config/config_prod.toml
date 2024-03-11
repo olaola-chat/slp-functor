@@ -261,22 +261,22 @@
 
 [http-service]
 	[http-service.im.publish]
-		URI = "http://serv-im-proxy.banban.private.rbp-app:6080/imapi/message/private/publish"
+		URI = "http://im.aopacloud-cn.private/imapi/message/private/publish"
 		TimeoutMs = 500 #单位ms
 		Retry = 2
 		PrintResponse = false
 	[http-service.push.report]
-		URI = "http://serv-im-proxy.banban.private.rbp-app:6080/push/v1/save_device_token"
+		URI = "http://im.aopacloud-cn.private/push/v1/save_device_token"
 		TimeoutMs = 500 #单位ms
 		Retry = 2
 		PrintResponse = false
 	[http-service.im.checkdirty]
-		URI = "http://serv-im-proxy.banban.private.rbp-app:6080/filter/checkdirty"
+		URI = "http://im.aopacloud-cn.private/filter/checkdirty"
 		TimeoutMs = 500 #单位ms
 		Retry = 2
 		PrintResponse = true
 	[http-service.im.dirty]
-		URI = "http://serv-im-proxy.banban.private.rbp-app:6080/filter/dirty"
+		URI = "http://im.aopacloud-cn.private/filter/dirty"
 		TimeoutMs = 500 #单位ms
 		Retry = 2
 		PrintResponse = true
