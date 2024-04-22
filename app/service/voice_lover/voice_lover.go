@@ -721,7 +721,7 @@ func (serv *voiceLoverService) ShareAlbumInfo(ctx context.Context, uid uint32, r
 		Data: &pb.ShareData{
 			ShareTitle: "少年骨骼清奇，快跟我一起闯荡彩虹星球直播江湖！",
 			ShareDesc:  "",
-			ShareUrl:   "https://www.caihongxq.com",
+			ShareUrl:   "https://www.caihongmeng.com",
 			ShareIcon:  "",
 		},
 	}
@@ -740,7 +740,7 @@ func (serv *voiceLoverService) ShareAudioInfo(ctx context.Context, uid uint32, r
 		Data: &pb.ShareData{
 			ShareTitle: "少年骨骼清奇，快跟我一起闯荡彩虹星球直播江湖！",
 			ShareDesc:  "",
-			ShareUrl:   "https://www.caihongxq.com",
+			ShareUrl:   "https://www.caihongmeng.com",
 			ShareIcon:  "",
 		},
 	}
