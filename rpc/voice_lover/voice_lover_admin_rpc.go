@@ -111,3 +111,13 @@ func (v *VoiceLoverAdmin) AdminBannerUpdate(ctx context.Context, req *vl_pb.ReqA
 func (v *VoiceLoverAdmin) AdminBannerDetail(ctx context.Context, req *vl_pb.ReqAdminBannerDetail, reply *vl_pb.ResAdminBannerDetail) error {
 	return logic.AdminLogic.AdminBannerDetail(ctx, req, reply)
 }
+
+func (v *VoiceLoverAdmin) AdminActivityCreate(ctx context.Context, req *vl_pb.ReqAddActivity, reply *vl_pb.RespAddActivity) error {
+	err := logic.AdminLogic.AddActivity(ctx, req)
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
+}

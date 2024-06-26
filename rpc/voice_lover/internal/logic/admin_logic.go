@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"errors"
 	"strconv"
 	"strings"
 	"time"
@@ -553,4 +554,19 @@ func (a *adminLogic) UpdateBanner(ctx context.Context, req *voice_lover.ReqUpdat
 
 func (a *adminLogic) GetBannerDetail(ctx context.Context, req *voice_lover.ReqGetBannerDetail) (*functor.EntityVoiceLoverBanner, error) {
 	return dao.VoiceLoverBannerDao.GetBannerById(ctx, req.Id)
+}
+
+func (a *adminLogic) AddActivity(ctx context.Context, req *voice_lover.ReqAddActivity) error {
+	if req.GetStartTime() > req.GetEndTime() {
+		return errors.New("开始时间不能晚于结束时间")
+	}
+	if req.GetStartTime() < time.Now().Unix() {
+		return errors.New("开始时间不可小于当前时间")
+	}
+	_, err := dao.VoiceLoverActivityDao.Add(ctx, req.GetTitle(), req.GetIntro(), req.GetCover(), uint32(req.GetStartTime()), uint32(req.GetEndTime()))
+	if err != nil {
+		g.Log().Errorf("mainLogic AddActivity err: %v, req: %+v", err, req)
+		return err
+	}
+	return nil
 }

@@ -11,7 +11,7 @@ require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gogf/gf v1.16.9
 	github.com/olaola-chat/rbp-library v0.0.0-20230829093135-2ad5df604c63
-	github.com/olaola-chat/rbp-proto v0.0.0-20240229121600-7d0d605e4229
+	github.com/olaola-chat/rbp-proto v0.0.0-20240626031401-57c24e3286c2
 	google.golang.org/protobuf v1.31.0
 )
 
@@ -43,6 +43,7 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/mock v1.6.0 // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gomodule/redigo v2.0.0+incompatible // indirect
 	github.com/google/pprof v0.0.0-20230228050547-1710fef4ab10 // indirect
