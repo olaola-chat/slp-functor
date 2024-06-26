@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"strconv"
 	"strings"
@@ -556,16 +557,66 @@ func (a *adminLogic) GetBannerDetail(ctx context.Context, req *voice_lover.ReqGe
 	return dao.VoiceLoverBannerDao.GetBannerById(ctx, req.Id)
 }
 
-func (a *adminLogic) AddActivity(ctx context.Context, req *voice_lover.ReqAddActivity) error {
+// AddActivity 添加挑战/活动
+func (a *adminLogic) AddActivity(ctx context.Context, req *voice_lover.ReqAdminAddActivity) error {
 	if req.GetStartTime() > req.GetEndTime() {
 		return errors.New("开始时间不能晚于结束时间")
 	}
 	if req.GetStartTime() < time.Now().Unix() {
 		return errors.New("开始时间不可小于当前时间")
 	}
-	_, err := dao.VoiceLoverActivityDao.Add(ctx, req.GetTitle(), req.GetIntro(), req.GetCover(), uint32(req.GetStartTime()), uint32(req.GetEndTime()))
+	_, err := dao.VoiceLoverActivityDao.Add(ctx, req.GetTitle(), req.GetIntro(), req.GetCover(), uint32(req.GetStartTime()), uint32(req.GetEndTime()), req.GetRankAwardId())
 	if err != nil {
-		g.Log().Errorf("mainLogic AddActivity err: %v, req: %+v", err, req)
+		g.Log().Errorf("adminLogic AddActivity err: %v, req: %+v", err, req)
+		return err
+	}
+	return nil
+}
+
+// AddActivityAwardPackage 添加挑战奖励包配置
+func (a *adminLogic) AddActivityAwardPackage(ctx context.Context, req *voice_lover.ReqAdminAddAwardPackage) error {
+	if req.GetName() == "" {
+		return errors.New("名称不能为空")
+	}
+	if len(req.GetPretendIds()) == 0 {
+		return errors.New("奖励内容不能为空")
+	}
+	awardsMap := map[string][]uint32{"pretend": req.GetPretendIds()}
+	awards, err := json.Marshal(awardsMap)
+	if err != nil {
+		g.Log().Errorf("adminLogic AddActivityAwardPackage marshal pretend id err: %v, req: %+v", err, req)
+		return err
+	}
+
+	_, err = dao.VoiceLoverAwardPackageDao.Create(ctx, req.GetName(), string(awards))
+	if err != nil {
+		g.Log().Errorf("adminLogic AddActivityAwardPackage err: %v, req: %+v", err, req)
+		return err
+	}
+	return nil
+}
+
+// AddActivityRankAward 添加挑战排行奖励配置
+func (a *adminLogic) AddActivityRankAward(ctx context.Context, req *voice_lover.ReqAdminAddRankAward) error {
+	if req.GetName() == "" {
+		return errors.New("名称不能为空")
+	}
+	if req.GetPackageId() == 0 {
+		return errors.New("奖励包不能为空")
+	}
+	if len(req.GetInfo()) == 0 {
+		return errors.New("名次奖励不能为空")
+	}
+
+	content, err := json.Marshal(req.GetInfo())
+	if err != nil {
+		g.Log().Errorf("adminLogic AddActivityRankAward marshal content err: %v, req: %+v", err, req)
+		return err
+	}
+
+	_, err = dao.VoiceLoverActivityRankAwardDao.Create(ctx, req.GetName(), uint32(req.GetPackageId()), string(content))
+	if err != nil {
+		g.Log().Errorf("adminLogic AddActivityRankAward err: %v, req: %+v", err, req)
 		return err
 	}
 	return nil
