@@ -112,32 +112,35 @@ func (v *VoiceLoverAdmin) AdminBannerDetail(ctx context.Context, req *vl_pb.ReqA
 	return logic.AdminLogic.AdminBannerDetail(ctx, req, reply)
 }
 
-func (v *VoiceLoverAdmin) AdminActivityCreate(ctx context.Context, req *vl_pb.ReqAdminAddActivity, reply *vl_pb.RespAdminAddActivity) error {
-	err := logic.AdminLogic.AddActivity(ctx, req)
+func (v *VoiceLoverAdmin) AdminAddActivity(ctx context.Context, req *vl_pb.ReqAdminAddActivity, reply *vl_pb.RespAdminAddActivity) error {
+	id, err := logic.AdminLogic.AddActivity(ctx, req)
 	if err != nil {
 		reply.Msg = err.Error()
 		return err
 	}
 	reply.Success = true
+	reply.Id = id
 	return nil
 }
 
-func (v *VoiceLoverAdmin) AdminActivityAwardPackageCreate(ctx context.Context, req *vl_pb.ReqAdminAddAwardPackage, reply *vl_pb.RespAdminAddAwardPackage) error {
-	err := logic.AdminLogic.AddActivityAwardPackage(ctx, req)
+func (v *VoiceLoverAdmin) AdminAddAwardPackage(ctx context.Context, req *vl_pb.ReqAdminAddAwardPackage, reply *vl_pb.RespAdminAddAwardPackage) error {
+	id, err := logic.AdminLogic.AddActivityAwardPackage(ctx, req)
 	if err != nil {
 		reply.Msg = err.Error()
 		return err
 	}
 	reply.Success = true
+	reply.Id = id
 	return nil
 }
 
-func (v *VoiceLoverAdmin) AddActivityRankAward(ctx context.Context, req *vl_pb.ReqAdminAddRankAward, reply *vl_pb.RespAdminAddRankAward) error {
-	err := logic.AdminLogic.AddActivityRankAward(ctx, req)
+func (v *VoiceLoverAdmin) AdminAddRankAward(ctx context.Context, req *vl_pb.ReqAdminAddRankAward, reply *vl_pb.RespAdminAddRankAward) error {
+	id, err := logic.AdminLogic.AddActivityRankAward(ctx, req)
 	if err != nil {
 		reply.Msg = err.Error()
 		return err
 	}
 	reply.Success = true
+	reply.Id = id
 	return nil
 }

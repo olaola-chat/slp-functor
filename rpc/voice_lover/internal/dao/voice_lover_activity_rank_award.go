@@ -2,7 +2,6 @@ package dao
 
 import (
 	"context"
-	"time"
 
 	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
@@ -12,19 +11,20 @@ var VoiceLoverActivityRankAwardDao = &voiceLoverActivityRankAwardDao{}
 
 type voiceLoverActivityRankAwardDao struct{}
 
-func (v *voiceLoverActivityRankAwardDao) Create(ctx context.Context, name string, pkgId uint32, content string) (int64, error) {
-	now := time.Now().Unix()
-	data := &functor.EntityVoiceLoverActivityRankAward{
-		Name:       name,
-		PackageId:  pkgId,
-		Content:    content,
-		CreateTime: uint32(now),
-		UpdateTime: uint32(now),
+// Upsert 添加/更新排行奖励
+func (v *voiceLoverActivityRankAwardDao) Upsert(ctx context.Context, data *functor.EntityVoiceLoverActivityRankAward) (uint32, error) {
+	if data.GetId() > 0 {
+		_, err := functor2.VoiceLoverActivityRankAward.Ctx(ctx).Where("id = ?", data.GetId()).Data(data).Update()
+		if err != nil {
+			return 0, err
+		}
+		return data.GetId(), nil
 	}
+
 	res, err := functor2.VoiceLoverActivityRankAward.Ctx(ctx).Insert(data)
 	if err != nil {
 		return 0, err
 	}
 	lastId, _ := res.LastInsertId()
-	return lastId, nil
+	return uint32(lastId), nil
 }

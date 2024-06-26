@@ -558,66 +558,92 @@ func (a *adminLogic) GetBannerDetail(ctx context.Context, req *voice_lover.ReqGe
 }
 
 // AddActivity 添加挑战/活动
-func (a *adminLogic) AddActivity(ctx context.Context, req *voice_lover.ReqAdminAddActivity) error {
+func (a *adminLogic) AddActivity(ctx context.Context, req *voice_lover.ReqAdminAddActivity) (uint32, error) {
 	if req.GetStartTime() > req.GetEndTime() {
-		return errors.New("开始时间不能晚于结束时间")
+		return 0, errors.New("开始时间不能晚于结束时间")
 	}
 	if req.GetStartTime() < time.Now().Unix() {
-		return errors.New("开始时间不可小于当前时间")
+		return 0, errors.New("开始时间不可小于当前时间")
 	}
-	_, err := dao.VoiceLoverActivityDao.Add(ctx, req.GetTitle(), req.GetIntro(), req.GetCover(), uint32(req.GetStartTime()), uint32(req.GetEndTime()), req.GetRankAwardId())
+	data := &functor.EntityVoiceLoverActivity{
+		Title:       req.GetTitle(),
+		Intro:       req.GetIntro(),
+		Cover:       req.GetCover(),
+		StartTime:   uint32(req.GetStartTime()),
+		EndTime:     uint32(req.GetEndTime()),
+		RankAwardId: req.GetRankAwardId(),
+		Id:          req.GetId(),
+		CreateTime:  uint32(time.Now().Unix()),
+		UpdateTime:  uint32(time.Now().Unix()),
+	}
+	id, err := dao.VoiceLoverActivityDao.Upsert(ctx, data)
 	if err != nil {
 		g.Log().Errorf("adminLogic AddActivity err: %v, req: %+v", err, req)
-		return err
+		return 0, err
 	}
-	return nil
+	return uint32(id), nil
 }
 
 // AddActivityAwardPackage 添加挑战奖励包配置
-func (a *adminLogic) AddActivityAwardPackage(ctx context.Context, req *voice_lover.ReqAdminAddAwardPackage) error {
+func (a *adminLogic) AddActivityAwardPackage(ctx context.Context, req *voice_lover.ReqAdminAddAwardPackage) (uint32, error) {
 	if req.GetName() == "" {
-		return errors.New("名称不能为空")
+		return 0, errors.New("名称不能为空")
 	}
 	if len(req.GetPretendIds()) == 0 {
-		return errors.New("奖励内容不能为空")
+		return 0, errors.New("奖励内容不能为空")
 	}
 	awardsMap := map[string][]uint32{"pretend": req.GetPretendIds()}
 	awards, err := json.Marshal(awardsMap)
 	if err != nil {
 		g.Log().Errorf("adminLogic AddActivityAwardPackage marshal pretend id err: %v, req: %+v", err, req)
-		return err
+		return 0, err
 	}
 
-	_, err = dao.VoiceLoverAwardPackageDao.Create(ctx, req.GetName(), string(awards))
+	data := &functor.EntityVoiceLoverAwardPackage{
+		Id:         req.GetId(),
+		Name:       req.GetName(),
+		Awards:     string(awards),
+		CreateTime: uint32(time.Now().Unix()),
+		UpdateTime: uint32(time.Now().Unix()),
+	}
+	id, err := dao.VoiceLoverAwardPackageDao.Upsert(ctx, data)
 	if err != nil {
 		g.Log().Errorf("adminLogic AddActivityAwardPackage err: %v, req: %+v", err, req)
-		return err
+		return 0, err
 	}
-	return nil
+	return uint32(id), nil
 }
 
 // AddActivityRankAward 添加挑战排行奖励配置
-func (a *adminLogic) AddActivityRankAward(ctx context.Context, req *voice_lover.ReqAdminAddRankAward) error {
+func (a *adminLogic) AddActivityRankAward(ctx context.Context, req *voice_lover.ReqAdminAddRankAward) (uint32, error) {
 	if req.GetName() == "" {
-		return errors.New("名称不能为空")
+		return 0, errors.New("名称不能为空")
 	}
 	if req.GetPackageId() == 0 {
-		return errors.New("奖励包不能为空")
+		return 0, errors.New("奖励包不能为空")
 	}
 	if len(req.GetInfo()) == 0 {
-		return errors.New("名次奖励不能为空")
+		return 0, errors.New("名次奖励不能为空")
 	}
 
 	content, err := json.Marshal(req.GetInfo())
 	if err != nil {
 		g.Log().Errorf("adminLogic AddActivityRankAward marshal content err: %v, req: %+v", err, req)
-		return err
+		return 0, err
 	}
 
-	_, err = dao.VoiceLoverActivityRankAwardDao.Create(ctx, req.GetName(), uint32(req.GetPackageId()), string(content))
+	data := &functor.EntityVoiceLoverActivityRankAward{
+		Name:       req.GetName(),
+		PackageId:  uint32(req.GetPackageId()),
+		Content:    string(content),
+		Id:         req.GetId(),
+		CreateTime: uint32(time.Now().Unix()),
+		UpdateTime: uint32(time.Now().Unix()),
+	}
+	id, err := dao.VoiceLoverActivityRankAwardDao.Upsert(ctx, data)
 	if err != nil {
 		g.Log().Errorf("adminLogic AddActivityRankAward err: %v, req: %+v", err, req)
-		return err
+		return 0, err
 	}
-	return nil
+	return uint32(id), nil
 }
