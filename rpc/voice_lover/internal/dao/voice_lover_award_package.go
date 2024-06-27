@@ -4,6 +4,8 @@ import (
 	"context"
 	"strings"
 
+	"github.com/gogf/gf/frame/g"
+
 	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 )
@@ -39,7 +41,8 @@ func (v *voiceLoverAwardPackageDao) GetList(ctx context.Context, id uint32, name
 		dao = dao.Where("name = ?", name)
 	}
 	total, _ := dao.Count()
-	data, err := dao.Order("id desc"). /*.Page(page, limit)*/ FindAll()
+	data, err := dao. /*Order("id desc").Page(page, limit)*/ FindAll() // TODO(tanlian)
+	g.Log().Infof("data: %+v", data)
 	if err != nil {
 		return nil, 0, err
 	}
