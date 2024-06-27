@@ -96,3 +96,7 @@ type ReqShareAlbumFans struct {
 type ReqShareAudioFans struct {
 	AudioId uint64 `v:"audio_id@required"` // 音频id
 }
+
+type ReqActivityMain struct {
+	ActivityId uint32 `v:"activity_id@required"` // 活动id
+}

@@ -139,3 +139,44 @@ message RespShareInfo {
   string msg = 2;
   ShareData data = 3;
 }
+
+message RespVoiceLoverActivityMain {
+  bool success = 1;
+  string msg = 2;
+  VoiceLoverActivityMain data = 3;
+}
+
+message VoiceLoverActivityMain {
+    VoiceLoverActivity activity = 1; // 活动详情
+    VoiceLoverActivityAward award = 2; // 奖励详情
+}
+
+message VoiceLoverActivity {
+  uint32 id = 1;
+  string title = 2; // 标题
+  string intro = 3; // 介绍
+  string cover = 4; // 封面
+  uint32 start_time = 5; // 开始时间（秒级时间戳）
+  uint32 end_time = 6; // 结束时间
+  uint32 rank_award_id = 7; // 排行奖励id
+  string rule_url = 8; // 投稿规则链接
+}
+
+message VoiceLoverActivityAward {
+  repeated Pretend pretends = 1;
+  repeated RankInfo ranks = 2;
+}
+
+message Pretend {
+  uint32 id = 1; // 装扮id
+  string name = 2; // 装扮名称
+  string icon = 3;
+}
+
+message RankInfo {
+  uint32 type = 1; // 排行奖励类型 1-单个 2-范围
+  uint32 start = 3; // 开始名次
+  uint32 end = 4; // 结束名次
+  uint32 days = 5; // 奖励天数
+  string award_name = 6; // 奖励包名称
+}

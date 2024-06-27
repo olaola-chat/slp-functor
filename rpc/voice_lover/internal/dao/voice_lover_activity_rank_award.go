@@ -50,3 +50,18 @@ func (v *voiceLoverActivityRankAwardDao) Delete(ctx context.Context, id uint32) 
 	_, err := functor2.VoiceLoverActivityRankAward.Ctx(ctx).Where("id = ?", id).Delete()
 	return err
 }
+
+func (v *voiceLoverActivityRankAwardDao) BatchGet(ctx context.Context, ids []uint32) (map[uint32]*functor.EntityVoiceLoverActivityRankAward, error) {
+	if len(ids) == 0 {
+		return nil, nil
+	}
+	data, err := functor2.VoiceLoverActivityRankAward.Ctx(ctx).Where("id in (?)", ids).FindAll()
+	if err != nil {
+		return nil, err
+	}
+	res := make(map[uint32]*functor.EntityVoiceLoverActivityRankAward)
+	for _, v := range data {
+		res[v.GetId()] = v
+	}
+	return res, nil
+}

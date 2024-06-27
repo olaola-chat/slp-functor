@@ -575,7 +575,7 @@ func (a *adminLogic) AddActivity(ctx context.Context, req *voice_lover.ReqAdminA
 		EndTime:     uint32(req.GetEndTime()),
 		RankAwardId: req.GetRankAwardId(),
 		Id:          req.GetId(),
-		RuleUrl:     req.GetRuleUrl(),
+		RuleUrl:     req.GetJumpUrl(),
 		CreateTime:  uint32(time.Now().Unix()),
 		UpdateTime:  uint32(time.Now().Unix()),
 	}
@@ -665,18 +665,31 @@ func (a *adminLogic) AdminActivityList(ctx context.Context, req *voice_lover.Req
 		return nil, 0, err
 	}
 
+	// 批量获取排行奖励名称
+	var rankAwardIds []uint32
+	for _, v := range data {
+		rankAwardIds = append(rankAwardIds, v.GetRankAwardId())
+	}
+	rankAwardMap, err := dao.VoiceLoverActivityRankAwardDao.BatchGet(ctx, rankAwardIds)
+	if err != nil {
+		g.Log().Errorf("adminLogic AdminActivityList err: %v, rankAwardIds: %v", err, rankAwardIds)
+		return nil, 0, err
+	}
+
 	var items []*voice_lover.RespAdminActivityList_Item
 	for _, v := range data {
 		item := &voice_lover.RespAdminActivityList_Item{
-			Id:          v.GetId(),
-			Title:       v.GetTitle(),
-			Intro:       v.GetIntro(),
-			Cover:       v.GetCover(),
-			StartTime:   int64(v.GetStartTime()),
-			EndTime:     int64(v.GetEndTime()),
-			RankAwardId: v.GetRankAwardId(),
-			CreateTime:  int64(v.GetCreateTime()),
-			UpdateTime:  int64(v.GetUpdateTime()),
+			Id:            v.GetId(),
+			Title:         v.GetTitle(),
+			Intro:         v.GetIntro(),
+			Cover:         v.GetCover(),
+			StartTime:     int64(v.GetStartTime()),
+			EndTime:       int64(v.GetEndTime()),
+			RankAwardId:   v.GetRankAwardId(),
+			RankAwardName: rankAwardMap[v.GetRankAwardId()].GetName(),
+			JumpUrl:       v.GetRuleUrl(),
+			CreateTime:    int64(v.GetCreateTime()),
+			UpdateTime:    int64(v.GetUpdateTime()),
 		}
 		items = append(items, item)
 	}
@@ -733,6 +746,17 @@ func (a *adminLogic) AdminRankAwardList(ctx context.Context, req *voice_lover.Re
 		return nil, 0, err
 	}
 
+	// 批量获取奖励包名称
+	var pkgIds []uint32
+	for _, v := range data {
+		pkgIds = append(pkgIds, v.GetPackageId())
+	}
+	pkgMap, err := dao.VoiceLoverAwardPackageDao.BatchGet(ctx, pkgIds)
+	if err != nil {
+		g.Log().Errorf("adminLogic AdminRankAwardList err: %v, pkg ids: %v", err, pkgIds)
+		return nil, 0, err
+	}
+
 	var items []*voice_lover.RespAdminRankAwardList_Item
 	for _, v := range data {
 		var ranks []*voice_lover.RankInfo
@@ -741,12 +765,13 @@ func (a *adminLogic) AdminRankAwardList(ctx context.Context, req *voice_lover.Re
 			continue
 		}
 		item := &voice_lover.RespAdminRankAwardList_Item{
-			Id:         v.GetId(),
-			Name:       v.GetName(),
-			PackageId:  uint64(v.GetPackageId()),
-			Info:       ranks,
-			CreateTime: int64(v.GetCreateTime()),
-			UpdateTime: int64(v.GetUpdateTime()),
+			Id:          v.GetId(),
+			Name:        v.GetName(),
+			PackageId:   v.GetPackageId(),
+			PackageName: pkgMap[v.GetPackageId()].GetName(),
+			Info:        ranks,
+			CreateTime:  int64(v.GetCreateTime()),
+			UpdateTime:  int64(v.GetUpdateTime()),
 		}
 		items = append(items, item)
 	}

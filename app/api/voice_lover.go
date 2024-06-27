@@ -598,3 +598,26 @@ func (a *voiceLoverAPI) ShareAudioFans(r *ghttp.Request) {
 		Success: true,
 	})
 }
+
+// ActivityMain
+// @Tags VoiceLover
+// @Summary 声恋挑战详情接口
+// @Description 声恋挑战详情接口
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Param request body query.ReqActivityMain false "request"
+// @Success 200 {object} pb.RespVoiceLoverActivityMain
+// @Router /go/func/voice_lover/activityMain [get]
+func (a *voiceLoverAPI) ActivityMain(r *ghttp.Request) {
+	var req query.ReqActivityMain
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespVoiceLoverActivityMain{Msg: consts.ERROR_PARAM.Msg()})
+	}
+
+	data, err := vl_serv.ActivitySrv.GetInfo(r.Context(), req.ActivityId)
+	if err != nil {
+		response.Output(r, &pb.RespVoiceLoverActivityMain{Msg: "服务开小差了，请稍后重试"})
+	}
+	response.Output(r, &pb.RespVoiceLoverActivityMain{Success: true, Data: data})
+}
