@@ -33,7 +33,7 @@ func (v *voiceLoverAwardPackageDao) Upsert(ctx context.Context, data *functor.En
 }
 
 func (v *voiceLoverAwardPackageDao) GetList(ctx context.Context, id uint32, name string, page, limit int) ([]*functor.EntityVoiceLoverAwardPackage, int, error) {
-	dao := functor2.VoiceLoverAwardPackage.Ctx(ctx)
+	dao := functor2.VoiceLoverAwardPackage.Ctx(ctx).Where("1=1")
 	if id > 0 {
 		dao = dao.Where("id = ?", id)
 	}
