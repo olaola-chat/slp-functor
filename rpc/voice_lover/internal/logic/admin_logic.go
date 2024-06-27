@@ -714,6 +714,9 @@ func (a *adminLogic) AdminAwardPackageList(ctx context.Context, req *voice_lover
 
 	var items []*voice_lover.RespAdminAwardPackageList_Item
 	for _, v := range data {
+		if v.GetAwards() == "" {
+			continue
+		}
 		awards := make(map[string]string)
 		if err := json.Unmarshal([]byte(v.GetAwards()), &awards); err != nil {
 			g.Log().Errorf("AdminAwardPackageList unmarshal awards err: %v, awards: %s", err, v.GetAwards())

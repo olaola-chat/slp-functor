@@ -39,7 +39,7 @@ func (v *voiceLoverAwardPackageDao) GetList(ctx context.Context, id uint32, name
 		dao = dao.Where("name = ?", name)
 	}
 	total, _ := dao.Count()
-	data, err := dao.Order("id desc").Page(page, limit).FindAll()
+	data, err := dao.Order("id desc"). /*.Page(page, limit)*/ FindAll()
 	if err != nil {
 		return nil, 0, err
 	}
