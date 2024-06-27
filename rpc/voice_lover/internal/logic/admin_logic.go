@@ -575,6 +575,7 @@ func (a *adminLogic) AddActivity(ctx context.Context, req *voice_lover.ReqAdminA
 		EndTime:     uint32(req.GetEndTime()),
 		RankAwardId: req.GetRankAwardId(),
 		Id:          req.GetId(),
+		RuleUrl:     req.GetRuleUrl(),
 		CreateTime:  uint32(time.Now().Unix()),
 		UpdateTime:  uint32(time.Now().Unix()),
 	}
