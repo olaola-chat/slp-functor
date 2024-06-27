@@ -935,3 +935,26 @@ func (m *mainLogic) GetValidAudioUsers(ctx context.Context, req *vl_pb.ReqGetVal
 	}
 	return nil
 }
+
+// GetActivity 获取活动详情
+func (m *mainLogic) GetActivity(ctx context.Context, req *vl_pb.ReqGetActivity, reply *vl_pb.RespGetActivity) error {
+	data, err := dao.VoiceLoverActivityDao.GetOne(ctx, req.GetId())
+	if err != nil {
+		g.Log().Errorf("get activity err: %v, id: %d", err, req.GetId())
+		reply.Msg = err.Error()
+		return err
+	}
+
+	reply.Success = true
+	reply.Activity = &vl_pb.ActivityInfo{
+		Id:          data.GetId(),
+		Title:       data.GetTitle(),
+		Intro:       data.GetIntro(),
+		Cover:       data.GetCover(),
+		StartTime:   data.GetStartTime(),
+		EndTime:     data.GetEndTime(),
+		RankAwardId: data.GetRankAwardId(),
+		RuleUrl:     data.GetRuleUrl(),
+	}
+	return nil
+}

@@ -2,7 +2,9 @@ package dao
 
 import (
 	"context"
+	"fmt"
 	"strings"
+	"time"
 
 	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
@@ -49,4 +51,11 @@ func (v *voiceLoverActivityDao) GetList(ctx context.Context, id uint32, title st
 func (v *voiceLoverActivityDao) Delete(ctx context.Context, id uint32) error {
 	_, err := functor2.VoiceLoverActivity.Ctx(ctx).Where("id = ?", id).Delete()
 	return err
+}
+
+func (v *voiceLoverActivityDao) GetOne(ctx context.Context, id uint32) (*functor.EntityVoiceLoverActivity, error) {
+	return functor2.VoiceLoverActivity.Ctx(ctx).
+		Cache(time.Minute, fmt.Sprintf("voice.lover.activity.%d", id)).
+		Where("id = ?", id).
+		FindOne()
 }

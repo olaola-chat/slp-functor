@@ -704,20 +704,24 @@ func (a *adminLogic) AdminAwardPackageList(ctx context.Context, req *voice_lover
 	if req.Limit == 0 {
 		req.Limit = 10
 	}
+	g.Log().Infof("AdminAwardPackageList recv req: %+v", req)
 	data, total, err := dao.VoiceLoverAwardPackageDao.GetList(ctx, req.Id, req.Name, int(req.Page), int(req.Limit))
 	if err != nil {
 		g.Log().Errorf("adminLogic AdminAwardPackageList err: %v, req: %+v", err, req)
 		return nil, 0, err
 	}
+	g.Log().Infof("AdminAwardPackageList data: %+v, total: %d", data, total)
 
 	var items []*voice_lover.RespAdminAwardPackageList_Item
 	for _, v := range data {
 		awards := make(map[string]string)
 		if err := json.Unmarshal([]byte(v.GetAwards()), &awards); err != nil {
+			g.Log().Errorf("AdminAwardPackageList unmarshal awards err: %v, awards: %s", err, v.GetAwards())
 			continue
 		}
 		pretends, ok := awards["pretend"]
 		if !ok {
+			g.Log().Errorf("AdminAwardPackageList invalid awards: %s", v.GetAwards())
 			continue
 		}
 		item := &voice_lover.RespAdminAwardPackageList_Item{

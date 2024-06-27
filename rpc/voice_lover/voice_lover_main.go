@@ -114,3 +114,7 @@ func (v *VoiceLoverMain) IsUserCollectAudio(ctx context.Context, req *vl_pb.ReqC
 func (v *VoiceLoverMain) GetValidAudioUsers(ctx context.Context, req *vl_pb.ReqGetValidAudioUsers, reply *vl_pb.ResGetValidAudioUsers) error {
 	return logic.MainLogic.GetValidAudioUsers(ctx, req, reply)
 }
+
+func (v *VoiceLoverMain) GetActivity(ctx context.Context, req *vl_pb.ReqGetActivity, reply *vl_pb.RespGetActivity) error {
+	return logic.MainLogic.GetActivity(ctx, req, reply)
+}
