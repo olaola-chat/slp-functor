@@ -8,6 +8,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gogf/gf/util/gconv"
+
 	"github.com/gogf/gf/database/gdb"
 	"github.com/gogf/gf/frame/g"
 	"github.com/olaola-chat/rbp-library/es"
@@ -581,7 +583,7 @@ func (a *adminLogic) AddActivity(ctx context.Context, req *voice_lover.ReqAdminA
 		g.Log().Errorf("adminLogic AddActivity err: %v, req: %+v", err, req)
 		return 0, err
 	}
-	return uint32(id), nil
+	return id, nil
 }
 
 // AddActivityAwardPackage 添加挑战奖励包配置
@@ -592,7 +594,7 @@ func (a *adminLogic) AddActivityAwardPackage(ctx context.Context, req *voice_lov
 	if len(req.GetPretendIds()) == 0 {
 		return 0, errors.New("奖励内容不能为空")
 	}
-	awardsMap := map[string][]uint32{"pretend": req.GetPretendIds()}
+	awardsMap := map[string]string{"pretend": strings.Join(gconv.Strings(req.PretendIds), ",")}
 	awards, err := json.Marshal(awardsMap)
 	if err != nil {
 		g.Log().Errorf("adminLogic AddActivityAwardPackage marshal pretend id err: %v, req: %+v", err, req)
@@ -611,7 +613,7 @@ func (a *adminLogic) AddActivityAwardPackage(ctx context.Context, req *voice_lov
 		g.Log().Errorf("adminLogic AddActivityAwardPackage err: %v, req: %+v", err, req)
 		return 0, err
 	}
-	return uint32(id), nil
+	return id, nil
 }
 
 // AddActivityRankAward 添加挑战排行奖励配置
@@ -645,5 +647,134 @@ func (a *adminLogic) AddActivityRankAward(ctx context.Context, req *voice_lover.
 		g.Log().Errorf("adminLogic AddActivityRankAward err: %v, req: %+v", err, req)
 		return 0, err
 	}
-	return uint32(id), nil
+	return id, nil
+}
+
+// AdminActivityList 获取挑战列表
+func (a *adminLogic) AdminActivityList(ctx context.Context, req *voice_lover.ReqAdminActivityList) ([]*voice_lover.RespAdminActivityList_Item, int, error) {
+	if req.Page == 0 {
+		req.Page = 1
+	}
+	if req.Limit == 0 {
+		req.Limit = 10
+	}
+	data, total, err := dao.VoiceLoverActivityDao.GetList(ctx, req.Id, req.Title, int(req.Page), int(req.Limit))
+	if err != nil {
+		g.Log().Errorf("adminLogic AdminActivityList err: %v, req: %+v", err, req)
+		return nil, 0, err
+	}
+
+	var items []*voice_lover.RespAdminActivityList_Item
+	for _, v := range data {
+		item := &voice_lover.RespAdminActivityList_Item{
+			Id:          v.GetId(),
+			Title:       v.GetTitle(),
+			Intro:       v.GetIntro(),
+			Cover:       v.GetCover(),
+			StartTime:   int64(v.GetStartTime()),
+			EndTime:     int64(v.GetEndTime()),
+			RankAwardId: v.GetRankAwardId(),
+			CreateTime:  int64(v.GetCreateTime()),
+			UpdateTime:  int64(v.GetUpdateTime()),
+		}
+		items = append(items, item)
+	}
+	return items, total, nil
+}
+
+// AdminAwardPackageList 获取奖励包列表
+func (a *adminLogic) AdminAwardPackageList(ctx context.Context, req *voice_lover.ReqAdminAwardPackageList) ([]*voice_lover.RespAdminAwardPackageList_Item, int, error) {
+	if req.Page == 0 {
+		req.Page = 1
+	}
+	if req.Limit == 0 {
+		req.Limit = 10
+	}
+	data, total, err := dao.VoiceLoverAwardPackageDao.GetList(ctx, req.Id, req.Name, int(req.Page), int(req.Limit))
+	if err != nil {
+		g.Log().Errorf("adminLogic AdminAwardPackageList err: %v, req: %+v", err, req)
+		return nil, 0, err
+	}
+
+	var items []*voice_lover.RespAdminAwardPackageList_Item
+	for _, v := range data {
+		awards := make(map[string]string)
+		if err := json.Unmarshal([]byte(v.GetAwards()), &awards); err != nil {
+			continue
+		}
+		pretends, ok := awards["pretend"]
+		if !ok {
+			continue
+		}
+		item := &voice_lover.RespAdminAwardPackageList_Item{
+			Id:         v.GetId(),
+			Name:       v.GetName(),
+			PretendIds: gconv.Uint32s(strings.Split(pretends, ",")),
+			CreateTime: int64(v.GetCreateTime()),
+			UpdateTime: int64(v.GetUpdateTime()),
+		}
+		items = append(items, item)
+	}
+	return items, total, nil
+}
+
+// AdminRankAwardList 获取排行奖励列表
+func (a *adminLogic) AdminRankAwardList(ctx context.Context, req *voice_lover.ReqAdminRankAwardList) ([]*voice_lover.RespAdminRankAwardList_Item, int, error) {
+	if req.Page == 0 {
+		req.Page = 1
+	}
+	if req.Limit == 0 {
+		req.Limit = 10
+	}
+	data, total, err := dao.VoiceLoverActivityRankAwardDao.GetList(ctx, req.Id, req.Name, int(req.Page), int(req.Limit))
+	if err != nil {
+		g.Log().Errorf("adminLogic AdminRankAwardList err: %v, req: %+v", err, req)
+		return nil, 0, err
+	}
+
+	var items []*voice_lover.RespAdminRankAwardList_Item
+	for _, v := range data {
+		var ranks []*voice_lover.RankInfo
+		if err := json.Unmarshal([]byte(v.GetContent()), &ranks); err != nil {
+			g.Log().Errorf("adminLogic AdminRankAwardList unmarshal content err: %v, content: %s", err, v.GetContent())
+			continue
+		}
+		item := &voice_lover.RespAdminRankAwardList_Item{
+			Id:         v.GetId(),
+			Name:       v.GetName(),
+			PackageId:  uint64(v.GetPackageId()),
+			Info:       ranks,
+			CreateTime: int64(v.GetCreateTime()),
+			UpdateTime: int64(v.GetUpdateTime()),
+		}
+		items = append(items, item)
+	}
+	return items, total, nil
+}
+
+// AdminActivityDelete 删除活动
+func (a *adminLogic) AdminActivityDelete(ctx context.Context, id uint32) error {
+	if err := dao.VoiceLoverActivityDao.Delete(ctx, id); err != nil {
+		g.Log().Errorf("adminLogic AdminActivityDelete err: %v, id: %d", err, id)
+		return err
+	}
+	return nil
+}
+
+// AdminAwardPackageDelete 删除奖励包
+func (a *adminLogic) AdminAwardPackageDelete(ctx context.Context, id uint32) error {
+	if err := dao.VoiceLoverAwardPackageDao.Delete(ctx, id); err != nil {
+		g.Log().Errorf("adminLogic AdminAwardPackageDelete err: %v, id: %d", err, id)
+		return err
+	}
+	return nil
+}
+
+// AdminRankAwardDelete 删除奖励排行
+func (a *adminLogic) AdminRankAwardDelete(ctx context.Context, id uint32) error {
+	if err := dao.VoiceLoverActivityRankAwardDao.Delete(ctx, id); err != nil {
+		g.Log().Errorf("adminLogic AdminRankAwardDelete err: %v, id: %d", err, id)
+		return err
+	}
+	return nil
 }
