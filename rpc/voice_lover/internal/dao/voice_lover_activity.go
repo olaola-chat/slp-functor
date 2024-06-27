@@ -38,7 +38,7 @@ func (v *voiceLoverActivityDao) GetList(ctx context.Context, id uint32, title st
 		dao = dao.Where("id = ?", id)
 	}
 	if title = strings.TrimSpace(title); title != "" {
-		dao = dao.Where("title like %?%", title)
+		dao = dao.Where("title = ?", title)
 	}
 	total, _ := dao.Count()
 	data, err := dao.Order("id desc").Page(page, limit).FindAll()
