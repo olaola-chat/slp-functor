@@ -40,8 +40,8 @@ func (v *voiceLoverAwardPackageDao) GetList(ctx context.Context, id uint32, name
 	if name = strings.TrimSpace(name); name != "" {
 		dao = dao.Where("name = ?", name)
 	}
-	total, _ := dao.Count()
 	data, err := dao. /*Order("id desc").Page(page, limit)*/ FindAll() // TODO(tanlian)
+	total, _ := dao.Count()
 	g.Log().Infof("data: %+v", data)
 	if err != nil {
 		return nil, 0, err
