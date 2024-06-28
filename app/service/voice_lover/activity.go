@@ -30,6 +30,7 @@ func (a *activitySrv) getInfo(ctx context.Context, id uint32) (*pb.VoiceLoverAct
 		return nil, nil, fmt.Errorf("err: %v, msg: %s", err, activityResp.GetMsg())
 	}
 	activity := activityResp.GetActivity()
+	g.Log().Infof("id: %d, activity: %+v", id, activity)
 
 	// 获取排行奖励信息
 	rankAwardResp, err := vl_rpc.VoiceLoverMain.GetRankAward(ctx, &voice_lover.ReqGetRankAward{Id: activity.GetRankAwardId()})
