@@ -40,8 +40,8 @@ func (v *voiceLoverAwardPackageDao) GetList(ctx context.Context, id uint32, name
 	//	dao = dao.Where("name = ?", name)
 	//}
 	//data, err := dao.Order("id desc").Page(page, limit).FindAll() // TODO(tanlian)
-	data, err := functor2.VoiceLoverAwardPackage.Ctx(ctx).FindAll()
-	total := 1
+	data, total, err := functor2.VoiceLoverAwardPackage.GetList(ctx, id, name, page, limit)
+	//total := 1
 	//total, _ := dao.Count()
 	g.Log().Infof("data: %+v, len: %d", data, len(data))
 	if err != nil {
