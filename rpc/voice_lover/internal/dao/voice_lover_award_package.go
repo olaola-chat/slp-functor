@@ -2,8 +2,7 @@ package dao
 
 import (
 	"context"
-
-	"github.com/gogf/gf/frame/g"
+	"strings"
 
 	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
@@ -32,22 +31,20 @@ func (v *voiceLoverAwardPackageDao) Upsert(ctx context.Context, data *functor.En
 }
 
 func (v *voiceLoverAwardPackageDao) GetList(ctx context.Context, id uint32, name string, page, limit int) ([]*functor.EntityVoiceLoverAwardPackage, int, error) {
-	//dao := functor2.VoiceLoverAwardPackage.Ctx(ctx)
-	//if id > 0 {
-	//	dao = dao.Where("id = ?", id)
-	//}
-	//if name = strings.TrimSpace(name); name != "" {
-	//	dao = dao.Where("name = ?", name)
-	//}
-	//data, err := dao.Order("id desc").Page(page, limit).FindAll() // TODO(tanlian)
-	data, err := functor2.VoiceLoverAwardPackage.FindArray()
-	total := 1
-	//total, _ := dao.Count()
-	g.Log().Infof("data: %+v, len: %d", data, len(data))
+	dao := functor2.VoiceLoverAwardPackage.Ctx(ctx)
+	if id > 0 {
+		dao = dao.Where("id = ?", id)
+	}
+	if name = strings.TrimSpace(name); name != "" {
+		dao = dao.Where("name = ?", name)
+	}
+	list := ([]*functor.EntityVoiceLoverAwardPackage)(nil)
+	err := dao.Order("id desc").Page(page, limit).Structs(&list)
+	total, _ := dao.Count()
 	if err != nil {
 		return nil, 0, err
 	}
-	return nil, total, nil
+	return list, total, nil
 }
 
 func (v *voiceLoverAwardPackageDao) Delete(ctx context.Context, id uint32) error {

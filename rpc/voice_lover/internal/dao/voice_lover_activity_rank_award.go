@@ -39,11 +39,12 @@ func (v *voiceLoverActivityRankAwardDao) GetList(ctx context.Context, id uint32,
 		dao = dao.Where("name = ?", name)
 	}
 	total, _ := dao.Count()
-	data, err := dao.Order("id desc").Page(page, limit).FindAll()
+	list := ([]*functor.EntityVoiceLoverActivityRankAward)(nil)
+	err := dao.Order("id desc").Page(page, limit).Structs(&list)
 	if err != nil {
 		return nil, 0, err
 	}
-	return data, total, nil
+	return list, total, nil
 }
 
 func (v *voiceLoverActivityRankAwardDao) Delete(ctx context.Context, id uint32) error {
