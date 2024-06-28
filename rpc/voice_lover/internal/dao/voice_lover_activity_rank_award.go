@@ -66,3 +66,7 @@ func (v *voiceLoverActivityRankAwardDao) BatchGet(ctx context.Context, ids []uin
 	}
 	return res, nil
 }
+
+func (v *voiceLoverActivityRankAwardDao) GetOne(ctx context.Context, id uint32) (*functor.EntityVoiceLoverActivityRankAward, error) {
+	return functor2.VoiceLoverActivityRankAward.Ctx(ctx).Where("id = ?", id).FindOne()
+}

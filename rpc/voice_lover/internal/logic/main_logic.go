@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"strings"
@@ -13,6 +14,7 @@ import (
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/util/gconv"
+	"github.com/olaola-chat/rbp-functor/rpc/client"
 	"github.com/olaola-chat/rbp-library/es"
 	"github.com/olaola-chat/rbp-library/redis"
 	"github.com/olaola-chat/rbp-proto/dao/functor"
@@ -955,6 +957,76 @@ func (m *mainLogic) GetActivity(ctx context.Context, req *vl_pb.ReqGetActivity, 
 		EndTime:     data.GetEndTime(),
 		RankAwardId: data.GetRankAwardId(),
 		RuleUrl:     data.GetRuleUrl(),
+	}
+	return nil
+}
+
+// GetRankAward 获取排行奖励详情
+func (m *mainLogic) GetRankAward(ctx context.Context, req *vl_pb.ReqGetRankAward, reply *vl_pb.RespGetRankAward) error {
+	rankAward, err := dao.VoiceLoverActivityRankAwardDao.GetOne(ctx, req.GetId())
+	if err != nil {
+		g.Log().Errorf("get rank award err: %v, id: %d", err, req.GetId())
+		reply.Msg = err.Error()
+		return err
+	}
+
+	// 获取奖励包信息
+	pkgReply := &vl_pb.RespGetAwardPackage{}
+	if err := m.GetAwardPackage(ctx, &vl_pb.ReqGetAwardPackage{Id: rankAward.GetPackageId()}, pkgReply); err != nil {
+		g.Log().Errorf("get award package err: %v, id: %d", err, rankAward.GetPackageId())
+		reply.Msg = err.Error()
+		return err
+	}
+
+	reply.Success = true
+	reply.Package = pkgReply.GetData()
+	return nil
+}
+
+// GetAwardPackage 获取奖励包详情
+func (m *mainLogic) GetAwardPackage(ctx context.Context, req *vl_pb.ReqGetAwardPackage, reply *vl_pb.RespGetAwardPackage) error {
+	// 获取奖励包信息
+	pkg, err := dao.VoiceLoverAwardPackageDao.GetOne(ctx, req.GetId())
+	if err != nil {
+		g.Log().Errorf("get award package err: %v, id: %d", err, req.GetId())
+		reply.Msg = err.Error()
+		return err
+	}
+
+	// 批量获取装扮信息
+	var pretendIds []uint32
+	awards := make(map[string]string)
+	if err := json.Unmarshal([]byte(pkg.GetAwards()), &awards); err != nil {
+		g.Log().Errorf("unmashal package awards err: %v, awards: %s", err, pkg.GetAwards())
+		reply.Msg = err.Error()
+		return err
+	}
+	pretendIds = gconv.Uint32s(strings.Split(awards["pretend"], ","))
+	pretendRsp, err := client.Pretend.MGetPretends(ctx, pretendIds)
+	if err != nil {
+		g.Log().Errorf("batch get pretend info err: %v, ids: %v", err, pretendIds)
+		reply.Msg = err.Error()
+		return err
+	}
+
+	var pretends []*vl_pb.PretendInfo
+	for _, v := range pretendIds {
+		item, ok := pretendRsp.GetData()[v]
+		if !ok {
+			continue
+		}
+		pretends = append(pretends, &vl_pb.PretendInfo{
+			Id:   v,
+			Name: item.GetName(),
+			Icon: item.GetUrlSource(),
+		})
+	}
+
+	reply.Success = true
+	reply.Data = &vl_pb.AwardPackageInfo{
+		Id:       pkg.GetId(),
+		Name:     pkg.GetName(),
+		Pretends: pretends,
 	}
 	return nil
 }
