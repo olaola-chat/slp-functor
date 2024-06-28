@@ -33,16 +33,16 @@ func (v *voiceLoverAwardPackageDao) Upsert(ctx context.Context, data *functor.En
 }
 
 func (v *voiceLoverAwardPackageDao) GetList(ctx context.Context, id uint32, name string, page, limit int) ([]*functor.EntityVoiceLoverAwardPackage, int, error) {
-	dao := functor2.VoiceLoverAwardPackage.Ctx(ctx).Where("1=1")
+	dao := functor2.VoiceLoverAwardPackage.Ctx(ctx)
 	if id > 0 {
 		dao = dao.Where("id = ?", id)
 	}
 	if name = strings.TrimSpace(name); name != "" {
 		dao = dao.Where("name = ?", name)
 	}
-	data, err := dao. /*Order("id desc").Page(page, limit)*/ FindAll() // TODO(tanlian)
+	data, err := dao.Fields("id,name,awards"). /*Order("id desc").Page(page, limit)*/ FindAll() // TODO(tanlian)
 	total, _ := dao.Count()
-	g.Log().Infof("data: %+v", data)
+	g.Log().Infof("data: %+v, len: %d", data, len(data))
 	if err != nil {
 		return nil, 0, err
 	}
