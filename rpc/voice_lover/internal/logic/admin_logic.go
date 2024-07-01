@@ -736,6 +736,7 @@ func (a *adminLogic) AdminAwardPackageList(ctx context.Context, req *voice_lover
 		}
 		items = append(items, item)
 	}
+	g.Log().Infof("tanlian AdminAwardPackageList %+v", items)
 	return items, total, nil
 }
 
