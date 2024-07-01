@@ -56,12 +56,13 @@ func (v *voiceLoverAwardPackageDao) BatchGet(ctx context.Context, ids []uint32) 
 	if len(ids) == 0 {
 		return nil, nil
 	}
-	data, err := functor2.VoiceLoverAwardPackage.Ctx(ctx).Where("id in (?)", ids).FindAll()
+	list := ([]*functor.EntityVoiceLoverAwardPackage)(nil)
+	err := functor2.VoiceLoverAwardPackage.Ctx(ctx).Where("id in (?)", ids).Structs(&list)
 	if err != nil {
 		return nil, err
 	}
 	res := make(map[uint32]*functor.EntityVoiceLoverAwardPackage)
-	for _, v := range data {
+	for _, v := range list {
 		res[v.GetId()] = v
 	}
 	return res, nil
