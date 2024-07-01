@@ -14,6 +14,7 @@ import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/olaola-chat/rbp-library/es"
 	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
+	"github.com/olaola-chat/rbp-proto/gen_pb/db/config"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 
@@ -567,7 +568,7 @@ func (a *adminLogic) AddActivity(ctx context.Context, req *voice_lover.ReqAdminA
 	if req.GetStartTime() < time.Now().Unix() {
 		return 0, errors.New("开始时间不可小于当前时间")
 	}
-	data := &functor.EntityVoiceLoverActivity{
+	data := &config.EntityVoiceLoverActivity{
 		Title:       req.GetTitle(),
 		Intro:       req.GetIntro(),
 		Cover:       req.GetCover(),
@@ -602,7 +603,7 @@ func (a *adminLogic) AddActivityAwardPackage(ctx context.Context, req *voice_lov
 		return 0, err
 	}
 
-	data := &functor.EntityVoiceLoverAwardPackage{
+	data := &config.EntityVoiceLoverAwardPackage{
 		Id:         req.GetId(),
 		Name:       req.GetName(),
 		Awards:     string(awards),
@@ -635,7 +636,7 @@ func (a *adminLogic) AddActivityRankAward(ctx context.Context, req *voice_lover.
 		return 0, err
 	}
 
-	data := &functor.EntityVoiceLoverActivityRankAward{
+	data := &config.EntityVoiceLoverActivityRankAward{
 		Name:       req.GetName(),
 		PackageId:  uint32(req.GetPackageId()),
 		Content:    string(content),
