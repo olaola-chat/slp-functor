@@ -1,6 +1,7 @@
 package query
 
 type ReqVoiceLoverMain struct {
+	V uint32 `v:"v@integer"` // 版本号
 }
 
 type ReqAlbumList struct {

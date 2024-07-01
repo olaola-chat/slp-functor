@@ -3,6 +3,7 @@ package voice_lover
 import (
 	"context"
 	"fmt"
+	"strings"
 	"sync"
 	"time"
 
@@ -31,7 +32,7 @@ var VoiceLoverService = &voiceLoverService{}
 
 type voiceLoverService struct{}
 
-func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb.RespVoiceLoverMain, error) {
+func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32) (*pb.RespVoiceLoverMain, error) {
 	res := &pb.RespVoiceLoverMain{
 		Success: true,
 		Msg:     "",
@@ -84,6 +85,10 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 			return
 		}
 		for _, v := range recBannersRes.GetBanners() {
+			// 低版本不显示声恋挑战活动入口
+			if ver == 0 && strings.Contains(v.Schema, "page=sl_activity") {
+				continue
+			}
 			res.Data.RecBanners = append(res.Data.RecBanners, &pb.BannerData{
 				Id:          uint32(v.Id),
 				ImgUrl:      v.Cover,
