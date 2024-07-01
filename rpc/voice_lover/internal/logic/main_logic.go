@@ -969,6 +969,7 @@ func (m *mainLogic) GetRankAward(ctx context.Context, req *vl_pb.ReqGetRankAward
 		reply.Msg = err.Error()
 		return err
 	}
+	g.Log().Infof("tanlian get rank award id: %d, info: %+v", req.GetId(), rankAward)
 
 	// 获取奖励包信息
 	pkgReply := &vl_pb.RespGetAwardPackage{}
