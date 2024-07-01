@@ -130,3 +130,7 @@ func (v *VoiceLoverMain) GetAwardPackage(ctx context.Context, req *vl_pb.ReqGetA
 func (v *VoiceLoverMain) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGetAudioInfo, reply *vl_pb.RespBatchGetAudioInfo) error {
 	return logic.MainLogic.BatchGetAudioInfo(ctx, req, reply)
 }
+
+func (v *VoiceLoverMain) GenRecAlbum(ctx context.Context, req *vl_pb.ReqGenRecAlbum, reply *vl_pb.RespGenRecAlbum) error {
+	return logic.MainLogic.GenRecAlbum(ctx, req, reply)
+}

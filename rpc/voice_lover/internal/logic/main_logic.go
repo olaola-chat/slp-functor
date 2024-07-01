@@ -1083,3 +1083,20 @@ func (m *mainLogic) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGe
 	reply.Items = items
 	return nil
 }
+
+// GenRecAlbum 生成推荐专辑
+func (m *mainLogic) GenRecAlbum(ctx context.Context, req *vl_pb.ReqGenRecAlbum, reply *vl_pb.RespGenRecAlbum) error {
+	albumId, err := dao.VoiceLoverAlbumDao.CreateRecAlbum(ctx, req.Name, req.Intro, req.Cover, 0)
+	if err != nil {
+		g.Log().Errorf("create rec album err: %v, req: %+v", err, req)
+		reply.Message = err.Error()
+		return err
+	}
+	if err := dao.VoiceLoverAudioAlbumDao.BatchCreate(ctx, gconv.Uint64s(req.AudioId), uint64(albumId)); err != nil {
+		g.Log().Errorf("create audio album err: %v, req: %+v", err, req)
+		reply.Message = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
+}
