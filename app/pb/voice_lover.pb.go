@@ -1918,6 +1918,164 @@ func (x *RankInfo) GetAwardName() string {
 	return ""
 }
 
+type RespVoiceRank struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success bool                  `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Msg     string                `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	Items   []*RespVoiceRank_Item `protobuf:"bytes,3,rep,name=items,proto3" json:"items,omitempty"`
+}
+
+func (x *RespVoiceRank) Reset() {
+	*x = RespVoiceRank{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_proto_msgTypes[30]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespVoiceRank) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespVoiceRank) ProtoMessage() {}
+
+func (x *RespVoiceRank) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_proto_msgTypes[30]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespVoiceRank.ProtoReflect.Descriptor instead.
+func (*RespVoiceRank) Descriptor() ([]byte, []int) {
+	return file_voice_lover_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *RespVoiceRank) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *RespVoiceRank) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *RespVoiceRank) GetItems() []*RespVoiceRank_Item {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type RespVoiceRank_Item struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	AudioId    uint32 `protobuf:"varint,1,opt,name=audio_id,json=audioId,proto3" json:"audio_id,omitempty"`         // 作品id
+	AudioTitle string `protobuf:"bytes,2,opt,name=audio_title,json=audioTitle,proto3" json:"audio_title,omitempty"` // 作品标题
+	AudioCover string `protobuf:"bytes,3,opt,name=audio_cover,json=audioCover,proto3" json:"audio_cover,omitempty"` // 作品封面
+	Uid        uint32 `protobuf:"varint,4,opt,name=uid,proto3" json:"uid,omitempty"`                                // 作者uid
+	UserIcon   string `protobuf:"bytes,5,opt,name=user_icon,json=userIcon,proto3" json:"user_icon,omitempty"`       // 用户头像
+	UserName   string `protobuf:"bytes,6,opt,name=user_name,json=userName,proto3" json:"user_name,omitempty"`       // 用户昵称
+	LikeNum    uint32 `protobuf:"varint,7,opt,name=like_num,json=likeNum,proto3" json:"like_num,omitempty"`         // 点赞数
+}
+
+func (x *RespVoiceRank_Item) Reset() {
+	*x = RespVoiceRank_Item{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_voice_lover_proto_msgTypes[31]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RespVoiceRank_Item) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RespVoiceRank_Item) ProtoMessage() {}
+
+func (x *RespVoiceRank_Item) ProtoReflect() protoreflect.Message {
+	mi := &file_voice_lover_proto_msgTypes[31]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RespVoiceRank_Item.ProtoReflect.Descriptor instead.
+func (*RespVoiceRank_Item) Descriptor() ([]byte, []int) {
+	return file_voice_lover_proto_rawDescGZIP(), []int{30, 0}
+}
+
+func (x *RespVoiceRank_Item) GetAudioId() uint32 {
+	if x != nil {
+		return x.AudioId
+	}
+	return 0
+}
+
+func (x *RespVoiceRank_Item) GetAudioTitle() string {
+	if x != nil {
+		return x.AudioTitle
+	}
+	return ""
+}
+
+func (x *RespVoiceRank_Item) GetAudioCover() string {
+	if x != nil {
+		return x.AudioCover
+	}
+	return ""
+}
+
+func (x *RespVoiceRank_Item) GetUid() uint32 {
+	if x != nil {
+		return x.Uid
+	}
+	return 0
+}
+
+func (x *RespVoiceRank_Item) GetUserIcon() string {
+	if x != nil {
+		return x.UserIcon
+	}
+	return ""
+}
+
+func (x *RespVoiceRank_Item) GetUserName() string {
+	if x != nil {
+		return x.UserName
+	}
+	return ""
+}
+
+func (x *RespVoiceRank_Item) GetLikeNum() uint32 {
+	if x != nil {
+		return x.LikeNum
+	}
+	return 0
+}
+
 var File_voice_lover_proto protoreflect.FileDescriptor
 
 var file_voice_lover_proto_rawDesc = []byte{
@@ -2132,10 +2290,30 @@ var file_voice_lover_proto_rawDesc = []byte{
 	0x52, 0x03, 0x65, 0x6e, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x61, 0x79, 0x73, 0x18, 0x05, 0x20,
 	0x01, 0x28, 0x0d, 0x52, 0x04, 0x64, 0x61, 0x79, 0x73, 0x12, 0x1d, 0x0a, 0x0a, 0x61, 0x77, 0x61,
 	0x72, 0x64, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x61,
-	0x77, 0x61, 0x72, 0x64, 0x4e, 0x61, 0x6d, 0x65, 0x42, 0x2b, 0x5a, 0x29, 0x67, 0x69, 0x74, 0x68,
-	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x6c, 0x61, 0x6f, 0x6c, 0x61, 0x2d, 0x63, 0x68,
-	0x61, 0x74, 0x2f, 0x72, 0x62, 0x70, 0x2d, 0x66, 0x75, 0x6e, 0x63, 0x74, 0x6f, 0x72, 0x2f, 0x61,
-	0x70, 0x70, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x77, 0x61, 0x72, 0x64, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0xb6, 0x02, 0x0a, 0x0d, 0x52, 0x65, 0x73,
+	0x70, 0x56, 0x6f, 0x69, 0x63, 0x65, 0x52, 0x61, 0x6e, 0x6b, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75,
+	0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63,
+	0x63, 0x65, 0x73, 0x73, 0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x12, 0x2c, 0x0a, 0x05, 0x69, 0x74, 0x65, 0x6d, 0x73, 0x18,
+	0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x70, 0x62, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x56,
+	0x6f, 0x69, 0x63, 0x65, 0x52, 0x61, 0x6e, 0x6b, 0x2e, 0x49, 0x74, 0x65, 0x6d, 0x52, 0x05, 0x69,
+	0x74, 0x65, 0x6d, 0x73, 0x1a, 0xca, 0x01, 0x0a, 0x04, 0x49, 0x74, 0x65, 0x6d, 0x12, 0x19, 0x0a,
+	0x08, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52,
+	0x07, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x49, 0x64, 0x12, 0x1f, 0x0a, 0x0b, 0x61, 0x75, 0x64, 0x69,
+	0x6f, 0x5f, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x61,
+	0x75, 0x64, 0x69, 0x6f, 0x54, 0x69, 0x74, 0x6c, 0x65, 0x12, 0x1f, 0x0a, 0x0b, 0x61, 0x75, 0x64,
+	0x69, 0x6f, 0x5f, 0x63, 0x6f, 0x76, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a,
+	0x61, 0x75, 0x64, 0x69, 0x6f, 0x43, 0x6f, 0x76, 0x65, 0x72, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x69,
+	0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x03, 0x75, 0x69, 0x64, 0x12, 0x1b, 0x0a, 0x09,
+	0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x63, 0x6f, 0x6e, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x08, 0x75, 0x73, 0x65, 0x72, 0x49, 0x63, 0x6f, 0x6e, 0x12, 0x1b, 0x0a, 0x09, 0x75, 0x73, 0x65,
+	0x72, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73,
+	0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x19, 0x0a, 0x08, 0x6c, 0x69, 0x6b, 0x65, 0x5f, 0x6e,
+	0x75, 0x6d, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x07, 0x6c, 0x69, 0x6b, 0x65, 0x4e, 0x75,
+	0x6d, 0x42, 0x2b, 0x5a, 0x29, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
+	0x6f, 0x6c, 0x61, 0x6f, 0x6c, 0x61, 0x2d, 0x63, 0x68, 0x61, 0x74, 0x2f, 0x72, 0x62, 0x70, 0x2d,
+	0x66, 0x75, 0x6e, 0x63, 0x74, 0x6f, 0x72, 0x2f, 0x61, 0x70, 0x70, 0x2f, 0x70, 0x62, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2150,7 +2328,7 @@ func file_voice_lover_proto_rawDescGZIP() []byte {
 	return file_voice_lover_proto_rawDescData
 }
 
-var file_voice_lover_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
+var file_voice_lover_proto_msgTypes = make([]protoimpl.MessageInfo, 32)
 var file_voice_lover_proto_goTypes = []interface{}{
 	(*VoiceLoverMain)(nil),             // 0: pb.VoiceLoverMain
 	(*RespVoiceLoverMain)(nil),         // 1: pb.RespVoiceLoverMain
@@ -2182,50 +2360,53 @@ var file_voice_lover_proto_goTypes = []interface{}{
 	(*VoiceLoverActivityAward)(nil),    // 27: pb.VoiceLoverActivityAward
 	(*Pretend)(nil),                    // 28: pb.Pretend
 	(*RankInfo)(nil),                   // 29: pb.RankInfo
-	(*AlbumData)(nil),                  // 30: pb.AlbumData
-	(*BannerData)(nil),                 // 31: pb.BannerData
-	(*UserData)(nil),                   // 32: pb.UserData
-	(*SubjectData)(nil),                // 33: pb.SubjectData
-	(*AudioData)(nil),                  // 34: pb.AudioData
-	(*CommentData)(nil),                // 35: pb.CommentData
-	(*ShareData)(nil),                  // 36: pb.ShareData
+	(*RespVoiceRank)(nil),              // 30: pb.RespVoiceRank
+	(*RespVoiceRank_Item)(nil),         // 31: pb.RespVoiceRank.Item
+	(*AlbumData)(nil),                  // 32: pb.AlbumData
+	(*BannerData)(nil),                 // 33: pb.BannerData
+	(*UserData)(nil),                   // 34: pb.UserData
+	(*SubjectData)(nil),                // 35: pb.SubjectData
+	(*AudioData)(nil),                  // 36: pb.AudioData
+	(*CommentData)(nil),                // 37: pb.CommentData
+	(*ShareData)(nil),                  // 38: pb.ShareData
 }
 var file_voice_lover_proto_depIdxs = []int32{
-	30, // 0: pb.VoiceLoverMain.rec_albums:type_name -> pb.AlbumData
-	31, // 1: pb.VoiceLoverMain.rec_banners:type_name -> pb.BannerData
-	32, // 2: pb.VoiceLoverMain.rec_users:type_name -> pb.UserData
-	33, // 3: pb.VoiceLoverMain.rec_subjects:type_name -> pb.SubjectData
-	30, // 4: pb.VoiceLoverMain.common_albums:type_name -> pb.AlbumData
+	32, // 0: pb.VoiceLoverMain.rec_albums:type_name -> pb.AlbumData
+	33, // 1: pb.VoiceLoverMain.rec_banners:type_name -> pb.BannerData
+	34, // 2: pb.VoiceLoverMain.rec_users:type_name -> pb.UserData
+	35, // 3: pb.VoiceLoverMain.rec_subjects:type_name -> pb.SubjectData
+	32, // 4: pb.VoiceLoverMain.common_albums:type_name -> pb.AlbumData
 	0,  // 5: pb.RespVoiceLoverMain.data:type_name -> pb.VoiceLoverMain
-	30, // 6: pb.AlbumList.albums:type_name -> pb.AlbumData
+	32, // 6: pb.AlbumList.albums:type_name -> pb.AlbumData
 	2,  // 7: pb.RespAlbumList.data:type_name -> pb.AlbumList
-	32, // 8: pb.RecUserList.rec_users:type_name -> pb.UserData
+	34, // 8: pb.RecUserList.rec_users:type_name -> pb.UserData
 	4,  // 9: pb.RespRecUserList.data:type_name -> pb.RecUserList
-	30, // 10: pb.AlbumDetail.album:type_name -> pb.AlbumData
-	34, // 11: pb.AlbumDetail.audios:type_name -> pb.AudioData
+	32, // 10: pb.AlbumDetail.album:type_name -> pb.AlbumData
+	36, // 11: pb.AlbumDetail.audios:type_name -> pb.AudioData
 	6,  // 12: pb.RespAlbumDetail.data:type_name -> pb.AlbumDetail
-	35, // 13: pb.AlbumComments.comments:type_name -> pb.CommentData
+	37, // 13: pb.AlbumComments.comments:type_name -> pb.CommentData
 	8,  // 14: pb.RespAlbumComments.data:type_name -> pb.AlbumComments
-	34, // 15: pb.AudioDetail.audio:type_name -> pb.AudioData
-	30, // 16: pb.AudioDetail.albums:type_name -> pb.AlbumData
+	36, // 15: pb.AudioDetail.audio:type_name -> pb.AudioData
+	32, // 16: pb.AudioDetail.albums:type_name -> pb.AlbumData
 	11, // 17: pb.RespAudioDetail.data:type_name -> pb.AudioDetail
-	35, // 18: pb.AudioComments.comments:type_name -> pb.CommentData
+	37, // 18: pb.AudioComments.comments:type_name -> pb.CommentData
 	13, // 19: pb.RespAudioComments.data:type_name -> pb.AudioComments
-	30, // 20: pb.CollectAlbumList.list:type_name -> pb.AlbumData
+	32, // 20: pb.CollectAlbumList.list:type_name -> pb.AlbumData
 	17, // 21: pb.RespCollectAlbumList.data:type_name -> pb.CollectAlbumList
-	34, // 22: pb.CollectAudioList.list:type_name -> pb.AudioData
+	36, // 22: pb.CollectAudioList.list:type_name -> pb.AudioData
 	19, // 23: pb.RespCollectAudioList.data:type_name -> pb.CollectAudioList
-	36, // 24: pb.RespShareInfo.data:type_name -> pb.ShareData
+	38, // 24: pb.RespShareInfo.data:type_name -> pb.ShareData
 	25, // 25: pb.RespVoiceLoverActivityMain.data:type_name -> pb.VoiceLoverActivityMain
 	26, // 26: pb.VoiceLoverActivityMain.activity:type_name -> pb.VoiceLoverActivity
 	27, // 27: pb.VoiceLoverActivityMain.award:type_name -> pb.VoiceLoverActivityAward
 	28, // 28: pb.VoiceLoverActivityAward.pretends:type_name -> pb.Pretend
 	29, // 29: pb.VoiceLoverActivityAward.ranks:type_name -> pb.RankInfo
-	30, // [30:30] is the sub-list for method output_type
-	30, // [30:30] is the sub-list for method input_type
-	30, // [30:30] is the sub-list for extension type_name
-	30, // [30:30] is the sub-list for extension extendee
-	0,  // [0:30] is the sub-list for field type_name
+	31, // 30: pb.RespVoiceRank.items:type_name -> pb.RespVoiceRank.Item
+	31, // [31:31] is the sub-list for method output_type
+	31, // [31:31] is the sub-list for method input_type
+	31, // [31:31] is the sub-list for extension type_name
+	31, // [31:31] is the sub-list for extension extendee
+	0,  // [0:31] is the sub-list for field type_name
 }
 
 func init() { file_voice_lover_proto_init() }
@@ -2596,6 +2777,30 @@ func file_voice_lover_proto_init() {
 				return nil
 			}
 		}
+		file_voice_lover_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespVoiceRank); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_voice_lover_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RespVoiceRank_Item); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -2603,7 +2808,7 @@ func file_voice_lover_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_voice_lover_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   30,
+			NumMessages:   32,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

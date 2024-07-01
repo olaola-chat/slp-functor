@@ -147,8 +147,9 @@ message RespVoiceLoverActivityMain {
 }
 
 message VoiceLoverActivityMain {
-    VoiceLoverActivity activity = 1; // 活动详情
-    VoiceLoverActivityAward award = 2; // 奖励详情
+  VoiceLoverActivity activity = 1; // 活动详情
+  VoiceLoverActivityAward award = 2; // 奖励详情
+  uint32 last_activity_id = 3; // 上期活动id
 }
 
 message VoiceLoverActivity {
@@ -179,4 +180,19 @@ message RankInfo {
   uint32 end = 4; // 结束名次
   uint32 days = 5; // 奖励天数
   string award_name = 6; // 奖励包名称
+}
+
+message RespVoiceRank {
+  message Item {
+    uint32 audio_id = 1; // 作品id
+    string audio_title = 2; // 作品标题
+    string audio_cover = 3; // 作品封面
+    uint32 uid = 4; // 作者uid
+    string user_icon = 5; // 用户头像
+    string user_name = 6; // 用户昵称
+    uint32 like_num = 7; // 点赞数
+  }
+  bool success = 1;
+  string msg = 2;
+  repeated Item items = 3;
 }

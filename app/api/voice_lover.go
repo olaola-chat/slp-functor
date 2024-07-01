@@ -414,6 +414,7 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 		EditCover:   req.EditCover,
 		Labels:      req.Labels,
 		Seconds:     req.Seconds,
+		ActivityId:  req.ActivityId,
 	})
 	if err != nil {
 		g.Log().Errorf("VoiceLover Post error, err = %v", err)
@@ -609,14 +610,37 @@ func (a *voiceLoverAPI) ShareAudioFans(r *ghttp.Request) {
 // @Success 200 {object} pb.RespVoiceLoverActivityMain
 // @Router /go/func/voice_lover/activityMain [get]
 func (a *voiceLoverAPI) ActivityMain(r *ghttp.Request) {
-	var req query.ReqActivityMain
-	if err := r.ParseQuery(&req); err != nil {
-		response.Output(r, &pb.RespVoiceLoverActivityMain{Msg: consts.ERROR_PARAM.Msg()})
-	}
+	//var req query.ReqActivityMain
+	//if err := r.ParseQuery(&req); err != nil {
+	//	response.Output(r, &pb.RespVoiceLoverActivityMain{Msg: consts.ERROR_PARAM.Msg()})
+	//}
 
-	data, err := vl_serv.ActivitySrv.GetInfo(r.Context(), req.ActivityId)
+	data, err := vl_serv.ActivitySrv.GetInfo(r.Context(), 1) // TODO(tanlian)
 	if err != nil {
 		response.Output(r, &pb.RespVoiceLoverActivityMain{Msg: "服务开小差了，请稍后重试"})
 	}
 	response.Output(r, &pb.RespVoiceLoverActivityMain{Success: true, Data: data})
+}
+
+// ActivityVoiceRank
+// @Tags VoiceLover
+// @Summary 声恋排行
+// @Description 声恋排行
+// @Accept application/json
+// @Produce json
+// @Security ApiKeyAuth,OAuth2Implicit
+// @Param request body query.ReqActivityVoiceRank false "request"
+// @Success 200 {object} pb.RespVoiceRank
+// @Router /go/func/voice_lover/activityVoiceRank [get]
+func (a *voiceLoverAPI) ActivityVoiceRank(r *ghttp.Request) {
+	var req query.ReqActivityVoiceRank
+	if err := r.ParseQuery(&req); err != nil {
+		response.Output(r, &pb.RespVoiceRank{Msg: consts.ERROR_PARAM.Msg()})
+	}
+
+	data, err := vl_serv.ActivitySrv.GetVoiceRank(r.Context(), req.ActivityId)
+	if err != nil {
+		response.Output(r, &pb.RespVoiceRank{Msg: "服务开小差了，请稍后重试"})
+	}
+	response.Output(r, &pb.RespVoiceRank{Success: true, Items: data})
 }

@@ -14,12 +14,19 @@ var ActivitySrv = &activitySrv{}
 
 type activitySrv struct{}
 
+// GetInfo 声恋挑战主接口
 func (a *activitySrv) GetInfo(ctx context.Context, id uint32) (*pb.VoiceLoverActivityMain, error) {
 	activity, award, err := a.getInfo(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 	return &pb.VoiceLoverActivityMain{Activity: activity, Award: award}, nil
+}
+
+// GetVoiceRank 获取声恋排行
+func (a *activitySrv) GetVoiceRank(ctx context.Context, id uint32) ([]*pb.RespVoiceRank_Item, error) {
+	// TODO(tanlian)
+	return nil, nil
 }
 
 func (a *activitySrv) getInfo(ctx context.Context, id uint32) (*pb.VoiceLoverActivity, *pb.VoiceLoverActivityAward, error) {

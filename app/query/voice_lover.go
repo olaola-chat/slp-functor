@@ -69,6 +69,7 @@ type ReqVoiceLoverPost struct {
 	EditPost    string `json:"edit_post"`      // 编辑后期
 	EditCover   string `json:"edit_cover"`     // 编辑封面
 	Labels      string `json:"labels"`         // 标签
+	ActivityId  uint32 `v:"activity_id"`       // 活动id
 }
 
 type ReqReport struct {
@@ -98,5 +99,9 @@ type ReqShareAudioFans struct {
 }
 
 type ReqActivityMain struct {
+	ActivityId uint32 `v:"activity_id"` // 活动id
+}
+
+type ReqActivityVoiceRank struct {
 	ActivityId uint32 `v:"activity_id@required"` // 活动id
 }
