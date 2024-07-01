@@ -26,6 +26,8 @@ func (a *activitySrv) GetInfo(ctx context.Context, id uint32) (*pb.VoiceLoverAct
 // GetVoiceRank 获取声恋排行
 func (a *activitySrv) GetVoiceRank(ctx context.Context, id uint32) ([]*pb.RespVoiceRank_Item, error) {
 	// TODO(tanlian)
+	//key := fmt.Sprintf("rbp.voice.lover.rank.%d", id)
+	//rc := library.RedisClient()
 	return nil, nil
 }
 
