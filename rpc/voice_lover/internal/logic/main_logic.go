@@ -1061,3 +1061,24 @@ func (m *mainLogic) GetAwardPackage(ctx context.Context, req *vl_pb.ReqGetAwardP
 	}
 	return nil
 }
+
+func (m *mainLogic) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGetAudioInfo, reply *vl_pb.RespBatchGetAudioInfo) error {
+	data, err := dao.VoiceLoverAudioDao.GetValidAudioListByIds(ctx, gconv.Uint64s(req.GetAudioId()))
+	if err != nil {
+		g.Log().Errorf("GetValidAudioListByIds err: %v, audio_ids: %v", err, req.GetAudioId())
+		reply.Message = err.Error()
+		return err
+	}
+
+	reply.Success = true
+	var items []*vl_pb.RespBatchGetAudioInfo_Audio
+	for _, v := range data {
+		items = append(items, &vl_pb.RespBatchGetAudioInfo_Audio{
+			Id:    uint32(v.GetId()),
+			Title: v.GetTitle(),
+			Cover: v.GetCover(),
+		})
+	}
+	reply.Items = items
+	return nil
+}

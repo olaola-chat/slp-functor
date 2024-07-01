@@ -126,3 +126,7 @@ func (v *VoiceLoverMain) GetRankAward(ctx context.Context, req *vl_pb.ReqGetRank
 func (v *VoiceLoverMain) GetAwardPackage(ctx context.Context, req *vl_pb.ReqGetAwardPackage, reply *vl_pb.RespGetAwardPackage) error {
 	return logic.MainLogic.GetAwardPackage(ctx, req, reply)
 }
+
+func (v *VoiceLoverMain) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGetAudioInfo, reply *vl_pb.RespBatchGetAudioInfo) error {
+	return logic.MainLogic.BatchGetAudioInfo(ctx, req, reply)
+}
