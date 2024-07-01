@@ -992,6 +992,7 @@ func (m *mainLogic) GetAwardPackage(ctx context.Context, req *vl_pb.ReqGetAwardP
 		reply.Msg = err.Error()
 		return err
 	}
+	g.Log().Infof("tanlian get award package, id: %d, pkg: %+v", req.GetId(), pkg)
 
 	// 批量获取装扮信息
 	var pretendIds []uint32
