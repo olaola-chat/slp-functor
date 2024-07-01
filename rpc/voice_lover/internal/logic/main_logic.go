@@ -1074,9 +1074,10 @@ func (m *mainLogic) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGe
 	var items []*vl_pb.RespBatchGetAudioInfo_Audio
 	for _, v := range data {
 		items = append(items, &vl_pb.RespBatchGetAudioInfo_Audio{
-			Id:    uint32(v.GetId()),
-			Title: v.GetTitle(),
-			Cover: v.GetCover(),
+			Id:     uint32(v.GetId()),
+			Title:  v.GetTitle(),
+			Cover:  v.GetCover(),
+			PubUid: uint32(v.GetPubUid()),
 		})
 	}
 	reply.Items = items
