@@ -62,6 +62,7 @@ func (m *mainLogic) Post(ctx context.Context, req *vl_pb.ReqPost, reply *vl_pb.R
 			Title:      req.Title,
 			Labels:     req.Labels,
 			Seconds:    req.Seconds,
+			ActivityId: req.ActivityId,
 		}
 		if req.Uid == 200000169 {
 			data.AuditStatus = dao.AuditPass
@@ -531,10 +532,12 @@ func (m *mainLogic) Collect(ctx context.Context, req *vl_pb.ReqCollect, reply *v
 			// 收藏
 			_, err = dao.VoiceLoverUserCollectDao.Add(ctx, req.Uid, req.Id, dao.CollectTypeAudio)
 			_ = m.rds.Set(ctx, key, 1, consts.UserCollectAudioKey.Ttl())
+			m.incrAudioLikeNum(ctx, req.Id)
 		} else if req.From == 0 {
 			// 取消收藏
 			err = dao.VoiceLoverUserCollectDao.Delete(ctx, req.Uid, req.Id, dao.CollectTypeAudio)
 			_ = m.rds.Set(ctx, key, 0, consts.UserCollectAudioKey.Ttl())
+			m.decAudioLikeNum(ctx, req.Id)
 		} else {
 			return gerror.New(fmt.Sprintf("param req.From=%d invalid", req.From))
 		}
@@ -546,6 +549,32 @@ func (m *mainLogic) Collect(ctx context.Context, req *vl_pb.ReqCollect, reply *v
 		return err
 	}
 	return nil
+}
+
+func (m *mainLogic) incrAudioLikeNum(ctx context.Context, audioId uint64) {
+	audio, err := dao.VoiceLoverAudioDao.GetAudioDetailByAudioId(ctx, audioId)
+	if err != nil {
+		g.Log().Errorf("get audio detail err: %v, audio_id: %d", err, audioId)
+		return
+	}
+	if audio.GetActivityId() > 0 {
+		if err := dao.VoiceLoverVoiceRank.IncrLikeNum(ctx, audio.GetActivityId(), audioId); err != nil {
+			g.Log().Errorf("incr audio like num err: %v, audio_id: %d", err, audioId)
+		}
+	}
+}
+
+func (m *mainLogic) decAudioLikeNum(ctx context.Context, audioId uint64) {
+	audio, err := dao.VoiceLoverAudioDao.GetAudioDetailByAudioId(ctx, audioId)
+	if err != nil {
+		g.Log().Errorf("get audio detail err: %v, audio_id: %d", err, audioId)
+		return
+	}
+	if audio.GetActivityId() > 0 {
+		if err := dao.VoiceLoverVoiceRank.DecLikeNum(ctx, audio.GetActivityId(), audioId); err != nil {
+			g.Log().Errorf("incr audio like num err: %v, audio_id: %d", err, audioId)
+		}
+	}
 }
 
 func (m *mainLogic) GetAlbumCollectList(ctx context.Context, req *vl_pb.ReqGetAlbumCollectList, reply *vl_pb.ResGetAlbumCollectList) error {
