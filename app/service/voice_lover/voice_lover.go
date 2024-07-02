@@ -657,6 +657,11 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 	})
 	res.Data.IsCollected = collected.IsCollect
 
+	// 收藏数
+	if collectNumRsp, _ := vl_rpc.VoiceLoverMain.BatchGetCollectNum(ctx, &vl_pb.ReqBatchGetCollectNum{CollectId: []uint32{uint32(audioId)}}); collectNumRsp.GetSuccess() {
+		res.Data.Audio.CollectNum = collectNumRsp.GetNums()[uint32(audioId)]
+	}
+
 	return res
 }
 
