@@ -115,18 +115,6 @@ func (v *VoiceLoverMain) GetValidAudioUsers(ctx context.Context, req *vl_pb.ReqG
 	return logic.MainLogic.GetValidAudioUsers(ctx, req, reply)
 }
 
-func (v *VoiceLoverMain) GetActivity(ctx context.Context, req *vl_pb.ReqGetActivity, reply *vl_pb.RespGetActivity) error {
-	return logic.MainLogic.GetActivity(ctx, req, reply)
-}
-
-func (v *VoiceLoverMain) GetRankAward(ctx context.Context, req *vl_pb.ReqGetRankAward, reply *vl_pb.RespGetRankAward) error {
-	return logic.MainLogic.GetRankAward(ctx, req, reply)
-}
-
-func (v *VoiceLoverMain) GetAwardPackage(ctx context.Context, req *vl_pb.ReqGetAwardPackage, reply *vl_pb.RespGetAwardPackage) error {
-	return logic.MainLogic.GetAwardPackage(ctx, req, reply)
-}
-
 func (v *VoiceLoverMain) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGetAudioInfo, reply *vl_pb.RespBatchGetAudioInfo) error {
 	return logic.MainLogic.BatchGetAudioInfo(ctx, req, reply)
 }
