@@ -1076,7 +1076,7 @@ func (m *mainLogic) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGe
 		reply.Message = err.Error()
 		return err
 	}
-	g.Log().Infof("tanlian [BatchGetAudioInfo] data: %+v, len: %d", data, len(data))
+	g.Log().Infof("tanlian [BatchGetAudioInfo] data: %+v, len: %d, audio_ids: %+v, audio_len: %d", data, len(data), req.GetAudioId(), len(req.GetAudioId()))
 
 	// 获取播放量
 	var keys []string
