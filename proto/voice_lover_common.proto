@@ -23,6 +23,8 @@ message AudioData {
   uint64 create_time = 9;               // 创建时间
   repeated AudioPartner partners = 10;  // 参与人
   repeated string labels = 11;          // 标签
+  bool is_collect = 12;      // 是否收藏
+  uint32 collect_num = 13;      // 收藏量
 }
 
 message AlbumData {

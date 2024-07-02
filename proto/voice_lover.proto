@@ -15,6 +15,7 @@ message VoiceLoverMain {
   repeated SubjectData rec_subjects = 4;
   repeated AlbumData common_albums = 5;
   bool is_anchor = 6;
+  repeated AudioData audios = 7; // 全区动态
 }
 message RespVoiceLoverMain {
   bool success = 1;
@@ -194,4 +195,12 @@ message RespVoiceRank {
   bool success = 1;
   string msg = 2;
   repeated Item items = 3;
+}
+
+message AudioBasic {
+  uint64 id = 1;
+  string title = 2;
+  string cover = 3;
+  string play_stats = 4;    // 播放量统计，服务端控制显示规则
+  bool is_collect = 5;      // 是否收藏
 }

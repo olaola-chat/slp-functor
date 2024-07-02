@@ -7,6 +7,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/gogf/gf/util/gconv"
+
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/xianshi"
@@ -21,6 +23,7 @@ import (
 	friend_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/friends"
 	friend_rpc "github.com/olaola-chat/rbp-proto/rpcclient/friends"
 
+	redisV8 "github.com/go-redis/redis/v8"
 	"github.com/olaola-chat/rbp-library/redis"
 
 	"github.com/olaola-chat/rbp-functor/app/pb"
@@ -46,7 +49,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 		},
 	}
 	wg := sync.WaitGroup{}
-	wg.Add(6)
+	wg.Add(7)
 	// 获取精选专辑推荐
 	go func() {
 		defer wg.Done()
@@ -210,6 +213,47 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 		isBrokerUserRes, _ := user_rpc.UserProfile.IsValidBrokerUser(ctx, &user_pb.ReqIsValidBrokerUser{Uid: uid})
 		if isBrokerUserRes.GetResult() {
 			res.Data.IsAnchor = true
+		}
+	}()
+	// 获取全区动态数据
+	go func() {
+		defer wg.Done()
+		// 获取排名最高的前10个声音作品
+		rc := redis.RedisClient("user")
+		rankKey := rc.Get(ctx, "rbp.voice.lover.audio.key").Val()
+		if rankKey == "" {
+			return
+		}
+		vals := rc.ZRevRangeByScore(ctx, rankKey, &redisV8.ZRangeBy{
+			Min:   "0",
+			Max:   "+inf",
+			Count: 10,
+		}).Val()
+		if len(vals) == 0 {
+			return
+		}
+		audioIds := gconv.Uint32s(vals)
+
+		// 获取声音详情
+		rsp, err := vl_rpc.VoiceLoverMain.BatchGetAudioInfo(ctx, &vl_pb.ReqBatchGetAudioInfo{AudioId: audioIds})
+		if err != nil {
+			g.Log().Errorf("batch get audio info err: %v, audio_ids: %v", err, audioIds)
+			return
+		}
+		for _, v := range rsp.GetItems() {
+			audio := &pb.AudioData{
+				Id:         uint64(v.GetId()),
+				Title:      v.GetTitle(),
+				Resource:   v.GetResource(),
+				Covers:     []string{v.GetCover()},
+				Seconds:    v.GetSeconds(),
+				PlayStats:  formatPlayStats(v.GetPlayCnt()),
+				UserInfo:   nil,
+				Desc:       v.GetDesc(),
+				CreateTime: uint64(v.GetCreateTime()),
+				Partners:   nil,
+			}
+			res.Data.Audios = append(res.Data.Audios, audio)
 		}
 	}()
 	wg.Wait()
@@ -755,4 +799,11 @@ func (serv *voiceLoverService) ShareAudioInfo(ctx context.Context, uid uint32, r
 	}
 	res.Data.ShareIcon = userInfo.GetIcon()
 	return res, nil
+}
+
+func formatPlayStats(playCnt uint32) string {
+	if playCnt < 10000 {
+		return fmt.Sprintf("%d", playCnt)
+	}
+	return fmt.Sprintf("%.1fw", float64(playCnt)/10000.0)
 }
