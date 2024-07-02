@@ -658,9 +658,12 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 	res.Data.IsCollected = collected.IsCollect
 
 	// 收藏数
-	if collectNumRsp, _ := vl_rpc.VoiceLoverMain.BatchGetCollectNum(ctx, &vl_pb.ReqBatchGetCollectNum{CollectId: []uint32{uint32(audioId)}}); collectNumRsp.GetSuccess() {
-		res.Data.Audio.CollectNum = collectNumRsp.GetNums()[uint32(audioId)]
+	collectNumRsp, err := vl_rpc.VoiceLoverMain.BatchGetCollectNum(ctx, &vl_pb.ReqBatchGetCollectNum{CollectId: []uint32{uint32(audioId)}})
+	if err != nil || !collectNumRsp.GetSuccess() {
+		g.Log().Errorf("batch get collect num err: %v, audio_id: %d", err, audioId)
 	}
+	res.Data.Audio.CollectNum = collectNumRsp.GetNums()[uint32(audioId)]
+	g.Log().Infof("tanlian collectNumRsp: %+v, audio_id: %d", collectNumRsp.GetNums(), audioId)
 
 	return res
 }
