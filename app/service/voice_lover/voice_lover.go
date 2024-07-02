@@ -87,9 +87,10 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 			g.Log().Errorf("voiceLoverService GetMainData GetRecBanners error=%v", err)
 			return
 		}
+		isBroker, _ := user_rpc.UserProfile.IsValidBrokerUser(ctx, &user_pb.ReqIsValidBrokerUser{Uid: uid})
 		for _, v := range recBannersRes.GetBanners() {
-			// 低版本不显示声恋挑战活动入口
-			if ver == 0 && strings.Contains(v.Schema, "page=sl_activity") {
+			// 低版本或非主播不显示声恋挑战活动入口
+			if strings.Contains(v.Schema, "page=sl_activity") && (ver == 0 || !isBroker.GetResult()) {
 				continue
 			}
 			res.Data.RecBanners = append(res.Data.RecBanners, &pb.BannerData{
