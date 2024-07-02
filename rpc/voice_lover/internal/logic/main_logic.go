@@ -1077,9 +1077,16 @@ func (m *mainLogic) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGe
 		return err
 	}
 
+	// 获取播放量
+	var keys []string
+	for _, v := range data {
+		keys = append(keys, consts.VoiceLoverAudioPlayCount.Key(v.GetId()))
+	}
+	vals := m.rds.MGet(ctx, keys...).Val()
+
 	reply.Success = true
 	var items []*vl_pb.RespBatchGetAudioInfo_Audio
-	for _, v := range data {
+	for i, v := range data {
 		items = append(items, &vl_pb.RespBatchGetAudioInfo_Audio{
 			Id:         uint32(v.GetId()),
 			Title:      v.GetTitle(),
@@ -1092,6 +1099,7 @@ func (m *mainLogic) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGe
 			CreateTime: uint32(v.GetCreateTime()),
 			UpdateTime: uint32(v.GetUpdateTime()),
 			ActivityId: v.GetActivityId(),
+			PlayCnt:    gconv.Uint32(vals[i]),
 		})
 	}
 	reply.Items = items
@@ -1112,5 +1120,19 @@ func (m *mainLogic) GenRecAlbum(ctx context.Context, req *vl_pb.ReqGenRecAlbum, 
 		return err
 	}
 	reply.Success = true
+	return nil
+}
+
+// BatchCheckUserCollect 批量判断用户是否收藏了音频
+func (m *mainLogic) BatchCheckUserCollect(ctx context.Context, req *vl_pb.ReqBatchCheckUserCollect, reply *vl_pb.RespBatchCheckUserCollect) error {
+	res, err := dao.VoiceLoverUserCollectDao.BatchCheckUserCollected(ctx, req.GetUid(), 1, req.GetAudioId())
+	if err != nil {
+		g.Log().Errorf("check user collect err: %v, req: %+v", err, req)
+		reply.Message = err.Error()
+		return err
+	}
+
+	reply.Success = true
+	reply.CollectInfo = res
 	return nil
 }
