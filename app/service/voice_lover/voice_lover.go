@@ -235,25 +235,35 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 		audioIds := gconv.Uint32s(vals)
 		g.Log().Infof("tanlian get top rank audios: %v", audioIds)
 
-		// 获取声音详情
+		// 批量获取声音详情
 		rsp, err := vl_rpc.VoiceLoverMain.BatchGetAudioInfo(ctx, &vl_pb.ReqBatchGetAudioInfo{AudioId: audioIds})
 		if err != nil {
 			g.Log().Errorf("batch get audio info err: %v, audio_ids: %v", err, audioIds)
 			return
 		}
 		g.Log().Infof("tanlian rsp: %+v", rsp)
+		m := make(map[uint32]*vl_pb.RespBatchGetAudioInfo_Audio)
 		for _, v := range rsp.GetItems() {
+			m[v.GetId()] = v
+		}
+		for _, v := range audioIds {
+			info, ok := m[v]
+			if !ok {
+				continue
+			}
 			audio := &pb.AudioData{
-				Id:         uint64(v.GetId()),
-				Title:      v.GetTitle(),
-				Resource:   v.GetResource(),
-				Covers:     []string{v.GetCover()},
-				Seconds:    v.GetSeconds(),
-				PlayStats:  formatPlayStats(v.GetPlayCnt()),
+				Id:         uint64(info.GetId()),
+				Title:      info.GetTitle(),
+				Resource:   info.GetResource(),
+				Seconds:    info.GetSeconds(),
+				PlayStats:  formatPlayStats(info.GetPlayCnt()),
 				UserInfo:   nil,
-				Desc:       v.GetDesc(),
-				CreateTime: uint64(v.GetCreateTime()),
+				Desc:       info.GetDesc(),
+				CreateTime: uint64(info.GetCreateTime()),
 				Partners:   nil,
+			}
+			if info.GetCover() != "" {
+				audio.Covers = strings.Split(info.GetCover(), ",")
 			}
 			res.Data.Audios = append(res.Data.Audios, audio)
 		}
@@ -663,7 +673,6 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 		g.Log().Errorf("batch get collect num err: %v, audio_id: %d", err, audioId)
 	}
 	res.Data.Audio.CollectNum = collectNumRsp.GetNums()[uint32(audioId)]
-	g.Log().Infof("tanlian collectNumRsp: %+v, audio_id: %d", collectNumRsp.GetNums(), audioId)
 
 	return res
 }
