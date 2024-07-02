@@ -1066,10 +1066,16 @@ func (m *mainLogic) GetAwardPackage(ctx context.Context, req *vl_pb.ReqGetAwardP
 func (m *mainLogic) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGetAudioInfo, reply *vl_pb.RespBatchGetAudioInfo) error {
 	var data []*functor2.EntityVoiceLoverAudio
 	var err error
-	if len(req.GetAudioId()) == 0 {
+	var audioIds []uint32
+	for _, v := range req.GetAudioId() {
+		if v > 0 {
+			audioIds = append(audioIds, v)
+		}
+	}
+	if len(audioIds) == 0 {
 		data, err = dao.VoiceLoverAudioDao.GetValidAudios(ctx)
 	} else {
-		data, err = dao.VoiceLoverAudioDao.GetValidAudioListByIds(ctx, gconv.Uint64s(req.GetAudioId()))
+		data, err = dao.VoiceLoverAudioDao.GetValidAudioListByIds(ctx, gconv.Uint64s(audioIds))
 	}
 	if err != nil {
 		g.Log().Errorf("GetValidAudioListByIds err: %v, audio_ids: %v", err, req.GetAudioId())
