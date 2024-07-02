@@ -38,8 +38,7 @@ func (v *voiceLoverAwardPackageDao) GetList(ctx context.Context, id uint32, name
 	if name = strings.TrimSpace(name); name != "" {
 		dao = dao.Where("name = ?", name)
 	}
-	list := ([]*config.EntityVoiceLoverAwardPackage)(nil)
-	err := dao.Order("id desc").Page(page, limit).Structs(&list)
+	list, err := dao.Order("id desc").Page(page, limit).FindAll()
 	total, _ := dao.Count()
 	if err != nil {
 		return nil, 0, err
@@ -56,8 +55,7 @@ func (v *voiceLoverAwardPackageDao) BatchGet(ctx context.Context, ids []uint32) 
 	if len(ids) == 0 {
 		return nil, nil
 	}
-	list := ([]*config.EntityVoiceLoverAwardPackage)(nil)
-	err := config2.VoiceLoverAwardPackage.Ctx(ctx).Where("id in (?)", ids).Structs(&list)
+	list, err := config2.VoiceLoverAwardPackage.Ctx(ctx).Where("id in (?)", ids).FindAll()
 	if err != nil {
 		return nil, err
 	}

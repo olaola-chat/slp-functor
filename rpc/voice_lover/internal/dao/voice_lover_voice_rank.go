@@ -4,8 +4,6 @@ import (
 	"context"
 	"time"
 
-	pb "github.com/olaola-chat/rbp-proto/gen_pb/db/xianshi"
-
 	"github.com/gogf/gf/database/gdb"
 	"github.com/gogf/gf/frame/g"
 	"github.com/olaola-chat/rbp-proto/dao/xianshi"
@@ -32,11 +30,11 @@ func (v *voiceLoverVoiceRank) DecLikeNum(ctx context.Context, activityId uint32,
 }
 
 func (v *voiceLoverVoiceRank) BatchGetLikeNum(ctx context.Context, audioIds []uint64) (map[uint32]uint32, error) {
-	list := ([]*pb.EntityVoiceLoverVoiceRank)(nil)
-	if err := xianshi.VoiceLoverVoiceRank.Ctx(ctx).
+	list, err := xianshi.VoiceLoverVoiceRank.Ctx(ctx).
 		Fields("audio_id,like_num").
 		Where("audio_id in (?)", audioIds).
-		Structs(&list); err != nil {
+		FindAll()
+	if err != nil {
 		return nil, err
 	}
 	res := make(map[uint32]uint32)

@@ -39,8 +39,7 @@ func (v *voiceLoverActivityRankAwardDao) GetList(ctx context.Context, id uint32,
 		dao = dao.Where("name = ?", name)
 	}
 	total, _ := dao.Count()
-	list := ([]*config.EntityVoiceLoverActivityRankAward)(nil)
-	err := dao.Order("id desc").Page(page, limit).Structs(&list)
+	list, err := dao.Order("id desc").Page(page, limit).FindAll()
 	if err != nil {
 		return nil, 0, err
 	}
@@ -56,8 +55,7 @@ func (v *voiceLoverActivityRankAwardDao) BatchGet(ctx context.Context, ids []uin
 	if len(ids) == 0 {
 		return nil, nil
 	}
-	data := ([]*config.EntityVoiceLoverActivityRankAward)(nil)
-	err := config2.VoiceLoverActivityRankAward.Ctx(ctx).Where("id in (?)", ids).Structs(&data)
+	data, err := config2.VoiceLoverActivityRankAward.Ctx(ctx).Where("id in (?)", ids).FindAll()
 	if err != nil {
 		return nil, err
 	}

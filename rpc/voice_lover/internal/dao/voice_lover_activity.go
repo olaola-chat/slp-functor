@@ -42,8 +42,7 @@ func (v *voiceLoverActivityDao) GetList(ctx context.Context, id uint32, title st
 		dao = dao.Where("title = ?", title)
 	}
 	total, _ := dao.Count()
-	list := ([]*config.EntityVoiceLoverActivity)(nil)
-	err := dao.Order("id desc").Page(page, limit).Structs(&list)
+	list, err := dao.Order("id desc").Page(page, limit).FindAll()
 	if err != nil {
 		return nil, 0, err
 	}
