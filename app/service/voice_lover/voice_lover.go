@@ -49,7 +49,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 		},
 	}
 	wg := sync.WaitGroup{}
-	wg.Add(7)
+	wg.Add(6)
 	// 获取精选专辑推荐
 	go func() {
 		defer wg.Done()
@@ -101,69 +101,69 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 		}
 	}()
 	// 获取用户推荐
-	go func() {
-		defer wg.Done()
-		postUidsRes, _ := vl_rpc.VoiceLoverMain.GetValidAudioUsers(ctx, &vl_pb.ReqGetValidAudioUsers{Uid: uid})
-		postUids := postUidsRes.GetUids()
-		if len(postUids) == 0 {
-			return
-		}
-		inRoomRes, _ := rpcRoom.RoomInfo.MgetInRoom(ctx, &room.ReqUids{Uids: postUids})
-		inRoomMap := inRoomRes.GetData()
-		inRoomUids := make([]uint32, 0)
-		notInRoomUids := make([]uint32, 0)
-		for _, v := range postUids {
-			if rid, ok := inRoomMap[v]; ok {
-				if rid > 0 {
-					inRoomUids = append(inRoomUids, v)
-				} else {
-					notInRoomUids = append(notInRoomUids, v)
-				}
-			}
-		}
-		recUids := make([]uint32, 0)
-		if len(inRoomUids) >= 5 {
-			recUids = append(recUids, inRoomUids[:5]...)
-		} else {
-			recUids = append(recUids, inRoomUids...)
-		}
-		showNum := 5
-		if len(recUids) < showNum {
-			left := showNum - len(recUids)
-			if len(notInRoomUids) >= left {
-				recUids = append(recUids, notInRoomUids[:left]...)
-			} else {
-				recUids = append(recUids, notInRoomUids...)
-			}
-		}
-		if len(recUids) == 0 {
-			return
-		}
-		userInfosRes, err := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: recUids, Fields: []string{"name", "uid", "icon"}})
-		if err != nil {
-			g.Log().Errorf("voiceLoverService GetMainData Mget UserInfo error=%v", err)
-			return
-		}
-		userInfosMap := make(map[uint32]*xianshi.EntityXsUserProfile)
-		for _, v := range userInfosRes.GetData() {
-			userInfosMap[v.Uid] = v
-		}
-		for _, v := range recUids {
-			if _, ok := userInfosMap[v]; !ok {
-				continue
-			}
-			rid := uint32(0)
-			if value, ok := inRoomMap[v]; ok && value > 0 {
-				rid = inRoomMap[v]
-			}
-			res.Data.RecUsers = append(res.Data.RecUsers, &pb.UserData{
-				Uid:    userInfosMap[v].Uid,
-				Avatar: userInfosMap[v].Icon,
-				Name:   userInfosMap[v].Name,
-				Rid:    rid,
-			})
-		}
-	}()
+	//go func() {
+	//	defer wg.Done()
+	//	postUidsRes, _ := vl_rpc.VoiceLoverMain.GetValidAudioUsers(ctx, &vl_pb.ReqGetValidAudioUsers{Uid: uid})
+	//	postUids := postUidsRes.GetUids()
+	//	if len(postUids) == 0 {
+	//		return
+	//	}
+	//	inRoomRes, _ := rpcRoom.RoomInfo.MgetInRoom(ctx, &room.ReqUids{Uids: postUids})
+	//	inRoomMap := inRoomRes.GetData()
+	//	inRoomUids := make([]uint32, 0)
+	//	notInRoomUids := make([]uint32, 0)
+	//	for _, v := range postUids {
+	//		if rid, ok := inRoomMap[v]; ok {
+	//			if rid > 0 {
+	//				inRoomUids = append(inRoomUids, v)
+	//			} else {
+	//				notInRoomUids = append(notInRoomUids, v)
+	//			}
+	//		}
+	//	}
+	//	recUids := make([]uint32, 0)
+	//	if len(inRoomUids) >= 5 {
+	//		recUids = append(recUids, inRoomUids[:5]...)
+	//	} else {
+	//		recUids = append(recUids, inRoomUids...)
+	//	}
+	//	showNum := 5
+	//	if len(recUids) < showNum {
+	//		left := showNum - len(recUids)
+	//		if len(notInRoomUids) >= left {
+	//			recUids = append(recUids, notInRoomUids[:left]...)
+	//		} else {
+	//			recUids = append(recUids, notInRoomUids...)
+	//		}
+	//	}
+	//	if len(recUids) == 0 {
+	//		return
+	//	}
+	//	userInfosRes, err := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: recUids, Fields: []string{"name", "uid", "icon"}})
+	//	if err != nil {
+	//		g.Log().Errorf("voiceLoverService GetMainData Mget UserInfo error=%v", err)
+	//		return
+	//	}
+	//	userInfosMap := make(map[uint32]*xianshi.EntityXsUserProfile)
+	//	for _, v := range userInfosRes.GetData() {
+	//		userInfosMap[v.Uid] = v
+	//	}
+	//	for _, v := range recUids {
+	//		if _, ok := userInfosMap[v]; !ok {
+	//			continue
+	//		}
+	//		rid := uint32(0)
+	//		if value, ok := inRoomMap[v]; ok && value > 0 {
+	//			rid = inRoomMap[v]
+	//		}
+	//		res.Data.RecUsers = append(res.Data.RecUsers, &pb.UserData{
+	//			Uid:    userInfosMap[v].Uid,
+	//			Avatar: userInfosMap[v].Icon,
+	//			Name:   userInfosMap[v].Name,
+	//			Rid:    rid,
+	//		})
+	//	}
+	//}()
 	// 获取话题推荐
 	go func() {
 		defer wg.Done()
