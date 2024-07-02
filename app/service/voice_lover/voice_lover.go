@@ -380,17 +380,36 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 			g.Log().Errorf("voiceLoverService GetAlbumDetail GetAudioListByAlbumId error=%v", rErr)
 			return
 		}
+
+		// 批量判断用户是否收藏了音频
+		var audioIds []uint64
+		for _, v := range audioListRes.GetAudios() {
+			audioIds = append(audioIds, v.GetId())
+		}
+		collectRsp, err := vl_rpc.VoiceLoverMain.BatchCheckUserCollect(ctx, &vl_pb.ReqBatchCheckUserCollect{Uid: uid, AudioId: gconv.Uint32s(audioIds)})
+		if err != nil || !collectRsp.GetSuccess() {
+			g.Log().Errorf("voiceLoverService BatchCheckUserCollect err: %v, uid: %d, audio_ids: %v", err, uid, audioIds)
+		}
+
+		// 批量获取音频的收藏数量
+		numRsp, err := vl_rpc.VoiceLoverMain.BatchGetCollectNum(ctx, &vl_pb.ReqBatchGetCollectNum{CollectId: gconv.Uint32s(audioIds)})
+		if err != nil || !collectRsp.GetSuccess() {
+			g.Log().Errorf("voiceLoverService BatchGetCollectNum err: %v, uid: %d, audio_ids: %v", err, uid, audioIds)
+		}
+
 		uids := make([]uint32, 0)
 		for _, v := range audioListRes.GetAudios() {
 			uids = append(uids, v.Uid)
 			res.Data.Audios = append(res.Data.Audios, &pb.AudioData{
-				Id:        v.Id,
-				Title:     v.Title,
-				Resource:  v.Resource,
-				Covers:    v.Covers,
-				Seconds:   v.Seconds,
-				PlayStats: v.PlayCountDesc,
-				UserInfo:  &pb.UserData{Uid: v.Uid},
+				Id:         v.Id,
+				Title:      v.Title,
+				Resource:   v.Resource,
+				Covers:     v.Covers,
+				Seconds:    v.Seconds,
+				PlayStats:  v.PlayCountDesc,
+				UserInfo:   &pb.UserData{Uid: v.Uid},
+				IsCollect:  collectRsp.GetCollectInfo()[uint32(v.Id)],
+				CollectNum: numRsp.GetNums()[uint32(v.Id)],
 			})
 		}
 		userInfosRes, _ := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: uids, Fields: []string{"name", "uid", "icon"}})

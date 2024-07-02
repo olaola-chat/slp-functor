@@ -1136,3 +1136,16 @@ func (m *mainLogic) BatchCheckUserCollect(ctx context.Context, req *vl_pb.ReqBat
 	reply.CollectInfo = res
 	return nil
 }
+
+func (m *mainLogic) BatchGetCollectNum(ctx context.Context, req *vl_pb.ReqBatchGetCollectNum, reply *vl_pb.RespBatchGetCollectNum) error {
+	res, err := dao.VoiceLoverUserCollectDao.BatchGetCollectNum(ctx, req.GetCollectId())
+	if err != nil {
+		g.Log().Errorf("check user collect err: %v, req: %+v", err, req)
+		reply.Message = err.Error()
+		return err
+	}
+
+	reply.Success = true
+	reply.Nums = res
+	return nil
+}

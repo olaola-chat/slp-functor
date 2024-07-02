@@ -88,3 +88,15 @@ func (v *voiceLoverUserCollectDao) BatchCheckUserCollected(ctx context.Context, 
 	}
 	return res, nil
 }
+
+func (v *voiceLoverUserCollectDao) BatchGetCollectNum(ctx context.Context, ids []uint32) (map[uint32]uint32, error) {
+	data, err := functor2.VoiceLoverUserCollect.Ctx(ctx).Where("collect_id in (?)", ids).FindAll()
+	if err != nil {
+		return nil, err
+	}
+	res := make(map[uint32]uint32)
+	for _, v := range data {
+		res[uint32(v.GetCollectId())]++
+	}
+	return res, nil
+}

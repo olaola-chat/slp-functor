@@ -138,3 +138,7 @@ func (v *VoiceLoverMain) GenRecAlbum(ctx context.Context, req *vl_pb.ReqGenRecAl
 func (v *VoiceLoverMain) BatchCheckUserCollect(ctx context.Context, req *vl_pb.ReqBatchCheckUserCollect, reply *vl_pb.RespBatchCheckUserCollect) error {
 	return logic.MainLogic.BatchCheckUserCollect(ctx, req, reply)
 }
+
+func (v *VoiceLoverMain) BatchGetCollectNum(ctx context.Context, req *vl_pb.ReqBatchGetCollectNum, reply *vl_pb.RespBatchGetCollectNum) error {
+	return logic.MainLogic.BatchGetCollectNum(ctx, req, reply)
+}
