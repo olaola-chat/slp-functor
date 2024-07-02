@@ -1063,7 +1063,13 @@ func (m *mainLogic) GetAwardPackage(ctx context.Context, req *vl_pb.ReqGetAwardP
 }
 
 func (m *mainLogic) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGetAudioInfo, reply *vl_pb.RespBatchGetAudioInfo) error {
-	data, err := dao.VoiceLoverAudioDao.GetValidAudioListByIds(ctx, gconv.Uint64s(req.GetAudioId()))
+	var data []*functor2.EntityVoiceLoverAudio
+	var err error
+	if len(req.GetAudioId()) == 0 {
+		data, err = dao.VoiceLoverAudioDao.GetValidAudios(ctx)
+	} else {
+		data, err = dao.VoiceLoverAudioDao.GetValidAudioListByIds(ctx, gconv.Uint64s(req.GetAudioId()))
+	}
 	if err != nil {
 		g.Log().Errorf("GetValidAudioListByIds err: %v, audio_ids: %v", err, req.GetAudioId())
 		reply.Message = err.Error()
@@ -1074,10 +1080,14 @@ func (m *mainLogic) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGe
 	var items []*vl_pb.RespBatchGetAudioInfo_Audio
 	for _, v := range data {
 		items = append(items, &vl_pb.RespBatchGetAudioInfo_Audio{
-			Id:     uint32(v.GetId()),
-			Title:  v.GetTitle(),
-			Cover:  v.GetCover(),
-			PubUid: uint32(v.GetPubUid()),
+			Id:       uint32(v.GetId()),
+			Title:    v.GetTitle(),
+			Desc:     v.GetDesc(),
+			Resource: v.GetResource(),
+			Cover:    v.GetCover(),
+			From:     v.GetFrom(),
+			Seconds:  v.GetSeconds(),
+			PubUid:   uint32(v.GetPubUid()),
 		})
 	}
 	reply.Items = items

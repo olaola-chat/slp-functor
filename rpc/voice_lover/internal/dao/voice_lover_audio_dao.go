@@ -75,3 +75,11 @@ func (v *voiceLoverAudioDao) GetValidUidsByUid(ctx context.Context, uid uint32) 
 	}
 	return list, nil
 }
+
+func (v *voiceLoverAudioDao) GetValidAudios(ctx context.Context) ([]*functor.EntityVoiceLoverAudio, error) {
+	return functor2.VoiceLoverAudio.Ctx(ctx).
+		Where(functor2.VoiceLoverAudio.Columns.AuditStatus, AuditPass).
+		Order(functor2.VoiceLoverAudio.Columns.CreateTime, "desc").
+		Limit(1000).
+		FindAll()
+}

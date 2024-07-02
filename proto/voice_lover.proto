@@ -149,7 +149,6 @@ message RespVoiceLoverActivityMain {
 message VoiceLoverActivityMain {
   VoiceLoverActivity activity = 1; // 活动详情
   VoiceLoverActivityAward award = 2; // 奖励详情
-  uint32 last_activity_id = 3; // 上期活动id
 }
 
 message VoiceLoverActivity {
