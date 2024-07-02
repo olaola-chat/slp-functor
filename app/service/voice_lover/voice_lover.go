@@ -233,6 +233,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 			return
 		}
 		audioIds := gconv.Uint32s(vals)
+		g.Log().Infof("tanlian get top rank audios: %v", audioIds)
 
 		// 获取声音详情
 		rsp, err := vl_rpc.VoiceLoverMain.BatchGetAudioInfo(ctx, &vl_pb.ReqBatchGetAudioInfo{AudioId: audioIds})
@@ -240,6 +241,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 			g.Log().Errorf("batch get audio info err: %v, audio_ids: %v", err, audioIds)
 			return
 		}
+		g.Log().Infof("tanlian rsp: %+v", rsp)
 		for _, v := range rsp.GetItems() {
 			audio := &pb.AudioData{
 				Id:         uint64(v.GetId()),
