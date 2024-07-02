@@ -63,6 +63,7 @@ func (m *mainLogic) Post(ctx context.Context, req *vl_pb.ReqPost, reply *vl_pb.R
 			Labels:     req.Labels,
 			Seconds:    req.Seconds,
 			ActivityId: req.ActivityId,
+			ApplyTime:  0,
 		}
 		if req.Uid == 200000169 {
 			data.AuditStatus = dao.AuditPass
