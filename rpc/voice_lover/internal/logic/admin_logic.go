@@ -737,7 +737,6 @@ func (a *adminLogic) AdminAwardPackageList(ctx context.Context, req *voice_lover
 		}
 		items = append(items, item)
 	}
-	g.Log().Infof("tanlian AdminAwardPackageList %+v", items)
 	return items, total, nil
 }
 
@@ -765,7 +764,6 @@ func (a *adminLogic) AdminRankAwardList(ctx context.Context, req *voice_lover.Re
 		g.Log().Errorf("adminLogic AdminRankAwardList err: %v, pkg ids: %v", err, pkgIds)
 		return nil, 0, err
 	}
-	g.Log().Infof("tanlian pkgMap: %+v, pkgIds: %v", pkgMap, pkgIds)
 
 	var items []*voice_lover.RespAdminRankAwardList_Item
 	for _, v := range data {
@@ -785,7 +783,6 @@ func (a *adminLogic) AdminRankAwardList(ctx context.Context, req *voice_lover.Re
 		}
 		items = append(items, item)
 	}
-	g.Log().Infof("tanlian items: %+v", items)
 	return items, total, nil
 }
 

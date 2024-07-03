@@ -2,9 +2,7 @@ package dao
 
 import (
 	"context"
-	"fmt"
 	"strings"
-	"time"
 
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/config"
 
@@ -52,11 +50,4 @@ func (v *voiceLoverActivityDao) GetList(ctx context.Context, id uint32, title st
 func (v *voiceLoverActivityDao) Delete(ctx context.Context, id uint32) error {
 	_, err := config2.VoiceLoverActivity.Ctx(ctx).Where("id = ?", id).Delete()
 	return err
-}
-
-func (v *voiceLoverActivityDao) GetOne(ctx context.Context, id uint32) (*config.EntityVoiceLoverActivity, error) {
-	return config2.VoiceLoverActivity.Ctx(ctx).
-		Cache(time.Minute, fmt.Sprintf("voice.lover.activity.%d", id)).
-		Where("id = ?", id).
-		FindOne()
 }

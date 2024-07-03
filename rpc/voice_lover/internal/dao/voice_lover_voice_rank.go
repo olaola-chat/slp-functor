@@ -28,18 +28,3 @@ func (v *voiceLoverVoiceRank) DecLikeNum(ctx context.Context, activityId uint32,
 		Update()
 	return err
 }
-
-func (v *voiceLoverVoiceRank) BatchGetLikeNum(ctx context.Context, audioIds []uint64) (map[uint32]uint32, error) {
-	list, err := xianshi.VoiceLoverVoiceRank.Ctx(ctx).
-		Fields("audio_id,like_num").
-		Where("audio_id in (?)", audioIds).
-		FindAll()
-	if err != nil {
-		return nil, err
-	}
-	res := make(map[uint32]uint32)
-	for _, v := range list {
-		res[v.GetAudioId()] = v.GetLikeNum()
-	}
-	return res, nil
-}
