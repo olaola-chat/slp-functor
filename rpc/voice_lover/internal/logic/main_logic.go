@@ -557,7 +557,7 @@ func (m *mainLogic) incrAudioLikeNum(ctx context.Context, audioId uint64) {
 		return
 	}
 	if audio.GetActivityId() > 0 {
-		if err := dao.VoiceLoverVoiceRank.IncrLikeNum(ctx, audio.GetActivityId(), audioId); err != nil {
+		if err := dao.VoiceLoverAudioDao.IncrLikeNum(ctx, audioId); err != nil {
 			g.Log().Errorf("incr audio like num err: %v, audio_id: %d", err, audioId)
 		}
 	}
@@ -570,8 +570,8 @@ func (m *mainLogic) decAudioLikeNum(ctx context.Context, audioId uint64) {
 		return
 	}
 	if audio.GetActivityId() > 0 {
-		if err := dao.VoiceLoverVoiceRank.DecLikeNum(ctx, audio.GetActivityId(), audioId); err != nil {
-			g.Log().Errorf("incr audio like num err: %v, audio_id: %d", err, audioId)
+		if err := dao.VoiceLoverAudioDao.DecLikeNum(ctx, audioId); err != nil {
+			g.Log().Errorf("dec audio like num err: %v, audio_id: %d", err, audioId)
 		}
 	}
 }

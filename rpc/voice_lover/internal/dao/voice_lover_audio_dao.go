@@ -3,7 +3,9 @@ package dao
 import (
 	"context"
 	"fmt"
+	"time"
 
+	"github.com/gogf/gf/database/gdb"
 	"github.com/gogf/gf/frame/g"
 	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
@@ -82,4 +84,16 @@ func (v *voiceLoverAudioDao) GetValidAudios(ctx context.Context) ([]*functor.Ent
 		Order(functor2.VoiceLoverAudio.Columns.CreateTime, "desc").
 		Limit(1000).
 		FindAll()
+}
+
+func (v *voiceLoverAudioDao) IncrLikeNum(ctx context.Context, id uint64) error {
+	now := time.Now().Unix()
+	_, err := functor2.VoiceLoverAudio.Ctx(ctx).Where("id = ?", id).Data(g.Map{"like_num": gdb.Raw("like_num+1"), "update_time": now}).Update()
+	return err
+}
+
+func (v *voiceLoverAudioDao) DecLikeNum(ctx context.Context, id uint64) error {
+	now := time.Now().Unix()
+	_, err := functor2.VoiceLoverAudio.Ctx(ctx).Where("id = ?", id).Data(g.Map{"like_num": gdb.Raw("like_num-1"), "update_time": now}).Update()
+	return err
 }
