@@ -3,16 +3,15 @@ package api
 import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
+	"github.com/olaola-chat/rbp-functor/app/consts"
+	"github.com/olaola-chat/rbp-functor/app/pb"
+	"github.com/olaola-chat/rbp-functor/app/query"
+	vl_serv "github.com/olaola-chat/rbp-functor/app/service/voice_lover"
 	"github.com/olaola-chat/rbp-library/response"
 	context2 "github.com/olaola-chat/rbp-library/server/http/context"
 	"github.com/olaola-chat/rbp-library/tool"
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
-
-	"github.com/olaola-chat/rbp-functor/app/consts"
-	"github.com/olaola-chat/rbp-functor/app/pb"
-	"github.com/olaola-chat/rbp-functor/app/query"
-	vl_serv "github.com/olaola-chat/rbp-functor/app/service/voice_lover"
 )
 
 var VoiceLover = &voiceLoverAPI{}
@@ -41,7 +40,7 @@ func (a *voiceLoverAPI) Main(r *ghttp.Request) {
 	}
 	ctx := r.GetCtx()
 	ctxUser := context2.ContextSrv.GetUserCtx(ctx)
-	data, err := vl_serv.VoiceLoverService.GetMainData(ctx, ctxUser.UID)
+	data, err := vl_serv.VoiceLoverService.GetMainData(ctx, ctxUser.UID, req.V)
 	if err != nil {
 		response.Output(r, &pb.RespVoiceLoverMain{
 			Success: false,
@@ -415,6 +414,7 @@ func (a *voiceLoverAPI) Post(r *ghttp.Request) {
 		EditCover:   req.EditCover,
 		Labels:      req.Labels,
 		Seconds:     req.Seconds,
+		ActivityId:  req.ActivityId,
 	})
 	if err != nil {
 		g.Log().Errorf("VoiceLover Post error, err = %v", err)

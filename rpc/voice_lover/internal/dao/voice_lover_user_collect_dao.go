@@ -73,3 +73,30 @@ func (v *voiceLoverUserCollectDao) GetInfoByUidAndTypeAndId(ctx context.Context,
 	}
 	return data, nil
 }
+func (v *voiceLoverUserCollectDao) BatchCheckUserCollected(ctx context.Context, uid uint32, typ int, ids []uint32) (map[uint32]bool, error) {
+	data, err := functor2.VoiceLoverUserCollect.Ctx(ctx).
+		Where(functor2.VoiceLoverUserCollect.Columns.UID, uid).
+		Where(functor2.VoiceLoverUserCollect.Columns.CollectType, typ).
+		Where("collect_id in (?)", ids).
+		FindAll()
+	if err != nil {
+		return nil, err
+	}
+	res := make(map[uint32]bool)
+	for _, v := range data {
+		res[uint32(v.GetCollectId())] = true
+	}
+	return res, nil
+}
+
+func (v *voiceLoverUserCollectDao) BatchGetCollectNum(ctx context.Context, ids []uint32) (map[uint32]uint32, error) {
+	data, err := functor2.VoiceLoverUserCollect.Ctx(ctx).Where("collect_id in (?)", ids).FindAll()
+	if err != nil {
+		return nil, err
+	}
+	res := make(map[uint32]uint32)
+	for _, v := range data {
+		res[uint32(v.GetCollectId())]++
+	}
+	return res, nil
+}

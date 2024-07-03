@@ -1,6 +1,7 @@
 package query
 
 type ReqVoiceLoverMain struct {
+	V uint32 `v:"v@integer"` // 版本号
 }
 
 type ReqAlbumList struct {
@@ -58,17 +59,18 @@ type ReqCollectAudioList struct {
 }
 
 type ReqVoiceLoverPost struct {
-	Resource    string `v:"resource@required"` // 音频资源
-	Seconds     uint32 `v:"seconds@required"`  // 音频时长 单位秒
-	Title       string `v:"title@required"`    // 标题
-	Source      int32  `v:"source@required"`   // 来源 1:原创 2:搬运
-	Cover       string `v:"cover@required"`    // 封面
-	Desc        string `v:"desc@required"`     // 简介
-	EditDub     string `json:"edit_dub"`       // 编辑配音
-	EditContent string `json:"edit_content"`   // 编辑文案
-	EditPost    string `json:"edit_post"`      // 编辑后期
-	EditCover   string `json:"edit_cover"`     // 编辑封面
-	Labels      string `json:"labels"`         // 标签
+	Resource    string `v:"resource@required"`   // 音频资源
+	Seconds     uint32 `v:"seconds@required"`    // 音频时长 单位秒
+	Title       string `v:"title@required"`      // 标题
+	Source      int32  `v:"source@required"`     // 来源 1:原创 2:搬运
+	Cover       string `v:"cover@required"`      // 封面
+	Desc        string `v:"desc@required"`       // 简介
+	EditDub     string `json:"edit_dub"`         // 编辑配音
+	EditContent string `json:"edit_content"`     // 编辑文案
+	EditPost    string `json:"edit_post"`        // 编辑后期
+	EditCover   string `json:"edit_cover"`       // 编辑封面
+	Labels      string `json:"labels"`           // 标签
+	ActivityId  uint32 `v:"activity_id@integer"` // 活动id
 }
 
 type ReqReport struct {

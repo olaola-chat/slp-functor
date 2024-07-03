@@ -195,3 +195,22 @@ func (v *voiceLoverAlbumDao) UpdateAlbumHasSubject(tx *gdb.TX, id uint64, hasSub
 	}
 	return nil
 }
+
+func (v *voiceLoverAlbumDao) CreateRecAlbum(ctx context.Context, name string, intro string, cover string, opUid uint64) (int64, error) {
+	data := &functor2.EntityVoiceLoverAlbum{
+		Name:       name,
+		Intro:      intro,
+		Cover:      cover,
+		OpUid:      opUid,
+		Choice:     1,
+		ChoiceTime: uint64(time.Now().Unix()),
+		CreateTime: uint64(time.Now().Unix()),
+		UpdateTime: uint64(time.Now().Unix()),
+	}
+	sqlRes, err := functor.VoiceLoverAlbum.Ctx(ctx).Insert(data)
+	if err != nil {
+		return 0, err
+	}
+	lastId, _ := sqlRes.LastInsertId()
+	return lastId, nil
+}

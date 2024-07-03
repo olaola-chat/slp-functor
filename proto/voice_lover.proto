@@ -15,6 +15,7 @@ message VoiceLoverMain {
   repeated SubjectData rec_subjects = 4;
   repeated AlbumData common_albums = 5;
   bool is_anchor = 6;
+  repeated AudioData audios = 7; // 全区动态
 }
 message RespVoiceLoverMain {
   bool success = 1;

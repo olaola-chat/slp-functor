@@ -76,3 +76,17 @@ func (v *voiceLoverAudioAlbumDao) GetAlbumIdsByAudioId(ctx context.Context, audi
 	}
 	return albumIds, nil
 }
+
+func (v *voiceLoverAudioAlbumDao) BatchCreate(ctx context.Context, audioIds []uint64, albumId uint64) error {
+	var data []*functor.EntityVoiceLoverAudioAlbum
+	for _, v := range audioIds {
+		data = append(data, &functor.EntityVoiceLoverAudioAlbum{
+			AudioId:    v,
+			AlbumId:    albumId,
+			CreateTime: uint64(time.Now().Unix()),
+			UpdateTime: uint64(time.Now().Unix()),
+		})
+	}
+	_, err := functor2.VoiceLoverAudioAlbum.Ctx(ctx).Insert(data)
+	return err
+}

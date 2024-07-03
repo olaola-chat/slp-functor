@@ -111,3 +111,108 @@ func (v *VoiceLoverAdmin) AdminBannerUpdate(ctx context.Context, req *vl_pb.ReqA
 func (v *VoiceLoverAdmin) AdminBannerDetail(ctx context.Context, req *vl_pb.ReqAdminBannerDetail, reply *vl_pb.ResAdminBannerDetail) error {
 	return logic.AdminLogic.AdminBannerDetail(ctx, req, reply)
 }
+
+// AdminAddActivity 添加/更新活动
+func (v *VoiceLoverAdmin) AdminAddActivity(ctx context.Context, req *vl_pb.ReqAdminAddActivity, reply *vl_pb.RespAdminAddActivity) error {
+	id, err := logic.AdminLogic.AddActivity(ctx, req)
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	reply.Id = id
+	return nil
+}
+
+// AdminAddAwardPackage 添加/更新奖励包
+func (v *VoiceLoverAdmin) AdminAddAwardPackage(ctx context.Context, req *vl_pb.ReqAdminAddAwardPackage, reply *vl_pb.RespAdminAddAwardPackage) error {
+	id, err := logic.AdminLogic.AddActivityAwardPackage(ctx, req)
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	reply.Id = id
+	return nil
+}
+
+// AdminAddRankAward 添加/更新排行奖励
+func (v *VoiceLoverAdmin) AdminAddRankAward(ctx context.Context, req *vl_pb.ReqAdminAddRankAward, reply *vl_pb.RespAdminAddRankAward) error {
+	id, err := logic.AdminLogic.AddActivityRankAward(ctx, req)
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	reply.Id = id
+	return nil
+}
+
+// AdminActivityList 获取活动列表
+func (v *VoiceLoverAdmin) AdminActivityList(ctx context.Context, req *vl_pb.ReqAdminActivityList, reply *vl_pb.RespAdminActivityList) error {
+	items, total, err := logic.AdminLogic.AdminActivityList(ctx, req)
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	reply.Data = items
+	reply.Total = uint32(total)
+	return nil
+}
+
+// AdminAwardPackageList 获取奖励包列表
+func (v *VoiceLoverAdmin) AdminAwardPackageList(ctx context.Context, req *vl_pb.ReqAdminAwardPackageList, reply *vl_pb.RespAdminAwardPackageList) error {
+	items, total, err := logic.AdminLogic.AdminAwardPackageList(ctx, req)
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	reply.Data = items
+	reply.Total = uint32(total)
+	return nil
+}
+
+// AdminRankAwardList 获取排行奖励列表
+func (v *VoiceLoverAdmin) AdminRankAwardList(ctx context.Context, req *vl_pb.ReqAdminRankAwardList, reply *vl_pb.RespAdminRankAwardList) error {
+	items, total, err := logic.AdminLogic.AdminRankAwardList(ctx, req)
+	if err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	reply.Data = items
+	reply.Total = uint32(total)
+	return nil
+}
+
+// AdminActivityDelete 删除活动
+func (v *VoiceLoverAdmin) AdminActivityDelete(ctx context.Context, req *vl_pb.ReqAdminActivityDelete, reply *vl_pb.RespAdminActivityDelete) error {
+	if err := logic.AdminLogic.AdminActivityDelete(ctx, req.GetId()); err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
+}
+
+// AdminAwardPackageDelete 删除奖励包
+func (v *VoiceLoverAdmin) AdminAwardPackageDelete(ctx context.Context, req *vl_pb.ReqAdminAwardPackageDelete, reply *vl_pb.RespAdminAwardPackageDelete) error {
+	if err := logic.AdminLogic.AdminAwardPackageDelete(ctx, req.GetId()); err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
+}
+
+// AdminRankAwardDelete 删除奖励排行
+func (v *VoiceLoverAdmin) AdminRankAwardDelete(ctx context.Context, req *vl_pb.ReqAdminRankAwardDelete, reply *vl_pb.RespAdminRankAwardDelete) error {
+	if err := logic.AdminLogic.AdminRankAwardDelete(ctx, req.GetId()); err != nil {
+		reply.Msg = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
+}

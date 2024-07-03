@@ -114,3 +114,19 @@ func (v *VoiceLoverMain) IsUserCollectAudio(ctx context.Context, req *vl_pb.ReqC
 func (v *VoiceLoverMain) GetValidAudioUsers(ctx context.Context, req *vl_pb.ReqGetValidAudioUsers, reply *vl_pb.ResGetValidAudioUsers) error {
 	return logic.MainLogic.GetValidAudioUsers(ctx, req, reply)
 }
+
+func (v *VoiceLoverMain) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGetAudioInfo, reply *vl_pb.RespBatchGetAudioInfo) error {
+	return logic.MainLogic.BatchGetAudioInfo(ctx, req, reply)
+}
+
+func (v *VoiceLoverMain) GenRecAlbum(ctx context.Context, req *vl_pb.ReqGenRecAlbum, reply *vl_pb.RespGenRecAlbum) error {
+	return logic.MainLogic.GenRecAlbum(ctx, req, reply)
+}
+
+func (v *VoiceLoverMain) BatchCheckUserCollect(ctx context.Context, req *vl_pb.ReqBatchCheckUserCollect, reply *vl_pb.RespBatchCheckUserCollect) error {
+	return logic.MainLogic.BatchCheckUserCollect(ctx, req, reply)
+}
+
+func (v *VoiceLoverMain) BatchGetCollectNum(ctx context.Context, req *vl_pb.ReqBatchGetCollectNum, reply *vl_pb.RespBatchGetCollectNum) error {
+	return logic.MainLogic.BatchGetCollectNum(ctx, req, reply)
+}

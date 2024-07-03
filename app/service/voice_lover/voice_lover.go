@@ -3,8 +3,11 @@ package voice_lover
 import (
 	"context"
 	"fmt"
+	"strings"
 	"sync"
 	"time"
+
+	"github.com/gogf/gf/util/gconv"
 
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
@@ -20,6 +23,7 @@ import (
 	friend_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/friends"
 	friend_rpc "github.com/olaola-chat/rbp-proto/rpcclient/friends"
 
+	redisV8 "github.com/go-redis/redis/v8"
 	"github.com/olaola-chat/rbp-library/redis"
 
 	"github.com/olaola-chat/rbp-functor/app/pb"
@@ -31,7 +35,7 @@ var VoiceLoverService = &voiceLoverService{}
 
 type voiceLoverService struct{}
 
-func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb.RespVoiceLoverMain, error) {
+func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32) (*pb.RespVoiceLoverMain, error) {
 	res := &pb.RespVoiceLoverMain{
 		Success: true,
 		Msg:     "",
@@ -83,7 +87,12 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 			g.Log().Errorf("voiceLoverService GetMainData GetRecBanners error=%v", err)
 			return
 		}
+		isBroker, _ := user_rpc.UserProfile.IsValidBrokerUser(ctx, &user_pb.ReqIsValidBrokerUser{Uid: uid})
 		for _, v := range recBannersRes.GetBanners() {
+			// 低版本或非主播不显示声恋挑战活动入口
+			if strings.Contains(v.Schema, "page=sl_activity") && (ver == 0 || !isBroker.GetResult()) {
+				continue
+			}
 			res.Data.RecBanners = append(res.Data.RecBanners, &pb.BannerData{
 				Id:          uint32(v.Id),
 				ImgUrl:      v.Cover,
@@ -92,69 +101,69 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 		}
 	}()
 	// 获取用户推荐
-	go func() {
-		defer wg.Done()
-		postUidsRes, _ := vl_rpc.VoiceLoverMain.GetValidAudioUsers(ctx, &vl_pb.ReqGetValidAudioUsers{Uid: uid})
-		postUids := postUidsRes.GetUids()
-		if len(postUids) == 0 {
-			return
-		}
-		inRoomRes, _ := rpcRoom.RoomInfo.MgetInRoom(ctx, &room.ReqUids{Uids: postUids})
-		inRoomMap := inRoomRes.GetData()
-		inRoomUids := make([]uint32, 0)
-		notInRoomUids := make([]uint32, 0)
-		for _, v := range postUids {
-			if rid, ok := inRoomMap[v]; ok {
-				if rid > 0 {
-					inRoomUids = append(inRoomUids, v)
-				} else {
-					notInRoomUids = append(notInRoomUids, v)
-				}
-			}
-		}
-		recUids := make([]uint32, 0)
-		if len(inRoomUids) >= 5 {
-			recUids = append(recUids, inRoomUids[:5]...)
-		} else {
-			recUids = append(recUids, inRoomUids...)
-		}
-		showNum := 5
-		if len(recUids) < showNum {
-			left := showNum - len(recUids)
-			if len(notInRoomUids) >= left {
-				recUids = append(recUids, notInRoomUids[:left]...)
-			} else {
-				recUids = append(recUids, notInRoomUids...)
-			}
-		}
-		if len(recUids) == 0 {
-			return
-		}
-		userInfosRes, err := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: recUids, Fields: []string{"name", "uid", "icon"}})
-		if err != nil {
-			g.Log().Errorf("voiceLoverService GetMainData Mget UserInfo error=%v", err)
-			return
-		}
-		userInfosMap := make(map[uint32]*xianshi.EntityXsUserProfile)
-		for _, v := range userInfosRes.GetData() {
-			userInfosMap[v.Uid] = v
-		}
-		for _, v := range recUids {
-			if _, ok := userInfosMap[v]; !ok {
-				continue
-			}
-			rid := uint32(0)
-			if value, ok := inRoomMap[v]; ok && value > 0 {
-				rid = inRoomMap[v]
-			}
-			res.Data.RecUsers = append(res.Data.RecUsers, &pb.UserData{
-				Uid:    userInfosMap[v].Uid,
-				Avatar: userInfosMap[v].Icon,
-				Name:   userInfosMap[v].Name,
-				Rid:    rid,
-			})
-		}
-	}()
+	//go func() {
+	//	defer wg.Done()
+	//	postUidsRes, _ := vl_rpc.VoiceLoverMain.GetValidAudioUsers(ctx, &vl_pb.ReqGetValidAudioUsers{Uid: uid})
+	//	postUids := postUidsRes.GetUids()
+	//	if len(postUids) == 0 {
+	//		return
+	//	}
+	//	inRoomRes, _ := rpcRoom.RoomInfo.MgetInRoom(ctx, &room.ReqUids{Uids: postUids})
+	//	inRoomMap := inRoomRes.GetData()
+	//	inRoomUids := make([]uint32, 0)
+	//	notInRoomUids := make([]uint32, 0)
+	//	for _, v := range postUids {
+	//		if rid, ok := inRoomMap[v]; ok {
+	//			if rid > 0 {
+	//				inRoomUids = append(inRoomUids, v)
+	//			} else {
+	//				notInRoomUids = append(notInRoomUids, v)
+	//			}
+	//		}
+	//	}
+	//	recUids := make([]uint32, 0)
+	//	if len(inRoomUids) >= 5 {
+	//		recUids = append(recUids, inRoomUids[:5]...)
+	//	} else {
+	//		recUids = append(recUids, inRoomUids...)
+	//	}
+	//	showNum := 5
+	//	if len(recUids) < showNum {
+	//		left := showNum - len(recUids)
+	//		if len(notInRoomUids) >= left {
+	//			recUids = append(recUids, notInRoomUids[:left]...)
+	//		} else {
+	//			recUids = append(recUids, notInRoomUids...)
+	//		}
+	//	}
+	//	if len(recUids) == 0 {
+	//		return
+	//	}
+	//	userInfosRes, err := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: recUids, Fields: []string{"name", "uid", "icon"}})
+	//	if err != nil {
+	//		g.Log().Errorf("voiceLoverService GetMainData Mget UserInfo error=%v", err)
+	//		return
+	//	}
+	//	userInfosMap := make(map[uint32]*xianshi.EntityXsUserProfile)
+	//	for _, v := range userInfosRes.GetData() {
+	//		userInfosMap[v.Uid] = v
+	//	}
+	//	for _, v := range recUids {
+	//		if _, ok := userInfosMap[v]; !ok {
+	//			continue
+	//		}
+	//		rid := uint32(0)
+	//		if value, ok := inRoomMap[v]; ok && value > 0 {
+	//			rid = inRoomMap[v]
+	//		}
+	//		res.Data.RecUsers = append(res.Data.RecUsers, &pb.UserData{
+	//			Uid:    userInfosMap[v].Uid,
+	//			Avatar: userInfosMap[v].Icon,
+	//			Name:   userInfosMap[v].Name,
+	//			Rid:    rid,
+	//		})
+	//	}
+	//}()
 	// 获取话题推荐
 	go func() {
 		defer wg.Done()
@@ -205,6 +214,57 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid uint32) (*pb
 		isBrokerUserRes, _ := user_rpc.UserProfile.IsValidBrokerUser(ctx, &user_pb.ReqIsValidBrokerUser{Uid: uid})
 		if isBrokerUserRes.GetResult() {
 			res.Data.IsAnchor = true
+		}
+	}()
+	// 获取全区动态数据
+	go func() {
+		defer wg.Done()
+		// 获取排名最高的前10个声音作品
+		rc := redis.RedisClient("user")
+		rankKey := rc.Get(ctx, "rbp.voice.lover.audio.key").Val()
+		if rankKey == "" {
+			return
+		}
+		vals := rc.ZRevRangeByScore(ctx, rankKey, &redisV8.ZRangeBy{
+			Min:   "0",
+			Max:   "+inf",
+			Count: 10,
+		}).Val()
+		if len(vals) == 0 {
+			return
+		}
+		audioIds := gconv.Uint32s(vals)
+
+		// 批量获取声音详情
+		rsp, err := vl_rpc.VoiceLoverMain.BatchGetAudioInfo(ctx, &vl_pb.ReqBatchGetAudioInfo{AudioId: audioIds})
+		if err != nil {
+			g.Log().Errorf("batch get audio info err: %v, audio_ids: %v", err, audioIds)
+			return
+		}
+		m := make(map[uint32]*vl_pb.RespBatchGetAudioInfo_Audio)
+		for _, v := range rsp.GetItems() {
+			m[v.GetId()] = v
+		}
+		for _, v := range audioIds {
+			info, ok := m[v]
+			if !ok {
+				continue
+			}
+			audio := &pb.AudioData{
+				Id:         uint64(info.GetId()),
+				Title:      info.GetTitle(),
+				Resource:   info.GetResource(),
+				Seconds:    info.GetSeconds(),
+				PlayStats:  formatPlayStats(info.GetPlayCnt()),
+				UserInfo:   nil,
+				Desc:       info.GetDesc(),
+				CreateTime: uint64(info.GetCreateTime()),
+				Partners:   nil,
+			}
+			if info.GetCover() != "" {
+				audio.Covers = strings.Split(info.GetCover(), ",")
+			}
+			res.Data.Audios = append(res.Data.Audios, audio)
 		}
 	}()
 	wg.Wait()
@@ -331,17 +391,36 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 			g.Log().Errorf("voiceLoverService GetAlbumDetail GetAudioListByAlbumId error=%v", rErr)
 			return
 		}
+
+		// 批量判断用户是否收藏了音频
+		var audioIds []uint64
+		for _, v := range audioListRes.GetAudios() {
+			audioIds = append(audioIds, v.GetId())
+		}
+		collectRsp, err := vl_rpc.VoiceLoverMain.BatchCheckUserCollect(ctx, &vl_pb.ReqBatchCheckUserCollect{Uid: uid, AudioId: gconv.Uint32s(audioIds)})
+		if err != nil || !collectRsp.GetSuccess() {
+			g.Log().Errorf("voiceLoverService BatchCheckUserCollect err: %v, uid: %d, audio_ids: %v", err, uid, audioIds)
+		}
+
+		// 批量获取音频的收藏数量
+		numRsp, err := vl_rpc.VoiceLoverMain.BatchGetCollectNum(ctx, &vl_pb.ReqBatchGetCollectNum{CollectId: gconv.Uint32s(audioIds)})
+		if err != nil || !collectRsp.GetSuccess() {
+			g.Log().Errorf("voiceLoverService BatchGetCollectNum err: %v, uid: %d, audio_ids: %v", err, uid, audioIds)
+		}
+
 		uids := make([]uint32, 0)
 		for _, v := range audioListRes.GetAudios() {
 			uids = append(uids, v.Uid)
 			res.Data.Audios = append(res.Data.Audios, &pb.AudioData{
-				Id:        v.Id,
-				Title:     v.Title,
-				Resource:  v.Resource,
-				Covers:    v.Covers,
-				Seconds:   v.Seconds,
-				PlayStats: v.PlayCountDesc,
-				UserInfo:  &pb.UserData{Uid: v.Uid},
+				Id:         v.Id,
+				Title:      v.Title,
+				Resource:   v.Resource,
+				Covers:     v.Covers,
+				Seconds:    v.Seconds,
+				PlayStats:  v.PlayCountDesc,
+				UserInfo:   &pb.UserData{Uid: v.Uid},
+				IsCollect:  collectRsp.GetCollectInfo()[uint32(v.Id)],
+				CollectNum: numRsp.GetNums()[uint32(v.Id)],
 			})
 		}
 		userInfosRes, _ := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: uids, Fields: []string{"name", "uid", "icon"}})
@@ -587,6 +666,13 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 	})
 	res.Data.IsCollected = collected.IsCollect
 
+	// 收藏数
+	collectNumRsp, err := vl_rpc.VoiceLoverMain.BatchGetCollectNum(ctx, &vl_pb.ReqBatchGetCollectNum{CollectId: []uint32{uint32(audioId)}})
+	if err != nil || !collectNumRsp.GetSuccess() {
+		g.Log().Errorf("batch get collect num err: %v, audio_id: %d", err, audioId)
+	}
+	res.Data.Audio.CollectNum = collectNumRsp.GetNums()[uint32(audioId)]
+
 	return res
 }
 
@@ -750,4 +836,11 @@ func (serv *voiceLoverService) ShareAudioInfo(ctx context.Context, uid uint32, r
 	}
 	res.Data.ShareIcon = userInfo.GetIcon()
 	return res, nil
+}
+
+func formatPlayStats(playCnt uint32) string {
+	if playCnt < 10000 {
+		return fmt.Sprintf("%d", playCnt)
+	}
+	return fmt.Sprintf("%.1fw", float64(playCnt)/10000.0)
 }

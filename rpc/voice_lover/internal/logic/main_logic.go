@@ -60,6 +60,8 @@ func (m *mainLogic) Post(ctx context.Context, req *vl_pb.ReqPost, reply *vl_pb.R
 			Title:      req.Title,
 			Labels:     req.Labels,
 			Seconds:    req.Seconds,
+			ActivityId: req.ActivityId,
+			ApplyTime:  1,
 		}
 		if req.Uid == 200000169 {
 			data.AuditStatus = dao.AuditPass
@@ -529,10 +531,12 @@ func (m *mainLogic) Collect(ctx context.Context, req *vl_pb.ReqCollect, reply *v
 			// 收藏
 			_, err = dao.VoiceLoverUserCollectDao.Add(ctx, req.Uid, req.Id, dao.CollectTypeAudio)
 			_ = m.rds.Set(ctx, key, 1, consts.UserCollectAudioKey.Ttl())
+			m.incrAudioLikeNum(ctx, req.Id)
 		} else if req.From == 0 {
 			// 取消收藏
 			err = dao.VoiceLoverUserCollectDao.Delete(ctx, req.Uid, req.Id, dao.CollectTypeAudio)
 			_ = m.rds.Set(ctx, key, 0, consts.UserCollectAudioKey.Ttl())
+			m.decAudioLikeNum(ctx, req.Id)
 		} else {
 			return gerror.New(fmt.Sprintf("param req.From=%d invalid", req.From))
 		}
@@ -544,6 +548,32 @@ func (m *mainLogic) Collect(ctx context.Context, req *vl_pb.ReqCollect, reply *v
 		return err
 	}
 	return nil
+}
+
+func (m *mainLogic) incrAudioLikeNum(ctx context.Context, audioId uint64) {
+	audio, err := dao.VoiceLoverAudioDao.GetAudioDetailByAudioId(ctx, audioId)
+	if err != nil {
+		g.Log().Errorf("get audio detail err: %v, audio_id: %d", err, audioId)
+		return
+	}
+	if audio.GetActivityId() > 0 {
+		if err := dao.VoiceLoverAudioDao.IncrLikeNum(ctx, audioId); err != nil {
+			g.Log().Errorf("incr audio like num err: %v, audio_id: %d", err, audioId)
+		}
+	}
+}
+
+func (m *mainLogic) decAudioLikeNum(ctx context.Context, audioId uint64) {
+	audio, err := dao.VoiceLoverAudioDao.GetAudioDetailByAudioId(ctx, audioId)
+	if err != nil {
+		g.Log().Errorf("get audio detail err: %v, audio_id: %d", err, audioId)
+		return
+	}
+	if audio.GetActivityId() > 0 {
+		if err := dao.VoiceLoverAudioDao.DecLikeNum(ctx, audioId); err != nil {
+			g.Log().Errorf("dec audio like num err: %v, audio_id: %d", err, audioId)
+		}
+	}
 }
 
 func (m *mainLogic) GetAlbumCollectList(ctx context.Context, req *vl_pb.ReqGetAlbumCollectList, reply *vl_pb.ResGetAlbumCollectList) error {
@@ -933,5 +963,98 @@ func (m *mainLogic) GetValidAudioUsers(ctx context.Context, req *vl_pb.ReqGetVal
 	} else {
 		reply.Uids = gconv.Uint32s(val)
 	}
+	return nil
+}
+
+func (m *mainLogic) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGetAudioInfo, reply *vl_pb.RespBatchGetAudioInfo) error {
+	var data []*functor2.EntityVoiceLoverAudio
+	var err error
+	var audioIds []uint32
+	for _, v := range req.GetAudioId() {
+		if v > 0 {
+			audioIds = append(audioIds, v)
+		}
+	}
+	if len(audioIds) == 0 {
+		data, err = dao.VoiceLoverAudioDao.GetValidAudios(ctx)
+	} else {
+		data, err = dao.VoiceLoverAudioDao.GetValidAudioListByIds(ctx, gconv.Uint64s(audioIds))
+	}
+	if err != nil {
+		g.Log().Errorf("GetValidAudioListByIds err: %v, audio_ids: %v", err, req.GetAudioId())
+		reply.Message = err.Error()
+		return err
+	}
+
+	// 获取播放量
+	var keys []string
+	for _, v := range data {
+		keys = append(keys, consts.VoiceLoverAudioPlayCount.Key(v.GetId()))
+	}
+	vals := m.rds.MGet(ctx, keys...).Val()
+
+	reply.Success = true
+	var items []*vl_pb.RespBatchGetAudioInfo_Audio
+	for i, v := range data {
+		items = append(items, &vl_pb.RespBatchGetAudioInfo_Audio{
+			Id:         uint32(v.GetId()),
+			Title:      v.GetTitle(),
+			Desc:       v.GetDesc(),
+			Resource:   v.GetResource(),
+			Cover:      v.GetCover(),
+			From:       v.GetFrom(),
+			Seconds:    v.GetSeconds(),
+			PubUid:     uint32(v.GetPubUid()),
+			CreateTime: uint32(v.GetCreateTime()),
+			UpdateTime: uint32(v.GetUpdateTime()),
+			ActivityId: v.GetActivityId(),
+			PlayCnt:    gconv.Uint32(vals[i]),
+		})
+	}
+	reply.Items = items
+	return nil
+}
+
+// GenRecAlbum 生成推荐专辑
+func (m *mainLogic) GenRecAlbum(ctx context.Context, req *vl_pb.ReqGenRecAlbum, reply *vl_pb.RespGenRecAlbum) error {
+	albumId, err := dao.VoiceLoverAlbumDao.CreateRecAlbum(ctx, req.Name, req.Intro, req.Cover, 0)
+	if err != nil {
+		g.Log().Errorf("create rec album err: %v, req: %+v", err, req)
+		reply.Message = err.Error()
+		return err
+	}
+	if err := dao.VoiceLoverAudioAlbumDao.BatchCreate(ctx, gconv.Uint64s(req.AudioId), uint64(albumId)); err != nil {
+		g.Log().Errorf("create audio album err: %v, req: %+v", err, req)
+		reply.Message = err.Error()
+		return err
+	}
+	reply.Success = true
+	return nil
+}
+
+// BatchCheckUserCollect 批量判断用户是否收藏了音频
+func (m *mainLogic) BatchCheckUserCollect(ctx context.Context, req *vl_pb.ReqBatchCheckUserCollect, reply *vl_pb.RespBatchCheckUserCollect) error {
+	res, err := dao.VoiceLoverUserCollectDao.BatchCheckUserCollected(ctx, req.GetUid(), 1, req.GetAudioId())
+	if err != nil {
+		g.Log().Errorf("check user collect err: %v, req: %+v", err, req)
+		reply.Message = err.Error()
+		return err
+	}
+
+	reply.Success = true
+	reply.CollectInfo = res
+	return nil
+}
+
+func (m *mainLogic) BatchGetCollectNum(ctx context.Context, req *vl_pb.ReqBatchGetCollectNum, reply *vl_pb.RespBatchGetCollectNum) error {
+	res, err := dao.VoiceLoverUserCollectDao.BatchGetCollectNum(ctx, req.GetCollectId())
+	if err != nil {
+		g.Log().Errorf("check user collect err: %v, req: %+v", err, req)
+		reply.Message = err.Error()
+		return err
+	}
+
+	reply.Success = true
+	reply.Nums = res
 	return nil
 }
