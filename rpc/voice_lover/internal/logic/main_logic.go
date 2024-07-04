@@ -826,7 +826,7 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 		Id:           row.Id,
 		Title:        row.Title,
 		Desc:         row.Desc,
-		Covers:       []string{row.Cover},
+		Covers:       convertCoversToArray(row.Cover),
 		Resource:     row.Resource,
 		Labels:       convertLabelsToArray(row.Labels),
 		Uid:          uint32(row.PubUid),
@@ -1009,6 +1009,7 @@ func (m *mainLogic) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGe
 			UpdateTime: uint32(v.GetUpdateTime()),
 			ActivityId: v.GetActivityId(),
 			PlayCnt:    gconv.Uint32(vals[i]),
+			LikeNum:    v.GetLikeNum(),
 		})
 	}
 	reply.Items = items

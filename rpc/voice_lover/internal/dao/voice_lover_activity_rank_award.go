@@ -65,3 +65,7 @@ func (v *voiceLoverActivityRankAwardDao) BatchGet(ctx context.Context, ids []uin
 	}
 	return res, nil
 }
+
+func (v *voiceLoverActivityRankAwardDao) GetByPkgId(ctx context.Context, pkgId uint32) (*config.EntityVoiceLoverActivityRankAward, error) {
+	return config2.VoiceLoverActivityRankAward.Ctx(ctx).Where("package_id = ?", pkgId).FindOne()
+}
