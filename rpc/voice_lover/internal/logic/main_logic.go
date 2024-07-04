@@ -826,7 +826,7 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 		Id:           row.Id,
 		Title:        row.Title,
 		Desc:         row.Desc,
-		Covers:       []string{row.Cover},
+		Covers:       convertCoversToArray(row.Cover),
 		Resource:     row.Resource,
 		Labels:       convertLabelsToArray(row.Labels),
 		Uid:          uint32(row.PubUid),
