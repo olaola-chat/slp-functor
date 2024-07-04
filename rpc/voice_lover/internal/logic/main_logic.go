@@ -1009,7 +1009,7 @@ func (m *mainLogic) BatchGetAudioInfo(ctx context.Context, req *vl_pb.ReqBatchGe
 			UpdateTime: uint32(v.GetUpdateTime()),
 			ActivityId: v.GetActivityId(),
 			PlayCnt:    gconv.Uint32(vals[i]),
-			LikeNum:    v.LikeNum,
+			LikeNum:    v.GetLikeNum(),
 		})
 	}
 	reply.Items = items
