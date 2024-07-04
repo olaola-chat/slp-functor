@@ -797,6 +797,9 @@ func (a *adminLogic) AdminActivityDelete(ctx context.Context, id uint32) error {
 
 // AdminAwardPackageDelete 删除奖励包
 func (a *adminLogic) AdminAwardPackageDelete(ctx context.Context, id uint32) error {
+	if rankAward, _ := dao.VoiceLoverActivityRankAwardDao.GetByPkgId(ctx, id); rankAward.GetId() > 0 {
+		return errors.New("该奖励包已被应用，无法删除")
+	}
 	if err := dao.VoiceLoverAwardPackageDao.Delete(ctx, id); err != nil {
 		g.Log().Errorf("adminLogic AdminAwardPackageDelete err: %v, id: %d", err, id)
 		return err
@@ -806,6 +809,9 @@ func (a *adminLogic) AdminAwardPackageDelete(ctx context.Context, id uint32) err
 
 // AdminRankAwardDelete 删除奖励排行
 func (a *adminLogic) AdminRankAwardDelete(ctx context.Context, id uint32) error {
+	if activity, _ := dao.VoiceLoverActivityDao.GetByRankAwardId(ctx, id); activity.GetId() > 0 {
+		return errors.New("该奖励排行已被应用，无法删除")
+	}
 	if err := dao.VoiceLoverActivityRankAwardDao.Delete(ctx, id); err != nil {
 		g.Log().Errorf("adminLogic AdminRankAwardDelete err: %v, id: %d", err, id)
 		return err
