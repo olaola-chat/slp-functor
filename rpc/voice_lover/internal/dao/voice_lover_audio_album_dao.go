@@ -50,14 +50,23 @@ func (v *voiceLoverAudioAlbumDao) GetAudioAlbumByAudioIdAlbumId(ctx context.Cont
 	return data, nil
 }
 
-func (v *voiceLoverAudioAlbumDao) Create(ctx context.Context, audioId uint64, albumId uint64) error {
-	_, err := functor2.VoiceLoverAudioAlbum.Ctx(ctx).Insert(&functor.EntityVoiceLoverAudioAlbum{
+func (v *voiceLoverAudioAlbumDao) Create(ctx context.Context, audioId uint64, albumId uint64) (*functor.EntityVoiceLoverAudioAlbum, error) {
+	entity := &functor.EntityVoiceLoverAudioAlbum{
 		AudioId:    audioId,
 		AlbumId:    albumId,
 		CreateTime: uint64(time.Now().Unix()),
 		UpdateTime: uint64(time.Now().Unix()),
-	})
-	return err
+	}
+	res, err := functor2.VoiceLoverAudioAlbum.Ctx(ctx).Insert(entity)
+	if err != nil {
+		return nil, err
+	}
+	id, err := res.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+	entity.Id = uint64(id)
+	return entity, err
 }
 
 func (v *voiceLoverAudioAlbumDao) Del(ctx context.Context, audioId uint64, albumId uint64) error {
