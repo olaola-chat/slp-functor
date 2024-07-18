@@ -19,6 +19,7 @@ import (
 	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 
 	"github.com/olaola-chat/rbp-functor/app/consts"
+	"github.com/olaola-chat/rbp-functor/library/tool"
 	"github.com/olaola-chat/rbp-functor/rpc/voice_lover/internal/dao"
 )
 
@@ -325,11 +326,14 @@ func (a *adminLogic) AudioCollect(ctx context.Context, req *voice_lover.ReqAudio
 	if err != nil {
 		return err
 	}
+	var (
+		entity *functor.EntityVoiceLoverAudioAlbum
+	)
 	if req.Type == Collect {
 		if audioAlbum != nil {
 			return consts.ERROR_AUDIO_ALBUM_COLLECT
 		}
-		err := dao.VoiceLoverAudioAlbumDao.Create(ctx, req.AudioId, req.AlbumId)
+		entity, err = dao.VoiceLoverAudioAlbumDao.Create(ctx, req.AudioId, req.AlbumId)
 		if err != nil {
 			return err
 		}
@@ -347,6 +351,10 @@ func (a *adminLogic) AudioCollect(ctx context.Context, req *voice_lover.ReqAudio
 	if err != nil {
 		return err
 	}
+	if entity != nil {
+		albumIds = append(albumIds, entity.AlbumId)
+	}
+	albumIds = tool.Slice.UniqueUint64Array(albumIds)
 	data := g.Map{}
 	data["has_album"] = 0
 	if len(albumIds) > 0 {
