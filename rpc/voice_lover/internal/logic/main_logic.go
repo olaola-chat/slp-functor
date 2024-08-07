@@ -1071,6 +1071,24 @@ func (m *mainLogic) BatchGetCollectNum(ctx context.Context, req *vl_pb.ReqBatchG
 	return nil
 }
 
+func (m *mainLogic) AudioCommentAuditCallback(ctx context.Context, req *vl_pb.ReqAudioCommentAuditCallback, reply *vl_pb.RespAudioCommentAuditCallback) error {
+	var status int
+	switch req.GetAuditStatus() {
+	case 1: // 审核通过
+		status = dao.AudioCommentStatusPass
+	case 2: // 审核拒绝
+		status = dao.AudioCommentStatusRejected
+	default:
+		return fmt.Errorf("unknnown audit_status: %d", req.GetAuditStatus())
+	}
+	if err := dao.VoiceLoverAudioCommentDao.UpdateAuditStatus(ctx, uint64(req.GetId()), status); err != nil {
+		g.Log().Errorf("update audio comment audit_status err: %v, req: %+v", err, req)
+		return err
+	}
+	reply.Success = true
+	return nil
+}
+
 func (m *mainLogic) audioCommentSendVerify(uid uint32, id int64, content string) error {
 	data := php_serialize.PhpArray{
 		"cmd": "csms.push",

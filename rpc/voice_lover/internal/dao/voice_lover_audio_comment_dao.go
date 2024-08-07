@@ -53,3 +53,15 @@ func (v *voiceLoverAudioCommentDao) UpdateStatus(ctx context.Context, id uint64,
 	}
 	return true, nil
 }
+
+func (v *voiceLoverAudioCommentDao) UpdateAuditStatus(ctx context.Context, id uint64, status int) error {
+	_, err := functor2.VoiceLoverAudioComment.Ctx(ctx).Where("id=?", id).Data(
+		g.Map{
+			functor2.VoiceLoverAudioComment.Columns.AuditStatus: status,
+		},
+	).Update()
+	if err != nil {
+		return err
+	}
+	return nil
+}
