@@ -7,6 +7,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/olaola-chat/rbp-functor/app/model"
+	"github.com/olaola-chat/rbp-functor/rpc/client"
+
 	"github.com/gogf/gf/util/gconv"
 
 	"github.com/gogf/gf/errors/gerror"
@@ -715,6 +718,13 @@ func (serv *voiceLoverService) SubmitAlbumComment(ctx context.Context, req *vl_p
 		ret.Msg = "请勿频繁操作"
 		return ret
 	}
+
+	// 敏感词校验
+	if serv.hasDirtyWord(ctx, req.GetContent()) {
+		ret.Msg = "评论不能包含敏感词"
+		return ret
+	}
+
 	_, err = vl_rpc.VoiceLoverMain.SubmitAlbumComment(ctx, req)
 	if err != nil {
 		g.Log().Errorf("err: %v,%v", req, err)
@@ -836,6 +846,23 @@ func (serv *voiceLoverService) ShareAudioInfo(ctx context.Context, uid uint32, r
 	}
 	res.Data.ShareIcon = userInfo.GetIcon()
 	return res, nil
+}
+
+// hasDirtyWord 是否包含敏感词
+func (serv *voiceLoverService) hasDirtyWord(ctx context.Context, content string) bool {
+	// rpc 敏感词
+	req := &pb.ReqCheckDirty{
+		App:       pb.FilterAppType(model.AppRBP),
+		Condition: "input",
+		Msg:       content,
+		Danger:    1,
+	}
+	res, checkErr := client.IM.CheckDirty(ctx, req)
+	g.Log().Infof("checkDirty req = %v , resp = %v , error = %v", req, res, checkErr)
+	if checkErr != nil || res.Reasons != nil {
+		return true
+	}
+	return false
 }
 
 func formatPlayStats(playCnt uint32) string {
