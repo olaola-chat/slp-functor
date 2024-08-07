@@ -24,6 +24,7 @@ func (v *voiceLoverAudioCommentDao) GetList(ctx context.Context, audioId uint64,
 	[]*functor.EntityVoiceLoverAudioComment, error) {
 	res, err := functor2.VoiceLoverAudioComment.Ctx(ctx).
 		Where(functor2.VoiceLoverAudioComment.Columns.AudioID, audioId).
+		Where("audit_status IN (?)", g.Slice{0, AudioCommentStatusPass}).
 		Offset(int(offset)).
 		Limit(int(limit)).
 		Order(functor2.VoiceLoverAudioComment.Columns.CreateTime, "desc").
