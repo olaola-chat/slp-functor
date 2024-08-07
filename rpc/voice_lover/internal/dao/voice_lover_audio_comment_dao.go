@@ -14,6 +14,12 @@ type voiceLoverAudioCommentDao struct {
 
 var VoiceLoverAudioCommentDao = &voiceLoverAudioCommentDao{}
 
+const (
+	AudioCommentStatusWait     = 1 // 待审核
+	AudioCommentStatusPass     = 2 // 审核通过
+	AudioCommentStatusRejected = 3 // 审核拒绝
+)
+
 func (v *voiceLoverAudioCommentDao) GetList(ctx context.Context, audioId uint64, offset int32, limit uint32) (
 	[]*functor.EntityVoiceLoverAudioComment, error) {
 	res, err := functor2.VoiceLoverAudioComment.Ctx(ctx).
@@ -28,13 +34,12 @@ func (v *voiceLoverAudioCommentDao) GetList(ctx context.Context, audioId uint64,
 	return res, nil
 }
 
-func (v *voiceLoverAudioCommentDao) Insert(ctx context.Context, data g.Map) (bool, error) {
+func (v *voiceLoverAudioCommentDao) Insert(ctx context.Context, data g.Map) (int64, error) {
 	sqlRes, err := functor2.VoiceLoverAudioComment.Ctx(ctx).Insert(data)
 	if err != nil {
-		return false, err
+		return 0, err
 	}
-	affect, _ := sqlRes.RowsAffected()
-	return affect > 0, nil
+	return sqlRes.LastInsertId()
 }
 
 func (v *voiceLoverAudioCommentDao) UpdateStatus(ctx context.Context, id uint64, status uint32) (bool, error) {

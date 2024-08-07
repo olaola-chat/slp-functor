@@ -13,6 +13,7 @@ import (
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/util/gconv"
+	"github.com/olaola-chat/rbp-functor/library"
 	"github.com/olaola-chat/rbp-library/es"
 	"github.com/olaola-chat/rbp-library/redis"
 	"github.com/olaola-chat/rbp-proto/dao/functor"
@@ -20,6 +21,7 @@ import (
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/xianshi"
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	"github.com/olaola-chat/rbp-proto/rpcclient/user"
+	"github.com/yvasiyarov/php_session_decoder/php_serialize"
 
 	userpb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
 
@@ -711,18 +713,27 @@ func (m *mainLogic) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGet
 
 func (m *mainLogic) SubmitAudioComment(ctx context.Context, req *vl_pb.ReqAudioSubmitComment, reply *vl_pb.ResCommonPost) error {
 	data := g.Map{
-		"audio_id":    req.AudioId,
-		"content":     req.Content,
-		"create_time": time.Now().Unix(),
-		"update_time": time.Now().Unix(),
-		"uid":         req.Uid,
-		"type":        req.Type,
-		"address":     req.Address,
+		"audio_id":     req.AudioId,
+		"content":      req.Content,
+		"create_time":  time.Now().Unix(),
+		"update_time":  time.Now().Unix(),
+		"uid":          req.Uid,
+		"type":         req.Type,
+		"address":      req.Address,
+		"audit_status": dao.AudioCommentStatusWait,
 	}
-	success, err := dao.VoiceLoverAudioCommentDao.Insert(ctx, data)
-	if err == nil && success {
-		reply.Success = true
+	id, err := dao.VoiceLoverAudioCommentDao.Insert(ctx, data)
+	if err != nil {
+		g.Log().Errorf("insert audio comment err: %v, req: %+v", err, req)
+		return err
 	}
+
+	// 评论送审
+	if err := m.audioCommentSendVerify(req.Uid, id, req.Content); err != nil {
+		g.Log().Errorf("audioCommentSendVerify err: %v, uid: %d, id: %d", err, req.Uid, id)
+		return err
+	}
+	reply.Success = true
 	return nil
 }
 
@@ -1058,4 +1069,28 @@ func (m *mainLogic) BatchGetCollectNum(ctx context.Context, req *vl_pb.ReqBatchG
 	reply.Success = true
 	reply.Nums = res
 	return nil
+}
+
+func (m *mainLogic) audioCommentSendVerify(uid uint32, id int64, content string) error {
+	data := php_serialize.PhpArray{
+		"cmd": "csms.push",
+		"data": php_serialize.PhpArray{
+			"choice":   "voice_lover_audio_comment",
+			"pk_value": id,
+			"uid":      uid,
+			"review":   1,
+			"content": php_serialize.PhpSlice{
+				php_serialize.PhpArray{
+					"field":  "content",
+					"type":   "text",
+					"before": php_serialize.PhpSlice{},
+					"after":  php_serialize.PhpSlice{content},
+				},
+			},
+		},
+	}
+	g.Log().Infof("send audio comment, uid: %d, id: %d, content: %s", uid, id, content)
+
+	str, _ := php_serialize.Serialize(data)
+	return library.NsqClient().SendBytes("csms.nsq", []byte(str))
 }

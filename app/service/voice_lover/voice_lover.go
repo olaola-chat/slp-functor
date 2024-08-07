@@ -703,7 +703,7 @@ func (serv *voiceLoverService) SubmitAudioComment(ctx context.Context, req *vl_p
 		ret.Msg = "评论不能包含敏感词"
 		return ret
 	}
-	
+
 	_, err = vl_rpc.VoiceLoverMain.SubmitAudioComment(ctx, req)
 	if err != nil {
 		g.Log().Errorf("err: %v,%v", req, err)
@@ -866,7 +866,7 @@ func (serv *voiceLoverService) hasDirtyWord(ctx context.Context, content string)
 	}
 	res, checkErr := client.IM.CheckDirty(ctx, req)
 	g.Log().Infof("checkDirty req = %v , resp = %v , error = %v", req, res, checkErr)
-	if checkErr != nil || res.Reasons != nil {
+	if checkErr != nil || len(res.Reasons) > 0 {
 		return true
 	}
 	return false

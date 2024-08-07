@@ -10,8 +10,13 @@ replace (
 require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gogf/gf v1.16.9
+	github.com/juju/ratelimit v1.0.2
+	github.com/nsqio/go-nsq v1.1.0
 	github.com/olaola-chat/rbp-library v0.0.0-20230829093135-2ad5df604c63
-	github.com/olaola-chat/rbp-proto v0.0.0-20240704034923-69bd1d9db455
+	github.com/olaola-chat/rbp-proto v0.0.0-20240807065527-cc55aa00ba6a
+	github.com/opentracing/opentracing-go v1.1.1-0.20190913142402-a7454ce5950e
+	github.com/rpcxio/libkv v0.5.0
+	github.com/smallnest/rpcx v1.8.11
 	google.golang.org/protobuf v1.31.0
 )
 
@@ -63,7 +68,6 @@ require (
 	github.com/influxdata/influxdb1-client v0.0.0-20200827194710-b269163b24ab // indirect
 	github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/juju/ratelimit v1.0.2 // indirect
 	github.com/julienschmidt/httprouter v1.3.0 // indirect
 	github.com/kavu/go_reuseport v1.5.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.4 // indirect
@@ -89,20 +93,17 @@ require (
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/ginkgo/v2 v2.9.0 // indirect
-	github.com/opentracing/opentracing-go v1.1.1-0.20190913142402-a7454ce5950e // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/quic-go/qtls-go1-19 v0.3.2 // indirect
 	github.com/quic-go/qtls-go1-20 v0.2.2 // indirect
 	github.com/quic-go/quic-go v0.34.0 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
 	github.com/rivo/uniseg v0.1.0 // indirect
-	github.com/rpcxio/libkv v0.5.0 // indirect
 	github.com/rs/cors v1.7.0 // indirect
 	github.com/rubyist/circuitbreaker v2.2.1+incompatible // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/samuel/go-zookeeper v0.0.0-20200724154423-2164a8ac840e // indirect
 	github.com/smallnest/quick v0.1.0 // indirect
-	github.com/smallnest/rpcx v1.8.11 // indirect
 	github.com/soheilhy/cmux v0.1.4 // indirect
 	github.com/syndtr/goleveldb v1.0.0 // indirect
 	github.com/syyongx/php2go v0.9.8 // indirect
@@ -117,6 +118,7 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/xtaci/kcp-go v5.4.20+incompatible // indirect
+	github.com/yvasiyarov/php_session_decoder v0.0.0-20180803065642-a065a3b0b7d1 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/otel v0.16.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
