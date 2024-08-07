@@ -134,3 +134,7 @@ func (v *VoiceLoverMain) BatchGetCollectNum(ctx context.Context, req *vl_pb.ReqB
 func (v *VoiceLoverMain) AudioCommentAuditCallback(ctx context.Context, req *vl_pb.ReqAudioCommentAuditCallback, reply *vl_pb.RespAudioCommentAuditCallback) error {
 	return logic.MainLogic.AudioCommentAuditCallback(ctx, req, reply)
 }
+
+func (v *VoiceLoverMain) AlbumCommentAuditCallback(ctx context.Context, req *vl_pb.ReqAlbumCommentAuditCallback, reply *vl_pb.RespAlbumCommentAuditCallback) error {
+	return logic.MainLogic.AlbumCommentAuditCallback(ctx, req, reply)
+}
