@@ -697,6 +697,13 @@ func (serv *voiceLoverService) SubmitAudioComment(ctx context.Context, req *vl_p
 		ret.Msg = "请勿频繁操作"
 		return ret
 	}
+
+	// 敏感词校验
+	if serv.hasDirtyWord(ctx, req.GetContent()) {
+		ret.Msg = "评论不能包含敏感词"
+		return ret
+	}
+	
 	_, err = vl_rpc.VoiceLoverMain.SubmitAudioComment(ctx, req)
 	if err != nil {
 		g.Log().Errorf("err: %v,%v", req, err)
