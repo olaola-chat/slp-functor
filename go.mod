@@ -12,11 +12,12 @@ require (
 	github.com/gogf/gf v1.16.9
 	github.com/juju/ratelimit v1.0.2
 	github.com/nsqio/go-nsq v1.1.0
-	github.com/olaola-chat/rbp-library v0.0.0-20230829093135-2ad5df604c63
+	github.com/olaola-chat/rbp-library v0.0.2
 	github.com/olaola-chat/rbp-proto v0.0.0-20240807102832-dd0681108574
 	github.com/opentracing/opentracing-go v1.1.1-0.20190913142402-a7454ce5950e
 	github.com/rpcxio/libkv v0.5.0
 	github.com/smallnest/rpcx v1.8.11
+	github.com/yvasiyarov/php_session_decoder v0.0.0-20180803065642-a065a3b0b7d1
 	google.golang.org/protobuf v1.31.0
 )
 
@@ -118,7 +119,6 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/xtaci/kcp-go v5.4.20+incompatible // indirect
-	github.com/yvasiyarov/php_session_decoder v0.0.0-20180803065642-a065a3b0b7d1 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/otel v0.16.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
