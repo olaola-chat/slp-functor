@@ -1,0 +1,75 @@
+syntax = "proto3";
+package pb;
+
+/*
+im rpc 协议
+*/
+
+option go_package = "../app/pb";
+
+message ReqCheckDirty {
+  string msg                 = 1;
+  string condition           = 2; //敏感词场景,可选 默认全部
+  FilterCheckMode type       = 3; //可选 默认普通模式
+  FilterReplaceMode replace  = 4; //可选 默认不进行替换
+  FilterAppType app          = 5; //可选
+  int32 danger               = 6; //危险等级
+  FilterOpType danger_op     = 7; //危险等级匹配方式
+}
+
+message RepCheckDirty {
+  bool success                       = 1; //是否成功
+  string error                       = 2; //错误原因
+  repeated FilterDirtyReason reasons = 3;
+}
+
+message FilterDirtyReason {
+  string type             = 1; //敏感词类型
+  string text             = 2; //敏感词
+  string cond             = 3; //敏感词场景
+  string reason           = 4; //原因
+  int32 danger            = 5; //危险等级
+  int32 dateline          = 6; //修改时间戳
+  FilterVagueMode vague   = 7; //是否开启拼音匹配
+  int32 delete            = 8; //是否删除
+  FilterAppType app       = 9; //app名称
+  string sub_type         = 10; //二级分类
+}
+
+//返回IM消息是否成功
+message RepUserImSync {
+  bool data = 1;
+}
+
+enum FilterCheckMode {
+  common = 0;
+  strict = 1;
+}
+
+enum FilterReplaceMode  {
+  NoReplace          = 0; //不替换
+  ReplaceWithoutOrg  = 1; //不保留替换前匹配项
+  ReplaceWithOrg     = 2; //保留替换前匹配项
+}
+
+enum FilterAppType {
+  default     = 0; //
+  slp      = 1; //彩虹星球
+  teammate    = 2; //皮队友
+  who         = 3; //凶手
+  happy       = 4; //开心玩
+  overseas    = 5; //海外
+  push        = 6; //新冲鸭
+  bbIm        = 127; //自研im
+}
+
+enum FilterOpType {
+  OpGe = 0;
+  OpEq = 1;
+  OpLe = 2;
+}
+
+enum FilterVagueMode {
+  close = 0;
+  open = 1;
+}

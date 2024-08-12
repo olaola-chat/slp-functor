@@ -13,6 +13,7 @@ import (
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/util/gconv"
+	"github.com/olaola-chat/rbp-functor/library"
 	"github.com/olaola-chat/rbp-library/es"
 	"github.com/olaola-chat/rbp-library/redis"
 	"github.com/olaola-chat/rbp-proto/dao/functor"
@@ -20,6 +21,7 @@ import (
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/xianshi"
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	"github.com/olaola-chat/rbp-proto/rpcclient/user"
+	"github.com/yvasiyarov/php_session_decoder/php_serialize"
 
 	userpb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
 
@@ -711,18 +713,27 @@ func (m *mainLogic) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGet
 
 func (m *mainLogic) SubmitAudioComment(ctx context.Context, req *vl_pb.ReqAudioSubmitComment, reply *vl_pb.ResCommonPost) error {
 	data := g.Map{
-		"audio_id":    req.AudioId,
-		"content":     req.Content,
-		"create_time": time.Now().Unix(),
-		"update_time": time.Now().Unix(),
-		"uid":         req.Uid,
-		"type":        req.Type,
-		"address":     req.Address,
+		"audio_id":     req.AudioId,
+		"content":      req.Content,
+		"create_time":  time.Now().Unix(),
+		"update_time":  time.Now().Unix(),
+		"uid":          req.Uid,
+		"type":         req.Type,
+		"address":      req.Address,
+		"audit_status": dao.AudioCommentStatusWait,
 	}
-	success, err := dao.VoiceLoverAudioCommentDao.Insert(ctx, data)
-	if err == nil && success {
-		reply.Success = true
+	id, err := dao.VoiceLoverAudioCommentDao.Insert(ctx, data)
+	if err != nil {
+		g.Log().Errorf("insert audio comment err: %v, req: %+v", err, req)
+		return err
 	}
+
+	// 评论送审
+	if err := m.commentSendVerify("voice_lover_audio_comment", req.Uid, id, req.Content); err != nil {
+		g.Log().Errorf("commentSendVerify err: %v, uid: %d, id: %d", err, req.Uid, id)
+		return err
+	}
+	reply.Success = true
 	return nil
 }
 
@@ -765,17 +776,26 @@ func (m *mainLogic) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAu
 
 func (m *mainLogic) SubmitAlbumComment(ctx context.Context, req *vl_pb.ReqAlbumSubmitComment, reply *vl_pb.ResCommonPost) error {
 	data := g.Map{
-		"album_id":    req.AlbumId,
-		"content":     req.Content,
-		"create_time": time.Now().Unix(),
-		"update_time": time.Now().Unix(),
-		"uid":         req.Uid,
-		"address":     req.Address,
+		"album_id":     req.AlbumId,
+		"content":      req.Content,
+		"create_time":  time.Now().Unix(),
+		"update_time":  time.Now().Unix(),
+		"uid":          req.Uid,
+		"address":      req.Address,
+		"audit_status": dao.AlbumCommentStatusWait,
 	}
-	_, err := dao.VoiceLoverAlbumCommentDao.Insert(ctx, data)
-	if err == nil {
-		reply.Success = true
+	id, err := dao.VoiceLoverAlbumCommentDao.Insert(ctx, data)
+	if err != nil {
+		g.Log().Errorf("insert album comment err: %v, req: %+v", err, req)
+		return err
 	}
+
+	// 评论送审
+	if err := m.commentSendVerify("vl_album_comment", req.Uid, id, req.Content); err != nil {
+		g.Log().Errorf("commentSendVerify err: %v, uid: %d, id: %d", err, req.Uid, id)
+		return err
+	}
+	reply.Success = true
 	return nil
 }
 
@@ -1058,4 +1078,64 @@ func (m *mainLogic) BatchGetCollectNum(ctx context.Context, req *vl_pb.ReqBatchG
 	reply.Success = true
 	reply.Nums = res
 	return nil
+}
+
+func (m *mainLogic) AudioCommentAuditCallback(ctx context.Context, req *vl_pb.ReqAudioCommentAuditCallback, reply *vl_pb.RespAudioCommentAuditCallback) error {
+	var status int
+	switch req.GetAuditStatus() {
+	case 1: // 审核通过
+		status = dao.AudioCommentStatusPass
+	case 2: // 审核拒绝
+		status = dao.AudioCommentStatusRejected
+	default:
+		return fmt.Errorf("unknnown audit_status: %d", req.GetAuditStatus())
+	}
+	if err := dao.VoiceLoverAudioCommentDao.UpdateAuditStatus(ctx, uint64(req.GetId()), status); err != nil {
+		g.Log().Errorf("update audio comment audit_status err: %v, req: %+v", err, req)
+		return err
+	}
+	reply.Success = true
+	return nil
+}
+
+func (m *mainLogic) AlbumCommentAuditCallback(ctx context.Context, req *vl_pb.ReqAlbumCommentAuditCallback, reply *vl_pb.RespAlbumCommentAuditCallback) error {
+	var status int
+	switch req.GetAuditStatus() {
+	case 1: // 审核通过
+		status = dao.AlbumCommentStatusPass
+	case 2: // 审核拒绝
+		status = dao.AlbumCommentStatusRejected
+	default:
+		return fmt.Errorf("unknnown audit_status: %d", req.GetAuditStatus())
+	}
+	if err := dao.VoiceLoverAlbumCommentDao.UpdateAuditStatus(ctx, uint64(req.GetId()), uint32(status)); err != nil {
+		g.Log().Errorf("update album comment audit_status err: %v, req: %+v", err, req)
+		return err
+	}
+	reply.Success = true
+	return nil
+}
+
+func (m *mainLogic) commentSendVerify(choice string, uid uint32, id int64, content string) error {
+	data := php_serialize.PhpArray{
+		"cmd": "csms.push",
+		"data": php_serialize.PhpArray{
+			"choice":   choice,
+			"pk_value": id,
+			"uid":      uid,
+			"review":   1,
+			"content": php_serialize.PhpSlice{
+				php_serialize.PhpArray{
+					"field":  "content",
+					"type":   "text",
+					"before": php_serialize.PhpSlice{},
+					"after":  php_serialize.PhpSlice{content},
+				},
+			},
+		},
+	}
+	g.Log().Infof("send audio comment, uid: %d, id: %d, content: %s", uid, id, content)
+
+	str, _ := php_serialize.Serialize(data)
+	return library.NsqClient().SendBytes("csms.nsq", []byte(str))
 }
