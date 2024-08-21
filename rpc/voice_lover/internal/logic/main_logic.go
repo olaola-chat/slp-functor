@@ -669,6 +669,7 @@ func (m *mainLogic) GetAudioListByAlbumId(ctx context.Context, req *vl_pb.ReqGet
 				Covers:   convertCoversToArray(audioInfo.Cover),
 				Seconds:  audioInfo.Seconds,
 				Uid:      uint32(audioInfo.PubUid),
+				From:     audioInfo.From,
 			}
 		}
 	}()
@@ -856,6 +857,7 @@ func (m *mainLogic) GetAudioInfoById(ctx context.Context, req *vl_pb.ReqGetAudio
 		EditPosts:    make([]*vl_pb.AudioEditData, 0),
 		EditCovers:   make([]*vl_pb.AudioEditData, 0),
 		Seconds:      row.GetSeconds(),
+		From:         row.From,
 	}
 
 	// 获取音频播放数量

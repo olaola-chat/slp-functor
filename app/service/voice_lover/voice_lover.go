@@ -263,6 +263,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 				Desc:       info.GetDesc(),
 				CreateTime: uint64(info.GetCreateTime()),
 				Partners:   nil,
+				From:       info.GetFrom(),
 			}
 			if info.GetCover() != "" {
 				audio.Covers = strings.Split(info.GetCover(), ",")
@@ -424,6 +425,7 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 				UserInfo:   &pb.UserData{Uid: v.Uid},
 				IsCollect:  collectRsp.GetCollectInfo()[uint32(v.Id)],
 				CollectNum: numRsp.GetNums()[uint32(v.Id)],
+				From:       v.From,
 			})
 		}
 		userInfosRes, _ := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: uids, Fields: []string{"name", "uid", "icon"}})
@@ -583,6 +585,7 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 			UserInfo:   &pb.UserData{Uid: detail.Audio.Uid},
 			Partners:   make([]*pb.AudioPartner, 0),
 			PlayStats:  detail.Audio.PlayCountDesc,
+			From:       detail.Audio.From,
 		},
 		Albums: item,
 	}
