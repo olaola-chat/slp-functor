@@ -799,6 +799,7 @@ func (serv *voiceLoverService) GetCollectAudioList(ctx context.Context, uid uint
 			UserInfo: &pb.UserData{
 				Uid: v.Uid,
 			},
+			From: v.From,
 		})
 	}
 	userInfosRes, err := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: uids, Fields: []string{"name", "uid", "icon"}})
