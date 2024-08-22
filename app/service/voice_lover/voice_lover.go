@@ -222,7 +222,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 	// 获取全区动态数据
 	go func() {
 		defer wg.Done()
-		// 获取排名最高的前10个声音作品
+		// 获取排名最高的前12个声音作品
 		rc := redis.RedisClient("user")
 		rankKey := rc.Get(ctx, "rbp.voice.lover.audio.key").Val()
 		if rankKey == "" {
@@ -231,7 +231,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 		vals := rc.ZRevRangeByScore(ctx, rankKey, &redisV8.ZRangeBy{
 			Min:   "0",
 			Max:   "+inf",
-			Count: 10,
+			Count: 12,
 		}).Val()
 		if len(vals) == 0 {
 			return
