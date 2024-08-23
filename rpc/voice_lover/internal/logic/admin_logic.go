@@ -126,6 +126,10 @@ func (a *adminLogic) UpdateAudio(ctx context.Context, req *voice_lover.ReqUpdate
 	if affect > 0 {
 		delete(data, "update_time")
 		delete(data, "labels")
+		delete(data, "from")
+		if req.From > 0 {
+			data["source"] = req.From // es 里面的字段为source
+		}
 		labelsSlice := make([]string, 0)
 		for _, l := range strings.Split(req.Labels, ",") {
 			if len(l) == 0 {
