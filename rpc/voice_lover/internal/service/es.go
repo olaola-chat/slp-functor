@@ -378,7 +378,6 @@ func (s *voiceLoverService) SearchAudio(ctx context.Context, query *VoiceLoverAu
 	res := make([]*voice_lover.VoiceLoverAudioEsModel, 0)
 	for _, hit := range resp.Hits.Hits {
 		source := hit.Source
-		g.Log().Infof("tanlian source: %+v", source)
 		m := &voice_lover.VoiceLoverAudioEsModel{}
 		_ = gconv.Struct(source, m)
 		res = append(res, m)
