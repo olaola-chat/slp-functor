@@ -13,7 +13,7 @@ require (
 	github.com/juju/ratelimit v1.0.2
 	github.com/nsqio/go-nsq v1.1.0
 	github.com/olaola-chat/rbp-library v0.0.2
-	github.com/olaola-chat/rbp-proto v0.0.0-20240823030651-4f1d3549b0cf
+	github.com/olaola-chat/rbp-proto v0.0.0-20240823032403-05e629230077
 	github.com/opentracing/opentracing-go v1.1.1-0.20190913142402-a7454ce5950e
 	github.com/rpcxio/libkv v0.5.0
 	github.com/smallnest/rpcx v1.8.11

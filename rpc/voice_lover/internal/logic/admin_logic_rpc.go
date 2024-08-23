@@ -103,9 +103,11 @@ func (v *adminLogic) AdminAudioUpdate(ctx context.Context, req *vl_pb.ReqAdminAu
 	err := v.UpdateAudio(ctx, &vl_pb.ReqUpdateAudio{
 		Id:     req.Id,
 		Title:  req.Title,
-		Desc:   req.Title,
+		Desc:   req.Desc,
 		Labels: req.Labels,
 		OpUid:  req.OpUid,
+		Cover:  req.Cover,
+		From:   req.From,
 	})
 	if err != nil {
 		reply.Msg = err.Error()
