@@ -110,6 +110,12 @@ func (a *adminLogic) UpdateAudio(ctx context.Context, req *voice_lover.ReqUpdate
 	if len(req.Desc) > 0 {
 		data["desc"] = req.Desc
 	}
+	if len(req.Cover) > 0 {
+		data["cover"] = req.Cover
+	}
+	if req.From > 0 {
+		data["from"] = req.From
+	}
 	data["labels"] = req.Labels
 	data["update_time"] = time.Now().Unix()
 	data["op_uid"] = req.OpUid
