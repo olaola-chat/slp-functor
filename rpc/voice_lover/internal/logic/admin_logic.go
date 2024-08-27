@@ -102,7 +102,6 @@ func (a *adminLogic) GetAudioDetail(ctx context.Context, id uint64) (*voice_love
 }
 
 func (a *adminLogic) UpdateAudio(ctx context.Context, req *voice_lover.ReqUpdateAudio) error {
-	g.Log().Infof("UpdateAudio recv req: %+v", req)
 	data := g.Map{}
 	if len(req.Title) > 0 {
 		data["title"] = req.Title
