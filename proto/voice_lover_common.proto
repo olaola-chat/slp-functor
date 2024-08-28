@@ -25,6 +25,7 @@ message AudioData {
   repeated string labels = 11;          // 标签
   bool is_collect = 12;      // 是否收藏
   uint32 collect_num = 13;      // 收藏量
+  uint32 from = 14; // 作品来源：1-原创 2-搬运
 }
 
 message AlbumData {

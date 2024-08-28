@@ -222,7 +222,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 	// 获取全区动态数据
 	go func() {
 		defer wg.Done()
-		// 获取排名最高的前10个声音作品
+		// 获取排名最高的前12个声音作品
 		rc := redis.RedisClient("user")
 		rankKey := rc.Get(ctx, "rbp.voice.lover.audio.key").Val()
 		if rankKey == "" {
@@ -231,7 +231,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 		vals := rc.ZRevRangeByScore(ctx, rankKey, &redisV8.ZRangeBy{
 			Min:   "0",
 			Max:   "+inf",
-			Count: 10,
+			Count: 12,
 		}).Val()
 		if len(vals) == 0 {
 			return
@@ -263,6 +263,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 				Desc:       info.GetDesc(),
 				CreateTime: uint64(info.GetCreateTime()),
 				Partners:   nil,
+				From:       info.GetFrom(),
 			}
 			if info.GetCover() != "" {
 				audio.Covers = strings.Split(info.GetCover(), ",")
@@ -424,6 +425,7 @@ func (serv *voiceLoverService) GetAlbumDetail(ctx context.Context, uid uint32, a
 				UserInfo:   &pb.UserData{Uid: v.Uid},
 				IsCollect:  collectRsp.GetCollectInfo()[uint32(v.Id)],
 				CollectNum: numRsp.GetNums()[uint32(v.Id)],
+				From:       v.From,
 			})
 		}
 		userInfosRes, _ := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: uids, Fields: []string{"name", "uid", "icon"}})
@@ -583,6 +585,7 @@ func (serv *voiceLoverService) GetAudioDetail(ctx context.Context, uid uint32, a
 			UserInfo:   &pb.UserData{Uid: detail.Audio.Uid},
 			Partners:   make([]*pb.AudioPartner, 0),
 			PlayStats:  detail.Audio.PlayCountDesc,
+			From:       detail.Audio.From,
 		},
 		Albums: item,
 	}
@@ -796,6 +799,7 @@ func (serv *voiceLoverService) GetCollectAudioList(ctx context.Context, uid uint
 			UserInfo: &pb.UserData{
 				Uid: v.Uid,
 			},
+			From: v.From,
 		})
 	}
 	userInfosRes, err := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: uids, Fields: []string{"name", "uid", "icon"}})
