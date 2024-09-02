@@ -354,6 +354,10 @@ func (m *mainLogic) GetSubjectAlbumsByPage(ctx context.Context, req *vl_pb.ReqGe
 		albumIds = append(albumIds, v.AlbumId)
 	}
 	albumList, err := dao.VoiceLoverAlbumDao.GetValidAlbumListByIds(ctx, albumIds)
+	if err != nil {
+		g.Log().Errorf("get user profile err: %v, albumIds: %v", err, albumIds)
+		return errors.New("暂无数据")
+	}
 	for _, v := range albumList {
 		reply.Albums = append(reply.Albums, &vl_pb.AlbumData{
 			Id:         v.Id,
@@ -752,6 +756,10 @@ func (m *mainLogic) GetAudioCommentList(ctx context.Context, req *vl_pb.ReqGetAu
 	}
 
 	userList, err := user.UserProfile.Mget(ctx, reqUids)
+	if err != nil {
+		g.Log().Errorf("get user profile err: %v, uids: %v", err, reqUids)
+		return errors.New("暂无数据")
+	}
 	userMap := make(map[uint32]*xianshi.EntityXsUserProfile, 0)
 	for _, v := range userList.Data {
 		userMap[v.Uid] = v
@@ -813,6 +821,10 @@ func (m *mainLogic) GetAlbumCommentList(ctx context.Context, req *vl_pb.ReqGetAl
 	}
 
 	userList, err := user.UserProfile.Mget(ctx, reqUids)
+	if err != nil {
+		g.Log().Errorf("get user profile err: %v, uids: %v", err, reqUids)
+		return errors.New("暂无数据")
+	}
 	userMap := make(map[uint32]*xianshi.EntityXsUserProfile, 0)
 	for _, v := range userList.Data {
 		userMap[v.Uid] = v

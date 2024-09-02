@@ -40,13 +40,13 @@ func (serv *base) call(ctx context.Context, method string, req interface{}, repl
 
 // 先注释掉，过ci检测，需要再打开
 
-func (serv *base) fork(ctx context.Context, method string, req interface{}, reply interface{}, timeout ...time.Duration) error {
-	return serv.exec(ctx, RPCTypeFork, method, req, reply, timeout...)
-}
+//func (serv *base) fork(ctx context.Context, method string, req interface{}, reply interface{}, timeout ...time.Duration) error {
+//	return serv.exec(ctx, RPCTypeFork, method, req, reply, timeout...)
+//}
 
-func (serv *base) broadcast(ctx context.Context, method string, req interface{}, reply interface{}, timeout ...time.Duration) error {
-	return serv.exec(ctx, RPCTypeBroadcast, method, req, reply, timeout...)
-}
+//func (serv *base) broadcast(ctx context.Context, method string, req interface{}, reply interface{}, timeout ...time.Duration) error {
+//	return serv.exec(ctx, RPCTypeBroadcast, method, req, reply, timeout...)
+//}
 
 func (serv *base) exec(ctx context.Context, rpcType RPCType, method string, req interface{}, reply interface{}, timeout ...time.Duration) error {
 	t := time.Second

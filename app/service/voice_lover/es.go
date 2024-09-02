@@ -71,7 +71,7 @@ func (s *voiceLoverService) BuildAudioCollectSearchQuery(ctx context.Context, re
 				SearcherLevel: 1,
 			})
 			if err != nil {
-				g.Log().Warningf("BuildAudioCollectSearchQuery search by name error, err = %v")
+				g.Log().Warningf("BuildAudioCollectSearchQuery search by name error, err = %v", err)
 			}
 			g.Log().Infof("BuildAudioCollectSearchQuery searchbyname name = %s data = %v", req.UserStr, res.Data)
 			if err == nil {
@@ -132,7 +132,7 @@ func (s *voiceLoverService) BuildAudioSearchQuery(ctx context.Context, req *quer
 				SearcherLevel: 1,
 			})
 			if err != nil {
-				g.Log().Warningf("BuildAudioSearchQuery search by name error, err = %v")
+				g.Log().Warningf("BuildAudioSearchQuery search by name error, err = %v", err)
 			}
 			g.Log().Infof("BuildAudioSearchQuery searchbyname name = %s data = %v", req.UserStr, res.Data)
 			if err == nil {
@@ -276,7 +276,7 @@ func (s *voiceLoverService) BuildVoiceLoverAudioCollectPb(models []*voice_lover.
 	if len(albumStrs) > 0 {
 		albumReply, err := voice_lover2.VoiceLoverAdmin.GetAlbumDetail(context.Background(), &voice_lover3.ReqGetAlbumDetail{AlbumStr: albumStrs})
 		if err != nil {
-			g.Log().Errorf("[BuildVoiceLoverAudioCollectPb] GetAlbumDetail error, err = %v")
+			g.Log().Errorf("[BuildVoiceLoverAudioCollectPb] GetAlbumDetail error, err = %v", err)
 		}
 		if err == nil {
 			for _, d := range data {

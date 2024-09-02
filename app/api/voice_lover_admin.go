@@ -56,7 +56,7 @@ func (a *voiceLoverAdminApi) AudioList(r *ghttp.Request) {
 		Audios:  res,
 		Total:   total,
 	})
-	return
+	//return
 }
 
 // AudioDetail
@@ -106,7 +106,7 @@ func (a *voiceLoverAdminApi) AudioDetail(r *ghttp.Request) {
 	}
 	uids = utils.DistinctUint32Slice(uids)
 	userMap := make(map[uint32]*xianshi.EntityXsUserProfile)
-	userReply, err := user.UserProfile.Mget(ctx, &user2.ReqUserProfiles{
+	userReply, _ := user.UserProfile.Mget(ctx, &user2.ReqUserProfiles{
 		Uids:   uids,
 		Fields: []string{"name", "uid", "icon"},
 	})
@@ -133,7 +133,7 @@ func (a *voiceLoverAdminApi) AudioDetail(r *ghttp.Request) {
 		Success: true,
 		Audio:   audio,
 	})
-	return
+	//return
 }
 
 func buildAudioEdit(edits []*voice_lover3.AudioEditData, userMap map[uint32]*xianshi.EntityXsUserProfile) []*pb.AdminVoiceLoverAudioEdit {
@@ -266,7 +266,7 @@ func (a *voiceLoverAdminApi) AlbumCreate(r *ghttp.Request) {
 		Success: true,
 		Id:      reply.Id,
 	})
-	return
+	//return
 }
 
 // AlbumUpdate
@@ -329,7 +329,7 @@ func (a *voiceLoverAdminApi) AlbumDel(r *ghttp.Request) {
 	response.Output(r, &pb.RespAdminVoiceLoverAlbumDel{
 		Success: true,
 	})
-	return
+	//return
 }
 
 // AlbumDetail

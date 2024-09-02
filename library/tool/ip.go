@@ -27,9 +27,9 @@ type ip struct {
 }
 
 // for test
-func (*ip) setIPDbDir(dir string) {
-	ipDataPath = path.Join(dir, "config", "ip2region.db")
-}
+//func (*ip) setIPDbDir(dir string) {
+//	ipDataPath = path.Join(dir, "config", "ip2region.db")
+//}
 
 // GetAddr 根据IP地址
 func (*ip) GetAddr(ipv4 string) (region.IPInfo, error) {
