@@ -44,7 +44,7 @@ type voiceLoverService struct {
 var VoiceLoverService = &voiceLoverService{}
 
 func (s *voiceLoverService) BuildAudioCollectSearchQuery(ctx context.Context, req *vl_pb.ReqAdminAudioCollectList) *VoiceLoverAudioSearchQuery {
-	g.Log().Infof("BuildAudioCollectSearchQuery req = %v", *req)
+	g.Log().Infof("BuildAudioCollectSearchQuery req = %v", req)
 	pubUids := make([]uint64, 0)
 	if len(req.UserStr) != 0 {
 		uid, err := strconv.Atoi(req.UserStr)
@@ -58,7 +58,7 @@ func (s *voiceLoverService) BuildAudioCollectSearchQuery(ctx context.Context, re
 				SearcherLevel: 1,
 			})
 			if err != nil {
-				g.Log().Warningf("BuildAudioCollectSearchQuery search by name error, err = %v")
+				g.Log().Warningf("BuildAudioCollectSearchQuery search by name error, err = %v", err)
 			}
 			g.Log().Infof("BuildAudioCollectSearchQuery searchbyname name = %s data = %v", req.UserStr, res.Data)
 			if err == nil {
@@ -105,7 +105,7 @@ func (s *voiceLoverService) BuildAudioCollectSearchQuery(ctx context.Context, re
 }
 
 func (s *voiceLoverService) BuildAudioSearchQuery(ctx context.Context, req *vl_pb.ReqAdminAudioList) *VoiceLoverAudioSearchQuery {
-	g.Log().Infof("BuildAudioSearchQuery req = %v", *req)
+	g.Log().Infof("BuildAudioSearchQuery req = %v", req)
 	pubUids := make([]uint64, 0)
 	if len(req.UserStr) != 0 {
 		uid, err := strconv.Atoi(req.UserStr)
@@ -263,7 +263,7 @@ func (s *voiceLoverService) BuildVoiceLoverAudioCollectPb(models []*voice_lover.
 	if len(albumStrs) > 0 {
 		albumReply, err := voice_lover2.VoiceLoverAdmin.GetAlbumDetail(context.Background(), &voice_lover3.ReqGetAlbumDetail{AlbumStr: albumStrs})
 		if err != nil {
-			g.Log().Errorf("[BuildVoiceLoverAudioCollectPb] GetAlbumDetail error, err = %v")
+			g.Log().Errorf("[BuildVoiceLoverAudioCollectPb] GetAlbumDetail error, err = %v", err)
 		}
 		if err == nil {
 			for _, d := range data {

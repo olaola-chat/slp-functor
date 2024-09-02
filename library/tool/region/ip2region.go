@@ -2,7 +2,7 @@ package region
 
 import (
 	"errors"
-	"io/ioutil"
+	"os"
 	"strconv"
 	"strings"
 	"sync"
@@ -70,7 +70,7 @@ func (serv *IP2Region) Init(file string) error {
 		return nil
 	}
 	var err error
-	serv.dbBinStr, err = ioutil.ReadFile(file)
+	serv.dbBinStr, err = os.ReadFile(file)
 	if err != nil {
 		return err
 	}
