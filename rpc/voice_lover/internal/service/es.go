@@ -119,7 +119,7 @@ func (s *voiceLoverService) BuildAudioSearchQuery(ctx context.Context, req *vl_p
 				SearcherLevel: 1,
 			})
 			if err != nil {
-				g.Log().Warningf("BuildAudioSearchQuery search by name error, err = %v")
+				g.Log().Warningf("BuildAudioSearchQuery search by name error, err = %v", err)
 			}
 			g.Log().Infof("BuildAudioSearchQuery searchbyname name = %s data = %v", req.UserStr, res.Data)
 			if err == nil {
