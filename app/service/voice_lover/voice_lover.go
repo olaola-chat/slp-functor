@@ -3,7 +3,6 @@ package voice_lover
 import (
 	"context"
 	"fmt"
-	"strings"
 	"sync"
 	"time"
 
@@ -26,7 +25,6 @@ import (
 	friend_pb "github.com/olaola-chat/slp-proto/gen_pb/rpc/friends"
 	friend_rpc "github.com/olaola-chat/slp-proto/rpcclient/friends"
 
-	redisV8 "github.com/go-redis/redis/v8"
 	"github.com/olaola-chat/slp-library/redis"
 
 	"github.com/olaola-chat/slp-functor/app/pb"
@@ -52,7 +50,7 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 		},
 	}
 	wg := sync.WaitGroup{}
-	wg.Add(6)
+	wg.Add(1)
 	// 获取精选专辑推荐
 	go func() {
 		defer wg.Done()
@@ -83,194 +81,194 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 		}
 	}()
 	// 获取banner推荐
-	go func() {
-		defer wg.Done()
-		recBannersRes, err := vl_rpc.VoiceLoverMain.GetRecBanners(ctx, &vl_pb.ReqGetRecBanners{Uid: uid})
-		if err != nil {
-			g.Log().Errorf("voiceLoverService GetMainData GetRecBanners error=%v", err)
-			return
-		}
-		isBroker, _ := user_rpc.UserProfile.IsValidBrokerUser(ctx, &user_pb.ReqIsValidBrokerUser{Uid: uid})
-		for _, v := range recBannersRes.GetBanners() {
-			// 低版本或非主播不显示声恋挑战活动入口
-			if strings.Contains(v.Schema, "page=sl_activity") && (ver == 0 || !isBroker.GetResult()) {
-				continue
-			}
-			res.Data.RecBanners = append(res.Data.RecBanners, &pb.BannerData{
-				Id:          uint32(v.Id),
-				ImgUrl:      v.Cover,
-				RedirectUrl: v.Schema,
-			})
-		}
-	}()
-	// 获取用户推荐
 	//go func() {
 	//	defer wg.Done()
-	//	postUidsRes, _ := vl_rpc.VoiceLoverMain.GetValidAudioUsers(ctx, &vl_pb.ReqGetValidAudioUsers{Uid: uid})
-	//	postUids := postUidsRes.GetUids()
-	//	if len(postUids) == 0 {
-	//		return
-	//	}
-	//	inRoomRes, _ := rpcRoom.RoomInfo.MgetInRoom(ctx, &room.ReqUids{Uids: postUids})
-	//	inRoomMap := inRoomRes.GetData()
-	//	inRoomUids := make([]uint32, 0)
-	//	notInRoomUids := make([]uint32, 0)
-	//	for _, v := range postUids {
-	//		if rid, ok := inRoomMap[v]; ok {
-	//			if rid > 0 {
-	//				inRoomUids = append(inRoomUids, v)
-	//			} else {
-	//				notInRoomUids = append(notInRoomUids, v)
-	//			}
-	//		}
-	//	}
-	//	recUids := make([]uint32, 0)
-	//	if len(inRoomUids) >= 5 {
-	//		recUids = append(recUids, inRoomUids[:5]...)
-	//	} else {
-	//		recUids = append(recUids, inRoomUids...)
-	//	}
-	//	showNum := 5
-	//	if len(recUids) < showNum {
-	//		left := showNum - len(recUids)
-	//		if len(notInRoomUids) >= left {
-	//			recUids = append(recUids, notInRoomUids[:left]...)
-	//		} else {
-	//			recUids = append(recUids, notInRoomUids...)
-	//		}
-	//	}
-	//	if len(recUids) == 0 {
-	//		return
-	//	}
-	//	userInfosRes, err := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: recUids, Fields: []string{"name", "uid", "icon"}})
+	//	recBannersRes, err := vl_rpc.VoiceLoverMain.GetRecBanners(ctx, &vl_pb.ReqGetRecBanners{Uid: uid})
 	//	if err != nil {
-	//		g.Log().Errorf("voiceLoverService GetMainData Mget UserInfo error=%v", err)
+	//		g.Log().Errorf("voiceLoverService GetMainData GetRecBanners error=%v", err)
 	//		return
 	//	}
-	//	userInfosMap := make(map[uint32]*xianshi.EntityXsUserProfile)
-	//	for _, v := range userInfosRes.GetData() {
-	//		userInfosMap[v.Uid] = v
-	//	}
-	//	for _, v := range recUids {
-	//		if _, ok := userInfosMap[v]; !ok {
+	//	isBroker, _ := user_rpc.UserProfile.IsValidBrokerUser(ctx, &user_pb.ReqIsValidBrokerUser{Uid: uid})
+	//	for _, v := range recBannersRes.GetBanners() {
+	//		// 低版本或非主播不显示声恋挑战活动入口
+	//		if strings.Contains(v.Schema, "page=sl_activity") && (ver == 0 || !isBroker.GetResult()) {
 	//			continue
 	//		}
-	//		rid := uint32(0)
-	//		if value, ok := inRoomMap[v]; ok && value > 0 {
-	//			rid = inRoomMap[v]
-	//		}
-	//		res.Data.RecUsers = append(res.Data.RecUsers, &pb.UserData{
-	//			Uid:    userInfosMap[v].Uid,
-	//			Avatar: userInfosMap[v].Icon,
-	//			Name:   userInfosMap[v].Name,
-	//			Rid:    rid,
+	//		res.Data.RecBanners = append(res.Data.RecBanners, &pb.BannerData{
+	//			Id:          uint32(v.Id),
+	//			ImgUrl:      v.Cover,
+	//			RedirectUrl: v.Schema,
 	//		})
 	//	}
 	//}()
-	// 获取话题推荐
-	go func() {
-		defer wg.Done()
-		subjectList, err := vl_rpc.VoiceLoverMain.GetRecSubjects(ctx, &vl_pb.ReqGetRecSubjects{Uid: uid})
-		if err != nil {
-			g.Log().Errorf("voiceLoverService GetMainData GetRecSubjects error=%v", err)
-			return
-		}
-		for _, v := range subjectList.GetSubjects() {
-			subjectData := &pb.SubjectData{
-				Id:     v.Id,
-				Title:  v.Name,
-				Albums: make([]*pb.AlbumData, 0),
-			}
-			for _, albumData := range v.Albums {
-				subjectData.Albums = append(subjectData.Albums, &pb.AlbumData{
-					Id:         albumData.Id,
-					Title:      albumData.Name,
-					Cover:      albumData.Cover,
-					AudioTotal: albumData.AudioCount,
-					PlayStats:  albumData.PlayCountDesc,
-				})
-			}
-			res.Data.RecSubjects = append(res.Data.RecSubjects, subjectData)
-		}
-	}()
-	// 获取普通专辑
-	go func() {
-		defer wg.Done()
-		recAlbumList, err := vl_rpc.VoiceLoverMain.GetRecCommonAlbums(ctx, &vl_pb.ReqGetRecCommonAlbums{Uid: uid})
-		if err != nil {
-			g.Log().Errorf("voiceLoverService GetMainData GetRecCommonAlbums error=%v", err)
-			return
-		}
-		for _, v := range recAlbumList.GetAlbums() {
-			res.Data.CommonAlbums = append(res.Data.CommonAlbums, &pb.AlbumData{
-				Id:         v.Id,
-				Title:      v.Name,
-				Cover:      v.Cover,
-				AudioTotal: v.AudioCount,
-				PlayStats:  v.PlayCountDesc,
-			})
-		}
-	}()
-	// 判断是否有有效工会
-	go func() {
-		defer wg.Done()
-		isBrokerUserRes, _ := user_rpc.UserProfile.IsValidBrokerUser(ctx, &user_pb.ReqIsValidBrokerUser{Uid: uid})
-		if isBrokerUserRes.GetResult() {
-			res.Data.IsAnchor = true
-		}
-	}()
-	// 获取全区动态数据
-	go func() {
-		defer wg.Done()
-		// 获取排名最高的前12个声音作品
-		rc := redis.RedisClient("user")
-		rankKey := rc.Get(ctx, "rbp.voice.lover.audio.key").Val()
-		if rankKey == "" {
-			return
-		}
-		vals := rc.ZRevRangeByScore(ctx, rankKey, &redisV8.ZRangeBy{
-			Min:   "0",
-			Max:   "+inf",
-			Count: 12,
-		}).Val()
-		if len(vals) == 0 {
-			return
-		}
-		audioIds := gconv.Uint32s(vals)
-
-		// 批量获取声音详情
-		rsp, err := vl_rpc.VoiceLoverMain.BatchGetAudioInfo(ctx, &vl_pb.ReqBatchGetAudioInfo{AudioId: audioIds})
-		if err != nil {
-			g.Log().Errorf("batch get audio info err: %v, audio_ids: %v", err, audioIds)
-			return
-		}
-		m := make(map[uint32]*vl_pb.RespBatchGetAudioInfo_Audio)
-		for _, v := range rsp.GetItems() {
-			m[v.GetId()] = v
-		}
-		for _, v := range audioIds {
-			info, ok := m[v]
-			if !ok {
-				continue
-			}
-			audio := &pb.AudioData{
-				Id:         uint64(info.GetId()),
-				Title:      info.GetTitle(),
-				Resource:   info.GetResource(),
-				Seconds:    info.GetSeconds(),
-				PlayStats:  formatPlayStats(info.GetPlayCnt()),
-				UserInfo:   nil,
-				Desc:       info.GetDesc(),
-				CreateTime: uint64(info.GetCreateTime()),
-				Partners:   nil,
-				From:       info.GetFrom(),
-			}
-			if info.GetCover() != "" {
-				audio.Covers = strings.Split(info.GetCover(), ",")
-			}
-			res.Data.Audios = append(res.Data.Audios, audio)
-		}
-	}()
+	//// 获取用户推荐
+	////go func() {
+	////	defer wg.Done()
+	////	postUidsRes, _ := vl_rpc.VoiceLoverMain.GetValidAudioUsers(ctx, &vl_pb.ReqGetValidAudioUsers{Uid: uid})
+	////	postUids := postUidsRes.GetUids()
+	////	if len(postUids) == 0 {
+	////		return
+	////	}
+	////	inRoomRes, _ := rpcRoom.RoomInfo.MgetInRoom(ctx, &room.ReqUids{Uids: postUids})
+	////	inRoomMap := inRoomRes.GetData()
+	////	inRoomUids := make([]uint32, 0)
+	////	notInRoomUids := make([]uint32, 0)
+	////	for _, v := range postUids {
+	////		if rid, ok := inRoomMap[v]; ok {
+	////			if rid > 0 {
+	////				inRoomUids = append(inRoomUids, v)
+	////			} else {
+	////				notInRoomUids = append(notInRoomUids, v)
+	////			}
+	////		}
+	////	}
+	////	recUids := make([]uint32, 0)
+	////	if len(inRoomUids) >= 5 {
+	////		recUids = append(recUids, inRoomUids[:5]...)
+	////	} else {
+	////		recUids = append(recUids, inRoomUids...)
+	////	}
+	////	showNum := 5
+	////	if len(recUids) < showNum {
+	////		left := showNum - len(recUids)
+	////		if len(notInRoomUids) >= left {
+	////			recUids = append(recUids, notInRoomUids[:left]...)
+	////		} else {
+	////			recUids = append(recUids, notInRoomUids...)
+	////		}
+	////	}
+	////	if len(recUids) == 0 {
+	////		return
+	////	}
+	////	userInfosRes, err := user_rpc.UserProfile.Mget(ctx, &user_pb.ReqUserProfiles{Uids: recUids, Fields: []string{"name", "uid", "icon"}})
+	////	if err != nil {
+	////		g.Log().Errorf("voiceLoverService GetMainData Mget UserInfo error=%v", err)
+	////		return
+	////	}
+	////	userInfosMap := make(map[uint32]*xianshi.EntityXsUserProfile)
+	////	for _, v := range userInfosRes.GetData() {
+	////		userInfosMap[v.Uid] = v
+	////	}
+	////	for _, v := range recUids {
+	////		if _, ok := userInfosMap[v]; !ok {
+	////			continue
+	////		}
+	////		rid := uint32(0)
+	////		if value, ok := inRoomMap[v]; ok && value > 0 {
+	////			rid = inRoomMap[v]
+	////		}
+	////		res.Data.RecUsers = append(res.Data.RecUsers, &pb.UserData{
+	////			Uid:    userInfosMap[v].Uid,
+	////			Avatar: userInfosMap[v].Icon,
+	////			Name:   userInfosMap[v].Name,
+	////			Rid:    rid,
+	////		})
+	////	}
+	////}()
+	//// 获取话题推荐
+	//go func() {
+	//	defer wg.Done()
+	//	subjectList, err := vl_rpc.VoiceLoverMain.GetRecSubjects(ctx, &vl_pb.ReqGetRecSubjects{Uid: uid})
+	//	if err != nil {
+	//		g.Log().Errorf("voiceLoverService GetMainData GetRecSubjects error=%v", err)
+	//		return
+	//	}
+	//	for _, v := range subjectList.GetSubjects() {
+	//		subjectData := &pb.SubjectData{
+	//			Id:     v.Id,
+	//			Title:  v.Name,
+	//			Albums: make([]*pb.AlbumData, 0),
+	//		}
+	//		for _, albumData := range v.Albums {
+	//			subjectData.Albums = append(subjectData.Albums, &pb.AlbumData{
+	//				Id:         albumData.Id,
+	//				Title:      albumData.Name,
+	//				Cover:      albumData.Cover,
+	//				AudioTotal: albumData.AudioCount,
+	//				PlayStats:  albumData.PlayCountDesc,
+	//			})
+	//		}
+	//		res.Data.RecSubjects = append(res.Data.RecSubjects, subjectData)
+	//	}
+	//}()
+	//// 获取普通专辑
+	//go func() {
+	//	defer wg.Done()
+	//	recAlbumList, err := vl_rpc.VoiceLoverMain.GetRecCommonAlbums(ctx, &vl_pb.ReqGetRecCommonAlbums{Uid: uid})
+	//	if err != nil {
+	//		g.Log().Errorf("voiceLoverService GetMainData GetRecCommonAlbums error=%v", err)
+	//		return
+	//	}
+	//	for _, v := range recAlbumList.GetAlbums() {
+	//		res.Data.CommonAlbums = append(res.Data.CommonAlbums, &pb.AlbumData{
+	//			Id:         v.Id,
+	//			Title:      v.Name,
+	//			Cover:      v.Cover,
+	//			AudioTotal: v.AudioCount,
+	//			PlayStats:  v.PlayCountDesc,
+	//		})
+	//	}
+	//}()
+	//// 判断是否有有效工会
+	//go func() {
+	//	defer wg.Done()
+	//	isBrokerUserRes, _ := user_rpc.UserProfile.IsValidBrokerUser(ctx, &user_pb.ReqIsValidBrokerUser{Uid: uid})
+	//	if isBrokerUserRes.GetResult() {
+	//		res.Data.IsAnchor = true
+	//	}
+	//}()
+	//// 获取全区动态数据
+	//go func() {
+	//	defer wg.Done()
+	//	// 获取排名最高的前12个声音作品
+	//	rc := redis.RedisClient("user")
+	//	rankKey := rc.Get(ctx, "rbp.voice.lover.audio.key").Val()
+	//	if rankKey == "" {
+	//		return
+	//	}
+	//	vals := rc.ZRevRangeByScore(ctx, rankKey, &redisV8.ZRangeBy{
+	//		Min:   "0",
+	//		Max:   "+inf",
+	//		Count: 12,
+	//	}).Val()
+	//	if len(vals) == 0 {
+	//		return
+	//	}
+	//	audioIds := gconv.Uint32s(vals)
+	//
+	//	// 批量获取声音详情
+	//	rsp, err := vl_rpc.VoiceLoverMain.BatchGetAudioInfo(ctx, &vl_pb.ReqBatchGetAudioInfo{AudioId: audioIds})
+	//	if err != nil {
+	//		g.Log().Errorf("batch get audio info err: %v, audio_ids: %v", err, audioIds)
+	//		return
+	//	}
+	//	m := make(map[uint32]*vl_pb.RespBatchGetAudioInfo_Audio)
+	//	for _, v := range rsp.GetItems() {
+	//		m[v.GetId()] = v
+	//	}
+	//	for _, v := range audioIds {
+	//		info, ok := m[v]
+	//		if !ok {
+	//			continue
+	//		}
+	//		audio := &pb.AudioData{
+	//			Id:         uint64(info.GetId()),
+	//			Title:      info.GetTitle(),
+	//			Resource:   info.GetResource(),
+	//			Seconds:    info.GetSeconds(),
+	//			PlayStats:  formatPlayStats(info.GetPlayCnt()),
+	//			UserInfo:   nil,
+	//			Desc:       info.GetDesc(),
+	//			CreateTime: uint64(info.GetCreateTime()),
+	//			Partners:   nil,
+	//			From:       info.GetFrom(),
+	//		}
+	//		if info.GetCover() != "" {
+	//			audio.Covers = strings.Split(info.GetCover(), ",")
+	//		}
+	//		res.Data.Audios = append(res.Data.Audios, audio)
+	//	}
+	//}()
 	wg.Wait()
 	return res, nil
 }
