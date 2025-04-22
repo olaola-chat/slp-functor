@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/olaola-chat/slp-functor/rpc/voice_lover"
 
-	"github.com/olaola-chat/rbp-library/server/rpc"
+	"github.com/olaola-chat/slp-library/server/rpc"
 )
 
 func main() {

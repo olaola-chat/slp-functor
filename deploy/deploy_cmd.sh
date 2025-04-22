@@ -14,7 +14,7 @@
 ## ./consul-game-config.sh "172.16.0.179:8500"
 #
 #for name in "${names[@]}"; do
-#  ./deploy_do.sh ${force} "rbp-functor.cmd.${name}"
+#  ./deploy_do.sh ${force} "slp-functor.cmd.${name}"
 #done
 #
 #./install_logbus.sh prod

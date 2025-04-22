@@ -5,8 +5,8 @@ import (
 
 	"github.com/gogf/gf/frame/g"
 
-	"github.com/olaola-chat/rbp-proto/dao/functor"
-	dbpb "github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
+	"github.com/olaola-chat/slp-proto/dao/functor"
+	dbpb "github.com/olaola-chat/slp-proto/gen_pb/db/functor"
 )
 
 type voiceLoverAlbumCommentDao struct {

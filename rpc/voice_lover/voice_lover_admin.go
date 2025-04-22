@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/gogf/gf/frame/g"
-	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
+	vl_pb "github.com/olaola-chat/slp-proto/gen_pb/rpc/voice_lover"
 
 	"github.com/olaola-chat/slp-functor/rpc/voice_lover/internal/logic"
 )

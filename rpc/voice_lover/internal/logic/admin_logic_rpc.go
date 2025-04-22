@@ -6,10 +6,10 @@ import (
 	"sort"
 
 	"github.com/gogf/gf/frame/g"
-	"github.com/olaola-chat/rbp-proto/gen_pb/db/xianshi"
-	user2 "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
-	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
-	"github.com/olaola-chat/rbp-proto/rpcclient/user"
+	"github.com/olaola-chat/slp-proto/gen_pb/db/xianshi"
+	user2 "github.com/olaola-chat/slp-proto/gen_pb/rpc/user"
+	vl_pb "github.com/olaola-chat/slp-proto/gen_pb/rpc/voice_lover"
+	"github.com/olaola-chat/slp-proto/rpcclient/user"
 
 	"github.com/olaola-chat/slp-functor/app/consts"
 	"github.com/olaola-chat/slp-functor/app/utils"

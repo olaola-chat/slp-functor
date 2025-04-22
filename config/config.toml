@@ -283,7 +283,7 @@
 		Type = "consul"
 		Addr = ["127.0.0.1:8500"]
 		# Addr = ["120.26.196.226:6545"]
-		Path = "/rbp"
+		Path = "/slp"
 
 [go-rocketmq]
     [default]

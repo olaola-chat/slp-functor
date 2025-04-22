@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/olaola-chat/slp-functor/cmd/cmd1"
 
-	"github.com/olaola-chat/rbp-library/server/cmd"
+	"github.com/olaola-chat/slp-library/server/cmd"
 )
 
 func main() {

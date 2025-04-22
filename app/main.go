@@ -2,9 +2,10 @@ package main
 
 import (
 	"github.com/gogf/gf/net/ghttp"
-	"github.com/olaola-chat/rbp-library/server/http"
-	"github.com/olaola-chat/rbp-library/server/http/middleware"
-	user_rpc "github.com/olaola-chat/rbp-proto/rpcclient/user"
+	"github.com/olaola-chat/slp-library/server/http"
+	"github.com/olaola-chat/slp-library/server/http/middleware"
+	user_rpc "github.com/olaola-chat/slp-proto/rpcclient/user"
+
 	"github.com/olaola-chat/slp-functor/app/api"
 )
 

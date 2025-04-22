@@ -4,9 +4,9 @@ import (
 	"context"
 	"strings"
 
-	"github.com/olaola-chat/rbp-proto/gen_pb/db/config"
+	"github.com/olaola-chat/slp-proto/gen_pb/db/config"
 
-	config2 "github.com/olaola-chat/rbp-proto/dao/config"
+	config2 "github.com/olaola-chat/slp-proto/dao/config"
 )
 
 type voiceLoverActivityDao struct{}

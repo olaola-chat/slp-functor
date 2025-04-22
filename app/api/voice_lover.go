@@ -3,11 +3,12 @@ package api
 import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
-	"github.com/olaola-chat/rbp-library/response"
-	context2 "github.com/olaola-chat/rbp-library/server/http/context"
-	"github.com/olaola-chat/rbp-library/tool"
-	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
-	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
+	"github.com/olaola-chat/slp-library/response"
+	context2 "github.com/olaola-chat/slp-library/server/http/context"
+	"github.com/olaola-chat/slp-library/tool"
+	vl_pb "github.com/olaola-chat/slp-proto/gen_pb/rpc/voice_lover"
+	vl_rpc "github.com/olaola-chat/slp-proto/rpcclient/voice_lover"
+
 	"github.com/olaola-chat/slp-functor/app/consts"
 	"github.com/olaola-chat/slp-functor/app/pb"
 	"github.com/olaola-chat/slp-functor/app/query"

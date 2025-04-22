@@ -12,11 +12,11 @@ import (
 
 	"github.com/gogf/gf/database/gdb"
 	"github.com/gogf/gf/frame/g"
-	"github.com/olaola-chat/rbp-library/es"
-	functor2 "github.com/olaola-chat/rbp-proto/dao/functor"
-	"github.com/olaola-chat/rbp-proto/gen_pb/db/config"
-	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
-	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
+	"github.com/olaola-chat/slp-library/es"
+	functor2 "github.com/olaola-chat/slp-proto/dao/functor"
+	"github.com/olaola-chat/slp-proto/gen_pb/db/config"
+	"github.com/olaola-chat/slp-proto/gen_pb/db/functor"
+	"github.com/olaola-chat/slp-proto/gen_pb/rpc/voice_lover"
 
 	"github.com/olaola-chat/slp-functor/app/consts"
 	"github.com/olaola-chat/slp-functor/library/tool"

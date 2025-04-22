@@ -14,24 +14,24 @@ import (
 
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
-	"github.com/olaola-chat/rbp-proto/gen_pb/db/xianshi"
+	"github.com/olaola-chat/slp-proto/gen_pb/db/xianshi"
 
-	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/room"
-	user_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
-	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
-	rpcRoom "github.com/olaola-chat/rbp-proto/rpcclient/room"
-	user_rpc "github.com/olaola-chat/rbp-proto/rpcclient/user"
-	vl_rpc "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
+	"github.com/olaola-chat/slp-proto/gen_pb/rpc/room"
+	user_pb "github.com/olaola-chat/slp-proto/gen_pb/rpc/user"
+	vl_pb "github.com/olaola-chat/slp-proto/gen_pb/rpc/voice_lover"
+	rpcRoom "github.com/olaola-chat/slp-proto/rpcclient/room"
+	user_rpc "github.com/olaola-chat/slp-proto/rpcclient/user"
+	vl_rpc "github.com/olaola-chat/slp-proto/rpcclient/voice_lover"
 
-	friend_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/friends"
-	friend_rpc "github.com/olaola-chat/rbp-proto/rpcclient/friends"
+	friend_pb "github.com/olaola-chat/slp-proto/gen_pb/rpc/friends"
+	friend_rpc "github.com/olaola-chat/slp-proto/rpcclient/friends"
 
 	redisV8 "github.com/go-redis/redis/v8"
-	"github.com/olaola-chat/rbp-library/redis"
+	"github.com/olaola-chat/slp-library/redis"
 
 	"github.com/olaola-chat/slp-functor/app/pb"
 	"github.com/olaola-chat/slp-functor/app/query"
-	//"github.com/olaola-chat/rbp-library/nsq"
+	//"github.com/olaola-chat/slp-library/nsq"
 )
 
 var VoiceLoverService = &voiceLoverService{}

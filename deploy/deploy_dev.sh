@@ -7,7 +7,7 @@ git pull origin dev
 make build
 
 path="/root/go/src/github.com/olaola-chat/slp-functor"
-targetPath="/home/webroot/rbp-functor"
+targetPath="/home/webroot/slp-functor"
 logPath="/home/log"
 
 if [ ! -d "$targetPath" ]; then
@@ -33,10 +33,10 @@ done
 #重启supervisor守护进程
 files=("http" "rpc.voice_lover_admin" "rpc.voice_lover_main")
 for i in ${!files[@]}; do
-	superFile="/etc/supervisor/conf.d/rbp-functor.${files[i]}.conf"
-	localFile="${path}/deploy/dev/rbp-functor.${files[i]}.conf"
+	superFile="/etc/supervisor/conf.d/slp-functor.${files[i]}.conf"
+	localFile="${path}/deploy/dev/slp-functor.${files[i]}.conf"
 	cp -f "${localFile}" "${superFile}"
-	supervisorctl restart "rbp-functor.${files[i]}"
+	supervisorctl restart "slp-functor.${files[i]}"
 done
 
 echo "ok"

@@ -12,8 +12,8 @@ require (
 	github.com/gogf/gf v1.16.9
 	github.com/juju/ratelimit v1.0.2
 	github.com/nsqio/go-nsq v1.1.0
-	github.com/olaola-chat/rbp-library v0.0.2
-	github.com/olaola-chat/rbp-proto v0.0.0-20240823032403-05e629230077
+	github.com/olaola-chat/slp-library v0.0.0-20250422080028-15fe13ead84a
+	github.com/olaola-chat/slp-proto v0.0.0-20250422080318-73a872497c71
 	github.com/opentracing/opentracing-go v1.1.1-0.20190913142402-a7454ce5950e
 	github.com/rpcxio/libkv v0.5.0
 	github.com/smallnest/rpcx v1.8.11
@@ -91,6 +91,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nacos-group/nacos-sdk-go v1.0.1 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect
+	github.com/olaola-chat/slp-proto v0.0.0-20230822072838-096308e79a7e // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/ginkgo/v2 v2.9.0 // indirect
