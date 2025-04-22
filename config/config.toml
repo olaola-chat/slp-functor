@@ -39,7 +39,7 @@
 	#读写分离主库
     [[database.default]]
         type = "bbsql"
-        link = "root:root@tcp(127.0.0.1:3306)/functor"
+        link = "root:root@tcp(192.168.11.24:3306)/functor"
         charset = "utf8mb4"
         debug = true
         maxIdle = 1
@@ -49,7 +49,7 @@
     #读写分离从库
     [[database.default]]
         type = "bbsql"
-        link = "root:root@tcp(127.0.0.1:3306)/functor"
+        link = "root:root@tcp(192.168.11.24:3306)/functor"
         charset = "utf8mb4"
         debug = true
         maxIdle = 1
@@ -64,7 +64,7 @@
 	#读写分离主库
     [[database.xianshi]]
         type = "bbsql"
-        link = "root:root@tcp(127.0.0.1:3306)/xianshi"
+        link = "root:root@tcp(192.168.11.24:3306)/xianshi"
         charset = "utf8mb4"
         debug = true
         maxIdle = 1
@@ -74,7 +74,7 @@
     #读写分离从库
     [[database.xianshi]]
         type = "bbsql"
-        link = "root:root@tcp(127.0.0.1:3306)/xianshi"
+        link = "root:root@tcp(192.168.11.24:3306)/xianshi"
         charset = "utf8mb4"
         debug = true
         maxIdle = 1
@@ -84,7 +84,7 @@
 	#rush库
 	[[database.rush]]
 		type = "bbsql"
-		link = "root:root@tcp(127.0.0.1:3306)/rush"
+		link = "root:root@tcp(192.168.11.24:3306)/rush"
 		charset = "utf8mb4"
 		debug = true
 		maxIdle = 1
@@ -93,7 +93,7 @@
 	#联盟库
 	[[database.bbu]]
 		type = "bbsql"
-		link = "root:root@tcp(127.0.0.1:3306)/banban_union"
+		link = "root:root@tcp(192.168.11.24:3306)/banban_union"
 		charset = "utf8mb4"
 		debug = true
 		maxIdle = 1
@@ -102,7 +102,7 @@
 	#数据统计库
 	[[database.banban]]
 		type = "bbsql"
-		link = "root:root@tcp(127.0.0.1:3306)/banban"
+		link = "root:root@tcp(192.168.11.24:3306)/banban"
 		charset = "utf8mb4"
 		debug = true
 		maxIdle = 1
@@ -111,7 +111,7 @@
 	#配置库
 	[[database.config]]
 		type = "bbsql"
-		link = "root:root@tcp(127.0.0.1:3306)/config"
+		link = "root:root@tcp(192.168.11.24:3306)/config"
 		charset = "utf8mb4"
 		debug = true
 		maxIdle = 1
@@ -120,7 +120,7 @@
 	#xsst库
 	[[database.xsst]]
 		type = "bbsql"
-		link = "root:root@tcp(127.0.0.1:3306)/xsst"
+		link = "root:root@tcp(192.168.11.24:3306)/xsst"
 		charset = "utf8mb4"
 		debug = true
 		maxIdle = 1
@@ -129,7 +129,7 @@
     #朋友圈主库
     [[database.circle]]
         type = "bbsql"
-        link = "root:root@tcp(127.0.0.1:3306)/circle_dev"
+        link = "root:root@tcp(192.168.11.24:3306)/circle_dev"
         charset = "utf8mb4"
         debug = true
         maxIdle = 1
@@ -139,7 +139,7 @@
     #朋友圈从库
     [[database.circle]]
         type = "bbsql"
-        link = "root:root@tcp(127.0.0.1:3306)/circle_dev"
+        link = "root:root@tcp(192.168.11.24:3306)/circle_dev"
         charset = "utf8mb4"
         debug = true
         maxIdle = 1
@@ -148,7 +148,7 @@
         role = "slave"
      [[database.functor]]
             type = "bbsql"
-            link = "root:root@tcp(127.0.0.1:3306)/functor"
+            link = "root:root@tcp(192.168.11.24:3306)/functor"
             charset = "utf8mb4"
             debug = true
             maxIdle = 1
@@ -158,7 +158,7 @@
         #朋友圈从库
      [[database.functor]]
             type = "bbsql"
-            link = "root:root@tcp(127.0.0.1:3306)/functor"
+            link = "root:root@tcp(192.168.11.24:3306)/functor"
             charset = "utf8mb4"
             debug = true
             maxIdle = 1
@@ -169,85 +169,85 @@
 # go-redis 配置
 [go-redis]
 	[go-redis.default]
-		Host = "127.0.0.1"
+		Host = "192.168.11.24"
 		Port = 6379
 		Password = ""
 	[go-redis.cache]
-		Host = "127.0.0.1"
+		Host = "192.168.11.24"
 		Port = 6379
 		Password = ""
 	[go-redis.cache_old]
-		Host = "127.0.0.1"
+		Host = "192.168.11.24"
 		Port = 6379
 		Password = ""
 
 	[go-redis.room]
-		Host = "127.0.0.1"
+		Host = "192.168.11.24"
 		Port = 6379
 		Password = ""
 	[go-redis.user]
-		Host = "127.0.0.1"
+		Host = "192.168.11.24"
 		Port = 6379
 		Password = ""
 	[go-redis.mate]
-		Host = "127.0.0.1"
+		Host = "192.168.11.24"
 		Port = 6379
 		Password = ""
 	#存储用户基本信息，令牌基本信息，房间基本信息
 	[go-redis.rpc_cache]
-		Host = "127.0.0.1"
+		Host = "192.168.11.24"
 		Port = 6379
 		Password = ""
 	#匹配redis，先放在cache，如果后期数据量大方便迁移
     [go-redis.match]
-    	Host = "127.0.0.1"
+    	Host = "192.168.11.24"
     	Port = 6379
     	Password = ""
 	[go-redis.search]
-		Host = "127.0.0.1"
+		Host = "192.168.11.24"
 		Port = 6379
 		Password = ""
 	[go-redis.record]
-		Host = "127.0.0.1"
+		Host = "192.168.11.24"
 		Port = 6379
 		Password = ""
 	[go-redis.es]
-		Host = "127.0.0.1"
+		Host = "192.168.11.24"
 		Port = 6379
 		Password = ""
 
 # go-nsq 配置
 [go-nsq]
-	lookup = ["127.0.0.1:4161"]
-	nsq = ["127.0.0.1:4150"]
-	default = ["127.0.0.1:4150"]
-	circle = ["127.0.0.1:4150"]
+	lookup = ["192.168.11.24:4161"]
+	nsq = ["192.168.11.24:4150"]
+	default = ["192.168.11.24:4150"]
+	circle = ["192.168.11.24:4150"]
 
 [go-es]
 	[go-es.user]
-		Host = "127.0.0.1"
+		Host = "192.168.11.24"
 		Port = 9200
 		User = ""
 		Password = ""
 	[go-es.rush]
-		Host = "127.0.0.1"
+		Host = "192.168.11.24"
 		Port = 9200
 		User = ""
 		Password = ""
 	[go-es.es_new]
-		Host = "127.0.0.1"
+		Host = "192.168.11.24"
 		Port = 9200
 		User = ""
 		Password = ""
 	[go-es.es_vpc]
-		Host = "127.0.0.1"
+		Host = "192.168.11.24"
 		Port = 9200
 		User = ""
 		Password = ""
 
 [go-kafka]
 	[go-kafka.default]
-		Host = ["127.0.0.1:9092"]
+		Host = ["192.168.11.24:9092"]
 		#务必查看 github.com/Shopify/sarama utils.go 版本号，
 		Version = "0.10.2.1"
 
@@ -287,7 +287,7 @@
 
 [go-rocketmq]
     [default]
-        EndPoint = "127.0.0.1:8082"
+        EndPoint = "192.168.11.24:8082"
         AccessKey = ""
         AccessSecret = ""
 
