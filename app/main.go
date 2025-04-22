@@ -4,7 +4,6 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/olaola-chat/slp-library/server/http"
 	"github.com/olaola-chat/slp-library/server/http/middleware"
-	user_rpc "github.com/olaola-chat/slp-proto/rpcclient/user"
 
 	"github.com/olaola-chat/slp-functor/app/api"
 )
@@ -32,10 +31,10 @@ func route(server *ghttp.Server) {
 			middleware.CORS, //跨域请求
 			middleware.Fire, //请求频率限制，简单的注入排除...
 			// middleware.NewCtxMiddleware(user_rpc.Auth).Ctx, //用户信息校验，多语言注入
-			middleware.NewCtxMiddleware(user_rpc.Auth2).Ctx, //用户信息校验，多语言注入
+			//middleware.NewCtxMiddleware(user_rpc.Auth2).Ctx, //用户信息校验，多语言注入
 		)
 		group.Group("/func/", func(group *ghttp.RouterGroup) {
-			group.Middleware(middleware.Auth) //登录校验
+			//group.Middleware(middleware.Auth) //登录校验
 			group.Middleware(middleware.Error)
 			group.ALL("voice_lover", api.VoiceLover)
 		})
