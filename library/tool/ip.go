@@ -5,7 +5,7 @@ import (
 	"net"
 	"path"
 
-	"github.com/olaola-chat/rbp-functor/library/tool/region"
+	"github.com/olaola-chat/slp-functor/library/tool/region"
 )
 
 var (

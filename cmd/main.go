@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/olaola-chat/rbp-functor/cmd/cmd1"
+	"github.com/olaola-chat/slp-functor/cmd/cmd1"
 
 	"github.com/olaola-chat/rbp-library/server/cmd"
 )

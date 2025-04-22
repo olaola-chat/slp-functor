@@ -1,6 +1,6 @@
 package cmd1
 
-import "github.com/olaola-chat/rbp-functor/cmd/cmd1/internal/logic"
+import "github.com/olaola-chat/slp-functor/cmd/cmd1/internal/logic"
 
 type CmdCmd01 struct {
 }

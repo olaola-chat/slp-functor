@@ -3,7 +3,7 @@ package rpc
 import (
 	"time"
 
-	"github.com/olaola-chat/rbp-functor/app/model"
+	"github.com/olaola-chat/slp-functor/app/model"
 	"github.com/smallnest/rpcx/client"
 	"github.com/smallnest/rpcx/protocol"
 )

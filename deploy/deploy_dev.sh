@@ -6,7 +6,7 @@ cd ..
 git pull origin dev
 make build
 
-path="/root/go/src/github.com/olaola-chat/rbp-functor"
+path="/root/go/src/github.com/olaola-chat/slp-functor"
 targetPath="/home/webroot/rbp-functor"
 logPath="/home/log"
 

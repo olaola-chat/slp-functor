@@ -13,11 +13,11 @@ import (
 	"github.com/olaola-chat/rbp-proto/rpcclient/user"
 	voice_lover2 "github.com/olaola-chat/rbp-proto/rpcclient/voice_lover"
 
-	"github.com/olaola-chat/rbp-functor/app/consts"
-	"github.com/olaola-chat/rbp-functor/app/pb"
-	"github.com/olaola-chat/rbp-functor/app/query"
-	"github.com/olaola-chat/rbp-functor/app/service/voice_lover"
-	"github.com/olaola-chat/rbp-functor/app/utils"
+	"github.com/olaola-chat/slp-functor/app/consts"
+	"github.com/olaola-chat/slp-functor/app/pb"
+	"github.com/olaola-chat/slp-functor/app/query"
+	"github.com/olaola-chat/slp-functor/app/service/voice_lover"
+	"github.com/olaola-chat/slp-functor/app/utils"
 )
 
 type voiceLoverAdminApi struct {

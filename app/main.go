@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/gogf/gf/net/ghttp"
-	"github.com/olaola-chat/rbp-functor/app/api"
 	"github.com/olaola-chat/rbp-library/server/http"
 	"github.com/olaola-chat/rbp-library/server/http/middleware"
 	user_rpc "github.com/olaola-chat/rbp-proto/rpcclient/user"
+	"github.com/olaola-chat/slp-functor/app/api"
 )
 
 //func Auth(ctx context.Context, token string) (middleware.AuthUser, error) {

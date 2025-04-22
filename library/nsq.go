@@ -3,8 +3,8 @@ package library
 import (
 	"time"
 
-	cnsq "github.com/olaola-chat/rbp-functor/library/nsq"
-	"github.com/olaola-chat/rbp-functor/library/tool"
+	cnsq "github.com/olaola-chat/slp-functor/library/nsq"
+	"github.com/olaola-chat/slp-functor/library/tool"
 
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"

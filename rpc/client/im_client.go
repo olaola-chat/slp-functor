@@ -3,7 +3,7 @@ package client
 import (
 	"context"
 
-	"github.com/olaola-chat/rbp-functor/app/pb"
+	"github.com/olaola-chat/slp-functor/app/pb"
 )
 
 // IM 定一个imSender单例

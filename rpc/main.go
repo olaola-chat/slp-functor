@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/olaola-chat/rbp-functor/rpc/voice_lover"
+	"github.com/olaola-chat/slp-functor/rpc/voice_lover"
 
 	"github.com/olaola-chat/rbp-library/server/rpc"
 )

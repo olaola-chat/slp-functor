@@ -13,7 +13,6 @@ import (
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/util/gconv"
-	"github.com/olaola-chat/rbp-functor/library"
 	"github.com/olaola-chat/rbp-library/es"
 	"github.com/olaola-chat/rbp-library/redis"
 	"github.com/olaola-chat/rbp-proto/dao/functor"
@@ -21,14 +20,15 @@ import (
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/xianshi"
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 	"github.com/olaola-chat/rbp-proto/rpcclient/user"
+	"github.com/olaola-chat/slp-functor/library"
 	"github.com/yvasiyarov/php_session_decoder/php_serialize"
 
 	userpb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/user"
 
-	voice_lover2 "github.com/olaola-chat/rbp-functor/app/model/voice_lover"
-	"github.com/olaola-chat/rbp-functor/app/utils"
-	"github.com/olaola-chat/rbp-functor/rpc/consts"
-	"github.com/olaola-chat/rbp-functor/rpc/voice_lover/internal/dao"
+	voice_lover2 "github.com/olaola-chat/slp-functor/app/model/voice_lover"
+	"github.com/olaola-chat/slp-functor/app/utils"
+	"github.com/olaola-chat/slp-functor/rpc/consts"
+	"github.com/olaola-chat/slp-functor/rpc/voice_lover/internal/dao"
 )
 
 type mainLogic struct {

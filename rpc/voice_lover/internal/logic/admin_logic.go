@@ -18,9 +18,9 @@ import (
 	"github.com/olaola-chat/rbp-proto/gen_pb/db/functor"
 	"github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 
-	"github.com/olaola-chat/rbp-functor/app/consts"
-	"github.com/olaola-chat/rbp-functor/library/tool"
-	"github.com/olaola-chat/rbp-functor/rpc/voice_lover/internal/dao"
+	"github.com/olaola-chat/slp-functor/app/consts"
+	"github.com/olaola-chat/slp-functor/library/tool"
+	"github.com/olaola-chat/slp-functor/rpc/voice_lover/internal/dao"
 )
 
 type adminLogic struct {

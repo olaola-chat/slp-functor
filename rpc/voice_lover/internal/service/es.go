@@ -19,8 +19,8 @@ import (
 
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 
-	"github.com/olaola-chat/rbp-functor/app/model/voice_lover"
-	"github.com/olaola-chat/rbp-functor/app/utils"
+	"github.com/olaola-chat/slp-functor/app/model/voice_lover"
+	"github.com/olaola-chat/slp-functor/app/utils"
 )
 
 type VoiceLoverAudioSearchQuery struct {

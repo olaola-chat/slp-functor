@@ -7,7 +7,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/olaola-chat/rbp-functor/library/tool"
+	"github.com/olaola-chat/slp-functor/library/tool"
 
 	"github.com/gogf/gf/frame/gins"
 

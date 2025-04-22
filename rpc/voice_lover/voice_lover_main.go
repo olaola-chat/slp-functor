@@ -5,7 +5,7 @@ import (
 
 	vl_pb "github.com/olaola-chat/rbp-proto/gen_pb/rpc/voice_lover"
 
-	"github.com/olaola-chat/rbp-functor/rpc/voice_lover/internal/logic"
+	"github.com/olaola-chat/slp-functor/rpc/voice_lover/internal/logic"
 )
 
 func NewVoiceLoverMain() interface{} {

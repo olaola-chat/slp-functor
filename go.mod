@@ -1,4 +1,4 @@
-module github.com/olaola-chat/rbp-functor
+module github.com/olaola-chat/slp-functor
 
 go 1.20
 

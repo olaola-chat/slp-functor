@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/olaola-chat/rbp-functor/app/model"
-	"github.com/olaola-chat/rbp-functor/library/rpc"
+	"github.com/olaola-chat/slp-functor/app/model"
+	"github.com/olaola-chat/slp-functor/library/rpc"
 
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/gins"

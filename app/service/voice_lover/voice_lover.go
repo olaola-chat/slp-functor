@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/olaola-chat/rbp-functor/app/model"
-	"github.com/olaola-chat/rbp-functor/rpc/client"
+	"github.com/olaola-chat/slp-functor/app/model"
+	"github.com/olaola-chat/slp-functor/rpc/client"
 
 	"github.com/gogf/gf/util/gconv"
 
@@ -29,8 +29,8 @@ import (
 	redisV8 "github.com/go-redis/redis/v8"
 	"github.com/olaola-chat/rbp-library/redis"
 
-	"github.com/olaola-chat/rbp-functor/app/pb"
-	"github.com/olaola-chat/rbp-functor/app/query"
+	"github.com/olaola-chat/slp-functor/app/pb"
+	"github.com/olaola-chat/slp-functor/app/query"
 	//"github.com/olaola-chat/rbp-library/nsq"
 )
 
