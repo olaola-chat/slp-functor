@@ -71,14 +71,14 @@ func (serv *voiceLoverService) GetMainData(ctx context.Context, uid, ver uint32)
 			})
 		}
 		// 判断用户是否已收藏专辑
-		isCollectsRes, err := vl_rpc.VoiceLoverMain.IsUserCollectAlbums(ctx, &vl_pb.ReqIsUserCollectAlbums{Uid: uid, AlbumIds: albumIds})
-		if err != nil {
-			g.Log().Errorf("voiceLoverService GetMainData IsUserCollectAlbums error=%v", err)
-			return
-		}
-		for i, v := range isCollectsRes.GetIsCollects() {
-			res.Data.RecAlbums[i].IsCollect = v
-		}
+		//isCollectsRes, err := vl_rpc.VoiceLoverMain.IsUserCollectAlbums(ctx, &vl_pb.ReqIsUserCollectAlbums{Uid: uid, AlbumIds: albumIds})
+		//if err != nil {
+		//	g.Log().Errorf("voiceLoverService GetMainData IsUserCollectAlbums error=%v", err)
+		//	return
+		//}
+		//for i, v := range isCollectsRes.GetIsCollects() {
+		//	res.Data.RecAlbums[i].IsCollect = v
+		//}
 	}()
 	// 获取banner推荐
 	//go func() {

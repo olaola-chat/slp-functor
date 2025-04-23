@@ -265,6 +265,7 @@ func (m *mainLogic) GetAlbumCommentCount(ctx context.Context, req *vl_pb.ReqGetA
 func (m *mainLogic) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums, reply *vl_pb.ResGetRecAlbums) error {
 	reply.Albums = make([]*vl_pb.AlbumData, 0)
 	list, err := dao.VoiceLoverAlbumDao.GetValidAlbumListByChoice(ctx, dao.ChoiceRec, 0, 3)
+	fmt.Println("GetRecAlbums list", req, list)
 	if err != nil {
 		return err
 	}

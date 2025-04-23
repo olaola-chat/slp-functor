@@ -2,6 +2,7 @@ package voice_lover
 
 import (
 	"context"
+	"fmt"
 
 	vl_pb "github.com/olaola-chat/slp-proto/gen_pb/rpc/voice_lover"
 
@@ -28,6 +29,7 @@ func (v *VoiceLoverMain) GetAlbumCommentCount(ctx context.Context, req *vl_pb.Re
 }
 
 func (v *VoiceLoverMain) GetRecAlbums(ctx context.Context, req *vl_pb.ReqGetRecAlbums, reply *vl_pb.ResGetRecAlbums) error {
+	fmt.Println("GetRecAlbums", req)
 	return logic.MainLogic.GetRecAlbums(ctx, req, reply)
 }
 
