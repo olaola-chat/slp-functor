@@ -5,9 +5,10 @@ GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
 
+.PHONY: all
 all: fmt build
 
-.PNONY build:
+.PNONY: build
 build:
 	$(GOBUILD) -o bin/http -v  ./app/main.go
 	$(GOBUILD) -o bin/rpc -v  ./rpc/main.go
