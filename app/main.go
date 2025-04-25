@@ -2,12 +2,10 @@ package main
 
 import (
 	"github.com/gogf/gf/net/ghttp"
+	"github.com/olaola-chat/slp-functor/app/api"
 	"github.com/olaola-chat/slp-library/server/http"
 	"github.com/olaola-chat/slp-library/server/http/middleware"
 	user_rpc "github.com/olaola-chat/slp-proto/rpcclient/user"
-	http2 "net/http"
-
-	"github.com/olaola-chat/slp-functor/app/api"
 )
 
 //func Auth(ctx context.Context, token string) (middleware.AuthUser, error) {
@@ -27,10 +25,6 @@ import (
 //}
 
 func route(server *ghttp.Server) {
-	server.BindHandler("/ping", func(r *ghttp.Request) {
-		r.Response.Status = http2.StatusOK
-		r.Response.WriteExit("pong")
-	})
 	server.Group("/go/", func(group *ghttp.RouterGroup) {
 		group.Middleware(
 			middleware.Trace,
