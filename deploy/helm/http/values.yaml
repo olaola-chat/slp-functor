@@ -16,14 +16,14 @@ deployment:
     repository: slp-acr-registry-vpc.cn-hangzhou.cr.aliyuncs.com/slp/slp-functor-http
     tag: chenjunjun2-ola.master.20250425-100904
     pullPolicy: IfNotPresent
-  replicas: 3
+  replicas: 2
   resources:
     requests:
       memory: "1Gi"
-      cpu: "1200m"
+      cpu: "100m"
     limits:
       memory: "1Gi"
-      cpu: "1200m"
+      cpu: "200m"
   livenessProbe:
     enabled: true
     initialDelaySeconds: 5
