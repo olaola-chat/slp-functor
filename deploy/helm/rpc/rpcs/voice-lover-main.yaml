@@ -1,5 +1,5 @@
 deployment:
-  name: "voice_lover_admin"
+  name: "voice_lover_main"
   image:
     tag: latest
   resources:
