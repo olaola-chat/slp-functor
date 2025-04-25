@@ -1,0 +1,189 @@
+{{ if $.Values.deployment.enabled }}
+  {{- with $.Values.deployment }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    # topology.kubernetes.io/zone: hangzhou-J
+    beta.kubernetes.io/os: linux
+    k8s.slp.com/cluster: slp
+    k8s.slp.com/repository: app
+    k8s.slp.com/serverMode: http
+    k8s.slp.com/app: {{ $.Release.Name }}
+    role: http
+    {{- toYaml $.Values.global.labels | nindent 4 }}
+  annotations:
+    k8s.slp.com/recreateRevision: "1"
+spec:
+  selector:
+    matchLabels:
+      {{- toYaml $.Values.global.labels | nindent 6 }}
+  {{- if $.Values.deployment.strategy.enabled }}
+  {{ with $.Values.deployment.strategy }}
+  strategy:
+    type: {{ .type }}
+  {{ if and (eq .type "RollingUpdate") (.rollingUpdate.enabled | default false) }}
+    rollingUpdate:
+      maxSurge: {{ .rollingUpdate.maxSurge | quote }}
+      maxUnavailable: {{ .rollingUpdate.maxUnavailable | quote }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  replicas: {{ .replicas }}
+  template:
+    metadata:
+      name: {{ .name }}
+      namespace: {{ $.Release.Namespace }}
+      labels:
+        role: http
+        {{- toYaml $.Values.global.labels | nindent 8 }}
+    spec:
+      {{- if .graceExit.enabled }}
+      terminationGracePeriodSeconds: {{ .graceExit.timeoutSeconds | default 10 }}
+      {{- end }}
+      restartPolicy: Always
+      {{ if .affinity.enabled }}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/os
+                    operator: In
+                    values:
+                      - linux
+                  - key: k8s.slp.com/cluster
+                    operator: In
+                    values:
+                      - slp
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: {{ .affinity.nodeAffinity.repository.weight | default 50 }}
+              preference:
+                matchExpressions:
+                  - key: k8s.slp.com/repository
+                    operator: In
+                    values:
+                      {{ with .affinity.nodeAffinity.repository.values }}
+                      {{- toYaml . | nindent 22 }}
+                      {{- else }}
+                      - app
+                      {{- end }}
+            - weight: {{ .affinity.nodeAffinity.serverMode.weight | default 100 }}
+              preference:
+                matchExpressions:
+                  - key: k8s.slp.com/serverMode
+                    operator: In
+                    values:
+                      {{- with .affinity.nodeAffinity.serverMode.values }}
+                      {{- toYaml . | nindent 22 }}
+                      {{- else }}
+                      - cmd
+                      {{- end }}
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: {{ .affinity.podAntiAffinity.weight | default 100 }}
+              podAffinityTerm:
+                topologyKey: topology.kubernetes.io/zone
+                labelSelector:
+                  matchExpressions:
+                    {{- range $labelKey, $labelValue := $.Values.global.labels }}
+                    - key: {{ $labelKey }}
+                      operator: In
+                      values:
+                        - {{ $labelValue }}
+      {{- end }}
+
+      containers:
+        - name: slp-functor-http
+          image: {{ .image.repository }}:{{ .image.tag }}
+          imagePullPolicy: {{ .image.pullPolicy }}
+          resources:
+            {{- toYaml .resources | nindent 12 }}
+          #command: ["/bin/sh", "-c", "sleep 1000000"]
+          command: ["bin/slp-functor-http"]
+          args:
+            - "--gf.gcfg.file=gf.gcfg.file.toml"
+          {{- if .livenessProbe.enabled}}
+          livenessProbe:
+            httpGet:
+              port: {{ $.Values.global.port }}
+              path: /ping
+            initialDelaySeconds: {{ .livenessProbe.initialDelaySeconds | default 5 }}
+            periodSeconds: {{ .livenessProbe.periodSeconds | default 5}}
+            timeoutSeconds: {{ .livenessProbe.timeoutSeconds | default 5}}
+            failureThreshold: {{ .livenessProbe.failureThreshold | default 3 }}
+          {{- end }}
+          {{- if .lifecycle.enabled}}
+          lifecycle:
+            {{- if .lifecycle.preStop.enabled}}
+            preStop:
+              exec:
+                command: [ "/bin/sh","-c","/bin/sleep 15" ]
+            {{- end }}
+          {{- end }}
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: K8S_NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: CONSUL_AGENT_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: PROBE_PORT
+              value: "8080"
+            - name: TZ
+              value: "Asia/Shanghai"
+          volumeMounts:
+            - name: "gf-gcfg-file"
+              mountPath: "/home/ecs-user/webroot/slp-go/config/gf.gcfg.file.toml"
+              subPath: "gf.gcfg.file.toml"
+            {{- if .gfLoggerVolume.enabled }}
+            - name: gf-logger
+              mountPath: /tmp/log/server
+              subPathExpr: $(POD_NAME)
+            {{- end }}
+            - name: tz-config
+              mountPath: /etc/localtime
+        {{- if $.Values.deployment.tcpdump.enabled }}
+        - name: slp-functor-http-tcpdump
+          image: slp-acr-registry-vpc.cn-hangzhou.cr.aliyuncs.com/slp/nicolaka-netshoot:latest
+          command:
+            - /bin/bash
+            - -c
+            - |
+              mkdir -p /capture
+              cd /capture
+
+              # 获取目标 Pod IP
+
+              HTTP_FILTER='port 9090'
+              while true; do
+                FILENAME="port9090_$(date +%Y%m%d_%H%M%S).pcap"
+                tcpdump -i any "%HTTP_FILTER" \
+                -w /capture/$FILENAME \
+                -C 100 \
+                -v
+                sleep 1
+              done
+          {{- end }}
+      {{- if .imagePullSecrets.enabled }}
+      imagePullSecrets:
+        {{- toYaml .imagePullSecrets.secrets | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: gf-gcfg-file
+          configMap:
+            name: {{ $.Values.gfConfigMap.name }}
+        - name: tz-config
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Shanghai
+{{- end }}
+{{- end }}
+{{- end }}

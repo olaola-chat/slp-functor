@@ -7,6 +7,7 @@ GOGET=$(GOCMD) get
 
 all: fmt build
 
+.PNONY build:
 build:
 	$(GOBUILD) -o bin/http -v  ./app/main.go
 	$(GOBUILD) -o bin/rpc -v  ./rpc/main.go
@@ -35,3 +36,8 @@ test:
 .PHONY:proto
 proto:
 	protoc --proto_path=proto --go_out=${GOPATH}/src proto/*.proto
+
+.PHONY: tag
+tag:
+	@$(MAKE) -f tag.Makefile tag
+

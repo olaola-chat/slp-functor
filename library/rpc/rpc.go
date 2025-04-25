@@ -1,10 +1,12 @@
 package rpc
 
 import (
+	"fmt"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/frame/g"
 	"github.com/rpcxio/libkv/store"
 	"github.com/smallnest/rpcx/client"
+	"os"
 )
 
 var config *discoverConfig
@@ -21,7 +23,15 @@ func init() {
 	if err != nil {
 		panic(gerror.Wrap(err, "rpc discover config error"))
 	}
-
+	if config.Type == "consul" && len(config.Addr) == 0 {
+		consulAgentIp := os.Getenv("CONSUL_AGENT_IP")
+		if consulAgentIp == "" {
+			panic(gerror.Wrap(err, "rpc discover config error"))
+		}
+		config.Addr = []string{fmt.Sprintf("%s:%d", consulAgentIp, 8500)}
+	}
+	g.Log().Infof("found rpc discover config, type = %s , path = %s , addrs = %v",
+		config.Type, config.Path, config.Addr)
 }
 
 // NewClientDiscover 根据server名字创建客户端发现服务配置

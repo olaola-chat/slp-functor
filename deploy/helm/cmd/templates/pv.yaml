@@ -1,0 +1,38 @@
+{{- range .Values.enabledCmds }}
+{{- $ctx := dict "name" . "Files" $.Files }}
+{{- $cmdValues := fromYaml (include "cmds.getValues" $ctx) | default dict }}
+{{- $cmdName := $cmdValues.deployment.name | lower }}
+{{- $cmdAction := $cmdValues.deployment.action | lower }}
+{{- $cmdInstance := printf "slp-functor-cmd-%s-%s" $cmdName $cmdAction }}
+{{- $mergedValues := merge
+    (dict)
+    ($cmdValues.storage | default dict)
+    ($.Values.storage | default dict)
+}}
+{{- /* 调试信息 */ -}}
+{{- if $.Values.debug }}
+{{- printf "\nDebug info for command: %s" . | nindent 0 }}
+{{- printf "\nCommand Values:" | nindent 0 }}
+{{- toYaml $cmdValues | nindent 2 }}
+{{- printf "\nMerged Values:" | nindent 0 }}
+{{- toYaml $mergedValues | nindent 2 }}
+{{- end }}
+---
+{{- if $mergedValues.enabled }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ $cmdInstance }}-gf-logger-pv
+  namespace: {{ $.Release.Namespace }}
+spec:
+  capacity:
+    storage: {{ $mergedValues.maxSize }}
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /home/ecs-user/.local/tmp/log/
+    type: DirectoryOrCreate
+{{- end }}
+{{- end }}

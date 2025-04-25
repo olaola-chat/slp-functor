@@ -1,0 +1,199 @@
+{{- /*
+在模板开始处添加调试信息
+*/}}
+{{- range .Values.enabledRpcs }}
+{{- $ctx := dict "name" . "Files" $.Files }}
+{{- $rpcValues := fromYaml (include "rpcs.getValues" $ctx) }}
+{{- $mergedValues := merge $rpcValues.deployment $.Values.deployment }}
+{{- $rpcOriginName := $rpcValues.deployment.name  }}
+{{- $rpcName := $rpcOriginName | lower | replace "." "-" | replace "_" "-" }}
+{{- $rpcInstance := printf "slp-app-rpc-%s" $rpcName }}
+{{- /* 调试信息 */ -}}
+{{- if $.Values.debug }}
+{{- printf "\nDebug info for command: %s" . | nindent 0 }}
+{{- printf "\nCommand Values:" | nindent 0 }}
+{{- toYaml $rpcValues | nindent 2 }}
+{{- printf "\nMerged Values:" | nindent 0 }}
+{{- toYaml $mergedValues | nindent 2 }}
+{{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $rpcInstance }}-deploy
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    # topology.kubernetes.io/zone: hangzhou-J
+    beta.kubernetes.io/os: linux
+    k8s.slp.com/cluster: slp
+    k8s.slp.com/repository: app
+    k8s.slp.com/serverMode: rpc
+    k8s.slp.com/rpcName: {{ $rpcName }}
+    k8s.slp.com/app: {{ $.Release.Name }}
+    k8s.slp.com/cmd: {{ $rpcInstance }}
+    role: rpc
+  annotations:
+    {{- toYaml $mergedValues.annotations | nindent 4}}
+spec:
+  selector:
+    matchLabels:
+      app: {{ $.Release.Name }}
+      component: {{ $rpcOriginName }}
+  {{- if $mergedValues.strategy.enabled }}
+  {{ with $mergedValues.strategy }}
+  strategy:
+    type: {{ .type }}
+  {{ if and (eq .type "RollingUpdate") (.rollingUpdate.enabled | default false) }}
+    rollingUpdate:
+      maxSurge: {{ .rollingUpdate.maxSurge | quote }}
+      maxUnavailable: {{ .rollingUpdate.maxUnavailable | quote }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  replicas: {{ $mergedValues.replicas }}
+  template:
+    metadata:
+      name: {{ $rpcInstance }}
+      namespace: {{ $.Release.Namespace }}
+      labels:
+        app: {{ $.Release.Name }}
+        component: {{ $rpcOriginName }}
+        role: rpc
+      annotations:
+         {{- toYaml $mergedValues.annotations | nindent 8}}
+    spec:
+      {{- if $mergedValues.graceExit.enabled }}
+      terminationGracePeriodSeconds: {{ $mergedValues.graceExit.timeoutSeconds | default 10 }}
+      {{- end }}
+      restartPolicy: Always
+      {{ if $mergedValues.affinity.enabled }}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/os
+                    operator: In
+                    values:
+                      - linux
+                  - key: k8s.slp.com/cluster
+                    operator: In
+                    values:
+                      - slp
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: {{ $mergedValues.affinity.nodeAffinity.repository.weight | default 50 }}
+              preference:
+                matchExpressions:
+                  - key: k8s.slp.com/repository
+                    operator: In
+                    values:
+                      {{ with $mergedValues.affinity.nodeAffinity.repository.values }}
+                      {{- toYaml . | nindent 22 }}
+                      {{- else }}
+                      - app
+                      {{- end }}
+            - weight: {{ $mergedValues.affinity.nodeAffinity.serverMode.weight | default 100 }}
+              preference:
+                matchExpressions:
+                  - key: k8s.slp.com/serverMode
+                    operator: In
+                    values:
+                      {{- with $mergedValues.affinity.nodeAffinity.serverMode.values }}
+                      {{- toYaml . | nindent 22 }}
+                      {{- else }}
+                      - cmd
+                      {{- end }}
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: {{ $mergedValues.affinity.podAntiAffinity.weight | default 100 }}
+              podAffinityTerm:
+                topologyKey: topology.kubernetes.io/zone
+                labelSelector:
+                  matchExpressions:
+                    - key: k8s.slp.com/cmd
+                      operator: In
+                      values:
+                        {{- with $mergedValues.affinity.podAntiAffinity.values }}
+                        {{- toYaml . | nindent 22 }}
+                        {{- else }}
+                        - {{ $rpcInstance }}
+                        {{- end }}
+      {{- end }}
+
+      containers:
+        - name: {{ $rpcInstance }}
+          image: {{ $mergedValues.image.repository }}:{{ $mergedValues.image.tag }}
+          imagePullPolicy: {{ $mergedValues.image.pullPolicy }}
+          resources:
+            {{- toYaml $mergedValues.resources | nindent 12 }}
+          #command: ["/bin/sh", "-c", "sleep 1000000"]
+          command: ["bin/slp-app-rpc"]
+          args:
+            - "--name={{ $rpcOriginName }}"
+            - "--gf.gcfg.file=gf.gcfg.file.toml"
+          {{- if $mergedValues.livenessProbe.enabled}}
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /ping
+            initialDelaySeconds: {{ $mergedValues.livenessProbe.initialDelaySeconds | default 5 }}
+            periodSeconds: {{ $mergedValues.livenessProbe.periodSeconds | default 5}}
+            timeoutSeconds: {{ $mergedValues.livenessProbe.timeoutSeconds | default 5}}
+            failureThreshold: {{ $mergedValues.livenessProbe.failureThreshold | default 3 }}
+          {{- end }}
+          {{- if $mergedValues.lifecycle.enabled}}
+          lifecycle:
+            {{- if $mergedValues.lifecycle.preStop.enabled}}
+            preStop:
+              httpGet:
+                port: 8080
+                path: "/unregister"
+                scheme: HTTP
+                host: 127.0.0.1
+            {{- end }}
+          {{- end }}
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: K8S_NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: CONSUL_AGENT_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: PROBE_PORT
+              value: "8080"
+            - name: TZ
+              value: "Asia/Shanghai"
+          volumeMounts:
+            - name: "gf-gcfg-file"
+              mountPath: "/home/ecs-user/webroot/slp-go/config/gf.gcfg.file.toml"
+              subPath: "gf.gcfg.file.toml"
+            {{- if $mergedValues.gfLoggerVolume.enabled }}
+            - name: gf-logger
+              mountPath: /tmp/log/server
+              subPathExpr: $(POD_NAME)
+            {{- end }}
+            - name: tz-config
+              mountPath: /etc/localtime
+      {{- if $mergedValues.imagePullSecrets.enabled }}
+      imagePullSecrets:
+        {{- toYaml $mergedValues.imagePullSecrets.secrets | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: gf-gcfg-file
+          configMap:
+            name: {{ $.Values.gfConfigMap.name }}
+        {{- if $mergedValues.gfLoggerVolume.enabled }}
+        - name: gf-logger
+          persistentVolumeClaim:
+            claimName: {{ $rpcInstance }}-gf-logger-pvc
+        {{- end }}
+        - name: tz-config
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Shanghai
+{{- end }}

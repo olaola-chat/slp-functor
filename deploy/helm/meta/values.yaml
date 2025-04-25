@@ -1,0 +1,35 @@
+debug: false
+
+systemInfoReport:
+  enabled: true
+  image:
+    repository: slp-acr-registry-vpc.cn-hangzhou.cr.aliyuncs.com/slp/slp-app-cmd
+    tag: latest
+    pullPolicy: IfNotPresent
+  name: slp-cmd-systeminfo-report
+  priorityClassName: PreemptLowerPriority
+  periodSeconds: 30
+  imagePullSecrets:
+    enabled: false
+    secrets:
+      - name: "ivan-personal-acr"
+  resources:
+    requests:
+      memory: "150Mi"
+      cpu: "0.1"
+    limits:
+      memory: "150Mi"
+      cpu: "0.1"
+
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 3
+
+# 存储配置
+gfConfigMap:
+  name: gf-gcfg-file
+
+

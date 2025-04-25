@@ -1,0 +1,6 @@
+apiVersion: v2
+name: slp-app-http-chart
+description: A Helm chart for deploying multiple instances of slp-room-http
+type: application
+version: 1.0.0
+appVersion: "1.0"

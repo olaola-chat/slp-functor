@@ -1,0 +1,16 @@
+{{ if $.Values.service.enabled }}
+{{ with $.Values.service}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  type: {{ .type }}
+  selector:
+    {{- toYaml $.Values.global.labels | nindent 4}}
+  ports:
+    - port: {{ $.Values.global.port }}
+      name: http
+{{ end }}
+{{ end }}

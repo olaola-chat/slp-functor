@@ -1,0 +1,15 @@
+{{ if $.Values.pdb.enabled}}
+{{- with $.Values.pdb }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Release.Namespace}}
+spec:
+  minAvailable: {{ .minAvailable}}
+  selector:
+    matchLabels:
+      {{ toYaml $.Values.global.labels | nindent 6}}
+{{- end }}
+{{- end }}
+

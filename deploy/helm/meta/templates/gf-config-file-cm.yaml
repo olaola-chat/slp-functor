@@ -1,0 +1,472 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $.Values.gfConfigMap.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    k8s.slp.com/cluster: slp
+    k8s.slp.com/repository: app
+data:
+  # 这里使用管道符 | 保留完整TOML格式
+  gf.gcfg.file.toml: |
+    # HTTP Server.
+    [server]
+        Address = ":9090"
+        ServerRoot = "public"
+        ServerAgent = "we are family"
+        AccessLogEnabled = false
+        ErrorLogEnabled = true
+        PProfEnabled = false
+        Graceful = true
+        RunMode = "prod"
+        AlphaHosts = ["slp-alpha"]
+        Language = ["zh-cn"]
+        TraceName = "slp-go-prod"
+
+
+    # Logger configurations.
+    [logger]
+        Level = "info"
+        Stdout = true
+        CtxKeys = ["TraceId"]
+
+    # Template view configurations.
+    [viewer]
+        Path = "template"
+        DefaultFile = "index.html"
+
+    [comon-const-param]
+        IpServ = "slp.private.ip.lb.slp-app:7799"
+        #一分钟内的点歌频率限制
+        TemFrequencyNum = 20
+        #tem用户池子的最大数量
+        TemUserPoolMaxNum = 1000
+        [algo-limit]
+        RateLimit = 50
+
+    [idGen] # id 生成器相关配置
+        surplusAmount = 500 # 池子剩余数量阈值(单位：个)，小于或等于这个阈值就继续往池子里塞
+        interval = 5 # 池子剩余数量检查间隔(单位：秒)
+        maxId = 999999999 # 当前号段最大值（超过就告警，并不再生成）
+        genNum = 3000 # 每次生成的个数
+
+
+    # Database configurations.
+    [database]
+    #读写分离主库
+    [[database.default]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/xianshi"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "master"
+    #读写分离从库
+    [[database.default]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/xianshi"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "slave"
+    # 数据库日志对象配置
+    [database.logger]
+        Path = "/home/ecs-user/log/slp-go/sql"
+        Level = "all"
+        Stdout = true
+    #rush库
+    [[database.rush]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/rush"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+    #union库
+    [[database.bbu]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/union"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "master"
+    [[database.bbu]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/union"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "slave"
+    #统计数据库
+    [[database.banban]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/statics"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "master"
+    [[database.banban]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/statics"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "slave"
+
+    #banban config库
+    [[database.config]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/config"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "master"
+    [[database.config]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/config"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "slave"
+
+    #xssst库
+    [[database.xsst]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/xsst"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "master"
+    [[database.xsst]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/xsst"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "slave"
+
+    #朋友圈主库
+    [[database.circle]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/circle"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "master"
+
+    #朋友圈从库
+    [[database.circle]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/circle"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "slave"
+
+    #活动库
+    [[database.activity]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/activity"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "master"
+
+    #活动从库
+    [[database.activity]]
+        type = "bbsql"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/activity"
+        charset = "utf8mb4"
+        debug = false
+        maxIdle = 1
+        maxOpen = 100
+        maxLifetime = 30
+        role = "slave"
+    #ai库
+    [[database.ai]]
+    type = "bbsql"
+    link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/ai"
+    charset = "utf8mb4"
+    debug = false
+    maxIdle = 1
+    maxOpen = 100
+    maxLifetime = 30
+    role = "master"
+
+    #ai从库
+    [[database.ai]]
+    type = "bbsql"
+    link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/ai"
+    charset = "utf8mb4"
+    debug = false
+    maxIdle = 1
+    maxOpen = 100
+    maxLifetime = 30
+    role = "slave"
+
+
+    # go-redis 配置
+    [go-redis]
+    [go-redis.default]
+        Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
+        Port = 6379
+        Password = "xH88t_4TF4WvTva"
+    [go-redis.cache]
+        Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
+        Port = 6379
+        Password = "xH88t_4TF4WvTva"
+    [go-redis.room]
+        Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
+        Port = 6379
+        Password = "xH88t_4TF4WvTva"
+    [go-redis.user]
+        Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
+        Port = 6379
+        Password = "xH88t_4TF4WvTva"
+    [go-redis.mate]
+        Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
+        Port = 6379
+        Password = "xH88t_4TF4WvTva"
+    #存储用户基本信息，令牌基本信息，房间基本信息
+    [go-redis.rpc_cache]
+        Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
+        Port = 6379
+        Password = "xH88t_4TF4WvTva"
+    #匹配redis，先放在cache，如果后期数据量大方便迁移
+    [go-redis.match]
+        Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
+        Port = 6379
+        Password = "xH88t_4TF4WvTva"
+    #自建的redis-search, 房间检索，搜索入口, 以及附近搜索
+    #使用RedisSearch插件，需要自建
+    [go-redis.search]
+        Host = "10.0.0.124"
+        Port = 6379
+        Password = ""
+    [go-redis.record]
+        Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
+        Port = 6379
+        Password = "xH88t_4TF4WvTva"
+    [go-redis.es]
+        Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
+        Port = 6379
+        Password = "xH88t_4TF4WvTva"
+    #被动缓存的redis
+    [go-redis.passive]
+        Host = "r-bp1hcy2nlrfcbo9aj1.redis.rds.aliyuncs.com"
+        Port = 6379
+        Password = "SLPRedisCache2024"
+
+    # go-nsq 配置
+    [go-nsq]
+    lookup = ["10.0.0.131:4161"]
+    default = [
+        "10.0.0.135:4150",
+        "10.0.0.134:4150",
+        "10.0.0.133:4150",
+        "10.0.0.132:4150"
+    ]
+    circle = [
+        "10.0.0.135:4150",
+        "10.0.0.134:4150",
+        "10.0.0.133:4150",
+        "10.0.0.132:4150"
+    ]
+    room = [
+        "10.0.0.135:4150",
+        "10.0.0.134:4150",
+        "10.0.0.133:4150",
+        "10.0.0.132:4150"
+    ]
+    pingan = ["172.16.0.207:6998"]
+    nsq = [
+        "10.0.0.135:4150",
+        "10.0.0.134:4150",
+        "10.0.0.133:4150",
+        "10.0.0.132:4150"
+    ]
+    [go-es]
+    [go-es.user]
+        Host = "es-cn-zsk3aqyin0008x3nh.elasticsearch.aliyuncs.com"
+        Port = 9200
+        User = "elastic"
+        Password = "b8Zh3hQduRwqHsm"
+    [go-es.rush]
+        Host = "es-cn-zsk3aqyin0008x3nh.elasticsearch.aliyuncs.com"
+        Port = 9200
+        User = "elastic"
+        Password = "b8Zh3hQduRwqHsm"
+    [go-es.es_new]
+        Host = "es-cn-zsk3aqyin0008x3nh.elasticsearch.aliyuncs.com"
+        Port = 9200
+        User = "elastic"
+        Password = "b8Zh3hQduRwqHsm"
+    [go-es.es_vpc]
+        Host = "es-cn-zsk3aqyin0008x3nh.elasticsearch.aliyuncs.com"
+        Port = 9200
+        User = "elastic"
+        Password = "b8Zh3hQduRwqHsm"
+
+    [go-kafka]
+    [go-kafka.default]
+        Host = ["alikafka-post-cn-zsk3araqu005-1-vpc.alikafka.aliyuncs.com:9092", "alikafka-post-cn-zsk3araqu005-2-vpc.alikafka.aliyuncs.com:9092", "alikafka-post-cn-zsk3araqu005-3-vpc.alikafka.aliyuncs.com:9092"]
+        #务必查看 github.com/Shopify/sarama utils.go 版本号，
+        Version = "2.2.0"
+
+
+    [go-graphdb]
+    [go-graphdb.default]
+        Host = "gds-bp1a2g20rld743yi150030.graphdb.rds.aliyuncs.com"
+        Port = 8182
+        User = "slp_gdb_prod"
+        Password = "app@slp1024"
+
+
+    [http-service]
+    [http-service.im.publish]
+        URI = "http://im.aopacloud-cn.private:6081/imapi/message/private/publish"
+        TimeoutMs = 500 #单位ms
+        Retry = 2
+        PrintResponse = false
+    [http-service.im.online]
+        URI = "http://im.aopacloud-cn.private:6081/imapi/message/private/online"
+        TimeoutMs = 500 #单位ms
+        Retry = 2
+        PrintResponse = false
+    [http-service.im.api] #im设置
+        URI = "http://im.aopacloud-cn.private:6081/imapi/"
+        TimeoutMs = 500 #单位ms
+        Retry = 2
+        PrintResponse = false
+    [http-service.push.report]
+        URI = "http://im.aopacloud-cn.private:6081/push/v1/save_device_token"
+        TimeoutMs = 500 #单位ms
+        Retry = 2
+        PrintResponse = false
+    [http-service.im.checkdirty]
+        URI = "http://im.aopacloud-cn.private:6081/filter/checkdirty"
+        TimeoutMs = 500 #单位ms
+        Retry = 2
+        PrintResponse = true
+    [http-service.im.dirty]
+        URI = "http://im.aopacloud-cn.private:6081/filter/dirty"
+        TimeoutMs = 500 #单位ms
+        Retry = 2
+        PrintResponse = true
+    [http-service.weixin.pdytech]
+        URI = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=6fd2f3d5-722c-47dc-a3a8-9f838d68d90d"
+        TimeoutMs = 500 #单位ms
+        Retry = 1
+        PrintResponse = true
+    [http-service.img.check]
+        URI = "http://serv-image-scan.slp.private.slp-app/green/image/scan"
+        TimeoutMs = 2000 #单位ms
+        Retry = 1
+        PrintResponse = false
+    [http-service.idcard.check]
+        URI = "https://id2meta.market.alicloudapi.com/id2meta"
+        TimeoutMs = 2000 #单位ms
+        Retry = 1
+        PrintResponse = false
+    [http-service.dataservice.fetch]
+        URI = "http://data-serv-slp.aopacloud-cn.private/api/data-tunnel/fetch/pull"
+        TimeoutMs = 2000 #单位ms
+        Retry = 1
+        PrintResponse = false
+    [http-service.im.whitelist.add]
+        URI = "http://im.aopacloud-cn.private:6081/imapi/user/disturb/whitelist/add"
+        TimeoutMs = 500 #单位ms
+        Retry = 1
+        PrintResponse = false
+    [http-service.im.whitelist.remove]
+        URI = "http://im.aopacloud-cn.private:6081/imapi/user/disturb/whitelist/remove"
+        TimeoutMs = 500 #单位ms
+        Retry = 1
+        PrintResponse = false
+    [http-service.openai.qwen]
+        URI = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
+        TimeoutMs = 5000 #单位ms
+        Retry = 1
+        PrintResponse = false
+    [http-service.backend.channel]
+        URI = "https://help.miaodongshiguang.com/channelapi/isInfoFlow"
+        TimeoutMs = 1000 #单位ms
+        Retry = 0
+        PrintResponse = false
+    [http-service.aichat.characterForm]
+      URI = "http://ai-serv.aopacloud-cn.private:10050/v1/character/characterForm"
+      TimeoutMs = 5000 #单位ms
+      Retry = 0
+      PrintResponse = false
+      [http-service.aichat.characterJson]
+      URI = "http://ai-serv.aopacloud-cn.private:10050/v1/character/characterJson"
+      TimeoutMs = 5000 #单位ms
+      Retry = 0
+      PrintResponse = false
+      [http-service.aichat.saveCharacterJson]
+      URI = "http://ai-serv.aopacloud-cn.private:10050/v1/character/saveCharacterJson"
+      TimeoutMs = 5000 #单位ms
+      Retry = 0
+      PrintResponse = false
+      [http-service.aichat.characterJsonStart]
+      URI = "http://ai-serv.aopacloud-cn.private:10050/v1/character/characterJsonStart"
+      TimeoutMs = 5000 #单位ms
+      Retry = 0
+      PrintResponse = false
+      [http-service.aichat.characterProcess]
+      URI = "http://ai-serv.aopacloud-cn.private:10050/v1/character/characterProcess"
+      TimeoutMs = 5000 #单位ms
+      Retry = 0
+      PrintResponse = false
+      [http-service.aichat.characterFormStart]
+      URI = "http://ai-serv.aopacloud-cn.private:10050/v1/character/characterFormStart"
+      TimeoutMs = 5000 #单位ms
+      Retry = 0
+      PrintResponse = false
+      [http-service.aichat.slpai]
+      URI = "http://ai-serv.aopacloud-cn.private:10050/o/v1/chat/completions"
+      TimeoutMs = 50000 #单位ms
+      Retry = 0
+      PrintResponse = false
+    [rpc]
+    [rpc.discover]
+        Type = "consul"
+        Path = "/slp"
+    [http]
+    [http.discover]
+        Type = "k8s"
+    [ai]
+        key = "sk-3K8qAWCLpSjMhSBg079c6f95472e4fE68400AaEd6c0d04E1"
+        base_url = "http://ai-serv.aopacloud-cn.private:10050"
+        key2 = "sk-e3a01139-a26b-4286-946b-98d7b3972936"
+    [ai_tts]
+        username = "linda"
+        password = "7zTB7t5yaODUdQJ1"
+        base_url = "https://rtc-ai.aopacloud.net"

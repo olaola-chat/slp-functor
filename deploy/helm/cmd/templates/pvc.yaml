@@ -1,0 +1,34 @@
+{{- range .Values.enabledCmds }}
+{{- $ctx := dict "name" . "Files" $.Files }}
+{{- $cmdValues := fromYaml (include "cmds.getValues" $ctx) | default dict }}
+{{- $cmdName := $cmdValues.deployment.name | lower }}
+{{- $cmdAction := $cmdValues.deployment.action | lower }}
+{{- $cmdInstance := printf "slp-functor-cmd-%s-%s" $cmdName $cmdAction }}
+{{- $mergedValues := merge
+    (dict )
+    ($cmdValues.storage | default dict)
+    ($.Values.storage | default dict)
+}}
+{{- /* 调试信息 */ -}}
+{{- if $.Values.debug }}
+{{- printf "\nDebug info for command: %s" . | nindent 0 }}
+{{- printf "\nCommand Values:" | nindent 0 }}
+{{- toYaml $cmdValues | nindent 2 }}
+{{- printf "\nMerged Values:" | nindent 0 }}
+{{- end }}
+
+{{- if $mergedValues.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $cmdInstance }}-gf-logger-pvc
+  namespace: {{ $.Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ $mergedValues.maxSize}}
+{{- end }}
+{{- end }}
