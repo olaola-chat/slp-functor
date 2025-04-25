@@ -91,7 +91,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nacos-group/nacos-sdk-go v1.0.1 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect
-	github.com/olaola-chat/rbp-proto v0.0.0-20230822072838-096308e79a7e // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/ginkgo/v2 v2.9.0 // indirect
