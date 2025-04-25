@@ -261,9 +261,9 @@ data:
 
     [go-es]
     [go-es.user]
-    Host = "127.0.0.1"
+    Host = "es-cn-zsk3aqyin0008x3nh.elasticsearch.aliyuncs.com"
     Port = 9200
-    User = ""
+    User = "elastic"
     Password = "jLbRzk3+ywFV1M%V"
     [go-es.rush]
     Host = "es-cn-zsk3aqyin0008x3nh.elasticsearch.aliyuncs.com"
