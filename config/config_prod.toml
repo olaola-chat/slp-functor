@@ -40,7 +40,7 @@
 	#读写分离主库
     [[database.default]]
         type = "bbsql"
-        link = "rbp:OLfs1E1)vafw-s^X@tcp(polardb-rbp-master.mysql.polardb.rds.aliyuncs.com:3306)/xianshi"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/xianshi"
         charset = "utf8mb4"
         debug = false
         maxIdle = 1
@@ -50,7 +50,7 @@
     #读写分离从库
     [[database.default]]
         type = "bbsql"
-        link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/xianshi"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/xianshi"
         charset = "utf8mb4"
         debug = false
         maxIdle = 1
@@ -65,7 +65,7 @@
 	#读写分离主库
     [[database.xianshi]]
         type = "bbsql"
-        link = "rbp:OLfs1E1)vafw-s^X@tcp(polardb-rbp-master.mysql.polardb.rds.aliyuncs.com:3306)/xianshi"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/xianshi"
         charset = "utf8mb4"
         debug = false
         maxIdle = 1
@@ -75,7 +75,7 @@
     #读写分离从库
     [[database.xianshi]]
         type = "bbsql"
-        link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/xianshi"
+        link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/xianshi"
         charset = "utf8mb4"
         debug = false
         maxIdle = 1
@@ -85,7 +85,7 @@
 	#rush库
 	[[database.rush]]
 		type = "bbsql"
-		link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/rush"
+		link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/rush"
 		charset = "utf8mb4"
 		debug = false
 		maxIdle = 1
@@ -94,7 +94,7 @@
 	#union库
 	[[database.bbu]]
 		type = "bbsql"
-		link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/union"
+		link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/union"
 		charset = "utf8mb4"
 		debug = false
 		maxIdle = 1
@@ -103,7 +103,7 @@
 	#统计数据库
 	[[database.banban]]
 		type = "bbsql"
-		link = "rbp:OLfs1E1)vafw-s^X@tcp(polardb-rbp-master.mysql.polardb.rds.aliyuncs.com:3306)/banban"
+		link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/banban"
 		charset = "utf8mb4"
 		debug = false
 		maxIdle = 1
@@ -112,7 +112,7 @@
 	#banban config库
 	[[database.config]]
 		type = "bbsql"
-		link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/config"
+		link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/config"
 		charset = "utf8mb4"
 		debug = false
 		maxIdle = 1
@@ -121,7 +121,7 @@
 	#xssst库
 	[[database.xsst]]
 		type = "bbsql"
-		link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/xsst"
+		link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/xsst"
 		charset = "utf8mb4"
 		debug = false
 		maxIdle = 1
@@ -130,7 +130,7 @@
 	#朋友圈主库
 	[[database.circle]]
 		type = "bbsql"
-		link = "rbp:OLfs1E1)vafw-s^X@tcp(polardb-rbp-master.mysql.polardb.rds.aliyuncs.com:3306)/circle"
+		link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/circle"
 		charset = "utf8mb4"
 		debug = false
 		maxIdle = 1
@@ -140,7 +140,7 @@
 	#朋友圈从库
 	[[database.circle]]
 		type = "bbsql"
-		link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/circle"
+		link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/circle"
 		charset = "utf8mb4"
 		debug = false
 		maxIdle = 1
@@ -149,7 +149,7 @@
 		role = "slave"
 	[[database.functor]]
 		type = "bbsql"
-		link = "rbp:OLfs1E1)vafw-s^X@tcp(polardb-rbp-master.mysql.polardb.rds.aliyuncs.com:3306)/functor"
+		link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/functor"
 		charset = "utf8mb4"
 		debug = false
 		maxIdle = 1
@@ -159,7 +159,7 @@
 	#读写分离从库
 	[[database.functor]]
 		type = "bbsql"
-		link = "rbp:OLfs1E1)vafw-s^X@tcp(porlardb-rbp-cluster.rwlb.rds.aliyuncs.com:3306)/functor"
+		link = "slp_sdk_app:ixcE8NVSrx4!kdQ@tcp(pc-bp1focuia23g5n1x3.rwlb.rds.aliyuncs.com:3306)/functor"
 		charset = "utf8mb4"
 		debug = false
 		maxIdle = 1
