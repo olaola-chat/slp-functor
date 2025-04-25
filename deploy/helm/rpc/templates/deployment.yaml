@@ -7,7 +7,7 @@
 {{- $mergedValues := merge $rpcValues.deployment $.Values.deployment }}
 {{- $rpcOriginName := $rpcValues.deployment.name  }}
 {{- $rpcName := $rpcOriginName | lower | replace "." "-" | replace "_" "-" }}
-{{- $rpcInstance := printf "slp-app-rpc-%s" $rpcName }}
+{{- $rpcInstance := printf "slp-functor-rpc-%s" $rpcName }}
 {{- /* 调试信息 */ -}}
 {{- if $.Values.debug }}
 {{- printf "\nDebug info for command: %s" . | nindent 0 }}
@@ -127,7 +127,7 @@ spec:
           resources:
             {{- toYaml $mergedValues.resources | nindent 12 }}
           #command: ["/bin/sh", "-c", "sleep 1000000"]
-          command: ["bin/slp-app-rpc"]
+          command: ["bin/slp-functor-rpc"]
           args:
             - "--name={{ $rpcOriginName }}"
             - "--gf.gcfg.file=gf.gcfg.file.toml"
