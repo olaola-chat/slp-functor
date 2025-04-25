@@ -220,12 +220,37 @@
 
 # go-nsq 配置
 [go-nsq]
-	lookup = ["10.0.72.137:4161"]
-	nsq = ["10.0.72.134:4150", "10.0.72.135:4150", "10.0.72.136:4150", "10.0.72.137:4150", "10.0.72.138:4150"]
-	circle = ["10.0.72.134:4150", "10.0.72.135:4150", "10.0.72.136:4150", "10.0.72.137:4150", "10.0.72.138:4150"]
-	room = ["10.0.72.134:4150", "10.0.72.135:4150", "10.0.72.136:4150", "10.0.72.137:4150", "10.0.72.138:4150"]
-	pingan = ["10.0.72.134:4150", "10.0.72.135:4150", "10.0.72.136:4150", "10.0.72.137:4150", "10.0.72.138:4150"]
-	default = ["10.0.72.134:4150", "10.0.72.135:4150", "10.0.72.136:4150", "10.0.72.137:4150", "10.0.72.138:4150"]
+	lookup = ["slp-nsq-lookup-001.slp-app:4161"]
+	nsq = [
+		"slp-nsqd-001.slp-app:4150",
+		"slp-nsqd-002.slp-app:4150",
+		"slp-nsqd-003.slp-app:4150",
+		"slp-nsqd-004.slp-app:4150"
+	]
+	circle = [
+		"slp-nsqd-001.slp-app:4150",
+		"slp-nsqd-002.slp-app:4150",
+		"slp-nsqd-003.slp-app:4150",
+		"slp-nsqd-004.slp-app:4150"
+	]
+	room = [
+		"slp-nsqd-001.slp-app:4150",
+		"slp-nsqd-002.slp-app:4150",
+		"slp-nsqd-003.slp-app:4150",
+		"slp-nsqd-004.slp-app:4150"
+	]
+	pingan = [
+		"slp-nsqd-001.slp-app:4150",
+		"slp-nsqd-002.slp-app:4150",
+		"slp-nsqd-003.slp-app:4150",
+		"slp-nsqd-004.slp-app:4150"
+	]
+	default = [
+		"slp-nsqd-001.slp-app:4150",
+		"slp-nsqd-002.slp-app:4150",
+		"slp-nsqd-003.slp-app:4150",
+		"slp-nsqd-004.slp-app:4150"
+	]
 	
 [go-es]
 	[go-es.user]
@@ -234,30 +259,36 @@
 		User = ""
 		Password = "jLbRzk3+ywFV1M%V"
 	[go-es.rush]
-		Host = "es-cn-nwy3b886x000mnxi5.elasticsearch.aliyuncs.com"
+		Host = "es-cn-zsk3aqyin0008x3nh.elasticsearch.aliyuncs.com"
 		Port = 9200
 		User = "elastic"
 		Password = "jLbRzk3+ywFV1M%V"
 	[go-es.es_new]
-		Host = "es-cn-nwy3b886x000mnxi5.elasticsearch.aliyuncs.com"
+		Host = "es-cn-zsk3aqyin0008x3nh.elasticsearch.aliyuncs.com"
 		Port = 9200
 		User = "elastic"
 		Password = "jLbRzk3+ywFV1M%V"
 	[go-es.es_vpc]
-		Host = "es-cn-nwy3b886x000mnxi5.elasticsearch.aliyuncs.com"
+		Host = "es-cn-zsk3aqyin0008x3nh.elasticsearch.aliyuncs.com"
 		Port = 9200
 		User = "elastic"
 		Password = "jLbRzk3+ywFV1M%V"
 
 [go-kafka]
 	[go-kafka.default]
+#		Host = [
+#			"alikafka-pre-cn-zpr3attvw001-1-vpc.alikafka.aliyuncs.com:9092",
+#			"alikafka-pre-cn-zpr3attvw001-2-vpc.alikafka.aliyuncs.com:9092",
+#			"alikafka-pre-cn-zpr3attvw001-3-vpc.alikafka.aliyuncs.com:9092",
+#		]
 		Host = [
-			"alikafka-pre-cn-zpr3attvw001-1-vpc.alikafka.aliyuncs.com:9092",
-			"alikafka-pre-cn-zpr3attvw001-2-vpc.alikafka.aliyuncs.com:9092",
-			"alikafka-pre-cn-zpr3attvw001-3-vpc.alikafka.aliyuncs.com:9092",
+			"alikafka-post-cn-zsk3araqu005-1-vpc.alikafka.aliyuncs.com:9092",
+			"alikafka-post-cn-zsk3araqu005-2-vpc.alikafka.aliyuncs.com:9092",
+			"alikafka-post-cn-zsk3araqu005-3-vpc.alikafka.aliyuncs.com:9092"
 		]
 		#务必查看 github.com/Shopify/sarama utils.go 版本号，
-		Version = "0.10.2.1"
+		#Version = "0.10.2.1"
+		Version = "2.2.0"
 
 [http-service]
 	[http-service.im.publish]
