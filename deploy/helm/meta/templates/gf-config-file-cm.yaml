@@ -11,8 +11,6 @@ data:
   gf.gcfg.file.toml: |
     # HTTP Server.
     [server]
-    # HTTP Server.
-    [server]
     Address        = ":8081"
     ServerRoot     = "public"
     ServerAgent    = "we are family"
