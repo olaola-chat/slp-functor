@@ -101,35 +101,5 @@ hpa:
 
 # 启用的命令列表
 enabledRpcs:
-  - ame
-  - backend
-  - cache
-  - consume-checker
-  - im
-  - location
-  - lottery
-  - match
-  - music-song-source
-  - pay
-  - rce
-  - recommend
-  - risk
-  - room-info
-  - room-tag
-  - screenmessage
-  - store
-  - translate
-  - user-anonymous
-  - user-conf
-  - user-gift
-  - user-relation
-  - user-viability
-  - wlc
-  - pretend
-  - cloud-record
-  - circle-move
-  - user-rank
-  - search
-  - sms
-  - user-title
-  - user-aggr
+  - voice-lover-admin
+  - voice-lover-main
