@@ -14,7 +14,7 @@ deployment:
     timeoutSeconds: 10
   image:
     repository: slp-acr-registry-vpc.cn-hangzhou.cr.aliyuncs.com/slp/slp-functor-http
-    tag: chenjunjun2-ola.master.20250425-100904
+    tag: chenjunjun2-ola.master.20250425-171627
     pullPolicy: IfNotPresent
   replicas: 2
   resources:
