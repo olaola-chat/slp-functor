@@ -7,7 +7,7 @@ deployment:
     timeoutSeconds: 10
   image:
     repository: slp-acr-registry-vpc.cn-hangzhou.cr.aliyuncs.com/slp/slp-functor-rpc
-    tag: chenjunjun2-ola.master.20250425-173754
+    tag: chenjunjun2-ola.master.20250425-180852
     pullPolicy: IfNotPresent
   annotations:
     slp.k8s.io/recreateRevision: "2"
