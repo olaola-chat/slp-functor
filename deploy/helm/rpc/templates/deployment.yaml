@@ -171,7 +171,7 @@ spec:
               value: "Asia/Shanghai"
           volumeMounts:
             - name: "gf-gcfg-file"
-              mountPath: "/home/ecs-user/webroot/slp-go/config/gf.gcfg.file.toml"
+              mountPath: "/home/ecs-user/webroot/slp-functor/config/gf.gcfg.file.toml"
               subPath: "gf.gcfg.file.toml"
             {{- if $mergedValues.gfLoggerVolume.enabled }}
             - name: gf-logger
