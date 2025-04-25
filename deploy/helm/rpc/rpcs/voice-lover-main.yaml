@@ -1,7 +1,7 @@
 deployment:
   name: "voice_lover_main"
   image:
-    tag: chenjunjun2-ola.master.20250425-182505
+    tag: chenjunjun2-ola.master.20250425-190318
   resources:
     requests:
       memory: "100Mi"
