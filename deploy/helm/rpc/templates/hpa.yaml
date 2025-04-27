@@ -11,7 +11,7 @@
 }}
 {{- $rpcOriginName := $rpcValues.deployment.name }}
 {{- $rpcName := $rpcOriginName | lower | replace "." "-" | replace "_" "-" }}
-{{- $rpcInstance := printf "slp-app-rpc-%s" $rpcName }}
+{{- $rpcInstance := printf "slp-functor-rpc-%s" $rpcName }}
 {{- /* 调试信息 */ -}}
 {{- if $.Values.debug }}
 {{- printf "\nDebug info for command: %s" . | nindent 0 }}
