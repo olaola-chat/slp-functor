@@ -170,53 +170,57 @@
 # go-redis 配置
 [go-redis]
 	[go-redis.default]
-		Host = "rbp-cache.redis.rds.aliyuncs.com"
+		Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
 		Port = 6379
-		Password = "3P8%yk5M1fW$KYX^"
+		Password = "xH88t_4TF4WvTva"
 	[go-redis.cache]
-		Host = "rbp-cache.redis.rds.aliyuncs.com"
+		Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
 		Port = 6379
-		Password = "3P8%yk5M1fW$KYX^"
+		Password = "xH88t_4TF4WvTva"
 	[go-redis.cache_old]
-		Host = "rbp-cache.redis.rds.aliyuncs.com"
+		Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
 		Port = 6379
-		Password = "3P8%yk5M1fW$KYX^"
+		Password = "xH88t_4TF4WvTva"
 	[go-redis.room]
-		Host = "rbp-room.redis.rds.aliyuncs.com"
+		Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
 		Port = 6379
-		Password = "MdSmuqBxgfbq&+%bM"
+		Password = "xH88t_4TF4WvTva"
 	[go-redis.user]
-		Host = "rbp-user.redis.rds.aliyuncs.com"
+		Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
 		Port = 6379
-		Password = "bi7jkCF74m3b(GERBcP"
+		Password = "xH88t_4TF4WvTva"
 	[go-redis.mate]
-		Host = "rbp-mate.redis.rds.aliyuncs.com"
+		Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
 		Port = 6379
-		Password = "73kIuclNm+Vuru$B"
+		Password = "xH88t_4TF4WvTva"
 	#存储用户基本信息，令牌基本信息，房间基本信息
 	[go-redis.rpc_cache]
-		Host = "rbp-cache.redis.rds.aliyuncs.com"
+		Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
 		Port = 6379
-		Password = "3P8%yk5M1fW$KYX^"
+		Password = "xH88t_4TF4WvTva"
 	#匹配redis，先放在cache，如果后期数据量大方便迁移
 	[go-redis.match]
-		Host = "rbp-cache.redis.rds.aliyuncs.com"
+		Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
 		Port = 6379
-		Password = "3P8%yk5M1fW$KYX^"
+		Password = "xH88t_4TF4WvTva"
 	#自建的redis-search, 房间检索，搜索入口, 以及附近搜索
 	#使用RedisSearch插件，需要自建
 	[go-redis.search]
-		Host = "172.16.0.32"
+		Host = "slp-redis-search-001.slp-app"
 		Port = 6379
 		Password = ""
 	[go-redis.record]
-		Host = "rbp-feed.redis.rds.aliyuncs.com"
+		Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
 		Port = 6379
-		Password = "g4(*JviWg&9fKLkYU"
+		Password = "xH88t_4TF4WvTva"
 	[go-redis.es]
-		Host = "rbp-mate.redis.rds.aliyuncs.com"
+		Host = "r-bp1v8i04ukixx32tpt.redis.rds.aliyuncs.com"
 		Port = 6379
-		Password = "73kIuclNm+Vuru$B"
+		Password = "xH88t_4TF4WvTva"
+	[go-redis.passive]
+		Host = "r-bp1hcy2nlrfcbo9aj1.redis.rds.aliyuncs.com"
+		Port = 6379
+		Password = "SLPRedisCache2024"
 
 # go-nsq 配置
 [go-nsq]
@@ -254,25 +258,25 @@
 	
 [go-es]
 	[go-es.user]
-		Host = "127.0.0.1"
+		Host = "es-cn-zsk3aqyin0008x3nh.elasticsearch.aliyuncs.com"
 		Port = 9200
-		User = ""
-		Password = "jLbRzk3+ywFV1M%V"
+		User = "elastic"
+		Password = "b8Zh3hQduRwqHsm"
 	[go-es.rush]
 		Host = "es-cn-zsk3aqyin0008x3nh.elasticsearch.aliyuncs.com"
 		Port = 9200
 		User = "elastic"
-		Password = "jLbRzk3+ywFV1M%V"
+		Password = "b8Zh3hQduRwqHsm"
 	[go-es.es_new]
 		Host = "es-cn-zsk3aqyin0008x3nh.elasticsearch.aliyuncs.com"
 		Port = 9200
 		User = "elastic"
-		Password = "jLbRzk3+ywFV1M%V"
+		Password = "b8Zh3hQduRwqHsm"
 	[go-es.es_vpc]
 		Host = "es-cn-zsk3aqyin0008x3nh.elasticsearch.aliyuncs.com"
 		Port = 9200
 		User = "elastic"
-		Password = "jLbRzk3+ywFV1M%V"
+		Password = "b8Zh3hQduRwqHsm"
 
 [go-kafka]
 	[go-kafka.default]
