@@ -9,7 +9,7 @@
 	PProfEnabled   = false
 	Graceful	       = true
 	RunMode	       = "prod"
-	AlphaHosts		= ["iZbp1ddfx87fw4rdskyov2Z"]
+	AlphaHosts		= ["slp-alpha"]
 	Language		   = ["zh-cn"]
 	TraceName	   = "slp-functor-prod"
 
