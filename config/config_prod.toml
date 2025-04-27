@@ -321,7 +321,7 @@
 	[rpc.discover]
 		Type = "consul"
 		#Addr = ["10.0.72.131:8500"]
-		Addr = ["127.0.0.1:8500"]
+		Addr = ["slp-consul-001.slp-app:8500"]
 		#Addr = ["client.consul.rbp-app:8500"]
 		Path = "/slp"
 
