@@ -1,7 +1,7 @@
 deployment:
   name: "voice_lover_main"
   image:
-    tag: chengshuo.cs-0428-updateLibrary.20250428-151245
+    tag: chenjunjun2-ola.master.20250428-174401
   resources:
     requests:
       memory: "100Mi"
