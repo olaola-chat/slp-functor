@@ -1,11 +1,11 @@
 deployment:
   name: "voice_lover_main"
   image:
-    tag: chengshuo.master.20250427-193137
+    tag: chengshuo.cs-0428-updateLibrary.20250428-151245
   resources:
     requests:
       memory: "100Mi"
-      cpu: "20m"
+      cpu: "60m"
     limits:
       memory: "100Mi"
-      cpu: "1000m"
+      cpu: "60m"
