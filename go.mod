@@ -7,15 +7,12 @@ replace (
 	github.com/smallnest/rpcx => github.com/olaola-chat/rpcx v0.1.0-alpha
 )
 
-replace github.com/olaola-chat/slp-proto v0.0.0 => github.com/olaola-chat/slp-proto v0.0.0-20250425060259-16dff834f703
-
 require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gogf/gf v1.16.9
 	github.com/juju/ratelimit v1.0.2
 	github.com/nsqio/go-nsq v1.1.0
-	github.com/olaola-chat/slp-library v0.0.3
-	github.com/olaola-chat/slp-proto v0.0.0
+	github.com/olaola-chat/slp-library v0.0.2-0.20250428104804-b9d8f03555f6
 	github.com/opentracing/opentracing-go v1.1.1-0.20190913142402-a7454ce5950e
 	github.com/rpcxio/libkv v0.5.0
 	github.com/smallnest/rpcx v1.8.11
@@ -93,6 +90,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nacos-group/nacos-sdk-go v1.0.1 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect
+	github.com/olaola-chat/slp-proto v0.0.0-20250428104225-9894025fe573 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/ginkgo/v2 v2.9.0 // indirect
