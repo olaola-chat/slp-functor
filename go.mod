@@ -14,7 +14,7 @@ require (
 	github.com/gogf/gf v1.16.9
 	github.com/juju/ratelimit v1.0.2
 	github.com/nsqio/go-nsq v1.1.0
-	github.com/olaola-chat/slp-library v0.0.2-0.20250428065350-21d8079137f5
+	github.com/olaola-chat/slp-library v0.0.3
 	github.com/olaola-chat/slp-proto v0.0.0
 	github.com/opentracing/opentracing-go v1.1.1-0.20190913142402-a7454ce5950e
 	github.com/rpcxio/libkv v0.5.0
