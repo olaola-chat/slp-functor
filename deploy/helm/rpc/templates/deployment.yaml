@@ -103,11 +103,19 @@ spec:
                       {{- else }}
                       - cmd
                       {{- end }}
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: consul
+                  component: client
+              topologyKey: "kubernetes.io/hostname"
+              namespaces: [ "consul" ]
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: {{ $mergedValues.affinity.podAntiAffinity.weight | default 100 }}
               podAffinityTerm:
-                topologyKey: topology.kubernetes.io/zone
+                topologyKey: kubernetes.io/hostname
                 labelSelector:
                   matchExpressions:
                     - key: k8s.slp.com/cmd
